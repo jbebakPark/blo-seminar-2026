@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026년 1월 BLO 세미나 초대장</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2f4a 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .top-logo {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 3px solid #0066b3;
+        }
+        
+        .samsung-logo {
+            font-size: 36px;
+            font-weight: bold;
+            color: #0066b3;
+            margin-bottom: 5px;
+        }
+        
+        .samsung-sub {
+            font-size: 16px;
+            color: #0066b3;
+        }
+        
+        .target-top-badge {
+            background: #1e5a96;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+        
+        .logo {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-title {
+            font-size: 42px;
+            color: white;
+            font-weight: bold;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .section {
+            margin-bottom: 45px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: #4a7c59;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+        }
+        
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid #2a5298;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 18px;
+            align-items: flex-start;
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #1e3c72;
+            min-width: 120px;
+            font-size: 18px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .speakers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .speaker-card {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .speaker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(42, 82, 152, 0.2);
+            border-color: #2a5298;
+        }
+        
+        .speaker-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .speaker-title {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .quarter {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+        
+        .quarter:hover {
+            border-color: #2a5298;
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.1);
+        }
+        
+        .quarter-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .session {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .session:last-child {
+            border-bottom: none;
+        }
+        
+        .session-date {
+            font-weight: bold;
+            color: #2a5298;
+            min-width: 80px;
+            font-size: 16px;
+        }
+        
+        .session-title {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .contact-box {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .contact-title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #ffd700;
+        }
+        
+        .contact-info {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .contact-name {
+            font-weight: bold;
+            color: #ffed4e;
+        }
+        
+        .phone-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+        
+        .phone-number a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        
+        .online-button {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+            text-align: center;
+            line-height: 1.4;
+            border: 3px solid #fff;
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
+                transform: scale(1.02);
+            }
+        }
+        
+        .online-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
+        }
+        
+        .kakao-button {
+            background: #FEE500;
+            color: #000000;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(254, 229, 0, 0.3);
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .kakao-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(254, 229, 0, 0.5);
+        }
+        
+        .footer {
+            background: #f8f9ff;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .note {
+            background: #fff9e6;
+            border-left: 4px solid #ffd700;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 15px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 28px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                margin-bottom: 5px;
+            }
+            
+            .phone-number {
+                font-size: 22px;
+            }
+            
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-item img {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-logo">
+            <div class="samsung-logo">Samsung</div>
+            <div class="samsung-sub">Financial Networks</div>
+            <div class="target-top-badge">CEO · 임원 · 자산가 특별 초청</div>
+        </div>
+        
+        <div class="header">
+            <div class="logo">2030 Business LIVE ON</div>
+            <div class="main-title">AI 시대,<br>인간의 판단력은 어디로</div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <div class="section-title">■ 오프라인 현장</div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="images/seminar-hall.jpg" alt="세미나 강연장">
+                    </div>
+                    <div class="photo-item">
+                        <img src="images/seminar-stage.jpg" alt="강연 무대">
+                    </div>
+                    <div class="photo-item">
+                        <img src="images/lobby.jpg" alt="로비 및 입장">
+                    </div>
+                    <div class="photo-item">
+                        <img src="images/networking.jpg" alt="네트워킹 라운지">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">■ 온라인 시청 화면</div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="images/breakfast.jpg" alt="프리미엄 조식">
+                    </div>
+                    <div class="photo-item">
+                        <img src="images/online-screen.jpg" alt="온라인 시청 화면">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">📅 세미나 일정</div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <div class="info-label">일시</div>
+                        <div class="info-value">
+                            <span class="highlight">2026년 1월 13일(화) 오전 07:30 ~ 09:00</span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">장소</div>
+                        <div class="info-value">삼성금융캠퍼스</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">형식</div>
+                        <div class="info-value">오프라인 세미나 + 온라인 생중계</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">대상</div>
+                        <div class="info-value"><strong>대표 및 CEO, 임원, 자산가를 위한 특별 초청 세미나</strong><br>(배출/경영/인문/산업 등 대한민국 최고 석학 초청 강연)</div>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    ※ 오전 6시 30분부터 입장 가능 (접수 후 입장 안내)<br>
+                    ※ 정원 150명 (선착순 마감)
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">🎯 세미나 주제</div>
+                <div class="info-box">
+                    <p style="font-size: 18px; line-height: 1.8; color: #333;">
+                        <strong style="color: #1e3c72; font-size: 20px;">AI 시대, 인간의 판단력은 어디로</strong><br><br>
+                        인공지능이 쏟아내는 정보의 파도 속에서 우리는 언제나 올바른 답을 찾을 수 있을까요?<br><br>
+                        기술이 모든 것을 계산하는 오늘 날에는 맥락을 읽는 직관과 가치를 판단하는 능력에 진정한 힘이 존재한다고 합니다.<br><br>
+                        2026년을 여는 1월 Business Live ON은 베스트셀러 '시대예보'의 송길영 작가와 이동우 교수가 AI시대 인간의 역할과 의미를 사유합니다.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">🎤 연사 소개</div>
+                <div class="speakers">
+                    <div class="speaker-card">
+                        <div class="speaker-name">송길영 작가</div>
+                        <div class="speaker-title">
+                            • 바이브컴퍼니 부사장<br>
+                            • 전) 다음소프트 부사장<br>
+                            • 전) 한국인 데이터마이닝 학회 이사<br>
+                            • 전) 이화여대, 숙명여대, 서울여대 겸임교수
+                        </div>
+                    </div>
+                    <div class="speaker-card">
+                        <div class="speaker-name">이동우 교수</div>
+                        <div class="speaker-title">
+                            • 고려대학교 특임교수<br>
+                            • 주식회사 이동우컨텐츠연구소 대표이사<br>
+                            • 고려대학교 고령사회연구원 특임교수<br>
+                            • 연합뉴스경제TV '이동우의 비즈니스 인터뷰' 진행
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">📋 2026년 연간 강의 일정</div>
+                <div class="schedule-grid">
+                    <div class="quarter">
+                        <div class="quarter-title">1분기</div>
+                        <div class="session">
+                            <div class="session-date">1/13</div>
+                            <div class="session-title">[Forum] AI시대, 인간의 판단력은 어디로?</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">2/24</div>
+                            <div class="session-title">[Class] 인류의 새로운 도전, 우주 탐사와 그 너머</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">3/24</div>
+                            <div class="session-title">[Class] 인간과 로봇이 함께하는 미래</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quarter">
+                        <div class="quarter-title">2분기</div>
+                        <div class="session">
+                            <div class="session-date">4/21</div>
+                            <div class="session-title">[Forum] 2030WM 차산 포트폴리오 전략</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">5/19</div>
+                            <div class="session-title">[Class] 대한민국 부동산 시장 전망과 투자 전략</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">6/16</div>
+                            <div class="session-title">[Class] 암호화폐-블록체인 기술과 디지털 경제</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quarter">
+                        <div class="quarter-title">3분기</div>
+                        <div class="session">
+                            <div class="session-date">7/21</div>
+                            <div class="session-title">[Forum] 세계 축구 명장들을 통해서 본 리더십</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">8/18</div>
+                            <div class="session-title">[Class] 리더를 위한 정신과 의사의 조언</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">9/15</div>
+                            <div class="session-title">[Class] 타인의 마음을 얻는 소통</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quarter">
+                        <div class="quarter-title">4분기</div>
+                        <div class="session">
+                            <div class="session-date">10/20</div>
+                            <div class="session-title">[Forum] Next transition 2027 : 소비 트렌드</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">11/17</div>
+                            <div class="session-title">[Class] Next transition 2027 : 국제정세</div>
+                        </div>
+                        <div class="session">
+                            <div class="session-date">12/15</div>
+                            <div class="session-title">[Class] Next transition 2027 : 경제/투자</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; text-align: center;">
+                    <img src="images/schedule-2026.jpg" alt="2026년 강의 개요" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">🎁 참여 혜택</div>
+                <div class="info-box">
+                    <p style="font-size: 17px; line-height: 1.8; color: #333;">
+                        ✓ 프리미엄 조찬 제공 (삼성금융캠퍼스)<br>
+                        ✓ FP·FO 센터 우선 상담<br>
+                        ✓ 프리미엄 네트워킹 기회<br>
+                        ✓ 연간 세미나 우선 참여권
+                    </p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">📞 세미나 문의 및 신청</div>
+                <div class="contact-box">
+                    <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                        <a href="https://m.samsunglife.com/display/event/MDP-IFEVT010112M/202401-02/9618628" class="online-button" target="_blank">🎥 세미나 ON Line 실시간 생방송 신청</a>
+                        
+                        <div style="margin-top: 10px; text-align: center;">
+                            <img src="images/qr-code-seminar.jpg" alt="세미나 신청 QR코드" style="max-width: 160px; width: 50%; height: auto; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15);">
+                            <p style="margin-top: 15px; color: white; font-size: 16px; font-weight: bold;">세미나 신청하기 [온라인 실시간 생방송]</p>
+                        </div>
+                        
+                        <a href="https://open.kakao.com/o/s15lHyCh" class="kakao-button" target="_blank">💬 조찬세미나 신청 (삼성금융캠퍼스)<br><span style="font-size: 15px;">& 카카오톡 메세지 신청 [성명·핸드폰번호]</span></a>
+                    </div>
+                    
+                    <div class="note" style="margin-top: 30px; background: rgba(255,255,255,0.2); border-left-color: #ffd700; color: white;">
+                        ※ 온라인 실시간 생방송과 오프라인 조찬세미나 중 선택하여 신청하실 수 있습니다<br>
+                        ※ 신청 후 개별 안내 드립니다
+                    </div>
+                    
+                    <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.3);">
+                        <div class="contact-title" style="font-size: 22px; margin-bottom: 15px;">📱 세미나 담당</div>
+                        <div class="contact-info">
+                            <span class="contact-name">박재박 팀장</span>
+                        </div>
+                        <div class="phone-number"><a href="tel:01051372327">010-5137-2327</a></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">📝 신청 안내</div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <div class="info-label">신청 기간</div>
+                        <div class="info-value">2025년 12월 24일(수) ~ 2026년 1월 6일(화)</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">신청 방법</div>
+                        <div class="info-value">
+                            1. 위 카카오톡 문의 또는 전화 연락<br>
+                            2. 한 번만 신청하시면 12월까지 강의를 시청하실 수 있습니다<br>
+                            3. 신청 완료하신 분에 한해 1월 9일(금) 접속 URL과 ID를 문자로 보내드립니다
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note" style="margin-top: 25px;">
+                    ※ 행사 당일 홈페이지 접속 후 ID 입력<br>
+                    ※ 홈페이지: www.samsung2030blo.com
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title" style="background: #e3f2fd; color: #1e3c72;">💡 Triple Revolution</div>
+                <div class="info-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white;">
+                    <h3 style="font-size: 22px; margin-bottom: 15px; color: #ffd700;">경계가 사라지는 시대</h3>
+                    <p style="font-size: 16px; line-height: 1.8;">
+                        21세기에 세계를 뒤흔들 인공지능, 에너지, 바이오 헬스케어라는 세 분야의 기술의 진보는 "경계가 사라지는 시대"라는 또 다른 문명적 거대한 변화를 예고합니다.<br><br>
+                        2026년 2030 Business Live ON과 함께 우리 앞에 예고된 세 가지 기술적 혁명과, 이와 연계된 다른 분야의 새로운 미래를 상상해 보십시오.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>2030 Business Live ON</strong></p>
+            <p style="margin-top: 10px;">대한민국 최고 석학들과 함께하는 프리미엄 경영 세미나</p>
+            <p style="margin-top: 15px; color: #333; font-weight: bold;">문의: 박재박 팀장 <a href="tel:01051372327" style="color: #2a5298; text-decoration: none;">010-5137-2327</a></p>
+            <p style="margin-top: 10px;">
+                <a href="https://open.kakao.com/o/s15lHyCh" style="color: #2a5298; text-decoration: underline;">카카오톡 1:1 문의하기</a>
+            </p>
+            <p style="margin-top: 15px; color: #999; font-size: 12px;">주최: 삼성생명</p>
+        </div>
+    </div>
+</body>
+</html>
