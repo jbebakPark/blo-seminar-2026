@@ -1,0 +1,27 @@
+{
+  "name": "blo-seminar-2026",
+  "version": "1.0.0",
+  "description": "2030 Business Live ON 세미나 관리 시스템",
+  "scripts": {
+    "validate": "node scripts/validate-data.js",
+    "test": "npm run validate",
+    "deploy": "./scripts/deploy.sh",
+    "deploy:validate": "./scripts/deploy.sh --validate-only",
+    "deploy:firebase": "./scripts/deploy.sh --firebase",
+    "update": "./scripts/update-seminar.sh",
+    "serve": "python3 -m http.server 8000",
+    "dev": "npm run serve"
+  },
+  "keywords": [
+    "seminar",
+    "samsung",
+    "blo"
+  ],
+  "author": "박재박 <jb2park@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jbebakPark/blo-seminar-2026.git"
+  },
+  "homepage": "https://jbebakpark.github.io/blo-seminar-2026/"
+}

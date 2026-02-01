@@ -1,0 +1,81 @@
+{
+  "month": "2026-02",
+  "monthName": "2월",
+  "date": "2026-02-24",
+  "seminar": {
+    "title": "인류의 새로운 도전, 우주 탐사와 그 너머",
+    "subtitle": "이제 우주는 단순한 과학의 영역이 아닌 에너지, 자원, 기술, 그리고 인류의 생존이 교차하는 거대한 도전이자 미래입니다.",
+    "date": "2026년 2월 24일(화)",
+    "time": "오전 07:30 ~ 09:00",
+    "speaker": {
+      "name": "강성주 박사",
+      "title": "천체물리학자 / 과학 크리에이터",
+      "credentials": [
+        "130만 과학전문 유튜브채널 <안될과학> 크리에이터",
+        "국제천문연맹(IAU) 정회원",
+        "미국천문학회(AAS) 정회원",
+        "한국천문학회/한국천문올림피아드 운영위원",
+        "미국 아이오와주립대학 천체물리학 박사"
+      ]
+    },
+    "description": "민간 기업과 기술 혁신이 결합되어 새로운 산업과 기회의 무대로 재편되는 우주. 2월 2030 Business Live ON은 강성주 박사와 함께 무한한 가능성이 담긴 우주탐사의 현재와 그 너머를 살펴봅니다."
+  },
+  "registration": {
+    "offline": {
+      "title": "조찬세미나 신청하기",
+      "deadline": "2/19(목) 17시까지",
+      "method": "박재박 팀장 010-5137-2327",
+      "breakfast": {
+        "time": "06:30 ~ 07:20",
+        "location": "삼성금융캠퍼스 B2F 카페테리아"
+      },
+      "seminar": {
+        "time": "07:30 ~ 09:00",
+        "location": "삼성금융캠퍼스 B2F 비전홀"
+      },
+      "address": "서울특별시 서초구 사임당로 23길 27"
+    },
+    "online": {
+      "title": "온라인 강연 시청",
+      "startDate": "1/28(수) 14시 이후 신청 가능",
+      "watchTime": "2026.2.24(화) 오전 7:30~9:00",
+      "accessTime": "7:15분부터 접속 가능",
+      "website": "www.samsung2030blo.com",
+      "steps": [
+        "www.samsung2030blo.com 접속 > 신청",
+        "1회 신청 시 26년 12월까지 시청 가능",
+        "www.samsung2030blo.com 접속 > ID 입력",
+        "ID : D-4일 문자 안내 예정"
+      ]
+    }
+  },
+  "benefits": [
+    {
+      "icon": "🍳",
+      "title": "프리미엄 조찬",
+      "description": "삼성금융캠퍼스 B2F 특별 조찬 제공"
+    },
+    {
+      "icon": "🎥",
+      "title": "실시간 온라인 참여",
+      "description": "어디서나 편하게 실시간 시청 가능"
+    },
+    {
+      "icon": "🤝",
+      "title": "프리미엄 네트워킹",
+      "description": "오프라인 참석시 교류의 장 제공"
+    },
+    {
+      "icon": "📅",
+      "title": "연간 세미나 우선권",
+      "description": "1회 신청으로 26년 12월까지 시청"
+    }
+  ],
+  "contact": {
+    "name": "박재박 팀장",
+    "phone": "010-5137-2327",
+    "website": "www.samsung2030blo.com",
+    "kakao": "https://open.kakao.com/o/s15lHyCh"
+  },
+  "organizer": "삼성생명 WM 사업부"
+}

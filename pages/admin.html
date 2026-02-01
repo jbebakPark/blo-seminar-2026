@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지 - BLO 세미나</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logout-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: white;
+            color: #0f3460;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0f3460;
+        }
+        
+        .stat-icon {
+            font-size: 24px;
+            float: right;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #0f3460;
+        }
+        
+        .tab.active {
+            color: #0f3460;
+            border-bottom-color: #0f3460;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Malgun Gothic', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #0f3460;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #0f3460;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #16213e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(15, 52, 96, 0.3);
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #45a049;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        
+        .btn-secondary {
+            background: #9E9E9E;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #757575;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .credentials-list {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .credential-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        .credential-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .credential-btn {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .add-credential {
+            padding: 8px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .preview-panel {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            margin-top: 20px;
+        }
+        
+        .preview-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0f3460;
+        }
+        
+        .json-preview {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #0f3460;
+            margin-bottom: 30px;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 로그인 화면 -->
+    <div id="loginScreen" class="login-container">
+        <h2 class="login-title">🔐 관리자 로그인</h2>
+        <div class="alert alert-info">
+            데모 계정: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="94f5f0f9fdfad4e7f5f9e7e1faf3baf7fbf9">[email&#160;protected]</a> / password123
+        </div>
+        <div class="form-group">
+            <label class="form-label">이메일</label>
+            <input type="email" id="loginEmail" class="form-input" placeholder="admin@samsung.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">비밀번호</label>
+            <input type="password" id="loginPassword" class="form-input" placeholder="비밀번호 입력">
+        </div>
+        <button onclick="login()" class="btn btn-primary" style="width: 100%;">로그인</button>
+    </div>
+
+    <!-- 관리자 대시보드 -->
+    <div id="adminDashboard" style="display: none;">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">⚙️ BLO 세미나 관리자</div>
+                <div class="user-info">
+                    <span id="userName">관리자</span>
+                    <button onclick="logout()" class="logout-btn">로그아웃</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- 통계 대시보드 -->
+            <div class="dashboard">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">이번 달 신청자</div>
+                    <div class="stat-value" id="currentMonthApplicants">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-label">전체 세미나</div>
+                    <div class="stat-value" id="totalSeminars">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-label">완료된 세미나</div>
+                    <div class="stat-value" id="completedSeminars">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📧</div>
+                    <div class="stat-label">발송 대기 이메일</div>
+                    <div class="stat-value" id="pendingEmails">15</div>
+                </div>
+            </div>
+
+            <!-- 탭 메뉴 -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('edit')">📝 세미나 편집</button>
+                <button class="tab" onclick="switchTab('counter')">📊 신청자 현황</button>
+                <button class="tab" onclick="switchTab('email')">📧 이메일 발송</button>
+                <button class="tab" onclick="switchTab('schedule')">📅 연간 일정 관리</button>
+            </div>
+
+            <!-- 세미나 편집 탭 -->
+            <div id="editTab" class="tab-content active">
+                <h2 style="margin-bottom: 20px;">세미나 정보 편집</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">편집할 월 선택</label>
+                    <select id="monthSelect" class="form-select" onchange="loadSeminarData()">
+                        <option value="2026-01">2026년 1월</option>
+                        <option value="2026-02" selected>2026년 2월</option>
+                        <option value="2026-03">2026년 3월</option>
+                        <option value="2026-04">2026년 4월</option>
+                        <option value="2026-05">2026년 5월</option>
+                        <option value="2026-06">2026년 6월</option>
+                        <option value="2026-07">2026년 7월</option>
+                        <option value="2026-08">2026년 8월</option>
+                        <option value="2026-09">2026년 9월</option>
+                        <option value="2026-10">2026년 10월</option>
+                        <option value="2026-11">2026년 11월</option>
+                        <option value="2026-12">2026년 12월</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">세미나 날짜</label>
+                        <input type="date" id="seminarDate" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">시간</label>
+                        <input type="text" id="seminarTime" class="form-input" placeholder="오전 07:30 ~ 09:00">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">세미나 제목</label>
+                    <input type="text" id="seminarTitle" class="form-input" placeholder="인류의 새로운 도전, 우주 탐사와 그 너머">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">부제목</label>
+                    <textarea id="seminarSubtitle" class="form-textarea" placeholder="세미나 부제목 또는 짧은 설명"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">세미나 설명</label>
+                    <textarea id="seminarDescription" class="form-textarea" placeholder="세미나에 대한 자세한 설명"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">강사 이름</label>
+                        <input type="text" id="speakerName" class="form-input" placeholder="강성주 박사">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">강사 직함</label>
+                        <input type="text" id="speakerTitle" class="form-input" placeholder="천체물리학자 / 과학 크리에이터">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">강사 이력</label>
+                    <div id="credentialsList" class="credentials-list"></div>
+                    <button onclick="addCredential()" class="add-credential">+ 이력 추가</button>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">오프라인 신청 마감일</label>
+                        <input type="text" id="offlineDeadline" class="form-input" placeholder="2/19(목) 17시까지">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">온라인 신청 시작일</label>
+                        <input type="text" id="onlineStartDate" class="form-input" placeholder="1/28(수) 14시 이후">
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button onclick="previewJSON()" class="btn btn-secondary">JSON 미리보기</button>
+                    <button onclick="saveData()" class="btn btn-primary">저장하기</button>
+                    <button onclick="publishToSite()" class="btn btn-success">사이트에 적용</button>
+                </div>
+
+                <div id="preview Panel" class="preview-panel" style="display: none;">
+                    <div class="preview-title">JSON 미리보기</div>
+                    <div id="jsonPreview" class="json-preview"></div>
+                </div>
+            </div>
+
+            <!-- 신청자 현황 탭 -->
+            <div id="counterTab" class="tab-content">
+                <h2 style="margin-bottom: 20px;">📊 신청자 현황</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">세미나 선택</label>
+                    <select id="counterSeminarSelect" class="form-select">
+                        <option value="2026-02">2026년 2월 - 우주 탐사와 그 너머</option>
+                        <option value="2026-03">2026년 3월 - 인간과 로봇이 함께하는 미래</option>
+                    </select>
+                </div>
+
+                <div class="dashboard">
+                    <div class="stat-card">
+                        <div class="stat-label">오프라인 신청자</div>
+                        <div class="stat-value" style="color: #4A90E2;" id="offlineCount">45</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">온라인 신청자</div>
+                        <div class="stat-value" style="color: #FF6B6B;" id="onlineCount">128</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">총 신청자</div>
+                        <div class="stat-value" style="color: #4CAF50;" id="totalCount">173</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">수동 카운터 조정</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button onclick="adjustCounter(-1)" class="btn btn-secondary">-1</button>
+                        <button onclick="adjustCounter(-10)" class="btn btn-secondary">-10</button>
+                        <input type="number" id="counterValue" class="form-input" style="width: 150px; text-align: center;" value="173">
+                        <button onclick="adjustCounter(10)" class="btn btn-secondary">+10</button>
+                        <button onclick="adjustCounter(1)" class="btn btn-secondary">+1</button>
+                    </div>
+                    <p class="help-text">카운터를 수동으로 조정할 수 있습니다.</p>
+                </div>
+
+                <button onclick="updateCounter()" class="btn btn-primary">카운터 업데이트</button>
+            </div>
+
+            <!-- 이메일 발송 탭 -->
+            <div id="emailTab" class="tab-content">
+                <h2 style="margin-bottom: 20px;">📧 이메일 발송</h2>
+                
+                <div class="alert alert-info">
+                    신청자들에게 세미나 안내 이메일을 발송할 수 있습니다.
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">대상 세미나</label>
+                    <select id="emailSeminarSelect" class="form-select">
+                        <option value="2026-02">2026년 2월 - 우주 탐사와 그 너머</option>
+                        <option value="2026-03">2026년 3월 - 인간과 로봇이 함께하는 미래</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">수신 대상</label>
+                    <select id="recipientType" class="form-select">
+                        <option value="all">전체 신청자</option>
+                        <option value="offline">오프라인 신청자만</option>
+                        <option value="online">온라인 신청자만</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">이메일 제목</label>
+                    <input type="text" id="emailSubject" class="form-input" placeholder="[2030 BLO] 2월 세미나 안내">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">이메일 내용</label>
+                    <textarea id="emailBody" class="form-textarea" rows="10" placeholder="이메일 내용을 입력하세요..."></textarea>
+                    <p class="help-text">HTML 형식도 지원됩니다.</p>
+                </div>
+
+                <div class="btn-group">
+                    <button onclick="previewEmail()" class="btn btn-secondary">미리보기</button>
+                    <button onclick="sendTestEmail()" class="btn btn-primary">테스트 발송</button>
+                    <button onclick="sendBulkEmail()" class="btn btn-success">전체 발송</button>
+                </div>
+            </div>
+
+            <!-- 연간 일정 관리 탭 -->
+            <div id="scheduleTab" class="tab-content">
+                <h2 style="margin-bottom: 20px;">📅 2026년 연간 일정 관리</h2>
+                
+                <div class="alert alert-info">
+                    연간 일정을 수정하면 schedule.html 페이지에 자동으로 반영됩니다.
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">분기 선택</label>
+                    <select id="quarterSelect" class="form-select" onchange="loadQuarterData()">
+                        <option value="1">1분기 - Tech Insight</option>
+                        <option value="2">2분기 - Money Insight</option>
+                        <option value="3">3분기 - Human Insight</option>
+                        <option value="4">4분기 - 2027년 전망</option>
+                    </select>
+                </div>
+
+                <div id="quarterSessions"></div>
+
+                <button onclick="saveSchedule()" class="btn btn-primary">일정 저장</button>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // 간단한 인증 시스템 (실제로는 Firebase Auth 사용)
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // 데모용 간단한 검증
+            if (email === 'admin@samsung.com' && password === 'password123') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                loadDashboardData();
+                alert('로그인 성공!');
+            } else {
+                alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+            }
+        }
+        
+        function logout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('adminDashboard').style.display = 'none';
+            }
+        }
+        
+        function switchTab(tabName) {
+            // 모든 탭 비활성화
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            // 선택된 탭 활성화
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+        }
+        
+        function loadDashboardData() {
+            // 실제로는 Firebase에서 데이터 로드
+            document.getElementById('currentMonthApplicants').textContent = '173';
+            document.getElementById('totalSeminars').textContent = '12';
+            document.getElementById('completedSeminars').textContent = '2';
+            document.getElementById('pendingEmails').textContent = '15';
+            
+            // 초기 이력 3개 추가
+            addCredential();
+            addCredential();
+            addCredential();
+        }
+        
+        function loadSeminarData() {
+            // 선택된 월의 데이터 로드 (실제로는 Firebase에서)
+            const month = document.getElementById('monthSelect').value;
+            alert('선택: ' + month + '\n실제 시스템에서는 Firebase에서 해당 월 데이터를 자동으로 불러옵니다.');
+        }
+        
+        function addCredential() {
+            const list = document.getElementById('credentialsList');
+            const index = list.children.length;
+            
+            const item = document.createElement('div');
+            item.className = 'credential-item';
+            item.innerHTML = `
+                <input type="text" class="credential-input" placeholder="강사 이력 입력" data-index="${index}">
+                <button class="credential-btn" style="background: #f44336; color: white;" onclick="this.parentElement.remove()">삭제</button>
+            `;
+            list.appendChild(item);
+        }
+        
+        function previewJSON() {
+            const data = collectFormData();
+            const panel = document.getElementById('previewPanel');
+            const preview = document.getElementById('jsonPreview');
+            
+            preview.textContent = JSON.stringify(data, null, 2);
+            panel.style.display = 'block';
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function collectFormData() {
+            const credentials = Array.from(document.querySelectorAll('.credential-input'))
+                .map(input => input.value)
+                .filter(value => value.trim() !== '');
+            
+            return {
+                month: document.getElementById('monthSelect').value,
+                date: document.getElementById('seminarDate').value,
+                seminar: {
+                    title: document.getElementById('seminarTitle').value,
+                    subtitle: document.getElementById('seminarSubtitle').value,
+                    date: document.getElementById('seminarDate').value,
+                    time: document.getElementById('seminarTime').value,
+                    speaker: {
+                        name: document.getElementById('speakerName').value,
+                        title: document.getElementById('speakerTitle').value,
+                        credentials: credentials
+                    },
+                    description: document.getElementById('seminarDescription').value
+                },
+                registration: {
+                    offline: {
+                        deadline: document.getElementById('offlineDeadline').value
+                    },
+                    online: {
+                        startDate: document.getElementById('onlineStartDate').value
+                    }
+                }
+            };
+        }
+        
+        function saveData() {
+            const data = collectFormData();
+            
+            // 실제로는 Firebase에 저장
+            console.log('저장할 데이터:', data);
+            
+            // JSON 파일로 다운로드
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `data-${data.month}.json`;
+            a.click();
+            
+            alert('데이터가 저장되었습니다!\nJSON 파일이 다운로드됩니다.');
+        }
+        
+        function publishToSite() {
+            if (confirm('현재 편집 중인 데이터를 사이트에 적용하시겠습니까?')) {
+                // 실제로는 Firebase 업데이트 + index.html의 파일명 변경
+                alert('사이트에 적용되었습니다!\n\n실제 시스템에서는:\n1. Firebase에 데이터 저장\n2. index.html의 파일명 자동 변경\n3. GitHub에 자동 커밋\n\n작업이 자동으로 처리됩니다.');
+            }
+        }
+        
+        function adjustCounter(amount) {
+            const input = document.getElementById('counterValue');
+            const currentValue = parseInt(input.value) || 0;
+            input.value = Math.max(0, currentValue + amount);
+        }
+        
+        function updateCounter() {
+            const newValue = document.getElementById('counterValue').value;
+            alert(`카운터가 ${newValue}(으)로 업데이트되었습니다!`);
+        }
+        
+        function previewEmail() {
+            const subject = document.getElementById('emailSubject').value;
+            const body = document.getElementById('emailBody').value;
+            
+            const previewWindow = window.open('', '_blank', 'width=600,height=800');
+            previewWindow.document.write(`
+                <html>
+                <head>
+                    <title>이메일 미리보기</title>
+                    <style>
+                        body { font-family: 'Malgun Gothic', sans-serif; padding: 20px; }
+                        .subject { font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+                        .body { line-height: 1.6; }
+                    </style>
+                </head>
+                <body>
+                    <div class="subject">${subject}</div>
+                    <div class="body">${body}</div>
+                </body>
+                </html>
+            `);
+        }
+        
+        function sendTestEmail() {
+            const email = prompt('테스트 이메일을 받을 이메일 주소를 입력하세요:');
+            if (email) {
+                alert(`${email}로 테스트 이메일이 발송되었습니다!`);
+            }
+        }
+        
+        function sendBulkEmail() {
+            const recipientType = document.getElementById('recipientType').value;
+            const typeText = {
+                'all': '전체 신청자',
+                'offline': '오프라인 신청자',
+                'online': '온라인 신청자'
+            }[recipientType];
+            
+            if (confirm(`${typeText}에게 이메일을 발송하시겠습니까?`)) {
+                alert('이메일 발송이 시작되었습니다!\n백그라운드에서 처리됩니다.');
+            }
+        }
+        
+        function loadQuarterData() {
+            const quarter = document.getElementById('quarterSelect').value;
+            alert(`${quarter}분기 데이터 로드\n실제 시스템에서
