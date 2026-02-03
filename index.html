@@ -445,6 +445,79 @@
             margin-top: 15px;
         }
 
+        /* 추천인 코드 스타일 */
+        .referral-code-box {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 25px rgba(255, 165, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 8px 35px rgba(255, 165, 0, 0.5);
+            }
+        }
+
+        .referral-code-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        .referral-code-value {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .referral-code-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #0066b3;
+            letter-spacing: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .referral-code-desc {
+            font-size: 16px;
+            color: #000;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .copy-code-btn {
+            background: #0066b3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .copy-code-btn:hover {
+            background: #004d87;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 102, 179, 0.3);
+        }
+
         .loading {
             text-align: center;
             padding: 100px 20px;
@@ -829,6 +902,26 @@
                         </div>
                         
                         <div class="section">
+                            <div class="section-title">🎟️ 필수! 추천인 코드</div>
+                            <div class="referral-code-box">
+                                <div class="referral-code-title">
+                                    ⚠️ 온라인 신청 시 반드시 입력해주세요!
+                                </div>
+                                <div class="referral-code-value">
+                                    <div class="referral-code-number">9618628</div>
+                                </div>
+                                <button onclick="copyReferralCode()" class="copy-code-btn">
+                                    📋 코드 복사하기
+                                </button>
+                                <div class="referral-code-desc">
+                                    ✓ 온라인 신청 시 추천인 코드란에 위 숫자를 입력하세요<br>
+                                    ✓ 코드 입력 시 세미나 관련 안내를 받으실 수 있습니다<br>
+                                    ✓ 복사 버튼을 눌러 간편하게 복사하세요
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section">
                             <div class="section-title">🎁 참여 혜택</div>
                             <div class="benefits-grid">
                                 ${data.benefits.map(benefit => `
@@ -877,6 +970,41 @@
 
         // 페이지 로드 시 실행
         loadSeminarData();
+
+        // 추천인 코드 복사 기능
+        function copyReferralCode() {
+            const code = '9618628';
+
+            // 클립보드에 복사
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => {
+                    alert('✅ 추천인 코드가 복사되었습니다!\n\n코드: ' + code + '\n\n온라인 신청 시 추천인 코드란에 붙여넣기 해주세요.');
+                }).catch(err => {
+                    fallbackCopyCode(code);
+                });
+            } else {
+                fallbackCopyCode(code);
+            }
+        }
+
+        // 구형 브라우저용 복사 기능
+        function fallbackCopyCode(code) {
+            const textArea = document.createElement('textarea');
+            textArea.value = code;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                alert('✅ 추천인 코드가 복사되었습니다!\n\n코드: ' + code + '\n\n온라인 신청 시 추천인 코드란에 붙여넣기 해주세요.');
+            } catch (err) {
+                alert('❌ 복사에 실패했습니다.\n\n추천인 코드: ' + code + '\n\n위 코드를 직접 입력해주세요.');
+            }
+
+            document.body.removeChild(textArea);
+        }
 
         // 페이지 언로드 시 리스너 정리
         window.addEventListener('beforeunload', () => {
