@@ -17,11 +17,25 @@
             box-sizing: border-box;
         }
 
+        html {
+            /* 부드러운 스크롤 */
+            scroll-behavior: smooth;
+            /* iOS에서 탭 하이라이트 제거 */
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             font-family: 'Malgun Gothic', sans-serif;
             background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
             padding: 20px;
             color: #333;
+            /* 모바일 터치 스크롤 최적화 */
+            -webkit-overflow-scrolling: touch;
+            /* 텍스트 크기 자동 조정 방지 */
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         .container {
@@ -51,9 +65,17 @@
             transition: all 0.3s;
             font-size: 14px;
             font-weight: bold;
+            /* 터치 영역 확대 */
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            /* 터치 피드백 */
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
         }
 
-        .nav-link:hover {
+        .nav-link:hover,
+        .nav-link:active {
             background: white;
             color: #0066b3;
         }
@@ -329,6 +351,13 @@
             font-weight: bold;
             transition: all 0.3s;
             text-align: center;
+            /* 터치 최적화 */
+            min-height: 60px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            /* 터치 피드백 */
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
         }
 
         .online-button {
@@ -510,9 +539,16 @@
             cursor: pointer;
             margin-top: 15px;
             transition: all 0.3s;
+            /* 터치 최적화 */
+            min-height: 48px;
+            min-width: 120px;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
         }
 
-        .copy-code-btn:hover {
+        .copy-code-btn:hover,
+        .copy-code-btn:active {
             background: #004d87;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 102, 179, 0.3);
@@ -527,32 +563,284 @@
 
         @media (max-width: 768px) {
 
-            .benefits-grid,
+            /* 컨테이너 및 레이아웃 */
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 15px;
+            }
+
+            /* 네비게이션 */
+            .top-nav {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .nav-link {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            /* 로고 섹션 */
+            .top-logo {
+                padding: 20px;
+            }
+
+            .samsung-logo {
+                font-size: 28px;
+            }
+
+            .blo-badge {
+                font-size: 14px;
+                padding: 12px 25px;
+            }
+
+            /* 카운터 섹션 */
+            .counter-section {
+                padding: 20px;
+            }
+
+            .counter-title {
+                font-size: 16px;
+            }
+
             .counter-display {
                 grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .counter-box {
+                padding: 15px;
+            }
+
+            .counter-label {
+                font-size: 13px;
+            }
+
+            .counter-value {
+                font-size: 28px;
+            }
+
+            /* 헤더 */
+            .header {
+                padding: 30px 20px;
+            }
+
+            .date-badge {
+                font-size: 14px;
+                padding: 8px 20px;
             }
 
             .main-title {
-                font-size: 32px;
+                font-size: 28px;
+                line-height: 1.3;
             }
 
+            .subtitle {
+                font-size: 15px;
+            }
+
+            /* 콘텐츠 */
             .content {
-                padding: 30px 25px;
+                padding: 20px 15px;
+            }
+
+            .section {
+                margin-bottom: 30px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                padding: 12px 20px;
+            }
+
+            /* 정보 박스 */
+            .info-box {
+                padding: 20px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .info-label {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            .info-value {
+                width: 100%;
+                font-size: 15px;
+            }
+
+            /* 강사 섹션 */
+            .speaker-section {
+                padding: 20px;
+            }
+
+            .speaker-name {
+                font-size: 26px;
+            }
+
+            .speaker-role {
+                font-size: 16px;
+            }
+
+            .credential-item {
+                font-size: 15px;
+            }
+
+            /* 행사 진행 안내 */
+            .event-flow-section {
+                padding: 25px 15px;
             }
 
             .flow-step {
                 flex-direction: column;
                 align-items: flex-start;
+                margin-bottom: 30px;
+            }
+
+            .flow-number {
+                min-width: 50px;
+                height: 50px;
+                font-size: 20px;
             }
 
             .flow-content {
                 margin-left: 0;
                 margin-top: 15px;
                 width: 100%;
+                padding: 20px;
             }
 
             .flow-content:hover {
                 transform: translateY(-5px);
+            }
+
+            .flow-time {
+                font-size: 14px;
+            }
+
+            .flow-title {
+                font-size: 18px;
+            }
+
+            .flow-desc {
+                font-size: 14px;
+            }
+
+            .flow-image {
+                height: 180px;
+            }
+
+            /* 추천인 코드 */
+            .referral-code-box {
+                padding: 25px 15px;
+            }
+
+            .referral-code-title {
+                font-size: 16px;
+            }
+
+            .referral-code-value {
+                padding: 15px 25px;
+            }
+
+            .referral-code-number {
+                font-size: 36px;
+                letter-spacing: 3px;
+            }
+
+            .referral-code-desc {
+                font-size: 14px;
+            }
+
+            .copy-code-btn {
+                font-size: 14px;
+                padding: 10px 25px;
+            }
+
+            /* 혜택 그리드 */
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .benefit-card {
+                padding: 20px;
+            }
+
+            .benefit-icon {
+                font-size: 40px;
+            }
+
+            .benefit-title {
+                font-size: 16px;
+            }
+
+            .benefit-desc {
+                font-size: 14px;
+            }
+
+            /* 연락처 박스 */
+            .contact-box {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                gap: 15px;
+            }
+
+            .online-button,
+            .offline-button,
+            .kakao-button {
+                padding: 15px 25px;
+                font-size: 16px;
+            }
+
+            /* 푸터 */
+            .footer {
+                padding: 30px 20px;
+                font-size: 13px;
+            }
+        }
+
+        /* 태블릿 최적화 (768px ~ 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 750px;
+            }
+
+            .counter-display {
+                gap: 15px;
+            }
+
+            .benefits-grid {
+                gap: 20px;
+            }
+
+            .flow-content {
+                padding: 20px;
+            }
+        }
+
+        /* 대형 화면 최적화 (1440px 이상) */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1000px;
+            }
+
+            .main-title {
+                font-size: 52px;
+            }
+
+            .section-title {
+                font-size: 28px;
             }
         }
     </style>
