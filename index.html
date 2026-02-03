@@ -438,7 +438,7 @@
                     }
                 } else {
                     // 로컬 JSON 파일에서 로드
-                    const response = await fetch('data/seminars/' + CURRENT_DATA_FILE);
+                    const response = await fetch(CURRENT_DATA_FILE);
                     data = await response.json();
                 }
 
