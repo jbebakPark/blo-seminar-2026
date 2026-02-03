@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Malgun Gothic', sans-serif;
             background: linear-gradient(135deg, #0a1628 0%, #1a2f4a 100%);
@@ -18,12 +19,12 @@
             color: #fff;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .header {
             text-align: center;
             padding: 60px 20px;
@@ -32,28 +33,29 @@
             margin-bottom: 40px;
             backdrop-filter: blur(10px);
         }
-        
+
         .logo {
             font-size: 28px;
             font-weight: bold;
             color: #FFD700;
             margin-bottom: 20px;
         }
-        
+
         .page-title {
             font-size: 48px;
             font-weight: bold;
             margin-bottom: 20px;
             background: linear-gradient(135deg, #FFD700, #FFA500);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .subtitle {
             font-size: 18px;
             color: #a8d8ea;
         }
-        
+
         .nav-buttons {
             display: flex;
             justify-content: center;
@@ -61,7 +63,7 @@
             margin-bottom: 40px;
             flex-wrap: wrap;
         }
-        
+
         .nav-btn {
             padding: 15px 30px;
             background: rgba(255, 255, 255, 0.1);
@@ -72,13 +74,13 @@
             font-weight: bold;
             transition: all 0.3s;
         }
-        
+
         .nav-btn:hover {
             background: #FFD700;
             color: #000;
             transform: translateY(-3px);
         }
-        
+
         .filters {
             display: flex;
             justify-content: center;
@@ -86,7 +88,7 @@
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
-        
+
         .filter-btn {
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.05);
@@ -96,21 +98,21 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .filter-btn:hover,
         .filter-btn.active {
             background: #FFD700;
             color: #000;
             border-color: #FFD700;
         }
-        
+
         .seminars-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 30px;
             margin-bottom: 60px;
         }
-        
+
         .seminar-card {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 15px;
@@ -120,25 +122,25 @@
             transition: all 0.3s;
             cursor: pointer;
         }
-        
+
         .seminar-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
             border-color: #FFD700;
         }
-        
+
         .seminar-header {
             padding: 25px;
             background: linear-gradient(135deg, rgba(15, 52, 96, 0.5), rgba(22, 33, 62, 0.5));
         }
-        
+
         .seminar-date {
             font-size: 14px;
             color: #FFD700;
             font-weight: bold;
             margin-bottom: 10px;
         }
-        
+
         .seminar-title {
             font-size: 20px;
             color: #fff;
@@ -146,29 +148,29 @@
             line-height: 1.4;
             margin-bottom: 15px;
         }
-        
+
         .seminar-speaker {
             font-size: 16px;
             color: #a8d8ea;
         }
-        
+
         .seminar-body {
             padding: 25px;
         }
-        
+
         .seminar-description {
             font-size: 14px;
             color: #ccc;
             line-height: 1.6;
             margin-bottom: 15px;
         }
-        
+
         .seminar-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
-        
+
         .tag {
             padding: 5px 12px;
             background: rgba(255, 215, 0, 0.1);
@@ -177,7 +179,7 @@
             font-size: 12px;
             color: #FFD700;
         }
-        
+
         .seminar-footer {
             padding: 15px 25px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -185,12 +187,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .view-count {
             font-size: 13px;
             color: #999;
         }
-        
+
         .detail-btn {
             padding: 8px 20px;
             background: #FFD700;
@@ -201,33 +203,33 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .detail-btn:hover {
             background: #FFA500;
             transform: scale(1.05);
         }
-        
+
         .no-results {
             text-align: center;
             padding: 60px 20px;
             color: #999;
             font-size: 18px;
         }
-        
+
         .loading {
             text-align: center;
             padding: 100px 20px;
             color: #FFD700;
             font-size: 20px;
         }
-        
+
         .footer {
             text-align: center;
             padding: 40px 20px;
             color: #999;
             font-size: 14px;
         }
-        
+
         /* 모달 스타일 */
         .modal {
             display: none;
@@ -240,7 +242,7 @@
             z-index: 1000;
             overflow-y: auto;
         }
-        
+
         .modal-content {
             max-width: 800px;
             margin: 50px auto;
@@ -250,7 +252,7 @@
             position: relative;
             border: 2px solid #FFD700;
         }
-        
+
         .modal-close {
             position: absolute;
             top: 20px;
@@ -267,22 +269,22 @@
             background: rgba(255, 215, 0, 0.1);
             transition: all 0.3s;
         }
-        
+
         .modal-close:hover {
             background: #FFD700;
             color: #000;
             transform: rotate(90deg);
         }
-        
+
         @media (max-width: 768px) {
             .seminars-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .page-title {
                 font-size: 36px;
             }
-            
+
             .modal-content {
                 margin: 20px;
                 padding: 30px 20px;
@@ -290,6 +292,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -297,32 +300,32 @@
             <h1 class="page-title">📚 세미나 아카이브</h1>
             <p class="subtitle">지난 세미나 다시보기</p>
         </div>
-        
+
         <div class="nav-buttons">
-            <a href="index.html" class="nav-btn">🏠 메인으로</a>
+            <a href="../index.html" class="nav-btn">🏠 메인으로</a>
             <a href="schedule.html" class="nav-btn">📅 연간 일정</a>
             <a href="admin.html" class="nav-btn">⚙️ 관리자</a>
         </div>
-        
+
         <div class="filters">
             <button class="filter-btn active" data-filter="all">전체</button>
             <button class="filter-btn" data-filter="2026">2026년</button>
             <button class="filter-btn" data-filter="forum">Forum</button>
             <button class="filter-btn" data-filter="class">Class</button>
         </div>
-        
+
         <div id="loading" class="loading">세미나 목록을 불러오는 중...</div>
         <div id="seminarsGrid" class="seminars-grid" style="display: none;"></div>
         <div id="noResults" class="no-results" style="display: none;">
             검색 결과가 없습니다.
         </div>
-        
+
         <div class="footer">
             <p>주체: 삼성생명 WM 사업부</p>
             <p style="margin-top: 10px;">문의: 박재박 팀장 010-5137-2327</p>
         </div>
     </div>
-    
+
     <!-- 상세보기 모달 -->
     <div id="detailModal" class="modal">
         <div class="modal-content">
@@ -334,7 +337,7 @@
     <script>
         let seminars = [];
         let currentFilter = 'all';
-        
+
         // 샘플 데이터 (실제로는 Firebase나 JSON 파일에서 로드)
         const sampleSeminars = [
             {
@@ -360,38 +363,38 @@
                 year: '2026'
             }
         ];
-        
+
         async function loadSeminars() {
             // TODO: Firebase에서 실제 데이터 로드
             // const data = await getAllSeminars();
-            
+
             // 임시로 샘플 데이터 사용
             await new Promise(resolve => setTimeout(resolve, 500));
             seminars = sampleSeminars;
-            
+
             document.getElementById('loading').style.display = 'none';
             document.getElementById('seminarsGrid').style.display = 'grid';
-            
+
             renderSeminars();
         }
-        
+
         function renderSeminars() {
             const grid = document.getElementById('seminarsGrid');
             const filteredSeminars = filterSeminars();
-            
+
             if (filteredSeminars.length === 0) {
                 grid.style.display = 'none';
                 document.getElementById('noResults').style.display = 'block';
                 return;
             }
-            
+
             grid.style.display = 'grid';
             document.getElementById('noResults').style.display = 'none';
-            
+
             grid.innerHTML = filteredSeminars.map(seminar => {
                 const date = new Date(seminar.date);
                 const dateStr = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-                
+
                 return `
                     <div class="seminar-card" onclick="showDetail('${seminar.id}')">
                         <div class="seminar-header">
@@ -415,7 +418,7 @@
                 `;
             }).join('');
         }
-        
+
         function filterSeminars() {
             if (currentFilter === 'all') {
                 return seminars;
@@ -425,14 +428,14 @@
                 return seminars.filter(s => s.type.toLowerCase() === currentFilter.toLowerCase());
             }
         }
-        
+
         function showDetail(seminarId) {
             const seminar = seminars.find(s => s.id === seminarId);
             if (!seminar) return;
-            
+
             const date = new Date(seminar.date);
             const dateStr = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
-            
+
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
                 <div style="margin-bottom: 30px;">
@@ -464,34 +467,35 @@
                     </button>
                 </div>
             `;
-            
+
             document.getElementById('detailModal').style.display = 'block';
         }
-        
+
         // 필터 버튼 이벤트
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 currentFilter = this.dataset.filter;
                 renderSeminars();
             });
         });
-        
+
         // 모달 닫기
-        document.querySelector('.modal-close').addEventListener('click', function() {
+        document.querySelector('.modal-close').addEventListener('click', function () {
             document.getElementById('detailModal').style.display = 'none';
         });
-        
-        window.addEventListener('click', function(event) {
+
+        window.addEventListener('click', function (event) {
             const modal = document.getElementById('detailModal');
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
-        
+
         // 페이지 로드
         loadSeminars();
     </script>
 </body>
+
 </html>
