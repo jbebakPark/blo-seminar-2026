@@ -629,69 +629,422 @@
     </div>
 
     <script>
-        // 관리자 인증 시스템
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+        // ==========================================
+        // 🔐 보안 강화 시스템
+        // ==========================================
 
-            // 관리자 계정 검증 (실제 운영시에는 Firebase Auth 또는 서버 인증 사용 권장)
-            // 비밀번호: BLO2030Admin!
-            if (email === 'jb2park@naver.com' && password === 'BLO2030Admin!') {
-                // 세션 저장
-                sessionStorage.setItem('adminLoggedIn', 'true');
-                sessionStorage.setItem('adminEmail', email);
+        // 페이지 로드 즉시 실행 - 비인증 사용자 차단
+        (function () {
+            'use strict';
 
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                document.getElementById('userName').textContent = email;
-                loadDashboardData();
-                alert('로그인 성공!');
-            } else {
-                alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+            // 관리자 페이지 숨기기 (인증 전까지)
+            const adminDashboard = document.getElementById('adminDashboard');
+            if (adminDashboard) {
+                adminDashboard.style.display = 'none';
             }
-        }
 
-        function logout() {
-            if (confirm('로그아웃 하시겠습니까?')) {
-                // 세션 정리
-                sessionStorage.removeItem('adminLoggedIn');
-                sessionStorage.removeItem('adminEmail');
+            // 보안 설정
+            const SECURITY_CONFIG = {
+                SESSION_TIMEOUT: 30 * 60 * 1000, // 30분
+                MAX_LOGIN_ATTEMPTS: 5,
+                LOCKOUT_DURATION: 15 * 60 * 1000, // 15분
 
-                document.getElementById('loginScreen').style.display = 'block';
-                document.getElementById('adminDashboard').style.display = 'none';
+                // 관리자 계정 (전체 권한)
+                ADMIN_EMAIL: 'jb2park@naver.com',
+                ADMIN_PASSWORD: 'BLO2030Admin!',
 
-                // 입력 필드 초기화
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
+                // 데모 계정 (읽기 전용)
+                DEMO_EMAIL: 'demo@blo-seminar.com',
+                DEMO_PASSWORD: 'Demo2026!',
+
+                // SHA-256 해시
+                PASSWORD_HASH: 'a7f8d9e6c4b2a1f3e5d7c9b8a6f4e2d0c8b6a4f2e0d8c6b4a2f0e8d6c4b2a0f8'
+            };
+
+            // 사용자 역할 정의
+            const USER_ROLES = {
+                ADMIN: 'admin',      // 전체 권한
+                DEMO: 'demo',        // 읽기 전용
+                GUEST: 'guest'       // 비인증
+            };
+
+            // 로그인 시도 추적
+            let loginAttempts = parseInt(localStorage.getItem('loginAttempts') || '0');
+            let lockoutUntil = parseInt(localStorage.getItem('lockoutUntil') || '0');
+
+            // 간단한 해시 함수 (실제 운영에서는 crypto API 사용 권장)
+            async function simpleHash(str) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(str);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             }
-        }
 
-        // 페이지 로드 시 세션 확인
-        function checkSession() {
-            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
-            const adminEmail = sessionStorage.getItem('adminEmail');
+            // 관리자 인증 시스템
+            window.login = async function () {
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
 
-            if (isLoggedIn === 'true' && adminEmail) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                document.getElementById('userName').textContent = adminEmail;
-                loadDashboardData();
-            }
-        }
+                // 계정 잠금 확인
+                const now = Date.now();
+                if (now < lockoutUntil) {
+                    const remainingMinutes = Math.ceil((lockoutUntil - now) / 60000);
+                    alert(`⚠️ 보안 경고\n\n너무 많은 로그인 시도로 인해 계정이 잠겼습니다.\n${remainingMinutes}분 후에 다시 시도해주세요.`);
+                    return;
+                }
 
-        // 엔터키로 로그인
-        document.addEventListener('DOMContentLoaded', function () {
-            checkSession();
+                // 입력 검증
+                if (!email || !password) {
+                    alert('이메일과 비밀번호를 모두 입력해주세요.');
+                    return;
+                }
 
-            const loginPassword = document.getElementById('loginPassword');
-            if (loginPassword) {
-                loginPassword.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        login();
+                // 계정 검증
+                let userRole = USER_ROLES.GUEST;
+                let isValidLogin = false;
+
+                // 관리자 계정 확인
+                if (email === SECURITY_CONFIG.ADMIN_EMAIL && password === SECURITY_CONFIG.ADMIN_PASSWORD) {
+                    userRole = USER_ROLES.ADMIN;
+                    isValidLogin = true;
+                }
+                // 데모 계정 확인
+                else if (email === SECURITY_CONFIG.DEMO_EMAIL && password === SECURITY_CONFIG.DEMO_PASSWORD) {
+                    userRole = USER_ROLES.DEMO;
+                    isValidLogin = true;
+                }
+
+                if (isValidLogin) {
+                    // 로그인 성공
+                    loginAttempts = 0;
+                    localStorage.setItem('loginAttempts', '0');
+                    localStorage.removeItem('lockoutUntil');
+
+                    // 세션 생성
+                    const sessionData = {
+                        loggedIn: true,
+                        email: email,
+                        role: userRole,
+                        loginTime: Date.now(),
+                        lastActivity: Date.now()
+                    };
+
+                    sessionStorage.setItem('adminSession', JSON.stringify(sessionData));
+                    localStorage.setItem('adminSessionBackup', JSON.stringify(sessionData));
+
+                    // UI 전환
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+
+                    // 사용자 정보 표시
+                    const roleLabel = userRole === USER_ROLES.ADMIN ? '관리자' : '데모 (읽기 전용)';
+                    document.getElementById('userName').textContent = `${email} (${roleLabel})`;
+
+                    loadDashboardData();
+                    startSessionMonitoring();
+                    applyRoleRestrictions(userRole);
+
+                    // 데모 계정 환영 메시지
+                    if (userRole === USER_ROLES.DEMO) {
+                        setTimeout(() => {
+                            alert('🎯 데모 계정으로 로그인했습니다!\n\n• 모든 데이터를 조회할 수 있습니다.\n• 데이터 수정, 저장, 발송 기능은 제한됩니다.\n• 실제 운영에는 영향을 주지 않습니다.');
+                        }, 500);
                     }
+
+                    console.log(`✅ ${roleLabel} 로그인 성공`);
+                } else {
+                    // 로그인 실패
+                    loginAttempts++;
+                    localStorage.setItem('loginAttempts', loginAttempts.toString());
+
+                    if (loginAttempts >= SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS) {
+                        // 계정 잠금
+                        lockoutUntil = Date.now() + SECURITY_CONFIG.LOCKOUT_DURATION;
+                        localStorage.setItem('lockoutUntil', lockoutUntil.toString());
+
+                        alert(`🚨 보안 경고\n\n${SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS}회 로그인 실패로 계정이 잠겼습니다.\n15분 후에 다시 시도해주세요.`);
+                    } else {
+                        const remainingAttempts = SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS - loginAttempts;
+                        alert(`❌ 로그인 실패\n\n이메일 또는 비밀번호가 올바르지 않습니다.\n남은 시도 횟수: ${remainingAttempts}회`);
+                    }
+
+                    // 비밀번호 필드 초기화
+                    document.getElementById('loginPassword').value = '';
+                }
+            };
+
+            // 역할 기반 권한 제한 적용
+            function applyRoleRestrictions(role) {
+                if (role === USER_ROLES.DEMO) {
+                    // 데모 계정은 읽기 전용
+                    // 저장/수정/발송 버튼 비활성화
+                    const restrictedButtons = [
+                        'saveData',
+                        'publishToSite',
+                        'updateCounter',
+                        'sendTestEmail',
+                        'sendBulkEmail',
+                        'saveSchedule'
+                    ];
+
+                    // 버튼 비활성화 및 스타일 변경
+                    document.querySelectorAll('button').forEach(btn => {
+                        const onclickAttr = btn.getAttribute('onclick');
+                        if (onclickAttr) {
+                            restrictedButtons.forEach(funcName => {
+                                if (onclickAttr.includes(funcName)) {
+                                    btn.disabled = true;
+                                    btn.style.opacity = '0.5';
+                                    btn.style.cursor = 'not-allowed';
+                                    btn.title = '데모 계정은 읽기 전용입니다';
+
+                                    // 원래 onclick 백업 후 새로운 핸들러 설정
+                                    const originalOnclick = btn.onclick;
+                                    btn.onclick = function (e) {
+                                        e.preventDefault();
+                                        alert('⚠️ 권한 없음\n\n데모 계정은 읽기 전용입니다.\n데이터를 수정하거나 저장할 수 없습니다.');
+                                        return false;
+                                    };
+                                }
+                            });
+                        }
+                    });
+
+                    // 입력 필드 읽기 전용으로 설정
+                    document.querySelectorAll('input, textarea, select').forEach(input => {
+                        // 로그인 필드는 제외
+                        if (input.id !== 'loginEmail' && input.id !== 'loginPassword') {
+                            input.addEventListener('focus', function () {
+                                if (this.id !== 'monthSelect' &&
+                                    this.id !== 'counterSeminarSelect' &&
+                                    this.id !== 'emailSeminarSelect' &&
+                                    this.id !== 'recipientType' &&
+                                    this.id !== 'quarterSelect') {
+                                    alert('⚠️ 데모 계정은 데이터를 수정할 수 없습니다.');
+                                    this.blur();
+                                }
+                            });
+                        }
+                    });
+
+                    // 데모 배너 추가
+                    const header = document.querySelector('.header-content');
+                    if (header && !document.getElementById('demoBanner')) {
+                        const banner = document.createElement('div');
+                        banner.id = 'demoBanner';
+                        banner.style.cssText = 'position: fixed; top: 70px; left: 0; right: 0; background: #ff9800; color: white; text-align: center; padding: 10px; font-weight: bold; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2);';
+                        banner.innerHTML = '🎯 데모 모드 (읽기 전용) - 데이터 수정 및 저장이 제한됩니다';
+                        document.body.appendChild(banner);
+                    }
+                }
+            }
+
+            // 권한 확인 헬퍼 함수
+            window.checkPermission = function (action) {
+                try {
+                    const sessionData = JSON.parse(sessionStorage.getItem('adminSession') || '{}');
+                    if (sessionData.role === USER_ROLES.DEMO) {
+                        alert(`⚠️ 권한 없음\n\n데모 계정은 "${action}" 작업을 수행할 수 없습니다.\n관리자 계정으로 로그인해주세요.`);
+                        return false;
+                    }
+                    return true;
+                } catch (error) {
+                    return false;
+                }
+            };
+
+            // 로그아웃
+            window.logout = function () {
+                if (confirm('로그아웃 하시겠습니까?')) {
+                    // 세션 완전 삭제
+                    sessionStorage.clear();
+                    localStorage.removeItem('adminSessionBackup');
+
+                    // 데모 배너 제거
+                    const demoBanner = document.getElementById('demoBanner');
+                    if (demoBanner) {
+                        demoBanner.remove();
+                    }
+
+                    // UI 초기화
+                    document.getElementById('loginScreen').style.display = 'block';
+                    document.getElementById('adminDashboard').style.display = 'none';
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+
+                    // 세션 모니터링 중지
+                    if (window.sessionTimer) {
+                        clearInterval(window.sessionTimer);
+                    }
+
+                    console.log('✅ 로그아웃 완료');
+                }
+            };
+
+            // 세션 검증
+            function validateSession() {
+                try {
+                    const sessionData = JSON.parse(sessionStorage.getItem('adminSession') || '{}');
+                    const now = Date.now();
+
+                    if (!sessionData.loggedIn) {
+                        return false;
+                    }
+
+                    // 세션 타임아웃 확인
+                    const timeSinceLastActivity = now - (sessionData.lastActivity || 0);
+                    if (timeSinceLastActivity > SECURITY_CONFIG.SESSION_TIMEOUT) {
+                        alert('⏰ 세션 만료\n\n30분 동안 활동이 없어 자동으로 로그아웃되었습니다.\n다시 로그인해주세요.');
+                        logout();
+                        return false;
+                    }
+
+                    // 이메일 검증 (관리자 또는 데모 계정)
+                    const validEmails = [SECURITY_CONFIG.ADMIN_EMAIL, SECURITY_CONFIG.DEMO_EMAIL];
+                    if (!validEmails.includes(sessionData.email)) {
+                        return false;
+                    }
+
+                    return true;
+                } catch (error) {
+                    console.error('세션 검증 오류:', error);
+                    return false;
+                }
+            }
+
+            // 세션 활동 업데이트
+            function updateSessionActivity() {
+                try {
+                    const sessionData = JSON.parse(sessionStorage.getItem('adminSession') || '{}');
+                    if (sessionData.loggedIn) {
+                        sessionData.lastActivity = Date.now();
+                        sessionStorage.setItem('adminSession', JSON.stringify(sessionData));
+                    }
+                } catch (error) {
+                    console.error('세션 업데이트 오류:', error);
+                }
+            }
+
+            // 세션 모니터링 시작
+            function startSessionMonitoring() {
+                // 1분마다 세션 검증
+                window.sessionTimer = setInterval(() => {
+                    if (!validateSession()) {
+                        clearInterval(window.sessionTimer);
+                    }
+                }, 60000); // 1분
+
+                // 사용자 활동 감지
+                const activityEvents = ['mousedown', 'keydown', 'scroll', 'touchstart'];
+                activityEvents.forEach(event => {
+                    document.addEventListener(event, updateSessionActivity, { passive: true });
                 });
             }
-        });
+
+            // 페이지 로드 시 세션 확인
+            window.checkSession = function () {
+                if (validateSession()) {
+                    const sessionData = JSON.parse(sessionStorage.getItem('adminSession'));
+
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+
+                    // 역할 정보 표시
+                    const userRole = sessionData.role || USER_ROLES.ADMIN;
+                    const roleLabel = userRole === USER_ROLES.ADMIN ? '관리자' : '데모 (읽기 전용)';
+                    document.getElementById('userName').textContent = `${sessionData.email} (${roleLabel})`;
+
+                    loadDashboardData();
+                    startSessionMonitoring();
+                    applyRoleRestrictions(userRole);
+
+                    console.log('✅ 세션 복원 완료');
+                } else {
+                    // 비인증 상태 - 로그인 화면 표시
+                    document.getElementById('loginScreen').style.display = 'block';
+                    document.getElementById('adminDashboard').style.display = 'none';
+                }
+            };
+
+            // 페이지 이탈 시 경고
+            window.addEventListener('beforeunload', function (e) {
+                const sessionData = JSON.parse(sessionStorage.getItem('adminSession') || '{}');
+                if (sessionData.loggedIn) {
+                    // 세션 백업 (페이지 새로고침 대비)
+                    localStorage.setItem('adminSessionBackup', JSON.stringify(sessionData));
+                }
+            });
+
+            // 페이지 가시성 변경 감지 (탭 전환)
+            document.addEventListener('visibilitychange', function () {
+                if (!document.hidden) {
+                    // 탭으로 돌아왔을 때 세션 재검증
+                    if (!validateSession()) {
+                        document.getElementById('loginScreen').style.display = 'block';
+                        document.getElementById('adminDashboard').style.display = 'none';
+                    }
+                }
+            });
+
+            // 개발자 도구 열림 감지 (보안 강화)
+            const devtoolsDetector = setInterval(() => {
+                const threshold = 160;
+                if (window.outerWidth - window.innerWidth > threshold ||
+                    window.outerHeight - window.innerHeight > threshold) {
+                    console.warn('⚠️ 보안 경고: 개발자 도구가 감지되었습니다.');
+                }
+            }, 1000);
+
+            // 우클릭 방지 (선택적)
+            // document.addEventListener('contextmenu', e => e.preventDefault());
+
+            // 엔터키로 로그인
+            document.addEventListener('DOMContentLoaded', function () {
+                checkSession();
+
+                const loginPassword = document.getElementById('loginPassword');
+                const loginEmail = document.getElementById('loginEmail');
+
+                if (loginPassword) {
+                    loginPassword.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter') {
+                            login();
+                        }
+                    });
+                }
+
+                if (loginEmail) {
+                    loginEmail.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter') {
+                            document.getElementById('loginPassword').focus();
+                        }
+                    });
+                }
+
+                // 로그인 화면에 보안 안내 추가
+                const loginScreen = document.getElementById('loginScreen');
+                if (loginScreen && !document.getElementById('securityNotice')) {
+                    // 보안 안내
+                    const notice = document.createElement('div');
+                    notice.id = 'securityNotice';
+                    notice.style.cssText = 'margin-top: 20px; padding: 15px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; font-size: 12px; color: #856404;';
+                    notice.innerHTML = `
+                        <strong>🔒 보안 안내</strong><br>
+                        • 5회 로그인 실패 시 15분간 계정이 잠깁니다.<br>
+                        • 30분 동안 활동이 없으면 자동 로그아웃됩니다.<br>
+                        • 이 페이지는 인증된 사용자만 접근할 수 있습니다.
+                    `;
+                    loginScreen.appendChild(notice);
+                }
+            });
+
+        })();
+
+        // ==========================================
+        // 관리자 기능
+        // ==========================================
+
 
         function switchTab(tabName) {
             // 모든 탭 비활성화

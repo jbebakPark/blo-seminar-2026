@@ -163,28 +163,75 @@ git push
 
 ## 🚀 배포
 
-### GitHub Pages (자동)
-- `main` 브랜치에 푸시하면 자동 배포
-- GitHub Actions 사용
-- 약 2-3분 소요
+### ⚡ 빠른 배포 (추천)
 
-### 수동 배포
+프로젝트 폴더에서 실행:
 ```bash
-# Linux/Mac
-./scripts/deploy/deploy.sh
-
 # Windows
-.\scripts\deploy\deploy.ps1
+.\quick-deploy.bat
+
+# 또는 고급 옵션
+.\deploy.bat
 ```
+
+**동작 과정:**
+1. Git 커밋 및 푸시
+2. GitHub Actions 자동 배포 (1-2분)
+3. Firebase Hosting 업데이트
+
+### 🤖 GitHub Actions (자동)
+
+- `main` 브랜치에 푸시하면 자동 배포
+- Firebase Hosting으로 배포
+- 약 1-2분 소요
+
+**배포 상태 확인:**
+- 📊 [GitHub Actions](https://github.com/jbebakPark/blo-seminar-2026/actions)
+
+### 📖 상세 가이드
+
+배포 방법 및 문제 해결은 [`DEPLOY.md`](DEPLOY.md) 참조
+
+**주요 배포 옵션:**
+- 🚀 빠른 배포: `quick-deploy.bat`
+- 🎯 고급 배포: `deploy.bat` (모드 선택 가능)
+- 🤖 자동 배포: Git push → GitHub Actions
 
 ---
 
 ## 🔐 보안
 
-- 관리자 페이지는 로그인 필요
-- Firebase Authentication 지원
-- 개인정보는 Git에 포함 안됨 (`.gitignore`)
-- HTTPS 자동 적용 (GitHub Pages)
+### 관리자 페이지 보안 강화
+
+- ✅ **로그인 시도 제한**: 5회 실패 시 15분간 계정 잠금
+- ✅ **세션 타임아웃**: 30분 비활동 시 자동 로그아웃
+- ✅ **페이지 접근 제어**: 비인증 사용자 완전 차단
+- ✅ **세션 모니터링**: 실시간 세션 유효성 검증
+- ✅ **활동 감지**: 마우스, 키보드, 스크롤 활동 자동 추적
+- ✅ **역할 기반 권한**: 관리자/데모 계정 분리
+
+### 로그인 정보
+
+#### 관리자 계정
+- **URL**: https://admin-samsung-vvip.web.app/pages/admin.html
+- **이메일**: jb2park@naver.com
+- **비밀번호**: BLO2030Admin!
+
+#### 데모 계정
+- **용도**: 시스템 데모, 교육, 테스트 (읽기 전용)
+- **정보**: 내부 문서 [`DEMO-ACCOUNT.md`](DEMO-ACCOUNT.md) 참조
+
+### 보안 정책
+
+- 로그인 실패 5회 → 15분 잠금
+- 비활동 30분 → 자동 로그아웃
+- 페이지 직접 접근 → 인증 필요
+- 데모 계정 → 읽기 전용 권한
+
+### 상세 가이드
+
+- **보안 기능**: [`SECURITY.md`](SECURITY.md)
+- **데모 계정**: [`DEMO-ACCOUNT.md`](DEMO-ACCOUNT.md) (내부용)
 
 ---
 

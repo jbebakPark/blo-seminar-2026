@@ -1,0 +1,41 @@
+# 민감한 정보 (선택적으로 제외)
+# DEMO-ACCOUNT.md
+
+# Firebase
+.firebase/
+.firebaserc
+
+# Node modules
+node_modules/
+
+# 로그 파일
+*.log
+npm-debug.log*
+
+# 환경 변수
+.env
+.env.local
+.env.*.local
+
+# OS 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 빌드 출력
+dist/
+build/
+*.min.js
+*.min.css
+
+# 임시 파일
+*.tmp
+*.temp
+.cache/
