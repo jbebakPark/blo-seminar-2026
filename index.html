@@ -383,6 +383,53 @@
             border: 3px solid #FDD835;
         }
 
+        /* 신청 대상 안내 섹션 */
+        .target-audience-section {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 3px solid #ff9800;
+        }
+
+        .target-audience-title {
+            font-size: 16px;
+            color: #e65100;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .target-audience-text {
+            font-size: 18px;
+            color: #0f3460;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .inquiry-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FEE500 0%, #FFEB3B 100%);
+            color: #3c1e1e;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid #FDD835;
+            min-height: 48px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .inquiry-button:hover,
+        .inquiry-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(254, 229, 0, 0.4);
+            background: linear-gradient(135deg, #FFEB3B 0%, #FDD835 100%);
+        }
+
         .footer {
             background: linear-gradient(135deg, #e8f4fd 0%, #d4e7f7 100%);
             padding: 40px;
@@ -595,6 +642,24 @@
             .blo-badge {
                 font-size: 14px;
                 padding: 12px 25px;
+            }
+
+            /* 신청 대상 안내 섹션 */
+            .target-audience-section {
+                padding: 20px 15px;
+            }
+
+            .target-audience-title {
+                font-size: 14px;
+            }
+
+            .target-audience-text {
+                font-size: 16px;
+            }
+
+            .inquiry-button {
+                font-size: 14px;
+                padding: 10px 25px;
             }
 
             /* 카운터 섹션 */
@@ -1006,13 +1071,21 @@
                     <div class="top-nav">
                         <a href="pages/schedule.html" class="nav-link">📅 연간 일정</a>
                         <a href="pages/archive.html" class="nav-link">📚 지난 세미나</a>
-                        <a href="pages/admin.html" class="nav-link">⚙️ 관리자</a>
+                        <!-- <a href="pages/admin.html" class="nav-link">⚙️ 관리자</a> -->
                     </div>
                     
                     <div class="top-logo">
                         <div class="samsung-logo">SAMSUNG</div>
                         <div style="font-size: 16px; color: #0066b3;">삼성생명</div>
                         <div class="blo-badge">2030 BUSINESS LIVE ON</div>
+                    </div>
+                    
+                    <div class="target-audience-section">
+                        <div class="target-audience-title">📢 세미나 신청 대상 안내</div>
+                        <div class="target-audience-text">CEO(회장) 및 임원, 자산가</div>
+                        <a href="https://open.kakao.com/o/sleUSUei" class="inquiry-button" target="_blank">
+                            💬 세미나 참석 문의
+                        </a>
                     </div>
                     
                     <div class="counter-section">
@@ -1250,7 +1323,7 @@
                     <div class="footer">
                         <p><strong>2030 Business Live ON</strong></p>
                         <p style="margin-top: 12px;">대한민국 최고 석학들과 함께하는 프리미엄 경영 세미나</p>
-                        <p style="margin-top: 25px; color: #666;">주체: ${data.organizer}</p>
+                        <p style="margin-top: 25px; color: #666;">주최: ${data.organizer}</p>
                     </div>
                 </div>
             `;

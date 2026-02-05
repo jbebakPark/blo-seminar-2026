@@ -373,9 +373,6 @@
     <!-- 로그인 화면 -->
     <div id="loginScreen" class="login-container">
         <h2 class="login-title">🔐 관리자 로그인</h2>
-        <div class="alert alert-info">
-            데모 계정: admin@samsung.com / password123
-        </div>
         <div class="form-group">
             <label class="form-label">이메일</label>
             <input type="email" id="loginEmail" class="form-input" placeholder="admin@samsung.com">
@@ -632,15 +629,21 @@
     </div>
 
     <script>
-        // 간단한 인증 시스템 (실제로는 Firebase Auth 사용)
+        // 관리자 인증 시스템
         function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            // 데모용 간단한 검증
-            if (email === 'admin@samsung.com' && password === 'password123') {
+            // 관리자 계정 검증 (실제 운영시에는 Firebase Auth 또는 서버 인증 사용 권장)
+            // 비밀번호: BLO2030Admin!
+            if (email === 'admin@samsung.com' && password === 'BLO2030Admin!') {
+                // 세션 저장
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                sessionStorage.setItem('adminEmail', email);
+
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminDashboard').style.display = 'block';
+                document.getElementById('userName').textContent = email;
                 loadDashboardData();
                 alert('로그인 성공!');
             } else {
@@ -650,10 +653,45 @@
 
         function logout() {
             if (confirm('로그아웃 하시겠습니까?')) {
+                // 세션 정리
+                sessionStorage.removeItem('adminLoggedIn');
+                sessionStorage.removeItem('adminEmail');
+
                 document.getElementById('loginScreen').style.display = 'block';
                 document.getElementById('adminDashboard').style.display = 'none';
+
+                // 입력 필드 초기화
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
             }
         }
+
+        // 페이지 로드 시 세션 확인
+        function checkSession() {
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            const adminEmail = sessionStorage.getItem('adminEmail');
+
+            if (isLoggedIn === 'true' && adminEmail) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                document.getElementById('userName').textContent = adminEmail;
+                loadDashboardData();
+            }
+        }
+
+        // 엔터키로 로그인
+        document.addEventListener('DOMContentLoaded', function () {
+            checkSession();
+
+            const loginPassword = document.getElementById('loginPassword');
+            if (loginPassword) {
+                loginPassword.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        login();
+                    }
+                });
+            }
+        });
 
         function switchTab(tabName) {
             // 모든 탭 비활성화

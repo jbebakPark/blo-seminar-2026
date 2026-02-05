@@ -276,6 +276,50 @@
             transform: rotate(90deg);
         }
 
+        /* 신청 대상 안내 섹션 */
+        .target-audience-section {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            padding: 25px 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #ff9800;
+        }
+
+        .target-audience-title {
+            font-size: 16px;
+            color: #e65100;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .target-audience-text {
+            font-size: 18px;
+            color: #0f3460;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .inquiry-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FEE500 0%, #FFEB3B 100%);
+            color: #3c1e1e;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid #FDD835;
+            cursor: pointer;
+        }
+
+        .inquiry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(254, 229, 0, 0.4);
+            background: linear-gradient(135deg, #FFEB3B 0%, #FDD835 100%);
+        }
+
         @media (max-width: 768px) {
             .seminars-grid {
                 grid-template-columns: 1fr;
@@ -289,6 +333,23 @@
                 margin: 20px;
                 padding: 30px 20px;
             }
+
+            .target-audience-section {
+                padding: 20px 15px;
+            }
+
+            .target-audience-title {
+                font-size: 14px;
+            }
+
+            .target-audience-text {
+                font-size: 16px;
+            }
+
+            .inquiry-button {
+                font-size: 14px;
+                padding: 10px 25px;
+            }
         }
     </style>
 </head>
@@ -301,10 +362,18 @@
             <p class="subtitle">지난 세미나 다시보기</p>
         </div>
 
+        <div class="target-audience-section">
+            <div class="target-audience-title">📢 세미나 신청 대상 안내</div>
+            <div class="target-audience-text">CEO(회장) 및 임원, 자산가</div>
+            <a href="https://open.kakao.com/o/sleUSUei" class="inquiry-button" target="_blank">
+                💬 세미나 참석 문의
+            </a>
+        </div>
+
         <div class="nav-buttons">
             <a href="../index.html" class="nav-btn">🏠 메인으로</a>
             <a href="schedule.html" class="nav-btn">📅 연간 일정</a>
-            <a href="admin.html" class="nav-btn">⚙️ 관리자</a>
+            <!-- <a href="admin.html" class="nav-btn">⚙️ 관리자</a> -->
         </div>
 
         <div class="filters">
@@ -321,7 +390,7 @@
         </div>
 
         <div class="footer">
-            <p>주체: 삼성생명 WM 사업부</p>
+            <p>주최: 삼성생명 WM 사업부</p>
             <p style="margin-top: 10px;">문의: 박재박 팀장 010-5137-2327</p>
         </div>
     </div>
