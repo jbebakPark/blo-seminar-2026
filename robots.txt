@@ -1,0 +1,44 @@
+# BLO 세미나 2026 - robots.txt
+# 검색 엔진 크롤링 규칙
+
+# 기본 설정: 대부분의 콘텐츠는 크롤링 허용
+User-agent: *
+
+# 관리자 페이지 차단 (보안)
+Disallow: /pages/admin.html
+Disallow: /pages/admin/
+Disallow: /admin
+Disallow: /admin/
+
+# 민감한 데이터 파일 차단
+Disallow: /data/
+Disallow: /*.json$
+
+# 시스템 파일 차단
+Disallow: /scripts/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /node_modules/
+
+# 임시 파일 및 백업 차단
+Disallow: /*-backup
+Disallow: /*-temp
+Disallow: /*.bak$
+
+# 테스트 페이지 차단
+Disallow: /test/
+Disallow: /demo/
+
+# 사이트맵 위치 (생성 시)
+# Sitemap: https://admin-samsung-vvip.web.app/sitemap.xml
+
+# 크롤링 허용 페이지를 명시적으로 지정
+Allow: /index.html
+Allow: /pages/schedule.html
+Allow: /pages/archive.html
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+
+# 크롤 속도 제한 (1초에 1페이지)
+Crawl-delay: 1
