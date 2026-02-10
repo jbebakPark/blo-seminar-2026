@@ -11,7 +11,13 @@
             ".gitignore",
             "README.md",
             "STRUCTURE.md",
-            "package.json"
+            "SECURITY.md",
+            "DEMO-ACCOUNT.md",
+            "DEPLOY.md",
+            "GITHUB-SETUP.md",
+            "package.json",
+            "*.bat",
+            "*.sh"
         ],
         "rewrites": [
             {
