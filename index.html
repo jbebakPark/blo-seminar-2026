@@ -2,8 +2,17 @@
 <html lang="ko">
 
 <head>
+    <!-- 🔒 보안 시스템 - 최우선 로드 -->
+    <script src="js/security.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 🔒 저작권 보호 -->
+    <meta name="copyright" content="© 2026 Samsung Life Insurance WM Division">
+    <meta name="author" content="Samsung Life Insurance">
+    <!-- 🔒 검색 엔진 캐시 방지 -->
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
     <title>2030 Business Live ON - 세미나 초대</title>
 
     <!-- Firebase SDK -->
@@ -36,6 +45,13 @@
             -moz-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
             text-size-adjust: 100%;
+            /* 🔒 텍스트 선택 방지 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            /* 🔒 드래그 방지 */
+            -webkit-user-drag: none;
         }
 
         .container {

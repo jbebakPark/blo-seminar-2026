@@ -28,6 +28,35 @@
         ],
         "headers": [
             {
+                "source": "**",
+                "headers": [
+                    {
+                        "key": "X-Frame-Options",
+                        "value": "DENY"
+                    },
+                    {
+                        "key": "X-Content-Type-Options",
+                        "value": "nosniff"
+                    },
+                    {
+                        "key": "X-XSS-Protection",
+                        "value": "1; mode=block"
+                    },
+                    {
+                        "key": "Referrer-Policy",
+                        "value": "strict-origin-when-cross-origin"
+                    },
+                    {
+                        "key": "Permissions-Policy",
+                        "value": "camera=(), microphone=(), geolocation=(), payment=()"
+                    },
+                    {
+                        "key": "Content-Security-Policy",
+                        "value": "default-src 'self' https://admin-samsung-vvip.web.app https://samsung2030blo.com https://www.samsung2030blo.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://firestore.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://firestore.googleapis.com https://firebase.googleapis.com; frame-ancestors 'none';"
+                    }
+                ]
+            },
+            {
                 "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|ico)",
                 "headers": [
                     {
@@ -53,20 +82,12 @@
                         "value": "noindex, nofollow, noarchive, nosnippet"
                     },
                     {
-                        "key": "X-Frame-Options",
-                        "value": "DENY"
-                    },
-                    {
                         "key": "Cache-Control",
                         "value": "no-store, no-cache, must-revalidate, max-age=0"
                     },
                     {
-                        "key": "X-Content-Type-Options",
-                        "value": "nosniff"
-                    },
-                    {
-                        "key": "Referrer-Policy",
-                        "value": "no-referrer"
+                        "key": "Pragma",
+                        "value": "no-cache"
                     }
                 ]
             },
@@ -80,6 +101,15 @@
                     {
                         "key": "Cache-Control",
                         "value": "private, no-cache"
+                    }
+                ]
+            },
+            {
+                "source": "/js/security.js",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "no-store, no-cache"
                     }
                 ]
             }
