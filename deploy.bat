@@ -2,6 +2,9 @@
 chcp 65001 >nul
 setlocal enabledelayedexpansion
 
+REM SSL 인증서 검증 우회 (회사 네트워크 환경)
+set NODE_TLS_REJECT_UNAUTHORIZED=0
+
 echo ========================================
 echo 🚀 BLO 세미나 2026 - Firebase 자동 배포
 echo ========================================

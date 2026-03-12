@@ -1,5 +1,6 @@
 {
     "hosting": {
+        "site": "admin-samsung-vvip",
         "public": ".",
         "ignore": [
             "firebase.json",
