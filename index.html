@@ -942,9 +942,9 @@
         }
 
         // 현재 표시할 데이터 파일 (Firebase 미사용시)
-        // const CURRENT_DATA_FILE = 'data-2026-02.json';
-        const CURRENT_DATA_FILE = 'data/seminars/data-2026-02.json';
-        const CURRENT_SEMINAR_ID = '2026-02';
+        // const CURRENT_DATA_FILE = 'data-2026-03.json';
+        const CURRENT_DATA_FILE = 'data/seminars/data-2026-03.json';
+        const CURRENT_SEMINAR_ID = '2026-03';
 
         let counterUnsubscribe = null;
 
@@ -975,7 +975,7 @@
                 console.error('데이터 로드 실패:', error);
                 document.getElementById('loading').innerHTML =
                     '데이터를 불러오는데 실패했습니다.<br><br>' +
-                    '로컬 테스트 모드: data-2026-02.json 파일이 필요합니다.';
+                    '로컬 테스트 모드: data-2026-03.json 파일이 필요합니다.';
             }
         }
 
@@ -1004,7 +1004,7 @@
                 updateCounterDisplay(data.offline, data.online, data.total);
             } else {
                 // 초기값
-                updateCounterDisplay(45, 128, 173);
+                updateCounterDisplay(0, 0, 0);
             }
         }
 

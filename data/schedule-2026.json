@@ -12,7 +12,10 @@
           "date": "2026-01-13",
           "type": "Forum",
           "title": "AI시대, 인간의 판단력은 어디로?",
-          "speakers": ["송길영 작가", "이동우 교수"],
+          "speakers": [
+            "송길영 작가",
+            "이동우 교수"
+          ],
           "status": "completed",
           "attendees": {
             "online": 1250,
@@ -25,8 +28,10 @@
           "date": "2026-02-24",
           "type": "Class",
           "title": "인류의 새로운 도전, 우주 탐사와 그 너머",
-          "speakers": ["강성주 박사"],
-          "status": "current",
+          "speakers": [
+            "강성주 박사"
+          ],
+          "status": "completed",
           "attendees": {
             "online": 128,
             "offline": 45,
@@ -37,9 +42,11 @@
           "id": "2026-03",
           "date": "2026-03-24",
           "type": "Class",
-          "title": "인간과 로봇이 함께하는 미래",
-          "speakers": ["미정"],
-          "status": "upcoming"
+          "title": "피지컬 AI와 로봇 대항해의 시대",
+          "speakers": [
+            "조규진 교수"
+          ],
+          "status": "current"
         }
       ]
     },
@@ -52,7 +59,9 @@
           "date": "2026-04-21",
           "type": "Forum",
           "title": "2030 WM 자산 포트폴리오 전략",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         },
         {
@@ -60,7 +69,9 @@
           "date": "2026-05-19",
           "type": "Class",
           "title": "대한민국 부동산 시장 전망과 투자 전략",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         },
         {
@@ -68,7 +79,9 @@
           "date": "2026-06-16",
           "type": "Class",
           "title": "암호화폐-블록체인 기술과 디지털 경제",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         }
       ]
@@ -82,7 +95,9 @@
           "date": "2026-07-21",
           "type": "Forum",
           "title": "세계 축구 명장들을 통해서 본 리더십",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         },
         {
@@ -90,7 +105,9 @@
           "date": "2026-08-18",
           "type": "Class",
           "title": "리더를 위한 정신과 의사의 조언",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         },
         {
@@ -98,7 +115,9 @@
           "date": "2026-09-15",
           "type": "Class",
           "title": "타인의 마음을 얻는 소통",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         }
       ]
@@ -112,7 +131,9 @@
           "date": "2026-10-20",
           "type": "Class",
           "title": "Next transition 2027 : 소비 트렌드",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         },
         {
@@ -120,7 +141,9 @@
           "date": "2026-11-17",
           "type": "Forum",
           "title": "Next transition 2027 : 국제정세",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         },
         {
@@ -128,7 +151,9 @@
           "date": "2026-12-15",
           "type": "Class",
           "title": "Next transition 2027 : 경제/투자",
-          "speakers": ["미정"],
+          "speakers": [
+            "미정"
+          ],
           "status": "upcoming"
         }
       ]
