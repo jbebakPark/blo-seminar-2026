@@ -184,100 +184,61 @@ def make_wide_og(out_path):
 # 세로형 카드 630×1200 (카톡 이미지 첨부용)
 # ══════════════════════════════════════════════════
 def make_vertical_card(out_path):
-    W, H = 630, 1400
+    W, H   = 630, 1400
+    HDR    = 400   # 헤더 고정 높이 (충분한 여백)
+
+    # Y 좌표 고정값 (실측 기준)
+    Y_BADGE = 22
+    Y_NUM   = 60    # 03
+    Y_MARCH = 166   # 2026 MARCH
+    Y_T1    = 192   # 피지컬 AI와 로봇
+    Y_T2    = 248   # 대항해의 시대  (끝 y ≈ 295, HDR=400 이므로 여백 105px)
 
     # ── 폰트 로드 ──
-    fb  = load_font(F_BOLD,  13)
-    fmn = load_font(F_BLACK, 90)
-    fmy = load_font(F_BOLD,  17)
-    ft  = load_font(F_BLACK, 42)
-    ft2 = load_font(F_BLACK, 40)
-    fsub   = load_font(F_BOLD2, 19)
-    fcard_l = load_font(F_BOLD2, 17)
+    fb      = load_font(F_BOLD,    13)
+    fmn     = load_font(F_BLACK,   90)
+    fmy     = load_font(F_BOLD,    17)
+    ft      = load_font(F_BLACK,   42)
+    ft2     = load_font(F_BLACK,   40)
+    fsub    = load_font(F_BOLD2,   19)
+    fcard_l = load_font(F_BOLD2,   17)
     fcard_r = load_font(F_REGULAR, 17)
-    fprof_t = load_font(F_BLACK, 22)
-    fprof_s = load_font(F_BOLD2, 17)
+    fprof_t = load_font(F_BLACK,   22)
+    fprof_s = load_font(F_BOLD2,   17)
     fprof_r = load_font(F_REGULAR, 15)
-    fcode_t = load_font(F_BOLD2, 16)
-    fcode_v = load_font(F_BLACK, 36)
-    fstep_t = load_font(F_BOLD2, 17)
+    fcode_t = load_font(F_BOLD2,   16)
+    fcode_v = load_font(F_BLACK,   36)
+    fstep_t = load_font(F_BOLD2,   17)
     fstep_r = load_font(F_REGULAR, 16)
-    fbtn    = load_font(F_BLACK, 22)
+    fbtn    = load_font(F_BLACK,   22)
     foff    = load_font(F_REGULAR, 15)
-    foff_b  = load_font(F_BOLD2, 15)
-    ffoot_t = load_font(F_BOLD, 16)
+    foff_b  = load_font(F_BOLD2,   15)
+    ffoot_t = load_font(F_BOLD,    16)
     ffoot_r = load_font(F_REGULAR, 13)
 
-    # ── 1단계: 임시 이미지에 헤더 요소 그려서 실제 픽셀 끝 측정 ──
-    tmp = Image.new("RGB", (W, 600), NAVY)
-    td  = ImageDraw.Draw(tmp)
-
-    PAD = 22
-    y = PAD
-
-    # 뱃지
-    td.rectangle([24, y, 24+175, y+28], fill=BLUE)
-    td.text((30, y+5), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
-    y += 38  # 뱃지 높이+여백
-
-    # 숫자 03
-    y_num = y
-    td.text((20, y_num), "03", font=fmn, fill=GOLD)
-    y += 100  # 숫자 높이
-
-    # 2026 MARCH
-    y_march = y
-    td.text((22, y_march), "2026  MARCH", font=fmy, fill=MID_GRAY)
-    y += 28
-
-    # 제목1
-    y_t1 = y + 8
-    td.text((24, y_t1), "피지컬 AI와 로봇", font=ft, fill=WHITE)
-    y = y_t1 + 55  # 충분한 줄 간격
-
-    # 제목2
-    y_t2 = y
-    td.text((24, y_t2), "대항해의 시대", font=ft2, fill=GOLD)
-
-    # 실제 렌더링된 픽셀의 최하단 y 좌표 스캔
-    last_text_y = y_t2
-    for scan_y in range(y_t2 + 10, y_t2 + 80):
-        row_has_text = False
-        for scan_x in range(20, W - 70):
-            px = tmp.getpixel((scan_x, scan_y))
-            # 네이비 배경(13,26,46)과 다른 픽셀 = 텍스트
-            if not (8 <= px[0] <= 20 and 20 <= px[1] <= 35 and 40 <= px[2] <= 55):
-                row_has_text = True
-                break
-        if row_has_text:
-            last_text_y = scan_y
-
-    HDR = last_text_y + 45  # 실측 하단 + 45px 여백
-
-    # ── 2단계: 실제 이미지 그리기 ──
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    # 헤더 배경
+    # ── 헤더 배경 ──
     draw.rectangle([0, 0, W, HDR], fill=NAVY)
 
-    # 오른쪽 장식 세로선
+    # 오른쪽 장식 세로선 (헤더 오른쪽에만)
     for i, (hr, c) in enumerate([(0.55,40),(0.75,70),(1.0,110),(0.80,70),(0.60,45),(0.88,85)]):
         bh = int(HDR * hr)
         lc = tuple(min(255, LIGHT_BLUE[j]+c) for j in range(3))
         draw.rectangle([W-55+i*9, HDR-bh, W-51+i*9, HDR], fill=lc)
 
     # BLO 뱃지
-    draw.rectangle([24, PAD, 24+175, PAD+28], fill=BLUE)
-    draw.text((30, PAD+5), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
+    draw.rectangle([24, Y_BADGE, 24+175, Y_BADGE+28], fill=BLUE)
+    draw.text((30, Y_BADGE+5), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
 
-    # 숫자·연월·제목 (임시와 동일한 y 좌표)
-    draw.text((20, y_num),   "03",           font=fmn, fill=GOLD)
-    draw.text((22, y_march), "2026  MARCH",  font=fmy, fill=MID_GRAY)
-    draw.text((24, y_t1),    "피지컬 AI와 로봇", font=ft,  fill=WHITE)
-    draw.text((24, y_t2),    "대항해의 시대",    font=ft2, fill=GOLD)
+    # 숫자 · 연월 · 제목
+    draw.text((20, Y_NUM),   "03",              font=fmn, fill=GOLD)
+    draw.text((22, Y_MARCH), "2026  MARCH",     font=fmy, fill=MID_GRAY)
+    draw.text((24, Y_T1),    "피지컬 AI와 로봇", font=ft,  fill=WHITE)
+    draw.text((24, Y_T2),    "대항해의 시대",    font=ft2, fill=GOLD)
 
-    # 본문 배경
+    # ── 본문 배경 ──
     draw.rectangle([0, HDR, W, H], fill=(248, 250, 253))
 
     # 구분선 + 부제목
@@ -367,7 +328,7 @@ def make_vertical_card(out_path):
 
     img.save(out_path, "PNG", optimize=True)
     size_kb = os.path.getsize(out_path) // 1024
-    print(f"✅ 세로형 저장: {out_path}  ({size_kb} KB)  HDR={HDR}px  제목끝={last_text_y}px")
+    print(f"✅ 세로형 저장: {out_path}  ({size_kb} KB)  HDR={HDR}px")
 
 
 
