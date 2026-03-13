@@ -188,9 +188,30 @@ def make_vertical_card(out_path):
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    HDR = 360   # 헤더 높이
+    # ── Y 좌표 자동 계산 ──
+    fb  = load_font(F_BOLD,  13)
+    fmn = load_font(F_BLACK, 90)
+    fmy = load_font(F_BOLD,  17)
+    ft  = load_font(F_BLACK, 42)
+    ft2 = load_font(F_BLACK, 40)
 
-    # ── 상단 헤더 (높이 HDR) ──
+    _tmp = Image.new("RGB", (10,10))
+    _d   = ImageDraw.Draw(_tmp)
+    bb_badge = _d.textbbox((0,0), "2030 BUSINESS LIVE ON", font=fb)
+    bb_num   = _d.textbbox((0,0), "03",           font=fmn)
+    bb_march = _d.textbbox((0,0), "2026  MARCH",  font=fmy)
+    bb_t1    = _d.textbbox((0,0), "피지컬 AI와 로봇", font=ft)
+    bb_t2    = _d.textbbox((0,0), "대항해의 시대",    font=ft2)
+
+    PAD = 22
+    y_badge = PAD
+    y_num   = y_badge + 28 + 10           # 뱃지 rect 아래
+    y_march = y_num   + (bb_num[3]   - bb_num[1])   + 6
+    y_t1    = y_march + (bb_march[3] - bb_march[1]) + 14
+    y_t2    = y_t1    + (bb_t1[3]    - bb_t1[1])    + 10
+    HDR     = y_t2    + (bb_t2[3]    - bb_t2[1])    + 36  # 자동 결정!
+
+    # ── 상단 헤더 ──
     draw.rectangle([0, 0, W, HDR], fill=NAVY)
 
     # 오른쪽 장식 세로선
@@ -200,21 +221,16 @@ def make_vertical_card(out_path):
         draw.rectangle([W - 55 + i*9, HDR - bar_h, W - 51 + i*9, HDR], fill=lc)
 
     # BLO 뱃지
-    fb = load_font(F_BOLD, 13)
-    draw.rectangle([24, 22, 24 + 175, 22 + 28], fill=BLUE)
-    draw.text((30, 27), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
+    draw.rectangle([24, y_badge, 24 + 175, y_badge + 28], fill=BLUE)
+    draw.text((30, y_badge + 5), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
 
     # 월 숫자 + 연월
-    fmn = load_font(F_BLACK, 96)
-    draw.text((20, 52), "03", font=fmn, fill=GOLD)
-    fmy = load_font(F_BOLD, 17)
-    draw.text((22, 158), "2026  MARCH", font=fmy, fill=MID_GRAY)
+    draw.text((20, y_num),   "03",          font=fmn, fill=GOLD)
+    draw.text((22, y_march), "2026  MARCH", font=fmy, fill=MID_GRAY)
 
-    # 제목 두 줄 — 헤더 안에 충분한 여백 확보
-    ft  = load_font(F_BLACK, 42)
-    ft2 = load_font(F_BLACK, 40)
-    draw.text((24, 192), "피지컬 AI와 로봇", font=ft,  fill=WHITE)
-    draw.text((24, 244), "대항해의 시대",    font=ft2, fill=GOLD)
+    # 제목 두 줄
+    draw.text((24, y_t1), "피지컬 AI와 로봇", font=ft,  fill=WHITE)
+    draw.text((24, y_t2), "대항해의 시대",    font=ft2, fill=GOLD)
 
     # ── 본문 영역 ──
     draw.rectangle([0, HDR, W, H], fill=(248, 250, 253))
