@@ -103,128 +103,154 @@ html, body {
 .sp-creds { font-size:11px;color:#445566;line-height:1.8; }
 
 /* ══════════════════════════════
-   접수 섹션 (핵심!)
+   접수 섹션
 ══════════════════════════════ */
 .apply-sec {
-  background:#0D2244;
-  padding:28px 24px;
+  background:#F0F4FA;
+  padding:28px 20px;
+  border-top:3px solid #1050A0;
 }
 .apply-title {
-  font-size:18px;font-weight:900;color:#fff;
-  margin-bottom:6px;letter-spacing:-0.5px;
+  font-size:18px;font-weight:900;color:#0D1A2E;
+  margin-bottom:5px;letter-spacing:-0.5px;
 }
-.apply-subtitle { font-size:12px;color:#8BB8D8;margin-bottom:20px; }
+.apply-subtitle { font-size:12px;color:#6677AA;margin-bottom:18px; }
 
-/* 접수 방법 선택 탭 */
-.apply-tabs { display:flex; gap:8px; margin-bottom:20px; }
-.tab-btn {
-  flex:1; padding:11px 8px;
-  border:2px solid #2A4A7C; background:transparent;
-  color:#8BB8D8; font-size:13px; font-weight:700;
-  border-radius:6px; cursor:pointer;
-  transition:all 0.2s;
-}
-.tab-btn.active {
-  background:#1A6FE8; border-color:#1A6FE8; color:#fff;
+/* ── 통합 신청 박스 ── */
+.apply-box {
+  background:#fff;
+  border:1.5px solid #D0D8E8;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
 }
 
-/* 온라인 신청 패널 */
-.panel { display:none; }
-.panel.active { display:block; }
-
-.panel-box {
-  background:#0A1628;
-  border:1px solid #2A4A7C;
-  border-radius:8px;
-  padding:18px 20px;
+/* 온라인 섹션 */
+.online-sec {
+  padding:20px 20px;
+  border-bottom:1.5px solid #E8EEF6;
 }
+.sec-header {
+  font-size:14px;font-weight:800;color:#1050A0;
+  margin-bottom:16px;display:flex;align-items:center;gap:6px;
+  padding-bottom:10px;border-bottom:1px solid #E8EEF6;
+}
+
 .panel-step {
   display:flex; align-items:flex-start; gap:12px;
-  margin-bottom:14px;
+  margin-bottom:13px;
 }
 .panel-step:last-child { margin-bottom:0; }
 .step-num {
-  width:24px;height:24px;background:#1A6FE8;border-radius:50%;
+  width:22px;height:22px;background:#1050A0;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px;
+  font-size:11px;font-weight:900;color:#fff;flex-shrink:0;margin-top:2px;
 }
-.step-text { font-size:13px;color:#C8D8E8;line-height:1.6; }
-.step-text strong { color:#fff;font-size:14px; }
-.step-text a { color:#5CB8FF;text-decoration:none; }
-
-/* 오프라인 신청 패널 */
-.offline-box {
-  background:#0A1628;
-  border:1px solid #C9A84C;
-  border-radius:8px;
-  padding:18px 20px;
-}
-.offline-row { display:flex;gap:10px;align-items:flex-start;margin-bottom:12px; }
-.offline-row:last-child { margin-bottom:0; }
-.off-dot { width:7px;height:7px;background:#C9A84C;border-radius:50%;margin-top:6px;flex-shrink:0; }
-.off-label { font-size:11px;font-weight:700;color:#C9A84C;margin-bottom:2px; }
-.off-val   { font-size:13px;color:#fff;line-height:1.6; }
-.off-sub   { font-size:11px;color:#9BB8D0;margin-top:2px; }
-.off-hr    { height:1px;background:#1E3A5A;margin:12px 0; }
-
-/* 전화 신청 버튼 */
-.call-btn {
-  display:block; width:100%; margin-top:16px;
-  background:#C9A84C; color:#0A1628;
-  font-size:15px; font-weight:900;
-  padding:14px; border-radius:6px;
-  text-align:center; text-decoration:none;
-  border:none; cursor:pointer;
-  transition:background 0.15s;
-}
-.call-btn:active { background:#B8922A; }
-
-/* 온라인 신청 버튼 */
-.online-btn {
-  display:block; width:100%; margin-top:16px;
-  background:#1A6FE8; color:#fff;
-  font-size:15px; font-weight:900;
-  padding:14px; border-radius:6px;
-  text-align:center; text-decoration:none;
-  border:none; cursor:pointer;
-  transition:background 0.15s;
-}
-.online-btn:active { background:#0a50c0; }
+.step-text { font-size:13px;color:#334455;line-height:1.65; }
+.step-text strong { color:#0D1A2E;font-size:13.5px; }
+.step-text a { color:#1A6FE8;text-decoration:none;font-weight:600; }
 
 /* 추천인 코드 박스 */
 .referral-box {
-  margin-top:14px;
-  background:#1A2840;
-  border:1px solid #2A4A7C;
-  border-radius:6px;
-  padding:14px 16px;
+  margin-top:16px;
+  background:#FFFBF0;
+  border:2px solid #E8B84B;
+  border-radius:10px;
+  padding:16px;
   text-align:center;
 }
-.ref-label { font-size:11px;color:#8BB8D8;margin-bottom:6px; }
-.ref-code  { font-size:28px;font-weight:900;color:#FFD700;letter-spacing:4px; }
-.ref-copy  {
-  display:inline-block; margin-top:8px;
-  background:transparent; border:1px solid #2A4A7C;
-  color:#8BB8D8; font-size:11px; padding:5px 14px;
-  border-radius:4px; cursor:pointer;
+.ref-label {
+  font-size:11.5px;color:#B8860B;font-weight:700;
+  margin-bottom:8px;letter-spacing:0.2px;
 }
-.ref-copy:active { background:#1E3A5A; }
+.ref-code { font-size:32px;font-weight:900;color:#1050A0;letter-spacing:6px; }
 
-/* 카카오 문의 버튼 */
-.kakao-btn {
-  display:block; width:100%; margin-top:10px;
-  background:#FEE500; color:#1A1A1A;
-  font-size:14px; font-weight:700;
-  padding:13px; border-radius:6px;
+/* 코드 복사 버튼 */
+.ref-copy {
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:12px;
+  background:#1050A0; border:none;
+  color:#fff; font-size:13px;font-weight:700;
+  padding:10px 24px; border-radius:6px; cursor:pointer;
+  transition:all 0.2s;
+  box-shadow:0 2px 8px rgba(16,80,160,0.25);
+}
+.ref-copy:active { background:#0a3878; transform:scale(0.97); }
+.ref-copy.copied { background:#16A34A; box-shadow:0 2px 8px rgba(22,163,74,0.3); }
+
+/* 신청 버튼 - disabled */
+.online-btn {
+  display:block; width:100%; margin-top:14px;
+  font-size:15px; font-weight:900;
+  padding:15px; border-radius:8px;
+  text-align:center; text-decoration:none;
+  border:none; cursor:not-allowed;
+  transition:all 0.3s;
+  background:#E2E8F0; color:#94A3B8;
+  pointer-events:none;
+  letter-spacing:-0.3px;
+}
+.online-btn.enabled {
+  background:#1050A0; color:#fff;
+  cursor:pointer;
+  pointer-events:auto;
+  box-shadow:0 4px 16px rgba(16,80,160,0.35);
+  animation: pulse-btn 0.4s ease;
+}
+.online-btn.enabled:active { background:#0a3878; transform:scale(0.98); }
+@keyframes pulse-btn {
+  0%   { transform:scale(1); }
+  50%  { transform:scale(1.02); }
+  100% { transform:scale(1); }
+}
+.lock-msg {
+  font-size:11px;color:#94A3B8;text-align:center;
+  margin-top:7px;transition:opacity 0.3s;
+}
+.lock-msg.hidden { opacity:0; }
+
+/* 구분선 */
+.box-divider { height:1.5px;background:#E8EEF6; }
+
+/* 오프라인 섹션 */
+.offline-sec { padding:20px 20px; }
+.offline-row { display:flex;gap:10px;align-items:flex-start;margin-bottom:11px; }
+.offline-row:last-child { margin-bottom:0; }
+.off-dot { width:8px;height:8px;background:#E8A020;border-radius:50%;margin-top:5px;flex-shrink:0; }
+.off-label { font-size:11px;font-weight:700;color:#B8860B;margin-bottom:2px; }
+.off-val   { font-size:13.5px;color:#1A2A3A;line-height:1.6;font-weight:500; }
+.off-sub   { font-size:11px;color:#667788;margin-top:2px; }
+.off-hr    { height:1px;background:#E8EEF6;margin:11px 0; }
+
+/* 전화/카카오 버튼 */
+.call-btn {
+  display:block; width:100%; margin-top:14px;
+  background:#1050A0; color:#fff;
+  font-size:14px; font-weight:900;
+  padding:14px; border-radius:8px;
   text-align:center; text-decoration:none;
   border:none; cursor:pointer;
+  transition:background 0.15s;
+  box-shadow:0 2px 8px rgba(16,80,160,0.2);
 }
+.call-btn:active { background:#0a3878; }
+.kakao-btn {
+  display:block; width:100%; margin-top:8px;
+  background:#FEE500; color:#1A1A1A;
+  font-size:14px; font-weight:700;
+  padding:14px; border-radius:8px;
+  text-align:center; text-decoration:none;
+  border:none; cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+.kakao-btn:active { background:#F0D800; }
 
 /* ══ 하단 노트 ══ */
 .note-bar {
-  background:#050E1C;
+  background:#F0F4FA;
+  border-top:1px solid #D8E0EE;
   padding:10px 24px 12px;
-  font-size:10px;color:#556070;text-align:center;
+  font-size:10px;color:#8899AA;text-align:center;
 }
 </style>
 </head>
@@ -320,56 +346,57 @@ html, body {
   <!-- ⑥ 접수 섹션 (올인원 핵심) -->
   <div class="apply-sec">
     <div class="apply-title">📋 세미나 신청하기</div>
-    <div class="apply-subtitle">아래에서 신청 방법을 선택해주세요</div>
+    <div class="apply-subtitle">추천인 코드 복사 후 온라인 신청이 가능합니다</div>
 
-    <!-- 탭 선택 -->
-    <div class="apply-tabs">
-      <button class="tab-btn active" onclick="switchTab('online')">🎥 온라인 신청</button>
-      <button class="tab-btn"        onclick="switchTab('offline')">🍽️ 오프라인 신청</button>
-    </div>
+    <!-- 통합 신청 박스 -->
+    <div class="apply-box">
 
-    <!-- 온라인 패널 -->
-    <div id="panel-online" class="panel active">
-      <div class="panel-box">
+      <!-- 🎥 온라인 신청 -->
+      <div class="online-sec">
+        <div class="sec-header">🎥 온라인 강연 신청</div>
+
         <div class="panel-step">
           <div class="step-num">1</div>
           <div class="step-text">
-            <strong>사이트 접속</strong><br>
-            <a href="http://www.samsung2030blo.com" target="_blank">www.samsung2030blo.com</a> 접속
+            <strong>추천인 코드 복사</strong><br>
+            아래 버튼을 눌러 코드를 복사하세요
           </div>
         </div>
         <div class="panel-step">
           <div class="step-num">2</div>
           <div class="step-text">
-            <strong>강연 신청</strong><br>
-            추천인 코드 입력 후 신청 완료
+            <strong>사이트 접속 후 신청</strong><br>
+            <a href="http://www.samsung2030blo.com" target="_blank">www.samsung2030blo.com</a>
           </div>
         </div>
         <div class="panel-step">
           <div class="step-num">3</div>
           <div class="step-text">
             <strong>당일 시청</strong><br>
-            3/24(화) 7:15분부터 접속 가능<br>
-            <span style="color:#8BB8D8;font-size:11px">재방송 당일 20:00~22:00</span>
+            3/24(화) 7:15분부터 접속 가능
+            <span style="display:block;color:#8BB8D8;font-size:11px;margin-top:2px">재방송 당일 20:00~22:00</span>
           </div>
         </div>
+
+        <!-- 추천인 코드 -->
+        <div class="referral-box">
+          <div class="ref-label">⚠️ 신청 시 반드시 입력 — 추천인 코드</div>
+          <div class="ref-code" id="refCode">9618628</div>
+          <button class="ref-copy" id="copyBtn" onclick="copyCode()">📋 코드 복사하기</button>
+        </div>
+
+        <!-- 신청 버튼 (코드 복사 전 disabled) -->
+        <a class="online-btn" id="onlineBtn" href="http://www.samsung2030blo.com" target="_blank">
+          🔒 추천인 코드를 먼저 복사해주세요
+        </a>
+        <div class="lock-msg" id="lockMsg">코드 복사 후 신청 버튼이 활성화됩니다</div>
       </div>
 
-      <!-- 추천인 코드 -->
-      <div class="referral-box">
-        <div class="ref-label">⚠️ 신청 시 반드시 입력하세요 — 추천인 코드</div>
-        <div class="ref-code" id="refCode">9618628</div>
-        <button class="ref-copy" onclick="copyCode()">📋 코드 복사</button>
-      </div>
+      <div class="box-divider"></div>
 
-      <a class="online-btn" href="http://www.samsung2030blo.com" target="_blank">
-        🎥 온라인 강연 신청하기
-      </a>
-    </div>
-
-    <!-- 오프라인 패널 -->
-    <div id="panel-offline" class="panel">
-      <div class="offline-box">
+      <!-- 🍽️ 오프라인 신청 -->
+      <div class="offline-sec">
+        <div class="sec-header">🍽️ 오프라인 조찬 신청</div>
         <div class="offline-row">
           <div class="off-dot"></div>
           <div>
@@ -395,15 +422,15 @@ html, body {
             <div class="off-sub">삼성금융캠퍼스 B2F 비전홀<br>서울 서초구 사임당로 23길 27</div>
           </div>
         </div>
+        <a class="call-btn" href="tel:01051372327">
+          📞 전화로 신청하기 &nbsp;|&nbsp; 010-5137-2327
+        </a>
+        <a class="kakao-btn" href="https://open.kakao.com/o/s15lHyCh" target="_blank">
+          💬 카카오톡으로 문의하기
+        </a>
       </div>
 
-      <a class="call-btn" href="tel:01051372327">
-        📞 전화로 신청하기 &nbsp;|&nbsp; 010-5137-2327
-      </a>
-      <a class="kakao-btn" href="https://open.kakao.com/o/s15lHyCh" target="_blank">
-        💬 카카오톡으로 문의하기
-      </a>
-    </div>
+    </div><!-- /apply-box -->
 
   </div><!-- /apply-sec -->
 
@@ -412,30 +439,71 @@ html, body {
 </div><!-- /wrap -->
 
 <script>
-  function switchTab(type) {
-    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-    document.getElementById('panel-' + type).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
+  var codeCopied = false;
 
   function copyCode() {
     var code = document.getElementById('refCode').innerText;
+    var copyBtn  = document.getElementById('copyBtn');
+    var onlineBtn = document.getElementById('onlineBtn');
+    var lockMsg  = document.getElementById('lockMsg');
+
+    function onCopied() {
+      codeCopied = true;
+
+      // 복사 버튼 → 완료 표시
+      copyBtn.textContent = '✅ 코드 복사 완료!';
+      copyBtn.classList.add('copied');
+      copyBtn.disabled = true;
+
+      // 신청 버튼 활성화
+      onlineBtn.classList.add('enabled');
+      onlineBtn.textContent = '🎥 온라인 강연 신청하기';
+
+      // 안내 문구 숨김
+      lockMsg.classList.add('hidden');
+    }
+
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).then(function(){
-        alert('✅ 추천인 코드 ' + code + ' 가 복사됐습니다!\n\n신청 시 추천인 코드란에 붙여넣기 해주세요.');
+      navigator.clipboard.writeText(code).then(onCopied).catch(function(){
+        fallbackCopy(code, onCopied);
       });
     } else {
-      var el = document.createElement('textarea');
-      el.value = code;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-      alert('✅ 추천인 코드 ' + code + ' 가 복사됐습니다!\n\n신청 시 추천인 코드란에 붙여넣기 해주세요.');
+      fallbackCopy(code, onCopied);
     }
   }
+
+  function fallbackCopy(text, cb) {
+    var el = document.createElement('textarea');
+    el.value = text;
+    el.style.position = 'fixed';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    el.focus(); el.select();
+    try { document.execCommand('copy'); cb(); } catch(e) {}
+    document.body.removeChild(el);
+  }
+
+  // 신청 버튼 클릭 시 코드 미복사 방어
+  document.getElementById('onlineBtn').addEventListener('click', function(e){
+    if (!codeCopied) {
+      e.preventDefault();
+      // 추천인 코드 박스 흔들기 효과
+      var box = document.querySelector('.referral-box');
+      box.style.animation = 'none';
+      box.offsetHeight; // reflow
+      box.style.animation = 'shake 0.4s ease';
+    }
+  });
 </script>
+<style>
+@keyframes shake {
+  0%,100%{ transform:translateX(0); }
+  20%    { transform:translateX(-6px); }
+  40%    { transform:translateX(6px); }
+  60%    { transform:translateX(-4px); }
+  80%    { transform:translateX(4px); }
+}
+</style>
 
 </body>
 </html>
