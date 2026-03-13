@@ -2,18 +2,9 @@
 <html lang="ko">
 
 <head>
-    <!-- 🔒 보안 시스템 - 최우선 로드 -->
-    <script src="js/security.js"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 🔒 저작권 보호 -->
-    <meta name="copyright" content="© 2026 Samsung Life Insurance WM Division">
-    <meta name="author" content="Samsung Life Insurance">
-    <!-- 🔒 검색 엔진 캐시 방지 -->
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <title>2030 Business Live ON - 세미나 초대</title>
+    <title>2030 Business Live ON - 세미나 안내</title>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -45,13 +36,6 @@
             -moz-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
             text-size-adjust: 100%;
-            /* 🔒 텍스트 선택 방지 */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            /* 🔒 드래그 방지 */
-            -webkit-user-drag: none;
         }
 
         .container {
@@ -399,53 +383,6 @@
             border: 3px solid #FDD835;
         }
 
-        /* 신청 대상 안내 섹션 */
-        .target-audience-section {
-            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
-            padding: 25px 30px;
-            text-align: center;
-            border-bottom: 3px solid #ff9800;
-        }
-
-        .target-audience-title {
-            font-size: 16px;
-            color: #e65100;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .target-audience-text {
-            font-size: 18px;
-            color: #0f3460;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .inquiry-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #FEE500 0%, #FFEB3B 100%);
-            color: #3c1e1e;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s;
-            border: 2px solid #FDD835;
-            min-height: 48px;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .inquiry-button:hover,
-        .inquiry-button:active {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(254, 229, 0, 0.4);
-            background: linear-gradient(135deg, #FFEB3B 0%, #FDD835 100%);
-        }
-
         .footer {
             background: linear-gradient(135deg, #e8f4fd 0%, #d4e7f7 100%);
             padding: 40px;
@@ -658,24 +595,6 @@
             .blo-badge {
                 font-size: 14px;
                 padding: 12px 25px;
-            }
-
-            /* 신청 대상 안내 섹션 */
-            .target-audience-section {
-                padding: 20px 15px;
-            }
-
-            .target-audience-title {
-                font-size: 14px;
-            }
-
-            .target-audience-text {
-                font-size: 16px;
-            }
-
-            .inquiry-button {
-                font-size: 14px;
-                padding: 10px 25px;
             }
 
             /* 카운터 섹션 */
@@ -958,9 +877,9 @@
         }
 
         // 현재 표시할 데이터 파일 (Firebase 미사용시)
-        // const CURRENT_DATA_FILE = 'data-2026-03.json';
+        // const CURRENT_DATA_FILE = 'data-2026-02.json';
         const CURRENT_DATA_FILE = 'data/seminars/data-2026-03.json';
-        const CURRENT_SEMINAR_ID = '2026-03';
+        const CURRENT_SEMINAR_ID = '2026-02';
 
         let counterUnsubscribe = null;
 
@@ -1020,7 +939,7 @@
                 updateCounterDisplay(data.offline, data.online, data.total);
             } else {
                 // 초기값
-                updateCounterDisplay(0, 0, 0);
+                updateCounterDisplay(45, 128, 173);
             }
         }
 
@@ -1087,7 +1006,7 @@
                     <div class="top-nav">
                         <a href="pages/schedule.html" class="nav-link">📅 연간 일정</a>
                         <a href="pages/archive.html" class="nav-link">📚 지난 세미나</a>
-                        <!-- <a href="pages/admin.html" class="nav-link">⚙️ 관리자</a> -->
+                        <a href="pages/admin.html" class="nav-link">⚙️ 관리자</a>
                     </div>
                     
                     <div class="top-logo">
@@ -1096,16 +1015,7 @@
                         <div class="blo-badge">2030 BUSINESS LIVE ON</div>
                     </div>
                     
-                    <div class="target-audience-section">
-                        <div class="target-audience-title">📢 세미나 신청 대상 안내</div>
-                        <div class="target-audience-text">CEO(회장) 및 임원, 자산가</div>
-                        <a href="https://open.kakao.com/o/sleUSUei" class="inquiry-button" target="_blank">
-                            💬 세미나 참석 문의
-                        </a>
-                    </div>
-                    
-                    <!-- 🔒 관리자 전용: 실시간 신청 현황 (일반 사용자에게 숨김) -->
-                    <div class="counter-section" style="display: none;" id="adminCounterSection">
+                    <div class="counter-section">
                         <div class="counter-title">🎉 실시간 신청 현황</div>
                         <div class="counter-display">
                             <div class="counter-box">
@@ -1340,7 +1250,7 @@
                     <div class="footer">
                         <p><strong>2030 Business Live ON</strong></p>
                         <p style="margin-top: 12px;">대한민국 최고 석학들과 함께하는 프리미엄 경영 세미나</p>
-                        <p style="margin-top: 25px; color: #666;">주최: ${data.organizer}</p>
+                        <p style="margin-top: 25px; color: #666;">주체: ${data.organizer}</p>
                     </div>
                 </div>
             `;

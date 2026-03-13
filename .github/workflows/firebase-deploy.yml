@@ -35,10 +35,14 @@ jobs:
 
       - name: 🚀 Firebase Hosting 배포
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ADMIN_SAMSUNG_VVIP }}
         run: |
           echo "🔥 Firebase에 배포 중..."
-          firebase deploy --only hosting --token $FIREBASE_TOKEN --non-interactive
+          # GitHub Secrets에 저장한 서비스 계정 JSON을 파일로 생성
+          echo "$FIREBASE_SERVICE_ACCOUNT_JSON" > /tmp/firebase-service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-service-account.json
+          # 프로젝트 명시 (admin-samsung-vvip)로 배포
+          firebase deploy --only hosting --project admin-samsung-vvip --non-interactive
           echo "✅ 배포 완료!"
 
       - name: 📊 배포 결과 요약
