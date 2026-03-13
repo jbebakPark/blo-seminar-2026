@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta property="og:title" content="피지컬 AI와 로봇 대항해의 시대 | 2030 BLO 3월 세미나">
+<meta property="og:description" content="서울대학교 조규진 교수와 함께 로봇으로 개척하는 신항로 | 2026.3.24(화) 오전 7:30~9:00">
+<meta property="og:url" content="https://admin-samsung-vvip.web.app">
+<title>피지컬 AI와 로봇 대항해의 시대 | 2030 BLO 3월</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: #05090F;
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 전체 클릭 래퍼 */
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 540px;
+    background: #0A1628;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── 상단 헤더 ── */
+  .header {
+    background: #0D2244;
+    padding: 28px 32px 20px;
+    position: relative;
+    border-bottom: 3px solid #C9A84C;
+  }
+
+  .deco-lines {
+    position: absolute;
+    right: 0; top: 0;
+    display: flex; gap: 5px;
+    height: 100%; align-items: flex-start;
+  }
+  .deco-lines span {
+    display: block;
+    width: 5px;
+    background: #4A9ED6;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .blo-badge {
+    background: #fff;
+    padding: 6px 14px 8px;
+    line-height: 1.2;
+  }
+  .blo-badge .blo-sub  { font-size: 9px;  font-weight: 700; color: #0A1628; letter-spacing: 1px; }
+  .blo-badge .blo-main { font-size: 13px; font-weight: 900; color: #0A1628; letter-spacing: 2px; }
+
+  .month-num   { font-size: 72px; font-weight: 900; color: #fff; line-height: 1; font-style: italic; }
+  .month-label { color: #8BB8D4; font-size: 13px; line-height: 1.6; }
+  .month-label strong { display: block; font-size: 11px; font-weight: 400; }
+
+  /* ── 타이틀 ── */
+  .title-section {
+    padding: 36px 32px 28px;
+    background: #0D2244;
+  }
+  .title-section h1 {
+    font-size: 42px; font-weight: 900; color: #fff;
+    line-height: 1.25; letter-spacing: -1px; word-break: keep-all;
+  }
+  .title-section h1 span { color: #C9A84C; }
+  .gold-bar { width: 60px; height: 4px; background: #C9A84C; margin-top: 18px; }
+
+  /* ── 본문 ── */
+  .body-section {
+    background: #EBF1F8;
+    padding: 32px 32px 28px 40px;
+    position: relative;
+  }
+  .body-section::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0; width: 5px;
+    background: linear-gradient(to bottom, #C9A84C, #0A1628);
+  }
+  .body-section p {
+    font-size: 15px; color: #1A2A3A;
+    line-height: 1.8; word-break: keep-all; margin-left: 5px;
+  }
+  .body-section p + p { margin-top: 14px; }
+
+  /* ── 정보 카드 ── */
+  .info-section { background: #0D2244; padding: 28px; }
+  .info-card {
+    border: 1px solid #C9A84C;
+    padding: 22px 24px;
+    background: #0A1628;
+  }
+  .info-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 18px; }
+  .info-row:last-child { margin-bottom: 0; }
+  .info-dot {
+    width: 10px; height: 10px; background: #C9A84C;
+    border-radius: 50%; margin-top: 5px; flex-shrink: 0;
+  }
+  .info-label { font-size: 14px; font-weight: 700; color: #C9A84C; margin-bottom: 4px; }
+  .info-value  { font-size: 14px; color: #fff; line-height: 1.6; }
+  .info-note   { font-size: 11px; color: #9BB8D0; margin-top: 3px; }
+  .info-link   { color: #5CB8FF; }
+  .info-divider { height: 1px; background: #1E3A5A; margin: 16px 0; }
+
+  /* ── 강사 프로필 ── */
+  .speaker-section {
+    background: #050E1C;
+    padding: 24px 28px;
+    border-top: 3px solid #C9A84C;
+  }
+  .speaker-inner { display: flex; gap: 20px; align-items: center; }
+  .speaker-avatar {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: #1A3A5C; border: 2px solid #C9A84C;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    flex-shrink: 0; text-align: center;
+  }
+  .speaker-avatar .name  { font-size: 16px; font-weight: 700; color: #fff; }
+  .speaker-avatar .title { font-size: 11px; color: #9BB8D0; margin-top: 2px; }
+  .speaker-profile p { font-size: 11.5px; color: #C8D8E8; line-height: 1.85; }
+
+  /* ── 로고 + CTA ── */
+  .cta-section {
+    background: #0A1628;
+    padding: 20px 28px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid #1E3A5A;
+  }
+  .text-logo { display: flex; flex-direction: column; gap: 0; }
+  .text-logo-samsung {
+    font-size: 26px; font-weight: 900; color: #1A6FE8;
+    font-family: "Arial", sans-serif; letter-spacing: -0.5px; line-height: 1;
+  }
+  .text-logo-line { height: 2px; background: #1A6FE8; margin: 3px 0; }
+  .text-logo-fn {
+    font-size: 13px; font-weight: 700; color: #1A6FE8;
+    font-family: "Arial", sans-serif; letter-spacing: 0.3px;
+  }
+
+  /* ── CTA 버튼 ── */
+  .cta-btn {
+    background: #C9A84C;
+    color: #0A1628;
+    font-size: 12px; font-weight: 900;
+    padding: 12px 20px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    transition: background 0.15s, transform 0.1s;
+    border-radius: 2px;
+  }
+  .card-link:hover  .cta-btn { background: #E8C96A; }
+  .card-link:active .cta-btn { background: #B8922A; transform: scale(0.97); }
+
+  /* ── 하단 골드 바 ── */
+  .link-bar {
+    background: #C9A84C;
+    padding: 14px 28px;
+    font-size: 12px; font-weight: 700;
+    color: #0A1628; text-align: center;
+    letter-spacing: 0.3px;
+    transition: background 0.15s;
+  }
+  .card-link:hover  .link-bar { background: #E8C96A; }
+  .card-link:active .link-bar { background: #B8922A; }
+
+  /* ── 하단 안내 ── */
+  .note-bar {
+    background: #050E1C;
+    padding: 10px 28px 14px;
+    font-size: 10px; color: #556070; text-align: center;
+  }
+
+  /* ── 모바일 반응형 ── */
+  @media (max-width: 540px) {
+    .title-section h1 { font-size: 36px; }
+    .month-num { font-size: 58px; }
+    .body-section p { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<a href="https://admin-samsung-vvip.web.app" target="_blank" rel="noopener noreferrer" class="card-link"
+   onclick="window.open('https://admin-samsung-vvip.web.app','_blank'); return false;">
+
+  <div class="card">
+
+    <!-- 헤더 -->
+    <div class="header">
+      <div class="deco-lines">
+        <span style="height:55px;opacity:0.15"></span>
+        <span style="height:70px;opacity:0.2"></span>
+        <span style="height:85px;opacity:0.3"></span>
+        <span style="height:65px;opacity:0.25"></span>
+        <span style="height:75px;opacity:0.35"></span>
+        <span style="height:50px;opacity:0.2"></span>
+        <span style="height:60px;opacity:0.15"></span>
+      </div>
+      <div class="header-top">
+        <div class="blo-badge">
+          <div class="blo-sub">2030 BUSINESS</div>
+          <div class="blo-main">LIVE ON</div>
+        </div>
+        <div class="month-num">03</div>
+        <div class="month-label">
+          <strong>2026</strong>
+          MARCH
+        </div>
+      </div>
+    </div>
+
+    <!-- 타이틀 -->
+    <div class="title-section">
+      <h1>피지컬 AI와<br>로봇 대항해의 <span>시대</span></h1>
+      <div class="gold-bar"></div>
+    </div>
+
+    <!-- 본문 -->
+    <div class="body-section">
+      <p>CES2026을 관통한 피지컬 AI.<br>화면 속 인공지능 기술은<br>로봇을 입고 세상에 나왔습니다.</p>
+      <p>제조와 물류, 의료와 안보까지<br>AI는 우리 곁에 어떤 모습으로 함께할까요?</p>
+      <p>서울대학교 조규진 교수와 함께<br>로봇으로 개척하는 신항로를 따라갑니다.</p>
+    </div>
+
+    <!-- 정보 카드 -->
+    <div class="info-section">
+      <div class="info-card">
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div>
+            <div class="info-label">일시</div>
+            <div class="info-value">2026.3.24(화) 오전 7:30~9:00</div>
+            <div class="info-note">※ 당일 재방송 20:00~22:00</div>
+          </div>
+        </div>
+        <div class="info-divider"></div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div>
+            <div class="info-label">신청 | 시청</div>
+            <div class="info-value">
+              <span class="info-link">admin-samsung-vvip.web.app</span><br>
+              접속 → 강연 신청 / 강연 입장
+            </div>
+            <div class="info-note">※ 1회 신청으로 26년 12월까지 시청 가능 | PC·모바일 모두 가능</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 강사 프로필 -->
+    <div class="speaker-section">
+      <div class="speaker-inner">
+        <div class="speaker-avatar">
+          <div class="name">조규진</div>
+          <div class="title">교수</div>
+        </div>
+        <div class="speaker-profile">
+          <p>서울대학교 기계공학과 교수<br>
+          서울대 인간중심 소프트로봇 연구센터장<br>
+          카카오 사외이사<br>
+          IEEE RAS(국제로봇학회) 부회장<br>
+          Harvard Microrobotics Lab 포스닥</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로고 + CTA 버튼 -->
+    <div class="cta-section">
+      <div class="text-logo">
+        <div class="text-logo-samsung">Samsung</div>
+        <div class="text-logo-line"></div>
+        <div class="text-logo-fn">Financial Networks</div>
+      </div>
+      <div class="cta-btn">세미나 초대 안내 보기 ▶</div>
+    </div>
+
+    <!-- 하단 골드 링크 바 -->
+    <div class="link-bar">
+      🔗 세미나 초대 안내 보기 &nbsp;|&nbsp; https://admin-samsung-vvip.web.app
+    </div>
+
+    <div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
+
+  </div><!-- .card -->
+
+</a>
+
+<script>
+  // 모든 클릭/터치에서 확실히 링크 이동 (카카오 인앱브라우저 대응)
+  const URL = 'https://admin-samsung-vvip.web.app';
+  document.querySelector('.card-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = URL;
+  });
+  // 터치 디바이스 대응
+  document.querySelector('.card-link').addEventListener('touchend', function(e) {
+    e.preventDefault();
+    window.location.href = URL;
+  }, { passive: false });
+</script>
+
+</body>
+</html>
