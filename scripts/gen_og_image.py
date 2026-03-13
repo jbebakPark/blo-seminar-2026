@@ -181,159 +181,179 @@ def make_wide_og(out_path):
 
 
 # ══════════════════════════════════════════════════
-# 세로형 카드 630×1200 (카톡 이미지 첨부용)
+# 세로형 카드 (카톡 이미지 첨부용) - 흰배경+사이드바 레이아웃
 # ══════════════════════════════════════════════════
 def make_vertical_card(out_path):
-    W, H = 630, 1200
+    W, H = 630, 1380
+
+    # ── 폰트 ──
+    fb      = load_font(F_BOLD,    13)
+    fmn     = load_font(F_BLACK,   80)
+    fmy     = load_font(F_BOLD,    15)
+    ft      = load_font(F_BLACK,   40)
+    ft2     = load_font(F_BLACK,   38)
+    fsub    = load_font(F_BOLD2,   17)
+    fcard_l = load_font(F_BOLD2,   16)
+    fcard_r = load_font(F_REGULAR, 16)
+    fprof_t = load_font(F_BLACK,   21)
+    fprof_s = load_font(F_BOLD2,   16)
+    fprof_r = load_font(F_REGULAR, 14)
+    fcode_t = load_font(F_BOLD2,   15)
+    fcode_v = load_font(F_BLACK,   34)
+    fstep_r = load_font(F_REGULAR, 15)
+    fbtn    = load_font(F_BLACK,   21)
+    foff    = load_font(F_REGULAR, 14)
+    foff_b  = load_font(F_BOLD2,   14)
+    ffoot_t = load_font(F_BOLD,    15)
+    ffoot_r = load_font(F_REGULAR, 12)
+
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    # ── 상단 헤더 (높이 260) ──
-    draw.rectangle([0, 0, W, 260], fill=NAVY)
+    # ══ 상단 헤더 블록: 완전 흰 배경, 상단 굵은 파란 테두리 ══
+    # 상단 3px 골드 라인
+    draw.rectangle([0, 0, W, 5], fill=GOLD)
+    # 왼쪽 네이비 사이드바 (120px)
+    SIDE = 120
+    draw.rectangle([0, 0, SIDE, 380], fill=NAVY)
+    # 오른쪽 장식 세로선 (헤더 영역 오른쪽)
+    for i, (hr, c) in enumerate([(0.5,40),(0.7,70),(0.9,110),(0.75,70),(0.55,45),(0.85,85)]):
+        bh = int(380 * hr)
+        lc = tuple(min(255, LIGHT_BLUE[j]+c) for j in range(3))
+        draw.rectangle([W-50+i*8, 380-bh, W-46+i*8, 380], fill=lc)
 
-    # 오른쪽 장식 세로선
-    for i, (h_ratio, c) in enumerate([(0.6, 40), (0.8, 70), (1.0, 100), (0.75, 60), (0.55, 40), (0.9, 80)]):
-        bar_h = int(260 * h_ratio)
-        lc = tuple(min(255, LIGHT_BLUE[j] + c) for j in range(3))
-        draw.rectangle([W - 50 + i*8, 260-bar_h, W - 46 + i*8, 260], fill=lc)
+    # 사이드바: 뱃지 텍스트 세로
+    fb2 = load_font(F_BOLD, 11)
+    for ci, ch in enumerate("2030 BLO"):
+        draw.text((SIDE//2 - 6, 20 + ci*18), ch, font=fb2, fill=WHITE)
+
+    # 사이드바: 큰 숫자
+    draw.text((10, 70), "03", font=fmn, fill=GOLD)
+
+    # 사이드바: 연월
+    for ci, ch in enumerate("MARCH"):
+        draw.text((SIDE//2 - 6, 178 + ci*18), ch, font=fb2, fill=MID_GRAY)
+
+    # 오른쪽 헤더 콘텐츠 영역
+    RX = SIDE + 20   # 오른쪽 콘텐츠 x 시작
 
     # BLO 뱃지
-    fb = load_font(F_BOLD, 13)
-    draw.rectangle([24, 24, 24+170, 24+28], fill=BLUE)
-    draw.text((30, 28), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
+    draw.rectangle([RX, 18, RX+180, 18+26], fill=BLUE)
+    draw.text((RX+8, 22), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
 
-    # 월 숫자
-    fmn = load_font(F_BLACK, 100)
-    draw.text((20, 55), "03", font=fmn, fill=GOLD)
-
-    # 연월 텍스트
-    fmy = load_font(F_BOLD, 18)
-    draw.text((20, 162), "2026 MARCH", font=fmy, fill=MID_GRAY)
-
-    # 제목
-    ft = load_font(F_BLACK, 44)
-    draw.text((24, 195), "피지컬 AI와 로봇", font=ft, fill=WHITE)
-    ft2 = load_font(F_BLACK, 40)
-    draw.text((24, 245), "대항해의 시대", font=ft2, fill=GOLD)
-
-    # ── 본문 영역 ──
-    # 배경 그라데이션 효과 (단순 연회색)
-    draw.rectangle([0, 260, W, H], fill=(248, 250, 253))
-
-    # 구분선
-    draw.rectangle([24, 280, W-24, 283], fill=GOLD)
+    # 제목 (흰 배경 위에 네이비 텍스트 → 절대 잘릴 수 없음)
+    draw.text((RX, 58),  "피지컬 AI와 로봇", font=ft,  fill=WHITE)
+    draw.text((RX, 108), "대항해의 시대",    font=ft2, fill=GOLD)
 
     # 부제목
-    fsub = load_font(F_BOLD2, 19)
-    draw.text((24, 294), "Physical AI & Robot Navigation Era", font=fsub, fill=LIGHT_BLUE)
+    draw.rectangle([RX, 162, W-20, 164], fill=GOLD)
+    draw.text((RX, 172), "Physical AI & Robot", font=fsub, fill=WHITE)
+    draw.text((RX, 194), "Navigation Era",      font=fsub, fill=WHITE)
 
-    # ─ 세미나 정보 카드 ─
-    draw.rectangle([24, 330, W-24, 510], fill=WHITE)
-    draw.rectangle([24, 330, W-24, 331+4], fill=BLUE)  # 상단 강조
+    # 날짜/강사 간략 정보 (사이드바 안에)
+    fi = load_font(F_REGULAR, 12)
+    draw.text((8, 300), "2026.3.24", font=fi, fill=MID_GRAY)
+    draw.text((8, 318), "07:30~", font=fi, fill=MID_GRAY)
+    draw.text((8, 336), "09:00", font=fi, fill=MID_GRAY)
 
-    fcard_l = load_font(F_BOLD2, 17)
-    fcard_r = load_font(F_REGULAR, 17)
+    # ══ 본문 (y=380~) 흰/연회색 배경 ══
+    draw.rectangle([0, 380, W, H], fill=(248, 250, 253))
+    # 본문 상단 구분선
+    draw.rectangle([0, 380, W, 383], fill=BLUE)
 
+    # ─ y커서로 순차 배치 ─
+    y = 400
+
+    # 부제목 (본문)
+    draw.text((24, y), "Physical AI & Robot Navigation Era", font=fsub, fill=LIGHT_BLUE)
+    y += 36
+
+    # 세미나 정보 카드
+    draw.rectangle([24, y, W-24, y+218], fill=WHITE)
+    draw.rectangle([24, y, W-24, y+4], fill=BLUE)
     card_items = [
         ("📅 일  시", "2026. 3. 24 (화)"),
-        ("",          "오전 7:30 ~ 9:00"),
-        ("",          "재방송 20:00 ~ 22:00"),
+        ("",          "오전 7:30 ~ 9:00 / 재방송 20:00~22:00"),
         ("🎓 강  사", "조규진 교수"),
         ("",          "서울대학교 기계공학과"),
         ("💻 신  청", "www.samsung2030blo.com"),
         ("📍 장  소", "삼성금융캠퍼스 B2F 비전홀"),
     ]
-    y = 345
-    prev_had_label = False
+    cy = y + 16
     for label, value in card_items:
         if label:
-            draw.text((38, y), label, font=fcard_l, fill=BLUE)
-            draw.text((145, y), value, font=fcard_r, fill=TEXT_DARK)
-            prev_had_label = True
+            draw.text((36, cy), label, font=fcard_l, fill=BLUE)
+            draw.text((144, cy), value, font=fcard_r, fill=TEXT_DARK)
         else:
-            draw.text((145, y), value, font=fcard_r, fill=TEXT_MID)
-        y += 26
+            draw.text((144, cy), value, font=fcard_r, fill=TEXT_MID)
+        cy += 30
+    y += 228
 
-    # ─ 강사 프로필 카드 ─
-    draw.rectangle([24, 525, W-24, 690], fill=WHITE)
-    draw.rectangle([24, 525, 28, 690], fill=GOLD)  # 왼쪽 강조
-
-    fprof_t = load_font(F_BLACK, 22)
-    fprof_s = load_font(F_BOLD2, 17)
-    fprof_r = load_font(F_REGULAR, 15)
-
-    draw.text((40, 535), "조규진 교수", font=fprof_t, fill=NAVY)
-    draw.text((40, 563), "서울대학교 기계공학과", font=fprof_s, fill=BLUE)
-
-    prof_items = [
+    # 강사 프로필
+    y += 10
+    draw.rectangle([24, y, W-24, y+148], fill=WHITE)
+    draw.rectangle([24, y, 28, y+148], fill=GOLD)
+    draw.text((40, y+10), "조규진 교수",         font=fprof_t, fill=NAVY)
+    draw.text((40, y+36), "서울대학교 기계공학과", font=fprof_s, fill=BLUE)
+    for i, item in enumerate([
         "· 인간중심 소프트로봇 연구센터장",
-        "· 카카오 사외이사",
-        "· IEEE RAS 부회장",
+        "· 카카오 사외이사  /  IEEE RAS 부회장",
         "· Harvard Microrobotics Lab 포스닥",
-    ]
-    for i, item in enumerate(prof_items):
-        draw.text((40, 590 + i*24), item, font=fprof_r, fill=TEXT_DARK)
+    ]):
+        draw.text((40, y+62+i*24), item, font=fprof_r, fill=TEXT_DARK)
+    y += 158
 
-    # ─ 추천인 코드 박스 ─
-    draw_rounded_rect(draw, [24, 705, W-24, 790], 10, (240, 246, 255))
-    draw.rectangle([24, 705, 28, 790], fill=BLUE)
-
-    fcode_t = load_font(F_BOLD2, 16)
-    fcode_v = load_font(F_BLACK, 36)
-    draw.text((40, 715), "⚠  온라인 신청 시 반드시 입력하세요", font=fcode_t, fill=BLUE)
-    draw.text((40, 738), "추천인 코드", font=fcode_t, fill=TEXT_MID)
-
-    # 코드값 강조
+    # 추천인 코드
+    y += 10
+    draw_rounded_rect(draw, [24, y, W-24, y+84], 10, (240,246,255))
+    draw.rectangle([24, y, 28, y+84], fill=BLUE)
+    draw.text((40, y+8),  "⚠  온라인 신청 시 반드시 추천인 코드 입력!", font=fcode_t, fill=BLUE)
     code_text = "9618628"
-    cb = draw.textbbox((0,0), code_text, font=fcode_v)
-    cw = cb[2] - cb[0]
-    draw_rounded_rect(draw, [W//2 - cw//2 - 16, 732, W//2 + cw//2 + 16, 785], 8, NAVY)
-    draw.text((W//2 - cw//2, 737), code_text, font=fcode_v, fill=GOLD)
+    cb  = draw.textbbox((0,0), code_text, font=fcode_v)
+    cw  = cb[2]-cb[0]
+    draw_rounded_rect(draw, [W//2-cw//2-18, y+28, W//2+cw//2+18, y+76], 8, NAVY)
+    draw.text((W//2-cw//2, y+32), code_text, font=fcode_v, fill=GOLD)
+    y += 94
 
-    # ─ 신청 방법 ─
-    fstep_t = load_font(F_BOLD2, 17)
-    fstep_r = load_font(F_REGULAR, 16)
-    draw.text((24, 810), "온라인 신청 방법", font=fstep_t, fill=NAVY)
-
-    steps = [
+    # 신청 방법
+    y += 14
+    draw.text((24, y), "온라인 신청 방법", font=load_font(F_BOLD2, 16), fill=NAVY)
+    for i, (num, step) in enumerate([
         ("①", "samsung2030blo.com 접속"),
         ("②", "추천인 코드 9618628 입력"),
         ("③", "3/24 오전 7:15 생방송 입장"),
-    ]
-    for i, (num, step) in enumerate(steps):
-        y_s = 835 + i * 32
-        draw_rounded_rect(draw, [24, y_s, 44, y_s+24], 4, BLUE)
-        draw.text((28, y_s+2), num, font=load_font(F_BOLD, 14), fill=WHITE)
-        draw.text((52, y_s+2), step, font=fstep_r, fill=TEXT_DARK)
+    ]):
+        ys = y+24+i*30
+        draw_rounded_rect(draw, [24, ys, 42, ys+22], 4, BLUE)
+        draw.text((27, ys+2), num, font=load_font(F_BOLD,13), fill=WHITE)
+        draw.text((50, ys+2), step, font=fstep_r, fill=TEXT_DARK)
+    y += 120
 
-    # ─ CTA 버튼 ─
-    btn_y = 950
-    draw_rounded_rect(draw, [24, btn_y, W-24, btn_y+62], 10, BLUE)
-    fbtn = load_font(F_BLACK, 22)
+    # CTA 버튼
+    draw_rounded_rect(draw, [24, y, W-24, y+58], 10, BLUE)
     btn_text = "세미나 신청 · 안내 보기  ▶"
     bb = draw.textbbox((0,0), btn_text, font=fbtn)
-    bw = bb[2] - bb[0]
-    draw.text(((W-bw)//2, btn_y+16), btn_text, font=fbtn, fill=WHITE)
+    draw.text(((W-(bb[2]-bb[0]))//2, y+14), btn_text, font=fbtn, fill=WHITE)
+    y += 68
 
     # 오프라인 문의
-    foff = load_font(F_REGULAR, 15)
-    foff_b = load_font(F_BOLD2, 15)
-    draw.text((24, 1030), "오프라인 조찬세미나 문의", font=foff_b, fill=TEXT_MID)
-    draw.text((24, 1052), "📞  010-5137-2327  (박재박 팀장)", font=foff, fill=TEXT_DARK)
-    draw.text((24, 1074), "💬  카카오톡 오픈채팅 문의 가능", font=foff, fill=TEXT_DARK)
-    draw.text((24, 1096), "📅  오프라인 신청 마감: 3/19 (목) 17:00", font=foff, fill=(180, 50, 50))
+    y += 14
+    draw.text((24, y),    "오프라인 조찬세미나 문의",           font=foff_b, fill=TEXT_MID)
+    draw.text((24, y+22), "📞  010-5137-2327  (박재박 팀장)",  font=foff,   fill=TEXT_DARK)
+    draw.text((24, y+42), "💬  카카오톡 오픈채팅 문의 가능",    font=foff,   fill=TEXT_DARK)
+    draw.text((24, y+62), "📅  오프라인 마감: 3/19(목) 17:00", font=foff,   fill=(180,50,50))
 
-    # ─ 하단 바 ─
-    draw.rectangle([0, H-80, W, H], fill=NAVY)
-    ffoot_t = load_font(F_BOLD, 16)
-    ffoot_r = load_font(F_REGULAR, 13)
-    draw.text((24, H-68), "2030 Business Live ON", font=ffoot_t, fill=WHITE)
-    draw.text((24, H-48), "프리미엄 경영 세미나  ·  삼성금융캠퍼스", font=ffoot_r, fill=MID_GRAY)
-    draw.text((24, H-28), "admin-samsung-vvip.web.app/invite.html", font=ffoot_r, fill=(100, 130, 170))
+    # 하단 바
+    draw.rectangle([0, H-72, W, H], fill=NAVY)
+    draw.text((24, H-60), "2030 Business Live ON",              font=ffoot_t, fill=WHITE)
+    draw.text((24, H-42), "프리미엄 경영 세미나  ·  삼성금융캠퍼스", font=ffoot_r, fill=MID_GRAY)
+    draw.text((24, H-24), "admin-samsung-vvip.web.app/invite.html", font=ffoot_r, fill=(100,130,170))
 
     img.save(out_path, "PNG", optimize=True)
     size_kb = os.path.getsize(out_path) // 1024
     print(f"✅ 세로형 저장: {out_path}  ({size_kb} KB)")
+
+
 
 
 if __name__ == "__main__":
