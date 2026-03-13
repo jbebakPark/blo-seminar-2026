@@ -18,9 +18,14 @@
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
 html, body {
-  background: #e8edf4;
+  background: #f0f4fa;
   font-family: 'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
   min-height: 100vh;
+  /* 불법 복사 방지 */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .wrap {
@@ -28,6 +33,29 @@ html, body {
   margin: 0 auto;
   background: #fff;
   box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+}
+
+/* 워터마크 오버레이 */
+.watermark-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+  opacity: 0.04;
+}
+.watermark-overlay svg {
+  width: 100%; height: 100%;
+}
+
+/* 저작권 표시 바 */
+.copyright-bar {
+  background: #0D2244;
+  color: #8899BB;
+  font-size: 10px;
+  text-align: center;
+  padding: 7px 16px;
+  letter-spacing: 0.2px;
 }
 
 /* ══ 상단 헤더 ══ */
@@ -441,10 +469,145 @@ html, body {
   </div><!-- /apply-sec -->
 
   <div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
+  <div class="copyright-bar">
+    &copy; 2026 2030 BLO (Business Live ON) &nbsp;|&nbsp; 무단 복제·배포·도용 금지
+  </div>
 
 </div><!-- /wrap -->
 
+<!-- 워터마크 오버레이 -->
+<div class="watermark-overlay" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="wm" x="0" y="0" width="220" height="120" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+        <text x="0" y="40" font-size="13" fill="#1050A0" font-family="sans-serif" font-weight="bold">2030 BLO</text>
+        <text x="0" y="80" font-size="11" fill="#1050A0" font-family="sans-serif">admin-samsung-vvip.web.app</text>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#wm)"/>
+  </svg>
+</div>
+
 <script>
+  /* ═══════════════════════════════════════
+     불법 복사·도용 방지 보안 모듈
+     © 2026 2030 BLO — Unauthorized reproduction prohibited
+  ═══════════════════════════════════════ */
+
+  (function() {
+    'use strict';
+
+    /* 1. 우클릭 방지 */
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    /* 2. 키보드 단축키 차단 (Ctrl+S, Ctrl+U, Ctrl+A, F12, Ctrl+Shift+I/J/C) */
+    document.addEventListener('keydown', function(e) {
+      var key = e.key || e.keyCode;
+      // F12
+      if (key === 'F12' || key === 123) { e.preventDefault(); return false; }
+      if (e.ctrlKey || e.metaKey) {
+        var k = (key + '').toLowerCase();
+        // Ctrl+S(저장), Ctrl+U(소스보기), Ctrl+A(전체선택), Ctrl+P(인쇄)
+        if (k === 's' || k === 'u' || k === 'a' || k === 'p') {
+          e.preventDefault(); return false;
+        }
+        // Ctrl+Shift+I/J/C (개발자도구)
+        if (e.shiftKey && (k === 'i' || k === 'j' || k === 'c')) {
+          e.preventDefault(); return false;
+        }
+      }
+    });
+
+    /* 3. 드래그 선택 방지 */
+    document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+    document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
+
+    /* 4. 이미지 저장 방지 */
+    document.addEventListener('mousedown', function(e) {
+      if (e.button === 2) { e.preventDefault(); return false; }
+    });
+
+    /* 5. 터치 길게 누르기 방지 (모바일 이미지 저장 등) */
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches.length > 1) { e.preventDefault(); }
+    }, { passive: false });
+    document.addEventListener('touchend', function(e) {
+      if (e.touches.length > 0) { e.preventDefault(); }
+    }, { passive: false });
+
+    /* 6. 개발자 도구 감지 (크기 차이 방식) */
+    var devtoolsOpen = false;
+    var _threshold = 160;
+    function checkDevTools() {
+      var widthDiff  = window.outerWidth  - window.innerWidth;
+      var heightDiff = window.outerHeight - window.innerHeight;
+      if (widthDiff > _threshold || heightDiff > _threshold) {
+        if (!devtoolsOpen) {
+          devtoolsOpen = true;
+          showDevToolsWarning();
+        }
+      } else {
+        devtoolsOpen = false;
+        hideDevToolsWarning();
+      }
+    }
+    setInterval(checkDevTools, 1500);
+
+    function showDevToolsWarning() {
+      if (document.getElementById('_dtWarn')) return;
+      var el = document.createElement('div');
+      el.id = '_dtWarn';
+      el.style.cssText = [
+        'position:fixed','top:0','left:0','right:0','bottom:0',
+        'background:rgba(13,26,46,0.97)','z-index:99999',
+        'display:flex','flex-direction:column',
+        'align-items:center','justify-content:center',
+        'color:#fff','font-family:sans-serif','text-align:center','padding:40px'
+      ].join(';');
+      el.innerHTML = [
+        '<div style="font-size:48px;margin-bottom:16px">⚠️</div>',
+        '<div style="font-size:20px;font-weight:900;margin-bottom:12px;color:#F5C842">불법 접근이 감지되었습니다</div>',
+        '<div style="font-size:14px;color:#AAB8CC;line-height:1.8;max-width:320px">',
+        '본 콘텐츠는 저작권법에 의해 보호받습니다.<br>',
+        '무단 복제·도용은 법적 처벌을 받을 수 있습니다.',
+        '</div>',
+        '<div style="font-size:11px;color:#667;margin-top:20px">&copy; 2026 2030 BLO</div>'
+      ].join('');
+      document.body.appendChild(el);
+    }
+    function hideDevToolsWarning() {
+      var el = document.getElementById('_dtWarn');
+      if (el) el.remove();
+    }
+
+    /* 7. 콘솔 경고 메시지 */
+    console.log('%c⛔ 접근 금지', 'color:red;font-size:28px;font-weight:900');
+    console.log('%c이 사이트의 소스코드, 디자인, 콘텐츠는 저작권법으로 보호됩니다.',
+      'color:#FF6B6B;font-size:14px');
+    console.log('%c무단 복제·도용 시 법적 책임을 질 수 있습니다.  © 2026 2030 BLO',
+      'color:#FF6B6B;font-size:12px');
+
+    /* 8. 프린트 방지 */
+    window.addEventListener('beforeprint', function(e) {
+      e.preventDefault();
+      alert('인쇄는 허용되지 않습니다.');
+      return false;
+    });
+    var printStyle = document.createElement('style');
+    printStyle.innerHTML = '@media print { body { display:none !important; } }';
+    document.head.appendChild(printStyle);
+
+    /* 9. iframe 삽입 방지 (클릭재킹) */
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+
+  })();
+
+  /* ─── 기존 추천인 코드 복사 기능 ─── */
   var codeCopied = false;
 
   function copyCode() {
