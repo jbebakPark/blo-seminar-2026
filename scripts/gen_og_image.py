@@ -184,7 +184,7 @@ def make_wide_og(out_path):
 # 세로형 카드 630×1200 (카톡 이미지 첨부용)
 # ══════════════════════════════════════════════════
 def make_vertical_card(out_path):
-    W, H = 630, 1260
+    W, H = 630, 1340
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
@@ -205,11 +205,11 @@ def make_vertical_card(out_path):
 
     PAD = 22
     y_badge = PAD
-    y_num   = y_badge + 28 + 10           # 뱃지 rect 아래
-    y_march = y_num   + (bb_num[3]   - bb_num[1])   + 6
-    y_t1    = y_march + (bb_march[3] - bb_march[1]) + 14
-    y_t2    = y_t1    + (bb_t1[3]    - bb_t1[1])    + 10
-    HDR     = y_t2    + (bb_t2[3]    - bb_t2[1])    + 36  # 자동 결정!
+    y_num   = y_badge + 28 + 10            # 뱃지 rect 아래
+    y_march = y_num   + bb_num[3]   + 6    # y + bbox_bottom = 실제 픽셀 끝
+    y_t1    = y_march + bb_march[3] + 14
+    y_t2    = y_t1    + bb_t1[3]    + 10
+    HDR     = y_t2    + bb_t2[3]    + 40   # 넉넉한 하단 여백 확보!
 
     # ── 상단 헤더 ──
     draw.rectangle([0, 0, W, HDR], fill=NAVY)
