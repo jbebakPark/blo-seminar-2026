@@ -7,13 +7,95 @@ BLO 세미나 OG 이미지 생성기 (카카오톡 공유용)
 
 from PIL import Image, ImageDraw, ImageFont
 import os
+import platform
+import urllib.request
+import pathlib
 
 # ── 폰트 경로 ──────────────────────────────────────
-FONT_BASE  = "/usr/share/fonts/truetype/nanum/"
-F_BLACK    = FONT_BASE + "NanumSquare_acEB.ttf"   # 제목용 ExtraBold
-F_BOLD     = FONT_BASE + "NanumSquareB.ttf"        # 소제목 Bold
-F_REGULAR  = FONT_BASE + "NanumBarunGothic.ttf"    # 본문 Regular
-F_BOLD2    = FONT_BASE + "NanumBarunGothicBold.ttf"
+# 환경에 따라 적절한 한글 글꼴을 찾아서 사용합니다.
+# Windows의 경우 기본적으로 Malgun Gothic이 설치되어 있습니다.
+# Linux(컨테이너)에서는 Nanum 글꼴을 사용합니다.
+# (시스템에 한글 글꼴이 없으면 Noto Sans KR을 자동으로 내려받아 사용합니다.)
+
+FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
+os.makedirs(FONT_DIR, exist_ok=True)
+
+NOTO_REGULAR = os.path.join(FONT_DIR, "NotoSansKR-Regular.otf")
+NOTO_BOLD = os.path.join(FONT_DIR, "NotoSansKR-Bold.otf")
+NOTO_REGULAR_URL = "https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Korean/NotoSansKR-Regular.otf"
+NOTO_BOLD_URL = "https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Korean/NotoSansKR-Bold.otf"
+
+# Windows 전용: Malgun Gothic Bold 고정 사용 (한글 깨짐 문제 방지)
+FONT_MALGUNBD = r"C:\Windows\Fonts\malgunbd.ttf"
+
+
+def download_if_missing(path, url):
+    if os.path.exists(path):
+        return
+    try:
+        print(f"[INFO] Downloading font: {os.path.basename(path)}")
+        urllib.request.urlretrieve(url, path)
+    except Exception as e:
+        print(f"[WARN] Unable to download font {os.path.basename(path)}: {e}")
+
+
+def find_font(candidates):
+    for p in candidates:
+        if p and os.path.exists(p):
+            return p
+    return None
+
+# Use a local copy of Malgun Bold if available (repo-local), otherwise fallback to system fonts.
+LOCAL_FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
+LOCAL_MALGUNBD = os.path.join(LOCAL_FONT_DIR, "malgunbd.ttf")
+
+if os.path.exists(LOCAL_MALGUNBD):
+    F_BLACK = LOCAL_MALGUNBD
+    F_BOLD = LOCAL_MALGUNBD
+    F_BOLD2 = LOCAL_MALGUNBD
+    F_REGULAR = LOCAL_MALGUNBD
+else:
+    if platform.system() == "Windows":
+        FONT_BASE = r"C:\Windows\Fonts"
+        F_BLACK   = find_font([os.path.join(FONT_BASE, "malgunbd.ttf"), os.path.join(FONT_BASE, "malgun.ttf")])
+        F_BOLD    = find_font([os.path.join(FONT_BASE, "malgunbd.ttf"), os.path.join(FONT_BASE, "malgun.ttf")])
+        F_REGULAR = find_font([os.path.join(FONT_BASE, "malgun.ttf"), os.path.join(FONT_BASE, "gulim.ttc")])
+        F_BOLD2   = find_font([os.path.join(FONT_BASE, "malgunbd.ttf"), os.path.join(FONT_BASE, "gulim.ttc")])
+    elif platform.system() == "Darwin":
+        FONT_BASE = "/Library/Fonts"
+        F_BLACK   = find_font([os.path.join(FONT_BASE, "Apple SD Gothic Neo Bold.ttf"), os.path.join(FONT_BASE, "Apple SD Gothic Neo.ttc")])
+        F_BOLD    = F_BLACK
+        F_REGULAR = find_font([os.path.join(FONT_BASE, "Apple SD Gothic Neo.ttf")])
+        F_BOLD2   = F_BLACK
+    else:
+        FONT_BASE  = "/usr/share/fonts/truetype/nanum/"
+        F_BLACK    = find_font([os.path.join(FONT_BASE, "NanumSquare_acEB.ttf"), os.path.join(FONT_BASE, "NanumSquareBold.ttf")])
+        F_BOLD     = find_font([os.path.join(FONT_BASE, "NanumSquareB.ttf"), os.path.join(FONT_BASE, "NanumSquareBold.ttf")])
+        F_REGULAR  = find_font([os.path.join(FONT_BASE, "NanumBarunGothic.ttf"), os.path.join(FONT_BASE, "NanumGothic.ttf")])
+        F_BOLD2    = find_font([os.path.join(FONT_BASE, "NanumBarunGothicBold.ttf"), os.path.join(FONT_BASE, "NanumGothicBold.ttf")])
+
+# Fallback: use Noto Sans KR if no system font was found
+if not (F_REGULAR and os.path.exists(F_REGULAR)):
+    download_if_missing(NOTO_REGULAR, NOTO_REGULAR_URL)
+    if os.path.exists(NOTO_REGULAR):
+        F_REGULAR = NOTO_REGULAR
+
+if not (F_BOLD and os.path.exists(F_BOLD)):
+    download_if_missing(NOTO_BOLD, NOTO_BOLD_URL)
+    if os.path.exists(NOTO_BOLD):
+        F_BOLD = NOTO_BOLD
+
+if not (F_BOLD2 and os.path.exists(F_BOLD2)):
+    F_BOLD2 = F_BOLD or F_REGULAR
+
+if not (F_BLACK and os.path.exists(F_BLACK)):
+    F_BLACK = F_BOLD or F_REGULAR
+
+print("[INFO] Fonts used:")
+print(f"  F_BLACK  = {F_BLACK}")
+print(f"  F_BOLD   = {F_BOLD}")
+print(f"  F_REGULAR= {F_REGULAR}")
+print(f"  F_BOLD2  = {F_BOLD2}")
 
 # ── 색상 팔레트 ────────────────────────────────────
 NAVY       = (13, 26, 46)       # #0D1A2E
@@ -28,9 +110,12 @@ TEXT_MID   = (60, 85, 120)
 
 
 def load_font(path, size):
+    if not path or not os.path.exists(path):
+        return ImageFont.load_default()
+
     try:
         return ImageFont.truetype(path, size)
-    except:
+    except Exception:
         return ImageFont.load_default()
 
 
@@ -108,9 +193,9 @@ def make_wide_og(out_path):
     draw_rounded_rect(draw, [MX, 20, MX + bw, 48], 4, BLUE)
     draw.text((MX + 14, 26), badge_text, font=fbadge, fill=WHITE)
 
-    # 메인 제목
-    ft1 = load_font(F_BLACK, 50)
-    ft2 = load_font(F_BLACK, 48)
+    # 메인 제목 (Korean font)
+    ft1 = load_font(F_BOLD, 50)
+    ft2 = load_font(F_BOLD, 48)
     draw.text((MX, 68), "피지컬 AI와 로봇", font=ft1, fill=NAVY)
     draw.text((MX, 126), "대항해의 시대", font=ft2, fill=NAVY)
 
@@ -357,7 +442,10 @@ def make_vertical_card(out_path):
 
 
 if __name__ == "__main__":
-    os.makedirs("/home/user/webapp/assets", exist_ok=True)
-    make_wide_og("/home/user/webapp/assets/og-kakao-wide.png")
-    make_vertical_card("/home/user/webapp/assets/og-kakao-vertical.png")
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    assets_dir = os.path.join(base_dir, "assets")
+    os.makedirs(assets_dir, exist_ok=True)
+
+    make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"))
+    make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"))
     print("\n🎉 이미지 생성 완료!")

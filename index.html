@@ -997,6 +997,13 @@
         initializeCounter(CURRENT_SEMINAR_ID);
         document.getElementById('loading').style.display = 'none';
         document.getElementById('seminarContent').style.display = 'block';
+        // URL 해시가 있으면 해당 섹션으로 스크롤
+        if (location.hash) {
+          setTimeout(() => {
+            const target = document.querySelector(location.hash);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
       } catch(err) {
         console.error(err);
         document.getElementById('loading').innerHTML =
@@ -1422,7 +1429,7 @@
           <div class="benefit-extra">
             <div class="benefit-extra-icon">📅</div>
             <div class="benefit-extra-text">
-              <div class="be-title">연간 세미나 무제한 시청</div>
+              <div class="be-title">연간 세미나 시청 가능</div>
               <div class="be-desc">1회 신청으로 2026년 12월까지 모든 강연 시청 가능<br>매월 최정상 강사의 강연을 놓치지 마세요</div>
             </div>
           </div>
