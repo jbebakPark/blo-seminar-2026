@@ -148,7 +148,7 @@ if [ -z "$TEMPLATE_FILE" ]; then
     "name": "박재박 팀장",
     "phone": "010-5137-2327",
     "website": "www.samsung2030blo.com",
-    "kakao": "https://open.kakao.com/o/s15lHyCh"
+    "kakao": "https://open.kakao.com/o/sleUSUei"
   },
   "organizer": "삼성생명 WM 사업부"
 }
