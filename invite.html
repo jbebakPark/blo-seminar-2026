@@ -110,10 +110,11 @@ html, body {
   display:flex; align-items:flex-start; gap:0;
 }
 .hero-month {
-  font-size:110px; font-weight:900; color:rgba(255,255,255,0.06);
+  font-size:110px; font-weight:900; color:rgba(255,255,255,0.13);
   line-height:1; font-style:italic; letter-spacing:-6px;
   position:absolute; right:10px; top:10px;
   pointer-events:none;
+  text-shadow: 0 2px 20px rgba(255,255,255,0.08);
 }
 .hero-title-wrap { position:relative; z-index:1; }
 .hero-label {
@@ -210,32 +211,53 @@ html, body {
 ══════════════════════════════ */
 .schedule-sec {
   background:#fff;
-  padding:24px 22px 20px;
-  border-top:3px solid #C8A84B;
+  padding:0 0 20px;
+  border-top:4px solid #C8A84B;
 }
-.schedule-sec-head {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:10px;
+.schedule-sec-banner {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  padding: 16px 22px;
+  display: flex; align-items: center; justify-content: space-between;
 }
+.schedule-sec-banner-left { display:flex; flex-direction:column; gap:3px; }
 .schedule-sec-title {
-  font-size:15px; font-weight:900; color:#0D1A2E;
+  font-size:15px; font-weight:900; color:#fff;
   display:flex; align-items:center; gap:8px;
 }
 .schedule-sec-title span { color:#C8A84B; }
+.schedule-banner-sub {
+  font-size:11px; color:rgba(255,255,255,0.7);
+  font-weight:600;
+}
 .schedule-more-link {
-  font-size:11px; color:#1050A0; font-weight:700;
-  text-decoration:none; display:flex; align-items:center; gap:3px;
+  font-size:12px; color:#C8A84B; font-weight:800;
+  text-decoration:none; display:flex; align-items:center; gap:4px;
+  background:rgba(200,168,75,0.15);
+  border:1px solid rgba(200,168,75,0.4);
+  padding:7px 13px; border-radius:20px;
+  white-space:nowrap; flex-shrink:0;
 }
 .schedule-more-link:active { opacity:0.7; }
 
 .schedule-theme {
-  font-size:11px; color:#778899; margin-bottom:14px;
+  font-size:11px; color:#5A6878; margin:14px 22px 14px;
   padding:8px 12px;
   background:#f7f9fc;
   border-radius:6px;
   border-left:3px solid #C8A84B;
   font-weight:600;
 }
+/* 연간 혜택 뱃지 */
+.year-benefit-badge {
+  margin: 0 22px 14px;
+  background: linear-gradient(135deg, #FFF8E6 0%, #FFFBF0 100%);
+  border: 1.5px solid #C8A84B;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.year-benefit-icon { font-size: 20px; flex-shrink:0; }
+.year-benefit-text { font-size: 12px; color: #7A5800; font-weight: 700; line-height: 1.5; }
 
 /* 탭 네비 */
 .q-tabs {
@@ -354,6 +376,80 @@ html, body {
 .sched-status.done { background:#DCFCE7; color:#166534; }
 .sched-status.now  { background:#C8A84B; color:#0D1A2E; font-weight:900; }
 .sched-status.soon { background:#DBEAFE; color:#1e40af; }
+
+/* ══════════════════════════════
+   신청 프로세스 안내 (신규)
+══════════════════════════════ */
+.how-to-sec {
+  background: linear-gradient(135deg, #F4F7FF 0%, #EBF2FF 100%);
+  padding: 20px 22px;
+  border-top: 1px solid #D8E4F4;
+  border-bottom: 1px solid #D8E4F4;
+}
+.how-to-title {
+  font-size: 13px; font-weight: 900; color: #1050A0;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+}
+.how-to-title::after {
+  content: ''; flex:1; height:1.5px; background: #C8D8F4;
+}
+.how-to-steps {
+  display: flex; align-items: flex-start; gap: 0;
+}
+.how-to-step {
+  flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
+  position: relative;
+}
+.how-to-step:not(:last-child)::after {
+  content: '›'; position: absolute;
+  right: -8px; top: 16px;
+  font-size: 20px; color: #1050A0; font-weight: 900;
+}
+.how-to-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #1050A0; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 900; margin-bottom: 8px;
+  box-shadow: 0 3px 10px rgba(16,80,160,0.25);
+}
+.how-to-step.step-key .how-to-num {
+  background: #C8A84B;
+  color: #0D1A2E;
+  box-shadow: 0 3px 10px rgba(200,168,75,0.4);
+}
+.how-to-label {
+  font-size: 11px; font-weight: 800; color: #0D1A2E; line-height: 1.4; margin-bottom: 2px;
+}
+.how-to-desc { font-size: 10px; color: #778899; line-height: 1.5; }
+.how-to-step.step-key .how-to-label { color: #7A5800; }
+
+/* 하단 고정 CTA */
+.sticky-cta {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px;
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  padding: 12px 16px;
+  display: flex; gap: 10px; align-items: center;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+  z-index: 1000;
+}
+.sticky-cta-text {
+  font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; flex: 1;
+  line-height: 1.4;
+}
+.sticky-cta-text strong { color: #C8A84B; display: block; font-size: 12px; }
+.sticky-cta-btn {
+  background: #C8A84B; color: #0D1A2E;
+  font-size: 13px; font-weight: 900;
+  padding: 12px 20px; border-radius: 10px;
+  border: none; cursor: pointer; white-space: nowrap;
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 3px 12px rgba(200,168,75,0.5);
+  transition: all 0.2s;
+}
+.sticky-cta-btn:active { transform: scale(0.97); }
+/* sticky CTA 공간 확보용 바디 패딩 */
+body { padding-bottom: 72px; }
 
 /* ══════════════════════════════
    접수 섹션
@@ -653,6 +749,28 @@ html, body {
     </div>
   </div>
 
+  <!-- 신청 프로세스 안내 -->
+  <div class="how-to-sec">
+    <div class="how-to-title">📋 세미나 신청 방법 (3단계)</div>
+    <div class="how-to-steps">
+      <div class="how-to-step step-key">
+        <div class="how-to-num">1</div>
+        <div class="how-to-label">추천인 코드<br>복사</div>
+        <div class="how-to-desc">아래 코드<br>복사 버튼 클릭</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">2</div>
+        <div class="how-to-label">BLO 사이트<br>접속·신청</div>
+        <div class="how-to-desc">samsung2030<br>blo.com</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">3</div>
+        <div class="how-to-label">코드 입력 후<br>신청 완료</div>
+        <div class="how-to-desc">D-4일 전<br>ID 문자 수신</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ② 본문 -->
   <div class="body-sec">
     <p>CES2026을 관통한 피지컬 AI.<br>
@@ -667,11 +785,18 @@ html, body {
 
   <!-- ③ 연간 세미나 일정 -->
   <div class="schedule-sec">
-    <div class="schedule-sec-head">
-      <div class="schedule-sec-title">📅 2026 연간 세미나 일정 <span>·</span> 12강</div>
+    <div class="schedule-sec-banner">
+      <div class="schedule-sec-banner-left">
+        <div class="schedule-sec-title">📅 2026 연간 세미나 일정 <span>·</span> 12강</div>
+        <div class="schedule-banner-sub">1회 신청으로 12월까지 전 강연 시청 가능</div>
+      </div>
       <a class="schedule-more-link" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">전체보기 ›</a>
     </div>
     <div class="schedule-theme">The Great Transition, 대전환의 시대</div>
+    <div class="year-benefit-badge">
+      <div class="year-benefit-icon">🏆</div>
+      <div class="year-benefit-text">지금 신청하면 <strong>2026년 12월까지</strong> 매월 강연 모두 시청 가능<br>총 12강 · 1Q Tech ⚡ · 2Q Money 💰 · 3Q Human 🤝 · 4Q 2027 🚀</div>
+    </div>
 
     <!-- 탭 버튼 -->
     <div class="q-tabs">
@@ -989,6 +1114,15 @@ html, body {
 
 </div><!-- /wrap -->
 
+<!-- 항상 보이는 하단 고정 신청 버튼 -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-cta-text">
+    <strong>📋 코드 복사 → 사이트 신청</strong>
+    1회 신청으로 12월까지 전 강연 시청
+  </div>
+  <a class="sticky-cta-btn" href="#" onclick="scrollToApply(event)">세미나 신청하기 ›</a>
+</div>
+
 <!-- 워터마크 오버레이 (세션 ID 포함 — 스크린샷 추적 가능) -->
 <div class="watermark-overlay" aria-hidden="true" id="wmOverlay">
   <svg id="wmSvg" xmlns="http://www.w3.org/2000/svg">
@@ -1050,6 +1184,18 @@ html, body {
       onlineBtn.classList.add('enabled');
       onlineBtn.textContent = '🎥 온라인 강연 신청하기';
       lockMsg.classList.add('hidden');
+      // Sticky CTA 업데이트 → 바로 사이트 이동 버튼으로
+      var ctaBtn = document.querySelector('.sticky-cta-btn');
+      var ctaText = document.querySelector('.sticky-cta-text');
+      if (ctaBtn) {
+        ctaBtn.textContent = '신청 사이트 바로가기 ›';
+        ctaBtn.href = 'http://www.samsung2030blo.com';
+        ctaBtn.target = '_blank';
+        ctaBtn.onclick = null;
+      }
+      if (ctaText) {
+        ctaText.innerHTML = '<strong>✅ 코드 복사 완료!</strong>이제 사이트에서 신청을 완료해 주세요';
+      }
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(code).then(onCopied).catch(function(){ fallbackCopy(code, onCopied); });
@@ -1068,6 +1214,28 @@ html, body {
       var box = document.querySelector('.referral-box');
       box.style.animation = 'none'; box.offsetHeight;
       box.style.animation = 'shake 0.4s ease';
+    }
+  });
+
+  /* ─── Sticky CTA 스크롤 ─── */
+  function scrollToApply(e) {
+    e.preventDefault();
+    var applyEl = document.querySelector('.apply-sec');
+    if (applyEl) {
+      applyEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  /* ─── Sticky CTA 숨김 처리 (하단 도달 시) ─── */
+  window.addEventListener('scroll', function() {
+    var cta = document.getElementById('stickyCta');
+    var footer = document.querySelector('.copyright-bar');
+    if (!cta || !footer) return;
+    var footerTop = footer.getBoundingClientRect().top;
+    if (footerTop < window.innerHeight) {
+      cta.style.display = 'none';
+    } else {
+      cta.style.display = 'flex';
     }
   });
 </script>
