@@ -13,9 +13,8 @@
 <meta property="og:image:alt" content="피지컬 AI와 로봇 대항해의 시대 - 2030 BLO 3월 세미나">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=3">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <!-- Firebase SDK (보안 로그용) -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -25,7 +24,11 @@
 
 html, body {
   background: #f0f4fa;
-  font-family: 'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -91,14 +94,14 @@ html, body {
   padding:5px 11px;
   display:inline-block;
 }
-.blo-mark-sub { font-size:7px; font-weight:700; color:#C8A84B; letter-spacing:1.5px; }
-.blo-mark-main { font-size:11px; font-weight:900; color:#C8A84B; letter-spacing:2px; }
+.blo-mark-sub { font-size:10px; font-weight:700; color:#C8A84B; letter-spacing:1.5px; }
+.blo-mark-main { font-size:13px; font-weight:900; color:#C8A84B; letter-spacing:2px; }
 .hero-tag {
   background: rgba(200,168,75,0.15);
   border:1px solid rgba(200,168,75,0.4);
   color:#C8A84B;
-  font-size:11px; font-weight:700;
-  padding:5px 12px;
+  font-size:13px; font-weight:700;
+  padding:6px 14px;
   border-radius:20px;
   letter-spacing:0.3px;
 }
@@ -118,7 +121,7 @@ html, body {
 }
 .hero-title-wrap { position:relative; z-index:1; }
 .hero-label {
-  font-size:11px; font-weight:700; color:#C8A84B;
+  font-size:13px; font-weight:700; color:#C8A84B;
   letter-spacing:1px; margin-bottom:10px;
   display:flex; align-items:center; gap:6px;
 }
@@ -127,11 +130,11 @@ html, body {
   width:18px; height:2px; background:#C8A84B;
 }
 .hero-h1 {
-  font-size:34px; font-weight:900; color:#fff;
+  font-size:36px; font-weight:900; color:#fff;
   line-height:1.2; letter-spacing:-1.5px; word-break:keep-all;
 }
 .hero-sub {
-  font-size:13px; font-weight:500; color:#7FA8D4;
+  font-size:15px; font-weight:500; color:#7FA8D4;
   margin-top:10px; letter-spacing:0.3px;
 }
 
@@ -156,17 +159,17 @@ html, body {
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   box-shadow: 0 4px 16px rgba(16,80,160,0.2);
 }
-.sp-circle-name { font-size:13px; font-weight:900; color:#fff; }
-.sp-circle-title { font-size:9px; color:#C8A84B; margin-top:2px; }
+.sp-circle-name { font-size:14px; font-weight:900; color:#fff; }
+.sp-circle-title { font-size:11px; color:#C8A84B; margin-top:2px; }
 .sp-info {}
-.sp-name-row { font-size:16px; font-weight:900; color:#0D1A2E; margin-bottom:6px; }
-.sp-name-row span { font-size:11px; font-weight:400; color:#778899; margin-left:4px; }
-.sp-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.sp-name-row { font-size:18px; font-weight:900; color:#0D1A2E; margin-bottom:8px; }
+.sp-name-row span { font-size:13px; font-weight:500; color:#778899; margin-left:4px; }
+.sp-chips { display:flex; flex-wrap:wrap; gap:6px; }
 .sp-chip {
-  font-size:10px; font-weight:600; color:#334455;
+  font-size:12px; font-weight:600; color:#334455;
   background:#f0f4fa;
   border:1px solid #D8E4F0;
-  padding:3px 8px; border-radius:12px;
+  padding:5px 10px; border-radius:12px;
 }
 
 /* ══ 일시/정보 바 ══ */
@@ -189,9 +192,9 @@ html, body {
   font-size:16px; flex-shrink:0;
 }
 .info-text {}
-.info-lbl { font-size:10px; font-weight:700; color:#1050A0; letter-spacing:0.5px; margin-bottom:2px; }
-.info-val { font-size:13px; font-weight:700; color:#0D1A2E; line-height:1.4; }
-.info-sub-txt { font-size:11px; color:#778899; margin-top:1px; }
+.info-lbl { font-size:12px; font-weight:700; color:#1050A0; letter-spacing:0.5px; margin-bottom:3px; }
+.info-val { font-size:15px; font-weight:700; color:#0D1A2E; line-height:1.5; }
+.info-sub-txt { font-size:13px; color:#778899; margin-top:3px; }
 .info-divider { display:none; }
 
 /* ══ 본문 ══ */
@@ -202,7 +205,7 @@ html, body {
   border-bottom:1px solid #e4eaf2;
 }
 .body-sec p {
-  font-size:14px; color:#2a3a4a; line-height:1.9; word-break:keep-all;
+  font-size:15px; font-weight:500; color:#2a3a4a; line-height:2.0; word-break:keep-all;
 }
 .body-sec p+p { margin-top:10px; }
 
@@ -221,16 +224,16 @@ html, body {
 }
 .schedule-sec-banner-left { display:flex; flex-direction:column; gap:3px; }
 .schedule-sec-title {
-  font-size:15px; font-weight:900; color:#fff;
+  font-size:17px; font-weight:900; color:#fff;
   display:flex; align-items:center; gap:8px;
 }
 .schedule-sec-title span { color:#C8A84B; }
 .schedule-banner-sub {
-  font-size:11px; color:rgba(255,255,255,0.7);
+  font-size:13px; color:rgba(255,255,255,0.75);
   font-weight:600;
 }
 .schedule-more-link {
-  font-size:12px; color:#C8A84B; font-weight:800;
+  font-size:13px; color:#C8A84B; font-weight:800;
   text-decoration:none; display:flex; align-items:center; gap:4px;
   background:rgba(200,168,75,0.15);
   border:1px solid rgba(200,168,75,0.4);
@@ -240,8 +243,8 @@ html, body {
 .schedule-more-link:active { opacity:0.7; }
 
 .schedule-theme {
-  font-size:11px; color:#5A6878; margin:14px 22px 14px;
-  padding:8px 12px;
+  font-size:13px; color:#5A6878; margin:14px 22px 14px;
+  padding:10px 14px;
   background:#f7f9fc;
   border-radius:6px;
   border-left:3px solid #C8A84B;
@@ -256,20 +259,20 @@ html, body {
   padding: 10px 14px;
   display: flex; align-items: center; gap: 10px;
 }
-.year-benefit-icon { font-size: 20px; flex-shrink:0; }
-.year-benefit-text { font-size: 12px; color: #7A5800; font-weight: 700; line-height: 1.5; }
+.year-benefit-icon { font-size: 22px; flex-shrink:0; }
+.year-benefit-text { font-size: 13px; color: #7A5800; font-weight: 700; line-height: 1.6; }
 
 /* 탭 네비 */
 .q-tabs {
-  display:flex; gap:6px; margin-bottom:16px;
+  display:flex; gap:6px; margin:0 22px 16px;
   overflow-x:auto; -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
 }
 .q-tabs::-webkit-scrollbar { display:none; }
 .q-tab {
   flex-shrink:0;
-  font-size:11px; font-weight:700;
-  padding:7px 13px; border-radius:20px;
+  font-size:13px; font-weight:700;
+  padding:9px 15px; border-radius:20px;
   border:1.5px solid #D8E4F0;
   background:#f7f9fc; color:#778899;
   cursor:pointer; transition:all 0.15s;
@@ -292,10 +295,10 @@ html, body {
 .q-panel.active { display:block; }
 
 /* 분기 그룹 */
-.sched-quarter { margin-bottom:0; }
+.sched-quarter { margin-bottom:0; padding:0 22px; }
 .sched-q-label {
-  font-size:10px; font-weight:900; color:#1050A0;
-  letter-spacing:0.5px; margin-bottom:10px;
+  font-size:12px; font-weight:900; color:#1050A0;
+  letter-spacing:0.5px; margin-bottom:12px;
   display:flex; align-items:center; gap:6px;
 }
 .sched-q-label::after {
@@ -333,8 +336,8 @@ html, body {
   content:'▶ THIS MONTH';
   position:absolute; top:0; right:0;
   background:#C8A84B; color:#0D1A2E;
-  font-size:9px; font-weight:900;
-  padding:5px 12px;
+  font-size:11px; font-weight:900;
+  padding:6px 13px;
   border-radius:0 12px 0 10px;
   letter-spacing:0.5px;
 }
@@ -351,27 +354,27 @@ html, body {
 
 .sched-content {}
 .sched-date {
-  font-size:11px; font-weight:700; color:#1050A0; margin-bottom:3px;
+  font-size:13px; font-weight:700; color:#1050A0; margin-bottom:4px;
 }
-.current .sched-date { color:#C8A84B; font-size:12px; }
+.current .sched-date { color:#C8A84B; font-size:14px; }
 .sched-title-text {
-  font-size:13px; font-weight:700; color:#0D1A2E; line-height:1.4;
+  font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5;
   word-break:keep-all;
 }
-.current .sched-title-text { color:#fff; font-size:14px; font-weight:900; }
+.current .sched-title-text { color:#fff; font-size:16px; font-weight:900; }
 .sched-speaker {
-  font-size:11px; color:#778899; margin-top:3px;
+  font-size:13px; color:#778899; margin-top:4px;
 }
 .current .sched-speaker { color:#a8c4e4; }
 .sched-type-badge {
-  display:inline-block; font-size:10px; font-weight:700;
-  padding:2px 7px; border-radius:4px; margin-right:5px;
+  display:inline-block; font-size:12px; font-weight:700;
+  padding:3px 9px; border-radius:4px; margin-right:5px;
   background:#E8EEF6; color:#445566;
 }
 .current .sched-type-badge { background:rgba(255,255,255,0.15); color:#d0e4ff; }
 .sched-status {
-  display:inline-block; font-size:10px; font-weight:700;
-  padding:2px 7px; border-radius:10px; margin-top:4px;
+  display:inline-block; font-size:12px; font-weight:700;
+  padding:3px 9px; border-radius:10px; margin-top:5px;
 }
 .sched-status.done { background:#DCFCE7; color:#166534; }
 .sched-status.now  { background:#C8A84B; color:#0D1A2E; font-weight:900; }
@@ -387,8 +390,8 @@ html, body {
   border-bottom: 1px solid #D8E4F4;
 }
 .how-to-title {
-  font-size: 13px; font-weight: 900; color: #1050A0;
-  margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+  font-size: 15px; font-weight: 900; color: #1050A0;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 7px;
 }
 .how-to-title::after {
   content: ''; flex:1; height:1.5px; background: #C8D8F4;
@@ -406,10 +409,10 @@ html, body {
   font-size: 20px; color: #1050A0; font-weight: 900;
 }
 .how-to-num {
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   background: #1050A0; color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 900; margin-bottom: 8px;
+  font-size: 17px; font-weight: 900; margin-bottom: 10px;
   box-shadow: 0 3px 10px rgba(16,80,160,0.25);
 }
 .how-to-step.step-key .how-to-num {
@@ -418,9 +421,9 @@ html, body {
   box-shadow: 0 3px 10px rgba(200,168,75,0.4);
 }
 .how-to-label {
-  font-size: 11px; font-weight: 800; color: #0D1A2E; line-height: 1.4; margin-bottom: 2px;
+  font-size: 13px; font-weight: 800; color: #0D1A2E; line-height: 1.4; margin-bottom: 4px;
 }
-.how-to-desc { font-size: 10px; color: #778899; line-height: 1.5; }
+.how-to-desc { font-size: 12px; color: #778899; line-height: 1.6; }
 .how-to-step.step-key .how-to-label { color: #7A5800; }
 
 /* 하단 고정 CTA */
@@ -434,13 +437,13 @@ html, body {
   z-index: 1000;
 }
 .sticky-cta-text {
-  font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; flex: 1;
-  line-height: 1.4;
+  font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 600; flex: 1;
+  line-height: 1.5;
 }
-.sticky-cta-text strong { color: #C8A84B; display: block; font-size: 12px; }
+.sticky-cta-text strong { color: #C8A84B; display: block; font-size: 14px; }
 .sticky-cta-btn {
   background: #C8A84B; color: #0D1A2E;
-  font-size: 13px; font-weight: 900;
+  font-size: 14px; font-weight: 900;
   padding: 12px 20px; border-radius: 10px;
   border: none; cursor: pointer; white-space: nowrap;
   text-decoration: none; display: inline-block;
@@ -465,8 +468,8 @@ body { padding-bottom: 72px; }
   width:36px; height:36px; background:#C8A84B; border-radius:8px;
   display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
 }
-.apply-head-title { font-size:18px; font-weight:900; color:#fff; letter-spacing:-0.5px; }
-.apply-head-sub { font-size:11px; color:#7FA8D4; margin-top:2px; }
+.apply-head-title { font-size:20px; font-weight:900; color:#fff; letter-spacing:-0.5px; }
+.apply-head-sub { font-size:13px; color:#7FA8D4; margin-top:4px; }
 
 /* 신청 박스 */
 .apply-box {
@@ -482,9 +485,9 @@ body { padding-bottom: 72px; }
   border-bottom:1.5px solid #E8EEF6;
 }
 .sec-header {
-  font-size:14px; font-weight:800; color:#1050A0;
+  font-size:16px; font-weight:800; color:#1050A0;
   margin-bottom:16px; display:flex; align-items:center; gap:6px;
-  padding-bottom:10px; border-bottom:1px solid #E8EEF6;
+  padding-bottom:12px; border-bottom:1px solid #E8EEF6;
 }
 .panel-step {
   display:flex; align-items:flex-start; gap:12px;
@@ -492,12 +495,12 @@ body { padding-bottom: 72px; }
 }
 .panel-step:last-child { margin-bottom:0; }
 .step-num {
-  width:22px; height:22px; background:#1050A0; border-radius:50%;
+  width:26px; height:26px; background:#1050A0; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:900; color:#fff; flex-shrink:0; margin-top:2px;
+  font-size:13px; font-weight:900; color:#fff; flex-shrink:0; margin-top:2px;
 }
-.step-text { font-size:13px; color:#334455; line-height:1.65; }
-.step-text strong { color:#0D1A2E; font-size:13.5px; }
+.step-text { font-size:14px; color:#334455; line-height:1.7; }
+.step-text strong { color:#0D1A2E; font-size:15px; }
 .step-text a { color:#1A6FE8; text-decoration:none; font-weight:600; }
 
 /* 추천인 코드 */
@@ -664,6 +667,49 @@ body { padding-bottom: 72px; }
 .pub-link-btn:active { background:#dce6f5; transform:scale(0.97); }
 .pub-link-icon { font-size:18px; }
 
+/* ══ 잡페어 장소변경 공지 ══ */
+.jobfair-notice {
+  background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D0 100%);
+  border-top: 3px solid #E8A000;
+  border-bottom: 3px solid #E8A000;
+  padding: 16px 22px;
+}
+.jobfair-notice-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.jobfair-notice-badge {
+  background: #E8A000; color: #fff;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+  padding: 4px 10px; border-radius: 20px; flex-shrink: 0;
+}
+.jobfair-notice-title {
+  font-size: 15px; font-weight: 900; color: #7A4F00;
+}
+.jobfair-change-box {
+  background: #fff;
+  border: 1.5px solid #F0D080;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+.jobfair-change-label {
+  font-size: 11px; font-weight: 700; color: #B07800; margin-bottom: 8px;
+}
+.jobfair-change-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 700;
+}
+.jobfair-change-old { text-decoration: line-through; color: #AABBCC; }
+.jobfair-change-arrow { color: #E8A000; font-size: 18px; }
+.jobfair-change-new { color: #C0352A; }
+.jobfair-info-rows { display: flex; flex-direction: column; gap: 7px; }
+.jobfair-info-row {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 13px; color: #334455;
+}
+.jobfair-info-dot { color: #E8A000; font-weight: 900; flex-shrink: 0; }
+
 /* ══ 하단 ══ */
 .note-bar {
   background:#E8EEF6;
@@ -745,6 +791,36 @@ body { padding-bottom: 72px; }
         <div class="info-lbl">OFFLINE</div>
         <div class="info-val">삼성금융캠퍼스 B2F 비전홀</div>
         <div class="info-sub-txt">서울 서초구 사임당로 23길 27 · 마감 3/19(목)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 잡페어 장소변경 공지 -->
+  <div class="jobfair-notice">
+    <div class="jobfair-notice-header">
+      <div class="jobfair-notice-badge">📢 장소변경 공지</div>
+      <div class="jobfair-notice-title">삼성생명 JOB FAIR 2차</div>
+    </div>
+    <div class="jobfair-change-box">
+      <div class="jobfair-change-label">장소 변경 · 수용인원 40석 → 54석</div>
+      <div class="jobfair-change-row">
+        <span class="jobfair-change-old">휴먼센터 214호</span>
+        <span class="jobfair-change-arrow">→</span>
+        <span class="jobfair-change-new">휴먼센터 219호</span>
+      </div>
+    </div>
+    <div class="jobfair-info-rows">
+      <div class="jobfair-info-row">
+        <span class="jobfair-info-dot">▸</span>
+        <span><strong>일시</strong> &nbsp;3/25(수) 10:30 ~ 13:00</span>
+      </div>
+      <div class="jobfair-info-row">
+        <span class="jobfair-info-dot">▸</span>
+        <span><strong>대상</strong> &nbsp;후보자 선착순 54명</span>
+      </div>
+      <div class="jobfair-info-row">
+        <span class="jobfair-info-dot">▸</span>
+        <span><strong>혜택</strong> &nbsp;후보자 🍷, 추천자 선물 지원 (3만원)</span>
       </div>
     </div>
   </div>
