@@ -442,6 +442,8 @@
                 <button class="tab" onclick="switchTab('counter')">📊 신청자 현황</button>
                 <button class="tab" onclick="switchTab('email')">📧 이메일 발송</button>
                 <button class="tab" onclick="switchTab('schedule')">📅 연간 일정 관리</button>
+                <button class="tab" onclick="switchTab('deadline')">📢 마감일 관리</button>
+                <button class="tab" onclick="switchTab('event')">🎤 이달 행사 관리</button>
             </div>
 
             <!-- 세미나 편집 탭 -->
@@ -645,8 +647,330 @@
 
                 <button onclick="saveSchedule()" class="btn btn-primary">일정 저장</button>
             </div>
+
+            <!-- 마감일 관리 탭 -->
+            <div id="deadlineTab" class="tab-content">
+                <h2 style="margin-bottom:20px;">📢 신청 마감일 관리</h2>
+                <div class="alert alert-info" style="margin-bottom:16px;">
+                    마감일을 입력하고 <strong>확정 공고</strong>를 누르면 invite.html에 즉시 반영됩니다.<br>
+                    확정 전까지는 방문자에게 <strong>"추후 공지"</strong>로 표시됩니다.
+                </div>
+                <div id="deadlineStatus" style="margin-bottom:12px;font-size:13px;color:#666;"></div>
+                <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                    <thead>
+                        <tr style="background:#1428A0;color:#fff;">
+                            <th style="padding:10px;text-align:center;">월</th>
+                            <th style="padding:10px;text-align:center;">행사일</th>
+                            <th style="padding:10px;text-align:left;">마감일 입력 (예: 4/16(목) 17:00까지)</th>
+                            <th style="padding:10px;text-align:center;">확정 상태</th>
+                            <th style="padding:10px;text-align:center;">저장</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deadlineTableBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+            <!-- 이달 행사 관리 탭 -->
+            <div id="eventTab" class="tab-content">
+                <h2 style="margin-bottom:16px;">🎤 이달 행사 관리</h2>
+                <div class="alert alert-info" style="margin-bottom:16px;">
+                    저장하면 <strong>invite.html</strong>에 즉시 반영됩니다.<br>
+                    ※ 잡페어 섹션은 "표시" 체크 시에만 노출됩니다.
+                </div>
+                <div id="eventSaveStatus" style="margin-bottom:10px;font-size:13px;color:#666;"></div>
+
+                <div style="display:flex;flex-direction:column;gap:14px;">
+
+                  <!-- 히어로 -->
+                  <fieldset style="border:1px solid #ddd;border-radius:8px;padding:14px;">
+                    <legend style="font-weight:700;padding:0 8px;color:#1428A0;">📌 히어로 섹션</legend>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+                      <div><label style="font-size:12px;color:#555;">월 태그 (예: 4월 세미나)</label><input id="ev-heroTag" class="form-input" type="text" placeholder="4월 세미나"></div>
+                      <div><label style="font-size:12px;color:#555;">월 숫자 (예: 04)</label><input id="ev-heroMonth" class="form-input" type="text" placeholder="04" maxlength="2"></div>
+                      <div style="grid-column:1/-1;"><label style="font-size:12px;color:#555;">히어로 라벨 (예: APRIL 2026 · MONEY INSIGHT)</label><input id="ev-heroLabel" class="form-input" type="text" placeholder="APRIL 2026 · MONEY INSIGHT"></div>
+                      <div style="grid-column:1/-1;"><label style="font-size:12px;color:#555;">강연 제목 (줄바꿈: &lt;br&gt;)</label><input id="ev-title" class="form-input" type="text" placeholder="강연 제목을 입력하세요"></div>
+                      <div style="grid-column:1/-1;"><label style="font-size:12px;color:#555;">영문 부제</label><input id="ev-titleSub" class="form-input" type="text" placeholder="English subtitle here"></div>
+                    </div>
+                  </fieldset>
+
+                  <!-- 강사 -->
+                  <fieldset style="border:1px solid #ddd;border-radius:8px;padding:14px;">
+                    <legend style="font-weight:700;padding:0 8px;color:#1428A0;">👤 강사 정보</legend>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+                      <div><label style="font-size:12px;color:#555;">강사명</label><input id="ev-spName" class="form-input" type="text" placeholder="홍길동"></div>
+                      <div><label style="font-size:12px;color:#555;">직책 (예: 교수)</label><input id="ev-spTitle" class="form-input" type="text" placeholder="교수"></div>
+                      <div><label style="font-size:12px;color:#555;">원형 이름 (2~3자)</label><input id="ev-spCircleName" class="form-input" type="text" placeholder="홍길동" maxlength="4"></div>
+                      <div><label style="font-size:12px;color:#555;">원형 직책</label><input id="ev-spCircleTitle" class="form-input" type="text" placeholder="교수"></div>
+                      <div style="grid-column:1/-1;"><label style="font-size:12px;color:#555;">소속 칩 (쉼표로 구분, 예: 서울대 경영학과, 前 금융위원회)</label><input id="ev-spChips" class="form-input" type="text" placeholder="소속1, 소속2, 소속3"></div>
+                    </div>
+                  </fieldset>
+
+                  <!-- 일시 -->
+                  <fieldset style="border:1px solid #ddd;border-radius:8px;padding:14px;">
+                    <legend style="font-weight:700;padding:0 8px;color:#1428A0;">📅 일시</legend>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+                      <div style="grid-column:1/-1;"><label style="font-size:12px;color:#555;">행사 일시 (예: 2026.4.21 (화) 오전 7:30 ~ 9:00)</label><input id="ev-eventDate" class="form-input" type="text" placeholder="2026.4.21 (화) 오전 7:30 ~ 9:00"></div>
+                      <div><label style="font-size:12px;color:#555;">재방송 안내</label><input id="ev-replayNote" class="form-input" type="text" placeholder="당일 재방송 20:00~22:00"></div>
+                      <div><label style="font-size:12px;color:#555;">당일 시청 날짜 (예: 4/21(화))</label><input id="ev-watchDate" class="form-input" type="text" placeholder="4/21(화)"></div>
+                    </div>
+                  </fieldset>
+
+                  <!-- 추천인 코드 -->
+                  <fieldset style="border:1px solid #ddd;border-radius:8px;padding:14px;">
+                    <legend style="font-weight:700;padding:0 8px;color:#1428A0;">🔑 추천인 코드</legend>
+                    <div style="margin-top:8px;"><input id="ev-refCode" class="form-input" type="text" placeholder="9618628" maxlength="20"></div>
+                  </fieldset>
+
+                  <!-- 본문 -->
+                  <fieldset style="border:1px solid #ddd;border-radius:8px;padding:14px;">
+                    <legend style="font-weight:700;padding:0 8px;color:#1428A0;">📝 강연 소개 본문</legend>
+                    <div style="margin-top:8px;"><label style="font-size:12px;color:#555;">문단 구분: 빈 줄로 구분 (Enter 두 번)</label>
+                    <textarea id="ev-bodyText" class="form-textarea" rows="6" placeholder="강연 소개 첫 번째 문단&#10;&#10;두 번째 문단&#10;&#10;세 번째 문단"></textarea></div>
+                  </fieldset>
+
+                  <!-- 잡페어 -->
+                  <fieldset style="border:1px solid #ddd;border-radius:8px;padding:14px;">
+                    <legend style="font-weight:700;padding:0 8px;color:#1428A0;">🏢 JOB FAIR 섹션</legend>
+                    <div style="margin-top:8px;display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                      <input id="ev-jfShow" type="checkbox">
+                      <label for="ev-jfShow" style="font-weight:700;cursor:pointer;">페이지에 표시</label>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                      <div><label style="font-size:12px;color:#555;">뱃지 텍스트 (예: 장소변경 공지)</label><input id="ev-jfBadge" class="form-input" type="text" placeholder="공지"></div>
+                      <div><label style="font-size:12px;color:#555;">제목 (예: 삼성생명 JOB FAIR 2차)</label><input id="ev-jfTitle" class="form-input" type="text" placeholder="삼성생명 JOB FAIR"></div>
+                      <div style="grid-column:1/-1;"><label style="font-size:12px;color:#555;">행 내용 (형식: 라벨|값, 줄바꿈으로 구분)<br><span style="color:#999;">예) 일시|3/25(수) 10:30~13:00</span></label>
+                      <textarea id="ev-jfRows" class="form-textarea" rows="4" placeholder="일시|4/21(화) 10:30 ~ 13:00&#10;대상|후보자 선착순 54명&#10;장소|휴먼센터 219호&#10;혜택|추천자 선물 지원 (3만원)"></textarea></div>
+                    </div>
+                  </fieldset>
+
+                  <button onclick="saveEventInfo()" style="padding:14px;background:#1428A0;color:#fff;font-size:15px;font-weight:900;border:none;border-radius:8px;cursor:pointer;">
+                    💾 invite.html에 저장 · 즉시 반영
+                  </button>
+                </div>
+            </div>
+
+    <!-- Firebase SDK (samsung-gfc Firestore 마감일 관리용) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+    // ── BLO 마감일 관리 (samsung-gfc Firestore 연동) ─────────────────────────
+    var BLO_EVENTS = [
+      { month:1,  day:13, label:'1월 13일(화)' },
+      { month:2,  day:24, label:'2월 24일(화)' },
+      { month:3,  day:24, label:'3월 24일(화)' },
+      { month:4,  day:21, label:'4월 21일(화)' },
+      { month:5,  day:19, label:'5월 19일(화)' },
+      { month:6,  day:16, label:'6월 16일(화)' },
+      { month:7,  day:21, label:'7월 21일(화)' },
+      { month:8,  day:18, label:'8월 18일(화)' },
+      { month:9,  day:15, label:'9월 15일(화)' },
+      { month:10, day:20, label:'10월 20일(화)' },
+      { month:11, day:17, label:'11월 17일(화)' },
+      { month:12, day:15, label:'12월 15일(화)' },
+    ];
+
+    var bloDb = null, bloAuth = null;
+
+    function initBloFirebase() {
+      if (bloDb) return;
+      try {
+        var cfg = {
+          apiKey: "AIzaSyBpDZF4L3FPpm54HWZFx9ZkGiGb1MPlVN0",
+          authDomain: "samsung-gfc.firebaseapp.com",
+          projectId: "samsung-gfc",
+          appId: "1:583640326398:web:1662178587cbab8ca605af"
+        };
+        var appName = 'blo-admin';
+        var existing = firebase.apps.find(function(a){ return a.name === appName; });
+        var app = existing || firebase.initializeApp(cfg, appName);
+        bloDb   = firebase.firestore(app);
+        bloAuth = firebase.auth(app);
+      } catch(e) { console.error('Firebase init error', e); }
+    }
+
+    // 관리자 로그인 후 Firebase Auth도 인증
+    async function bloSignIn(email, password) {
+      initBloFirebase();
+      if (!bloAuth) return false;
+      try {
+        await bloAuth.signInWithEmailAndPassword(email, password);
+        return true;
+      } catch(e) {
+        console.warn('BLO Firebase Auth 실패 (Firestore 쓰기 권한 없음):', e.message);
+        return false;
+      }
+    }
+
+    async function loadDeadlineTab() {
+      initBloFirebase();
+      var tbody = document.getElementById('deadlineTableBody');
+      var statusEl = document.getElementById('deadlineStatus');
+      if (!tbody) return;
+
+      // 현재 저장된 데이터 로드
+      var savedData = {};
+      try {
+        var doc = await bloDb.collection('bloSeminarConfig').doc('deadlines2026').get();
+        if (doc.exists) savedData = doc.data();
+      } catch(e) {}
+
+      tbody.innerHTML = '';
+      var today = new Date(); today.setHours(0,0,0,0);
+
+      BLO_EVENTS.forEach(function(ev) {
+        var key = '2026-' + String(ev.month).padStart(2,'0');
+        var saved = savedData[key] || {};
+        var isPast = new Date(2026, ev.month - 1, ev.day) < today;
+        var isConfirmed = !!saved.confirmed;
+        var deadlineVal = saved.deadlineFull || '';
+
+        var rowBg = isPast ? '#f9f9f9' : (isConfirmed ? '#f0fff4' : '#fffbf0');
+        var statusBadge = isPast
+          ? '<span style="color:#999;font-size:12px;">완료</span>'
+          : (isConfirmed
+              ? '<span style="color:#22863a;font-weight:700;">✅ 확정</span>'
+              : '<span style="color:#856404;font-weight:700;">⏳ 미확정</span>');
+
+        var tr = document.createElement('tr');
+        tr.style.background = rowBg;
+        tr.style.borderBottom = '1px solid #eee';
+        tr.innerHTML =
+          '<td style="padding:10px;text-align:center;font-weight:700;">' + ev.month + '월</td>' +
+          '<td style="padding:10px;text-align:center;color:#555;">' + ev.label + '</td>' +
+          '<td style="padding:10px;">' +
+            (isPast
+              ? '<span style="color:#aaa;">' + (deadlineVal || '-') + '</span>'
+              : '<input id="dl_' + key + '" type="text" value="' + deadlineVal + '" placeholder="예: ' + ev.month + '/16(목) 17:00까지" ' +
+                'style="width:100%;padding:7px;border:1px solid #ddd;border-radius:4px;font-size:13px;">'
+            ) +
+          '</td>' +
+          '<td style="padding:10px;text-align:center;">' + statusBadge + '</td>' +
+          '<td style="padding:10px;text-align:center;">' +
+            (isPast
+              ? '<span style="color:#ccc;font-size:12px;">-</span>'
+              : '<button onclick="saveDeadline(\'' + key + '\')" ' +
+                'style="padding:6px 14px;background:#1428A0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;">확정 공고</button>'
+            ) +
+          '</td>';
+        tbody.appendChild(tr);
+      });
+
+      statusEl.textContent = '마지막 로드: ' + new Date().toLocaleTimeString('ko-KR');
+    }
+
+    // ── 이달 행사 정보 로드 ────────────────────────────────────────────────
+    async function loadEventTab() {
+      initBloFirebase();
+      if (!bloDb) return;
+      var statusEl = document.getElementById('eventSaveStatus');
+      try {
+        var doc = await bloDb.collection('bloSeminarConfig').doc('currentEvent').get();
+        if (!doc.exists) { if(statusEl) statusEl.textContent = '저장된 데이터 없음 (기본값 표시 중)'; return; }
+        var d = doc.data();
+        function setVal(id, val) { var el=document.getElementById(id); if(el&&val!==undefined) el.value=val||''; }
+        setVal('ev-heroTag',      d.heroTag);
+        setVal('ev-heroMonth',    d.monthNum);
+        setVal('ev-heroLabel',    d.heroLabel);
+        setVal('ev-title',        d.title);
+        setVal('ev-titleSub',     d.titleSub);
+        if (d.speaker) {
+          setVal('ev-spName',        d.speaker.name);
+          setVal('ev-spTitle',       d.speaker.title);
+          setVal('ev-spCircleName',  d.speaker.circleName);
+          setVal('ev-spCircleTitle', d.speaker.circleTitle);
+          setVal('ev-spChips',       (d.speaker.chips||[]).join(', '));
+        }
+        setVal('ev-eventDate',  d.eventDate);
+        setVal('ev-replayNote', d.replayNote);
+        setVal('ev-watchDate',  d.watchDate);
+        setVal('ev-refCode',    d.referralCode);
+        if (d.bodyText) { var el=document.getElementById('ev-bodyText'); if(el) el.value = d.bodyText.join('\n\n'); }
+        if (d.jobfair) {
+          var cb = document.getElementById('ev-jfShow'); if(cb) cb.checked = !!d.jobfair.show;
+          setVal('ev-jfBadge', d.jobfair.badge);
+          setVal('ev-jfTitle', d.jobfair.title);
+          if (d.jobfair.rows) { var el=document.getElementById('ev-jfRows'); if(el) el.value=d.jobfair.rows.map(function(r){return r.label+'|'+r.value;}).join('\n'); }
+        }
+        if(statusEl) statusEl.textContent = '마지막 저장: ' + (d.updatedAt || '-');
+      } catch(e) { if(statusEl) statusEl.textContent = '로드 오류: ' + e.message; }
+    }
+
+    window.saveEventInfo = async function() {
+      initBloFirebase();
+      if (!bloDb) { alert('Firebase 초기화 오류'); return; }
+      function getVal(id) { var el=document.getElementById(id); return el ? el.value.trim() : ''; }
+
+      // 본문 파싱 (빈 줄 구분)
+      var bodyRaw = getVal('ev-bodyText');
+      var bodyText = bodyRaw.split(/\n\s*\n/).map(function(t){ return t.trim().replace(/\n/g,'<br>'); }).filter(Boolean);
+
+      // 잡페어 행 파싱
+      var jfRowsRaw = getVal('ev-jfRows');
+      var jfRows = jfRowsRaw.split('\n').map(function(line){
+        var parts = line.split('|');
+        return parts.length >= 2 ? { label: parts[0].trim(), value: parts.slice(1).join('|').trim() } : null;
+      }).filter(Boolean);
+
+      var data = {
+        heroTag:      getVal('ev-heroTag'),
+        monthNum:     getVal('ev-heroMonth'),
+        heroLabel:    getVal('ev-heroLabel'),
+        title:        getVal('ev-title'),
+        titleSub:     getVal('ev-titleSub'),
+        speaker: {
+          name:        getVal('ev-spName'),
+          title:       getVal('ev-spTitle'),
+          circleName:  getVal('ev-spCircleName'),
+          circleTitle: getVal('ev-spCircleTitle'),
+          chips:       getVal('ev-spChips').split(',').map(function(c){ return c.trim(); }).filter(Boolean)
+        },
+        eventDate:    getVal('ev-eventDate'),
+        replayNote:   getVal('ev-replayNote'),
+        watchDate:    getVal('ev-watchDate'),
+        referralCode: getVal('ev-refCode'),
+        bodyText:     bodyText,
+        jobfair: {
+          show:   document.getElementById('ev-jfShow') ? document.getElementById('ev-jfShow').checked : false,
+          badge:  getVal('ev-jfBadge'),
+          title:  getVal('ev-jfTitle'),
+          rows:   jfRows
+        },
+        updatedAt: new Date().toLocaleString('ko-KR')
+      };
+
+      try {
+        await bloDb.collection('bloSeminarConfig').doc('currentEvent').set(data);
+        alert('✅ 저장 완료! invite.html에 즉시 반영됩니다.');
+        document.getElementById('eventSaveStatus').textContent = '마지막 저장: ' + data.updatedAt;
+      } catch(e) {
+        alert('❌ 저장 실패: ' + e.message);
+      }
+    };
+
+    window.saveDeadline = async function(key) {
+      initBloFirebase();
+      var inputEl = document.getElementById('dl_' + key);
+      if (!inputEl) return;
+      var val = inputEl.value.trim();
+      if (!val) { alert('마감일을 입력해 주세요.'); inputEl.focus(); return; }
+
+      // 짧은 형식 자동 생성 (예: "4/16(목) 17:00까지" → "4/16(목)")
+      var shortVal = val.replace(/\s*\d{1,2}:\d{2}까지.*/, '').replace(/\s*17:00까지.*/, '').trim();
+
+      try {
+        var update = {};
+        update[key] = { deadlineShort: shortVal, deadlineFull: val, confirmed: true, updatedAt: new Date().toISOString() };
+        await bloDb.collection('bloSeminarConfig').doc('deadlines2026').set(update, { merge: true });
+        alert('✅ ' + key + ' 마감일이 확정 공고되었습니다.\ninvite.html에 즉시 반영됩니다.');
+        loadDeadlineTab();
+      } catch(e) {
+        alert('❌ 저장 실패: ' + e.message + '\n\nFirebase Auth 로그인이 필요합니다.\n잠시 후 다시 시도해 주세요.');
+      }
+    };
+    </script>
 
     <script>
         // ==========================================
@@ -671,7 +995,7 @@
 
                 // 관리자 계정 (전체 권한)
                 ADMIN_EMAIL: 'jb2park@naver.com',
-                ADMIN_PASSWORD: 'BLO2030Admin!',
+                ADMIN_PASSWORD: '',
 
                 // 데모 계정 (읽기 전용)
                 DEMO_EMAIL: 'demo@blo-seminar.com',
@@ -760,6 +1084,11 @@
                     // 사용자 정보 표시
                     const roleLabel = userRole === USER_ROLES.ADMIN ? '관리자' : '데모 (읽기 전용)';
                     document.getElementById('userName').textContent = `${email} (${roleLabel})`;
+
+                    // 마감일 저장을 위한 Firebase Auth 인증 (관리자만)
+                    if (userRole === USER_ROLES.ADMIN) {
+                        bloSignIn(email, password);
+                    }
 
                     loadDashboardData();
                     startSessionMonitoring();
@@ -1074,6 +1403,15 @@
             // 선택된 탭 활성화
             event.target.classList.add('active');
             document.getElementById(tabName + 'Tab').style.display = 'block';
+
+            // 마감일 탭 진입 시 데이터 로드
+            if (tabName === 'deadline') {
+                loadDeadlineTab();
+            }
+            // 이달 행사 탭 진입 시 데이터 로드
+            if (tabName === 'event') {
+                loadEventTab();
+            }
         }
 
         function loadDashboardData() {

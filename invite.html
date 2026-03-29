@@ -15,9 +15,40 @@
 <meta name="twitter:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<!-- Firebase SDK (보안 로그용) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<!-- Firebase SDK (마감일 Firestore 조회 + 보안 로그용) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+  // samsung-gfc Firestore에서 BLO 마감일 조회
+  (function() {
+    var cfg = {
+      apiKey: "AIzaSyBpDZF4L3FPpm54HWZFx9ZkGiGb1MPlVN0",
+      authDomain: "samsung-gfc.firebaseapp.com",
+      projectId: "samsung-gfc",
+      appId: "1:583640326398:web:1662178587cbab8ca605af"
+    };
+    try {
+      var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+      var db  = firebase.firestore(app);
+      db.collection('bloSeminarConfig').doc('deadlines2026').get().then(function(doc) {
+        if (!doc.exists) return;
+        var data = doc.data();
+        // 현재 활성 달 key (예: "2026-03")
+        var now  = new Date();
+        var key  = '2026-' + String(now.getMonth() + 1).padStart(2, '0');
+        var ev   = data[key];
+        if (!ev || !ev.confirmed) return;  // 미확정 → 기본값("추후 공지") 유지
+
+        var elShort = document.getElementById('deadlineShort');
+        var elFull  = document.getElementById('deadlineFull');
+        var elFlow  = document.getElementById('deadlineFlow');
+        if (elShort) elShort.textContent = ev.deadlineShort;
+        if (elFull)  elFull.textContent  = ev.deadlineFull;
+        if (elFlow)  elFlow.textContent  = ev.deadlineFull;
+      }).catch(function() {});  // 오류 시 기본값 유지
+    } catch(e) {}
+  })();
+</script>
 <title>피지컬 AI와 로봇 대항해의 시대 | 2030 BLO 3월</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -276,7 +307,7 @@ html, body {
   border:1.5px solid #D8E4F0;
   background:#f7f9fc; color:#778899;
   cursor:pointer; transition:all 0.15s;
-  white-space:nowrap;
+  white-space:nowrap; position:relative;
 }
 .q-tab.active {
   background:#0D2244; color:#C8A84B;
@@ -288,6 +319,21 @@ html, body {
 }
 .q-tab.has-current.active {
   background:#0D2244; color:#C8A84B; border-color:#0D2244;
+}
+/* 잔여 강연 뱃지 */
+.q-tab .q-badge {
+  display:inline-block; font-size:10px; font-weight:900;
+  background:#E8F4FF; color:#1050A0;
+  border-radius:8px; padding:1px 6px; margin-left:4px;
+  vertical-align:middle; line-height:1.6;
+}
+.q-tab.active .q-badge { background:rgba(200,168,75,0.25); color:#C8A84B; }
+.q-tab.all-done .q-badge { background:#DCFCE7; color:#166534; }
+/* 예정 분기 강조 점 */
+.q-tab.has-upcoming::after {
+  content:''; position:absolute; top:4px; right:4px;
+  width:7px; height:7px; border-radius:50%;
+  background:#1A6FE8;
 }
 
 /* 탭 패널 */
@@ -667,6 +713,36 @@ body { padding-bottom: 72px; }
 .pub-link-btn:active { background:#dce6f5; transform:scale(0.97); }
 .pub-link-icon { font-size:18px; }
 
+.wine-card-cta {
+  background:#fff;
+  padding:0 22px 20px;
+}
+.wine-card-btn {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  text-decoration:none;
+  border-radius:12px;
+  padding:14px 12px;
+  border:1px solid #D7C27A;
+  background:linear-gradient(135deg, #FFF8E4 0%, #F4DE9A 100%);
+  box-shadow:0 4px 16px rgba(170,130,20,0.18);
+  color:#4E3200;
+}
+.wine-card-btn:active { transform:scale(0.98); }
+.wine-card-main {
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:0.2px;
+}
+.wine-card-sub {
+  font-size:11px;
+  font-weight:600;
+  color:#6D4D0F;
+}
+
 /* ══ 잡페어 장소변경 공지 ══ */
 .jobfair-notice {
   background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D0 100%);
@@ -736,28 +812,28 @@ body { padding-bottom: 72px; }
         <div class="blo-mark-sub">2030 BUSINESS</div>
         <div class="blo-mark-main">LIVE ON</div>
       </div>
-      <div class="hero-tag">3월 세미나</div>
+      <div class="hero-tag" id="dyn-heroTag">3월 세미나</div>
     </div>
 
     <div class="hero-main">
-      <div class="hero-month">03</div>
+      <div class="hero-month" id="dyn-heroMonth">03</div>
       <div class="hero-title-wrap">
-        <div class="hero-label">MARCH 2026 · PHYSICAL AI</div>
-        <h1 class="hero-h1">피지컬 AI와<br>로봇 대항해의 시대</h1>
-        <div class="hero-sub">Physical AI &amp; Robot Navigation Era</div>
+        <div class="hero-label" id="dyn-heroLabel">MARCH 2026 · PHYSICAL AI</div>
+        <h1 class="hero-h1" id="dyn-heroTitle">피지컬 AI와<br>로봇 대항해의 시대</h1>
+        <div class="hero-sub" id="dyn-heroSub">Physical AI &amp; Robot Navigation Era</div>
       </div>
     </div>
     <div class="hero-divider"></div>
   </div><!-- /hero -->
 
-  <div class="hero-speaker">
+  <div class="hero-speaker" id="dyn-speakerSection">
       <div class="sp-circle">
-        <div class="sp-circle-name">조규진</div>
-        <div class="sp-circle-title">교수</div>
+        <div class="sp-circle-name" id="dyn-spCircleName">조규진</div>
+        <div class="sp-circle-title" id="dyn-spCircleTitle">교수</div>
       </div>
       <div class="sp-info">
-        <div class="sp-name-row">조규진 <span>교수</span></div>
-        <div class="sp-chips">
+        <div class="sp-name-row" id="dyn-spNameRow">조규진 <span>교수</span></div>
+        <div class="sp-chips" id="dyn-spChips">
           <span class="sp-chip">서울대 기계공학과</span>
           <span class="sp-chip">인간중심소프트로봇센터장</span>
           <span class="sp-chip">카카오 사외이사</span>
@@ -773,8 +849,8 @@ body { padding-bottom: 72px; }
       <div class="info-icon">📅</div>
       <div class="info-text">
         <div class="info-lbl">DATE &amp; TIME</div>
-        <div class="info-val">2026.3.24 (화) 오전 7:30 ~ 9:00</div>
-        <div class="info-sub-txt">당일 재방송 20:00~22:00</div>
+        <div class="info-val" id="dyn-eventDate">2026.3.24 (화) 오전 7:30 ~ 9:00</div>
+        <div class="info-sub-txt" id="dyn-replayNote">당일 재방송 20:00~22:00</div>
       </div>
     </div>
     <div class="info-row">
@@ -790,39 +866,18 @@ body { padding-bottom: 72px; }
       <div class="info-text">
         <div class="info-lbl">OFFLINE</div>
         <div class="info-val">삼성금융캠퍼스 B2F 비전홀</div>
-        <div class="info-sub-txt">서울 서초구 사임당로 23길 27 · 마감 3/19(목)</div>
+        <div class="info-sub-txt">서울 서초구 사임당로 23길 27 · 마감 <span id="deadlineShort">3/19(목)</span></div>
       </div>
     </div>
   </div>
 
-  <!-- 잡페어 장소변경 공지 -->
-  <div class="jobfair-notice">
+  <!-- 잡페어 공지 (관리자 설정으로 표시/숨김) -->
+  <div class="jobfair-notice" id="dyn-jobfairSection" style="display:none;">
     <div class="jobfair-notice-header">
-      <div class="jobfair-notice-badge">📢 장소변경 공지</div>
-      <div class="jobfair-notice-title">삼성생명 JOB FAIR 2차</div>
+      <div class="jobfair-notice-badge">📢 <span id="dyn-jobfairBadge">공지</span></div>
+      <div class="jobfair-notice-title" id="dyn-jobfairTitle">삼성생명 JOB FAIR</div>
     </div>
-    <div class="jobfair-change-box">
-      <div class="jobfair-change-label">장소 변경 · 수용인원 40석 → 54석</div>
-      <div class="jobfair-change-row">
-        <span class="jobfair-change-old">휴먼센터 214호</span>
-        <span class="jobfair-change-arrow">→</span>
-        <span class="jobfair-change-new">휴먼센터 219호</span>
-      </div>
-    </div>
-    <div class="jobfair-info-rows">
-      <div class="jobfair-info-row">
-        <span class="jobfair-info-dot">▸</span>
-        <span><strong>일시</strong> &nbsp;3/25(수) 10:30 ~ 13:00</span>
-      </div>
-      <div class="jobfair-info-row">
-        <span class="jobfair-info-dot">▸</span>
-        <span><strong>대상</strong> &nbsp;후보자 선착순 54명</span>
-      </div>
-      <div class="jobfair-info-row">
-        <span class="jobfair-info-dot">▸</span>
-        <span><strong>혜택</strong> &nbsp;후보자 🍷, 추천자 선물 지원 (3만원)</span>
-      </div>
-    </div>
+    <div class="jobfair-info-rows" id="dyn-jobfairRows"></div>
   </div>
 
   <!-- 신청 프로세스 안내 -->
@@ -848,7 +903,7 @@ body { padding-bottom: 72px; }
   </div>
 
   <!-- ② 본문 -->
-  <div class="body-sec">
+  <div class="body-sec" id="dyn-bodySec">
     <p>CES2026을 관통한 피지컬 AI.<br>
        화면 속 인공지능 기술은 로봇을 입고 세상에 나왔습니다.</p>
     <p>일상에 더하는 편리함을 넘어<br>
@@ -876,14 +931,14 @@ body { padding-bottom: 72px; }
 
     <!-- 탭 버튼 -->
     <div class="q-tabs">
-      <div class="q-tab has-current active" onclick="switchQ(1)" id="qtab1">1Q · Tech ⚡</div>
+      <div class="q-tab" onclick="switchQ(1)" id="qtab1">1Q · Tech ⚡</div>
       <div class="q-tab" onclick="switchQ(2)" id="qtab2">2Q · Money 💰</div>
       <div class="q-tab" onclick="switchQ(3)" id="qtab3">3Q · Human 🤝</div>
       <div class="q-tab" onclick="switchQ(4)" id="qtab4">4Q · 2027 🚀</div>
     </div>
 
     <!-- Q1 패널 -->
-    <div class="q-panel active" id="qpanel1">
+    <div class="q-panel" id="qpanel1">
       <div class="sched-quarter">
         <div class="sched-q-label">1Q · Tech Insight, 차세대 혁신 기술</div>
         <div class="sched-item completed">
@@ -1047,14 +1102,14 @@ body { padding-bottom: 72px; }
           <div class="step-num">3</div>
           <div class="step-text">
             <strong>당일 시청</strong><br>
-            3/24(화) 7:15부터 접속 가능
+            <span id="dyn-watchDate">3/24(화)</span> 7:15부터 접속 가능
             <span style="display:block;color:#8BB8D8;font-size:11px;margin-top:2px">재방송 당일 20:00~22:00</span>
           </div>
         </div>
 
         <div class="referral-box">
           <div class="ref-label">⚠️ 신청 시 반드시 입력 — 추천인 코드</div>
-          <div class="ref-code" id="refCode">9618628</div>
+          <div class="ref-code" id="refCode" data-dyn="refCode">9618628</div>
           <button class="ref-copy" id="copyBtn" onclick="copyCode()">📋 코드 복사하기</button>
         </div>
 
@@ -1073,7 +1128,7 @@ body { padding-bottom: 72px; }
           <div class="off-dot"></div>
           <div>
             <div class="off-label">신청 마감</div>
-            <div class="off-val">3/19(목) 17:00까지</div>
+            <div class="off-val" id="deadlineFull">3/19(목) 17:00까지</div>
           </div>
         </div>
         <div class="off-hr"></div>
@@ -1112,7 +1167,7 @@ body { padding-bottom: 72px; }
       <div class="flow-step">
         <div class="flow-num">1</div>
         <div class="flow-body">
-          <div class="flow-time">신청 마감 · 3/19(목) 17:00까지</div>
+          <div class="flow-time">신청 마감 · <span id="deadlineFlow">3/19(목) 17:00까지</span></div>
           <div class="flow-name">사전 접수</div>
           <div class="flow-desc">온라인 신청 (추천인 코드 입력) 또는 오프라인 전화·카카오톡 문의</div>
         </div>
@@ -1183,6 +1238,13 @@ body { padding-bottom: 72px; }
     </a>
   </div>
 
+  <div class="wine-card-cta">
+    <a class="wine-card-btn" href="https://samsung-gfc.web.app/branding-gfc.html" target="_blank" rel="noopener noreferrer">
+      <span class="wine-card-main">📖 GFC 채용 책 선물 카드 공유하기</span>
+      <span class="wine-card-sub">카카오/문자 전달용 링크 페이지 열기</span>
+    </a>
+  </div>
+
   <div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
   <div class="copyright-bar">
     &copy; 2026 2030 BLO (Business Live ON) &nbsp;|&nbsp; 무단 복제·배포·도용 금지
@@ -1235,7 +1297,263 @@ body { padding-bottom: 72px; }
 
 <script src="/js/security.js"></script>
 <script>
-  /* ─── 분기 탭 전환 ─── */
+  /* ─── 2026 BLO 자동 날짜 감지 ─── */
+  (function() {
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2026 BLO 연간 세미나 일정
+    // 규칙: 각 달 신청 공지는 해당 달이 되어야 열림 (D+1월 공지 = D+1월 1일~)
+    // ─────────────────────────────────────────────────────────────────────────
+    // deadline: 오프라인 조찬 신청 마감일 (매달 다를 수 있음)
+    // deadlineShort: 짧은 표기 (히어로 섹션),  deadlineFull: 전체 표기 (신청 섹션·흐름)
+    // ※ 다음 달 마감일 확정되면 아래 deadline 값만 수정하면 자동 반영됨
+    var EVENTS = [
+      { month: 1,  day: 13, q: 1, deadlineShort: '1/8(목)',   deadlineFull: '1/8(목) 17:00까지'  },
+      { month: 2,  day: 24, q: 1, deadlineShort: '2/19(목)',  deadlineFull: '2/19(목) 17:00까지' },
+      { month: 3,  day: 24, q: 1, deadlineShort: '3/16(일)',   deadlineFull: '3/16(일) 17:00까지' },
+      { month: 4,  day: 21, q: 2, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 5,  day: 19, q: 2, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 6,  day: 16, q: 2, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 7,  day: 21, q: 3, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 8,  day: 18, q: 3, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 9,  day: 15, q: 3, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 10, day: 20, q: 4, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 11, day: 17, q: 4, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+      { month: 12, day: 15, q: 4, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
+    ];
+
+    var MONTH_NAMES = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
+    var now   = new Date();
+    var todayMonth = now.getMonth() + 1;  // 1~12
+    var todayDay   = now.getDate();
+
+    // ── 상태 분류 ──────────────────────────────────────────────────────────
+    // "이번 달" 이벤트: todayMonth === ev.month
+    //   → 행사일 당일(포함) 이전이면 "진행중(신청가능)", 이후면 "완료"
+    // "지난 달" 이벤트: todayMonth > ev.month  → "완료"
+    // "다음 달+" 이벤트: todayMonth < ev.month
+    //   → 바로 다음 달(todayMonth+1)이면 "다음달 신청 공지 예정", 그 이후면 "예정"
+    // ───────────────────────────────────────────────────────────────────────
+
+    // 현재 활성 이벤트 인덱스 (이번 달 이벤트, 아직 행사일 안 지남)
+    var activeIdx  = -1;
+    // 직전 완료 이벤트 인덱스
+    var lastDoneIdx = -1;
+    // 다음 달 이벤트 인덱스 (신청 공지 예정)
+    var nextMonthIdx = -1;
+
+    for (var i = 0; i < EVENTS.length; i++) {
+      var ev = EVENTS[i];
+      if (ev.month < todayMonth) {
+        lastDoneIdx = i;
+      } else if (ev.month === todayMonth) {
+        if (todayDay <= ev.day) {
+          activeIdx = i;   // 이번 달, 아직 행사일 전 or 당일
+        } else {
+          lastDoneIdx = i; // 이번 달이지만 행사일 지남 → 완료
+        }
+      } else if (ev.month === todayMonth + 1 && nextMonthIdx === -1) {
+        nextMonthIdx = i;  // 바로 다음 달 이벤트
+      }
+    }
+
+    // 스케줄 아이템 (.sched-item) — Q1:0~2, Q2:3~5, Q3:6~8, Q4:9~11
+    var items = document.querySelectorAll('.sched-item');
+    if (!items.length) return;
+
+    items.forEach(function(el, idx) {
+      var statusEl = el.querySelector('.sched-status');
+      el.classList.remove('current', 'completed', 'upcoming');
+
+      if (idx <= lastDoneIdx) {
+        // 완료된 강연
+        el.classList.add('completed');
+        if (statusEl) { statusEl.className = 'sched-status done'; statusEl.textContent = '✓ 완료'; }
+
+      } else if (idx === activeIdx) {
+        // 이번 달 신청 중
+        el.classList.add('current');
+        if (statusEl) { statusEl.className = 'sched-status now'; statusEl.textContent = '▶ 신청중'; }
+
+      } else if (idx === nextMonthIdx) {
+        // 다음 달 → 신청 공지 예정
+        el.classList.add('upcoming');
+        if (statusEl) { statusEl.className = 'sched-status soon'; statusEl.textContent = '📢 ' + MONTH_NAMES[EVENTS[idx].month-1] + ' 공지 예정'; }
+
+      } else {
+        // 그 외 미래
+        el.classList.add('upcoming');
+        if (statusEl) { statusEl.className = 'sched-status soon'; statusEl.textContent = '예정'; }
+      }
+    });
+
+    // ── 상단 배너 ──────────────────────────────────────────────────────────
+    var wrap = document.querySelector('.wrap');
+    if (!wrap) return;
+    var banner = document.createElement('div');
+    banner.id = 'eventStateBanner';
+    banner.style.cssText = 'text-align:center;padding:13px 16px;font-size:13.5px;line-height:1.7;';
+
+    // ── 마감일 자동 교체 ───────────────────────────────────────────────────
+    // 현재 신청 가능한 이벤트(activeIdx)의 마감일로 페이지 내 3곳 일괄 교체
+    var deadlineIdx = activeIdx >= 0 ? activeIdx : (lastDoneIdx >= 0 ? lastDoneIdx : 0);
+    var dEv = EVENTS[deadlineIdx];
+    var elShort  = document.getElementById('deadlineShort');
+    var elFull   = document.getElementById('deadlineFull');
+    var elFlow   = document.getElementById('deadlineFlow');
+    if (elShort) elShort.textContent = dEv.deadlineShort;
+    if (elFull)  elFull.textContent  = dEv.deadlineFull;
+    if (elFlow)  elFlow.textContent  = dEv.deadlineFull;
+
+    if (activeIdx >= 0) {
+      // 이번 달 신청 기간 중 → 배너 불필요, 표시 안 함
+      return;
+
+    } else if (nextMonthIdx >= 0) {
+      // 이번 달 행사 끝, 다음 달 공지 전
+      var prevEv = EVENTS[lastDoneIdx >= 0 ? lastDoneIdx : 0];
+      var nextEv = EVENTS[nextMonthIdx];
+      banner.style.background = '#1428A0';
+      banner.style.color = '#fff';
+      banner.innerHTML =
+        '✅ <strong>' + MONTH_NAMES[prevEv.month-1] + ' 강연이 완료되었습니다.</strong><br>'
+        + '<span style="font-size:12.5px;opacity:.9;">다음 강연 <strong>' + MONTH_NAMES[nextEv.month-1] + ' ' + nextEv.day + '일(화)</strong> · 신청 공지는 <strong>' + MONTH_NAMES[nextEv.month-1] + ' 초</strong>에 안내됩니다.</span>';
+      wrap.insertBefore(banner, wrap.firstChild);
+
+    } else if (lastDoneIdx === EVENTS.length - 1) {
+      // 12월까지 모두 완료
+      banner.style.background = '#1428A0';
+      banner.style.color = '#fff';
+      banner.innerHTML = '🎉 <strong>2026 BLO 연간 세미나가 모두 완료되었습니다. 감사합니다.</strong>';
+      wrap.insertBefore(banner, wrap.firstChild);
+    }
+  })();
+
+  /* ─── Firestore에서 이달 행사 정보 로드 ─── */
+  (function() {
+    try {
+      var cfg = {
+        apiKey: "AIzaSyBpDZF4L3FPpm54HWZFx9ZkGiGb1MPlVN0",
+        authDomain: "samsung-gfc.firebaseapp.com",
+        projectId: "samsung-gfc",
+        appId: "1:583640326398:web:1662178587cbab8ca605af"
+      };
+      var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+      var db  = firebase.firestore(app);
+
+      db.collection('bloSeminarConfig').doc('currentEvent').get().then(function(doc) {
+        if (!doc.exists) return;
+        var d = doc.data();
+
+        function setText(id, val) {
+          var el = document.getElementById(id);
+          if (el && val) el.textContent = val;
+        }
+        function setHTML(id, val) {
+          var el = document.getElementById(id);
+          if (el && val) el.innerHTML = val;
+        }
+
+        // 히어로
+        setText('dyn-heroTag',   d.heroTag);
+        setText('dyn-heroMonth', d.monthNum);
+        setText('dyn-heroLabel', d.heroLabel);
+        setHTML('dyn-heroTitle', d.title);
+        setText('dyn-heroSub',   d.titleSub);
+
+        // 강사
+        if (d.speaker) {
+          setText('dyn-spCircleName',  d.speaker.circleName || d.speaker.name);
+          setText('dyn-spCircleTitle', d.speaker.circleTitle || d.speaker.title);
+          setHTML('dyn-spNameRow', d.speaker.name + ' <span>' + d.speaker.title + '</span>');
+          if (d.speaker.chips && d.speaker.chips.length) {
+            var chips = d.speaker.chips.map(function(c){ return '<span class="sp-chip">' + c + '</span>'; }).join('');
+            setHTML('dyn-spChips', chips);
+          }
+        }
+
+        // 일시
+        setText('dyn-eventDate',  d.eventDate);
+        setText('dyn-replayNote', d.replayNote);
+        setText('dyn-watchDate',  d.watchDate);
+
+        // 추천인 코드
+        var refEl = document.getElementById('refCode');
+        if (refEl && d.referralCode) refEl.textContent = d.referralCode;
+
+        // 본문
+        if (d.bodyText && d.bodyText.length) {
+          var bodyEl = document.getElementById('dyn-bodySec');
+          if (bodyEl) bodyEl.innerHTML = d.bodyText.map(function(t){ return '<p>' + t + '</p>'; }).join('');
+        }
+
+        // 잡페어 섹션
+        var jfEl = document.getElementById('dyn-jobfairSection');
+        if (jfEl) {
+          if (d.jobfair && d.jobfair.show) {
+            setText('dyn-jobfairBadge', d.jobfair.badge || '공지');
+            setText('dyn-jobfairTitle', d.jobfair.title || 'JOB FAIR');
+            var rows = (d.jobfair.rows || []).map(function(r){
+              return '<div class="jobfair-info-row"><span class="jobfair-info-dot">▸</span>'
+                + '<span><strong>' + r.label + '</strong> &nbsp;' + r.value + '</span></div>';
+            }).join('');
+            setHTML('dyn-jobfairRows', rows);
+            jfEl.style.display = '';
+          } else {
+            jfEl.style.display = 'none';
+          }
+        }
+
+      }).catch(function(){});
+    } catch(e) {}
+  })();
+
+  /* ─── 행사 종료 후 자동 화면 전환 ─── */
+  (function() {
+    // 현재 행사일: 3/24. 이후 → 종료 안내 화면으로 교체
+    var EVENT_DATE = new Date(2026, 2, 24); // 3월 24일
+    var today = new Date(); today.setHours(0,0,0,0);
+    if (today <= EVENT_DATE) return; // 행사일 당일까지는 정상 표시
+
+    // ① 히어로 태그 교체
+    var heroTag = document.querySelector('.hero-tag');
+    if (heroTag) heroTag.textContent = '3월 세미나 완료';
+
+    // ② 히어로 라벨 교체
+    var heroLabel = document.querySelector('.hero-label');
+    if (heroLabel) heroLabel.textContent = '✅ MARCH 2026 · 강연 완료';
+
+    // ③ 신청 섹션 전체를 종료 안내로 교체
+    var applySec = document.querySelector('.apply-sec');
+    if (applySec) {
+      applySec.innerHTML =
+        '<div style="padding:28px 20px;text-align:center;">' +
+          '<div style="font-size:2.5rem;margin-bottom:12px;">✅</div>' +
+          '<div style="font-size:17px;font-weight:900;color:#ffffff;margin-bottom:8px;">3월 강연이 완료되었습니다</div>' +
+          '<div style="font-size:14px;color:#a8c4e4;line-height:1.7;margin-bottom:20px;">' +
+            '다음 강연 <strong style="color:#C8A84B;">4월 21일(화)</strong> 신청 공지는<br>4월 초에 안내됩니다.' +
+          '</div>' +
+          '<a href="https://open.kakao.com/o/sWQdatji" target="_blank" ' +
+            'style="display:block;padding:14px;background:#1428A0;color:#fff;font-size:14px;font-weight:900;' +
+            'border-radius:10px;text-decoration:none;margin-bottom:10px;">' +
+            '💬 카카오톡 공지 채널 신청하기' +
+          '</a>' +
+          '<a href="tel:01051372327" ' +
+            'style="display:block;padding:14px;background:#f0f4ff;color:#1428A0;font-size:14px;font-weight:900;' +
+            'border-radius:10px;text-decoration:none;">' +
+            '📞 담당자에게 직접 문의하기' +
+          '</a>' +
+        '</div>';
+    }
+
+    // ④ Sticky CTA 버튼도 교체
+    var ctaBtn = document.querySelector('.sticky-cta-btn');
+    var ctaText = document.querySelector('.sticky-cta-text');
+    if (ctaBtn) { ctaBtn.textContent = '4월 공지 받기 ›'; ctaBtn.href = 'https://open.kakao.com/o/sWQdatji'; ctaBtn.target = '_blank'; ctaBtn.onclick = null; }
+    if (ctaText) ctaText.innerHTML = '<strong>3월 세미나 완료</strong> &nbsp;4월 21일(화) 다음 강연';
+  })();
+
+  /* ─── 분기 탭 자동 전환 + 잔여 뱃지 ─── */
   function switchQ(q) {
     for (var i = 1; i <= 4; i++) {
       document.getElementById('qtab' + i).classList.remove('active');
@@ -1244,6 +1562,52 @@ body { padding-bottom: 72px; }
     document.getElementById('qtab' + q).classList.add('active');
     document.getElementById('qpanel' + q).classList.add('active');
   }
+
+  (function() {
+    // 오늘 기준 현재 분기(Q) 자동 계산
+    var todayMonth = new Date().getMonth() + 1; // 1~12
+    var currentQ = todayMonth <= 3 ? 1 : todayMonth <= 6 ? 2 : todayMonth <= 9 ? 3 : 4;
+
+    // 각 분기별 완료/예정 강연 수 계산 (EVENTS 배열 기준)
+    var today = new Date(); today.setHours(0,0,0,0);
+    var qStats = { 1:{done:0,upcoming:0}, 2:{done:0,upcoming:0}, 3:{done:0,upcoming:0}, 4:{done:0,upcoming:0} };
+    if (typeof EVENTS !== 'undefined') {
+      EVENTS.forEach(function(ev) {
+        var evDate = new Date(2026, ev.month - 1, ev.day);
+        var q = ev.q;
+        if (evDate < today) qStats[q].done++;
+        else qStats[q].upcoming++;
+      });
+    }
+
+    // 탭 뱃지 + 강조 처리
+    for (var q = 1; q <= 4; q++) {
+      var tab = document.getElementById('qtab' + q);
+      if (!tab) continue;
+      var stat = qStats[q];
+      var badge = tab.querySelector('.q-badge');
+
+      // 뱃지 없으면 생성
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'q-badge';
+        tab.appendChild(badge);
+      }
+
+      if (stat.upcoming > 0) {
+        badge.textContent = stat.upcoming + '강 예정';
+        tab.classList.add('has-upcoming');
+        tab.classList.remove('all-done');
+      } else {
+        badge.textContent = '완료';
+        tab.classList.add('all-done');
+        tab.classList.remove('has-upcoming');
+      }
+    }
+
+    // 현재 분기 탭으로 자동 전환
+    switchQ(currentQ);
+  })();
 
   /* ─── 추천인 코드 복사 ─── */
   var codeCopied = false;
