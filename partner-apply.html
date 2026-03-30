@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>GFC 파트너 채용 공유 신청</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    min-height: 100vh;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: linear-gradient(140deg, #050d23 0%, #091737 50%, #101f48 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px 60px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .top-badge {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .top-badge span {
+    display: inline-block;
+    padding: 5px 16px;
+    border: 1px solid rgba(240,208,107,0.5);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f0d06b;
+    letter-spacing: 0.3px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #071a3f 0%, #0b2254 70%, #17367c 100%);
+    padding: 24px 24px 20px;
+    color: #fff;
+  }
+
+  .hero h1 {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 em { color: #f0d06b; font-style: normal; }
+
+  .hero p {
+    font-size: 13px;
+    color: #c0d2e8;
+    line-height: 1.6;
+  }
+
+  .form-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-box {
+    background: #f0f6ff;
+    border: 1px solid #c5d9fc;
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-size: 13px;
+    color: #1a4080;
+    line-height: 1.6;
+  }
+
+  .info-box strong { color: #0f2e69; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field.full { grid-column: 1 / -1; }
+
+  .field label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .field label .req { color: #e53e3e; margin-left: 2px; }
+
+  .field input,
+  .field select {
+    padding: 11px 12px;
+    border: 1.5px solid #dde3ef;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1f2433;
+    transition: border-color .2s;
+    background: #fff;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: #1428A0;
+  }
+
+  .field .hint {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 1px;
+  }
+
+  .share-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .share-opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+
+  .share-opt input[type="radio"] { display: none; }
+
+  .share-opt .share-box {
+    width: 100%;
+    padding: 10px 4px;
+    border: 1.5px solid #dde3ef;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #475067;
+    transition: all .18s;
+    background: #f9fafb;
+  }
+
+  .share-opt input:checked + .share-box {
+    border-color: #1428A0;
+    background: #e8f0fe;
+    color: #1428A0;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #1428A0 0%, #0e1f7a 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity .2s;
+    margin-top: 4px;
+  }
+
+  .submit-btn:hover { opacity: 0.9; }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+
+  /* 완료 화면 */
+  .done-screen {
+    display: none;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .done-icon { font-size: 56px; margin-bottom: 16px; }
+
+  .done-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #071a3f;
+    margin-bottom: 10px;
+  }
+
+  .done-desc {
+    font-size: 14px;
+    color: #475067;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .done-code-box {
+    background: #f0f6ff;
+    border: 1.5px dashed #1428A0;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .done-code-label { font-size: 12px; color: #6b7a9a; margin-bottom: 6px; }
+  .done-code { font-size: 20px; font-weight: 800; color: #1428A0; letter-spacing: 1px; }
+
+  .done-contact {
+    font-size: 13px;
+    color: #374151;
+    background: #fffbf0;
+    border: 1px solid #f0d06b;
+    border-radius: 8px;
+    padding: 12px 14px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 430px) {
+    .row { grid-template-columns: 1fr; }
+    .share-grid { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+    .share-opt .share-box { font-size: 13px; padding: 8px 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-badge"><span>🤝 삼성생명 GFC 파트너 채용 공유 신청</span></div>
+
+  <div class="card">
+    <div class="hero">
+      <h1>함께 <em>GFC 채용</em>을<br>공유하고 싶으신가요?</h1>
+      <p>파트너로 등록되면 본인 이름/연락처로 채용 카드를 공유할 수 있습니다.<br>
+      신청 후 박재박 팀장 검토·승인 시 전용 URL을 전달드립니다.</p>
+    </div>
+
+    <!-- 신청 폼 -->
+    <div class="form-body" id="applyForm">
+      <div class="info-box">
+        <strong>📌 안내</strong><br>
+        신청하시면 관리자 검토 후 승인 연락을 드립니다.<br>
+        승인 후 A·B·C·D 카드 4종의 <strong>본인 전용 공유 URL</strong>을 받으실 수 있습니다.
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>추천자 구분 <span class="req">*</span></label>
+          <select id="ap-type">
+            <option value="GFC">삼성생명 GFC</option>
+            <option value="FC">삼성생명 FC</option>
+            <option value="화재">삼성화재</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>직책 <span class="req">*</span></label>
+          <select id="ap-title">
+            <option value="팀장">팀장</option>
+            <option value="지점장">지점장</option>
+            <option value="본부장">본부장</option>
+            <option value="컨설턴트">컨설턴트</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>이름 <span class="req">*</span></label>
+          <input id="ap-name" type="text" placeholder="홍길동">
+        </div>
+        <div class="field">
+          <label>핸드폰 번호 <span class="req">*</span></label>
+          <input id="ap-phone" type="tel" placeholder="010-1234-5678">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>소속지점</label>
+          <input id="ap-branch" type="text" placeholder="안산법인지점">
+        </div>
+        <div class="field">
+          <label>사번</label>
+          <input id="ap-empNum" type="text" placeholder="9618628">
+          <span class="hint">선택사항</span>
+        </div>
+      </div>
+
+      <div class="field full">
+        <label>조직명장 여부</label>
+        <select id="ap-orgLeader">
+          <option value="N">아니오</option>
+          <option value="Y">예 (조직명장)</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label>Share 약정비율 (GFC 기준)</label>
+        <div class="share-grid">
+          <label class="share-opt">
+            <input type="radio" name="share" value="50">
+            <div class="share-box">50%</div>
+          </label>
+          <label class="share-opt">
+            <input type="radio" name="share" value="40">
+            <div class="share-box">40%</div>
+          </label>
+          <label class="share-opt">
+            <input type="radio" name="share" value="30" checked>
+            <div class="share-box">30%</div>
+          </label>
+          <label class="share-opt">
+            <input type="radio" name="share" value="20">
+            <div class="share-box">20%</div>
+          </label>
+          <label class="share-opt">
+            <input type="radio" name="share" value="10">
+            <div class="share-box">10%</div>
+          </label>
+        </div>
+        <span class="hint">협의된 비율을 선택하세요. 미협의 시 30% 기본 적용.</span>
+      </div>
+
+      <div class="field full">
+        <label>전달 메모 (선택)</label>
+        <input id="ap-memo" type="text" placeholder="기타 전달 사항이 있으면 입력해 주세요">
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitApply()">파트너 신청하기</button>
+
+      <p class="footer-note">
+        문의: 박재박 팀장 010-5137-2327<br>
+        신청 정보는 파트너 관리 목적으로만 사용됩니다.
+      </p>
+    </div>
+
+    <!-- 완료 화면 -->
+    <div class="done-screen" id="doneScreen">
+      <div class="done-icon">✅</div>
+      <div class="done-title">신청이 완료되었습니다!</div>
+      <div class="done-desc">
+        박재박 팀장이 검토 후 승인 연락을 드립니다.<br>
+        승인되면 본인 전용 공유 URL 4종을 전달받으실 수 있습니다.
+      </div>
+      <div class="done-code-box">
+        <div class="done-code-label">신청 접수 코드</div>
+        <div class="done-code" id="doneCode">-</div>
+        <div style="font-size:12px;color:#6b7a9a;margin-top:6px;">문의 시 이 코드를 알려주세요</div>
+      </div>
+      <div class="done-contact">
+        📞 <strong>박재박 팀장</strong> 010-5137-2327<br>
+        승인 후 카카오 또는 문자로 URL을 전달드립니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyBpDZF4L3FPpm54HWZFx9ZkGiGb1MPlVN0",
+    authDomain: "samsung-gfc.firebaseapp.com",
+    projectId: "samsung-gfc",
+    appId: "1:583640326398:web:1662178587cbab8ca605af"
+  };
+  var app = firebase.initializeApp(firebaseConfig, 'partner-apply');
+  var db  = firebase.firestore(app);
+
+  function genCode(name) {
+    var init = (name || '').replace(/\s/g,'').substring(0,2);
+    return init + Math.floor(Math.random() * 9000 + 1000);
+  }
+
+  function getVal(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function getShare() {
+    var el = document.querySelector('input[name="share"]:checked');
+    return el ? parseInt(el.value) : 30;
+  }
+
+  window.submitApply = async function () {
+    var name  = getVal('ap-name');
+    var phone = getVal('ap-phone');
+    if (!name || !phone) {
+      alert('이름과 핸드폰 번호는 필수입니다.');
+      return;
+    }
+
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '신청 중...';
+
+    var code = genCode(name);
+
+    var data = {
+      type:      getVal('ap-type'),
+      title:     getVal('ap-title') || '팀장',
+      name:      name,
+      phone:     phone,
+      branch:    getVal('ap-branch'),
+      empNum:    getVal('ap-empNum'),
+      orgLeader: getVal('ap-orgLeader') === 'Y',
+      shareRate: getShare(),
+      memo:      getVal('ap-memo'),
+      code:      code,
+      status:    'pending',
+      source:    'self-apply',
+      createdAt: new Date().toLocaleString('ko-KR')
+    };
+
+    try {
+      // 코드 중복 체크 후 저장
+      var existing = await db.collection('partners').doc(code).get();
+      if (existing.exists) {
+        code = genCode(name) + 'x';
+        data.code = code;
+      }
+      await db.collection('partners').doc(code).set(data);
+
+      // 완료 화면 전환
+      document.getElementById('applyForm').style.display = 'none';
+      document.getElementById('doneScreen').style.display = 'block';
+      document.getElementById('doneCode').textContent = code;
+    } catch(e) {
+      alert('신청 중 오류가 발생했습니다.\n잠시 후 다시 시도하거나\n010-5137-2327로 연락해 주세요.\n\n오류: ' + e.message);
+      btn.disabled = false;
+      btn.textContent = '파트너 신청하기';
+    }
+  };
+</script>
+</body>
+</html>

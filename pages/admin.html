@@ -770,6 +770,16 @@
         파트너로 등록·<strong>승인된</strong> GFC팀장은 본인 이름/연락처로 A·B·C·D 채용 카드를 공유할 수 있습니다.<br>
         전용 URL 형식: <code>gfc_wine_card.html<strong>?p=파트너코드</strong></code> — 승인된 파트너에 한해 URL이 활성화됩니다.
       </div>
+      <div style="background:#fff8e1;border:1px solid #f0d06b;border-radius:8px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div style="font-size:13px;color:#6b4c00;">
+          <strong>📋 파트너 셀프 신청 페이지</strong><br>
+          <span style="font-size:12px;">GFC팀장에게 아래 URL을 공유하면 직접 신청할 수 있습니다.</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <code style="font-size:12px;background:#fff;padding:4px 8px;border-radius:4px;border:1px solid #e0c060;">admin-samsung-vvip.web.app/partner-apply.html</code>
+          <button onclick="copyApplyUrl()" style="padding:6px 12px;background:#c8a84b;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:700;white-space:nowrap;">복사</button>
+        </div>
+      </div>
 
       <!-- 등록 폼 -->
       <fieldset style="border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:24px;">
@@ -1146,7 +1156,8 @@
             : '<span style="color:#bbb;font-size:12px;">승인 후 활성화</span>';
 
           var manageBtns = isApproved
-            ? '<button onclick="revokePartner(\''+d.code+'\')" style="display:block;width:100%;padding:5px;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-bottom:4px;">취소</button>'
+            ? '<button onclick="showSendDialog(JSON.parse(decodeURIComponent(\''+encodeURIComponent(JSON.stringify(d))+'\')))" style="display:block;width:100%;padding:5px;background:#1428A0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-bottom:4px;">📤 URL 전달</button>' +
+              '<button onclick="revokePartner(\''+d.code+'\')" style="display:block;width:100%;padding:5px;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-bottom:4px;">취소</button>'
             : '<button onclick="approvePartner(\''+d.code+'\')" style="display:block;width:100%;padding:5px;background:#28a745;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-bottom:4px;">✅ 승인</button>';
           manageBtns += '<button onclick="deletePartner(\''+d.code+'\',\''+d.name+'\')" style="display:block;width:100%;padding:5px;background:#6c757d;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;">삭제</button>';
 
@@ -1176,9 +1187,79 @@
       if (!confirm('['+code+'] 파트너를 승인하시겠습니까?\n승인 즉시 전용 URL이 활성화됩니다.')) return;
       try {
         await bloDb.collection('partners').doc(code).update({ status:'approved', approvedAt: new Date().toLocaleString('ko-KR') });
-        alert('✅ 승인 완료! 파트너 URL이 활성화되었습니다.');
+        // 승인 후 전달 문구 복사 안내
+        var doc = await bloDb.collection('partners').doc(code).get();
+        var d = doc.data();
+        showSendDialog(d);
         loadPartnerTab();
       } catch(e) { alert('❌ 오류: '+e.message); }
+    };
+
+    window.showSendDialog = function(d) {
+      var BASE = 'https://admin-samsung-vvip.web.app/';
+      var CARDS = [
+        { file:'gfc_wine_card.html',   label:'A (친한 지인용)' },
+        { file:'gfc_wine_card_b.html', label:'B (기업/법인 담당자용)' },
+        { file:'gfc_wine_card_c.html', label:'C (연락처만 아는 준지인용)' },
+        { file:'gfc_wine_card_d.html', label:'D (불특정 다수/SNS용)' },
+      ];
+      var urlLines = CARDS.map(function(c) {
+        return '[카드 '+c.label+']\n' + BASE + c.file + '?p=' + encodeURIComponent(d.code);
+      }).join('\n\n');
+
+      var msg = [
+        '안녕하세요, ' + d.name + ' ' + (d.title||'팀장') + '님!',
+        '삼성생명 GFC 채용 공유 파트너로 승인되셨습니다 🎉',
+        '',
+        '아래 URL을 사용하시면 ' + d.name + ' ' + (d.title||'팀장') + '님 이름으로',
+        'GFC 채용 카드가 공유됩니다.',
+        '',
+        urlLines,
+        '',
+        '─ 카드 사용 방법 ─',
+        '• 위 URL 중 상황에 맞는 카드를 선택하여 카카오·문자로 전달',
+        '• 카드 내 복사 버튼으로 문자 발송 문구도 이용 가능',
+        '',
+        '문의: 박재박 팀장 010-5137-2327'
+      ].join('\n');
+
+      // 모달 생성
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;';
+      overlay.innerHTML =
+        '<div style="background:#fff;border-radius:12px;max-width:560px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto;">' +
+          '<h3 style="font-size:18px;color:#0f3460;margin-bottom:6px;">✅ 승인 완료 — 파트너 URL 전달</h3>' +
+          '<p style="font-size:13px;color:#666;margin-bottom:16px;">' + d.name + ' ' + (d.title||'팀장') + ' · 코드: <strong>' + d.code + '</strong></p>' +
+          '<div style="display:grid;gap:8px;margin-bottom:16px;">' +
+            CARDS.map(function(c) {
+              var url = BASE + c.file + '?p=' + encodeURIComponent(d.code);
+              return '<div style="background:#f4f6fb;border-radius:8px;padding:10px 12px;">' +
+                '<div style="font-size:11px;color:#6b7a9a;margin-bottom:4px;">카드 ' + c.label + '</div>' +
+                '<div style="font-size:12px;color:#1428A0;word-break:break-all;">' + url + '</div>' +
+                '</div>';
+            }).join('') +
+          '</div>' +
+          '<textarea id="sendMsgBox" style="width:100%;height:200px;border:1.5px solid #dde3ef;border-radius:8px;padding:12px;font-size:12px;font-family:inherit;resize:vertical;color:#333;" readonly>' + msg + '</textarea>' +
+          '<div style="display:flex;gap:8px;margin-top:14px;">' +
+            '<button onclick="copyAndClose()" style="flex:1;padding:13px;background:#1428A0;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">📋 전달 문구 복사</button>' +
+            '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="padding:13px 20px;background:#f5f5f5;color:#333;border:none;border-radius:8px;font-size:14px;cursor:pointer;">닫기</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+    };
+
+    window.copyAndClose = function() {
+      var box = document.getElementById('sendMsgBox');
+      if (!box) return;
+      navigator.clipboard.writeText(box.value).then(function() {
+        alert('✅ 전달 문구가 복사되었습니다!\n카카오 또는 문자에 붙여넣기 하세요.');
+        var overlay = box.closest('div[style*="fixed"]');
+        if (overlay) overlay.remove();
+      }).catch(function() {
+        box.select();
+        document.execCommand('copy');
+        alert('복사되었습니다!');
+      });
     };
 
     window.revokePartner = async function(code) {
@@ -1199,6 +1280,15 @@
         alert('삭제 완료.');
         loadPartnerTab();
       } catch(e) { alert('❌ 오류: '+e.message); }
+    };
+
+    window.copyApplyUrl = function() {
+      var url = 'https://admin-samsung-vvip.web.app/partner-apply.html';
+      navigator.clipboard.writeText(url).then(function() {
+        alert('✅ 신청 페이지 URL이 복사되었습니다!\n\n' + url + '\n\n파트너에게 카카오/문자로 전달하세요.');
+      }).catch(function() {
+        window.prompt('아래 URL을 복사하세요:', url);
+      });
     };
 
     window.copyPartnerUrl = function(url, cardType) {
