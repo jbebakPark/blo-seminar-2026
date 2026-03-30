@@ -425,7 +425,7 @@
     </div>
 
     <div class="cta-group">
-      <a class="cta cta-main" target="_blank" rel="noopener noreferrer" href="https://samsung-gfc.web.app/?r=2026s">
+      <a class="cta cta-main" id="cta-main-link" target="_blank" rel="noopener noreferrer" href="https://samsung-gfc.web.app/?r=2026s">
         사전등록 + 추천코드 적용 링크
         <span class="cta-sub">https://samsung-gfc.web.app/?r=2026s</span>
       </a>
@@ -445,47 +445,70 @@
 
   <footer class="footer">
     <div><strong>삼성생명 GFC사업부</strong></div>
-    <div>문의: 박재박 팀장 010-5137-2327</div>
+    <div id="footer-contact">문의: 박재박 팀장 010-5137-2327</div>
   </footer>
 </main>
 
 <script>
-  (function () {
+  function bindAllCopiesA(name, phone, refCode) {
+    name    = name    || '박재박';
+    phone   = phone   || '010-5137-2327';
+    refCode = refCode || '2026s';
+    var link = 'https://samsung-gfc.web.app/?r=' + refCode;
     var shortText = [
-      "(광고) 삼성생명 GFC사업부 박재박 팀장",
+      "(광고) 삼성생명 GFC사업부 " + name + " 팀장",
       "지원자 중 선정된 분께 책 선물 증정 이벤트 진행 중",
-      "등록: https://samsung-gfc.web.app/?r=2026s",
+      "등록: " + link,
       "행사 안내: https://samsung-gfc.web.app/branding-gfc.html",
       "수신거부: 문자 회신 '수신거부' (즉시 처리)"
     ].join("\n");
-
     var trustText = [
-      "(광고) 삼성생명 GFC사업부 박재박 팀장",
+      "(광고) 삼성생명 GFC사업부 " + name + " 팀장",
       "기업재무컨설턴트(GFC) 채용 안내드립니다.",
       "지원자 중 선정된 분께 '보이는 것이 돈이 된다' 책을 선물로 보내드립니다.",
-      "등록 링크: https://samsung-gfc.web.app/?r=2026s",
+      "등록 링크: " + link,
       "행사 안내: https://samsung-gfc.web.app/branding-gfc.html",
-      "문의: 010-5137-2327",
+      "문의: " + phone,
       "수신거부: 문자 회신 '수신거부' (즉시 처리)"
     ].join("\n");
-
     function bindCopy(buttonId, text, defaultLabel) {
       var btn = document.getElementById(buttonId);
       if (!btn) return;
-      btn.addEventListener("click", function () {
+      btn.onclick = function () {
         navigator.clipboard.writeText(text).then(function () {
           btn.textContent = "복사 완료";
-          setTimeout(function () {
-            btn.textContent = defaultLabel;
-          }, 1600);
-        }).catch(function () {
-          window.prompt("아래 문구를 복사해 주세요.", text);
-        });
-      });
+          setTimeout(function () { btn.textContent = defaultLabel; }, 1600);
+        }).catch(function () { window.prompt("아래 문구를 복사해 주세요.", text); });
+      };
     }
-
     bindCopy("copyShortText", shortText, "카톡용 짧은 문구 복사");
     bindCopy("copyTrustText", trustText, "소개용 신뢰 문구 복사");
+  }
+  bindAllCopiesA();
+
+  // 파트너 URL 파라미터 처리 (?p=파트너코드)
+  (function () {
+    var pCode = new URLSearchParams(location.search).get('p');
+    if (!pCode) return;
+    fetch('https://firestore.googleapis.com/v1/projects/samsung-gfc/databases/(default)/documents/partners/' + encodeURIComponent(pCode))
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data.fields) return;
+        function s(f) { return (data.fields[f] && data.fields[f].stringValue) || ''; }
+        if (s('status') !== 'approved') return;
+        var name  = s('name');  var phone = s('phone');
+        var title = s('title') || '팀장'; var code = s('code') || pCode;
+        if (!name || !phone) return;
+        var el = document.getElementById('footer-contact');
+        if (el) el.textContent = '문의: ' + name + ' ' + title + ' ' + phone;
+        var cta = document.getElementById('cta-main-link');
+        if (cta) {
+          var href = 'https://samsung-gfc.web.app/?r=' + encodeURIComponent(code);
+          cta.href = href;
+          var sub = cta.querySelector('.cta-sub'); if (sub) sub.textContent = href;
+        }
+        bindAllCopiesA(name, phone, code);
+      }).catch(function () {});
   })();
 </script>
 </body>

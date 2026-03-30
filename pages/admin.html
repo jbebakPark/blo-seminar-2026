@@ -381,6 +381,17 @@
                 width: 100%;
             }
         }
+
+        /* 파트너 관리 */
+        .partner-table { width:100%; border-collapse:collapse; font-size:13px; }
+        .partner-table th { background:#1428A0; color:#fff; padding:10px 8px; text-align:center; white-space:nowrap; }
+        .partner-table td { padding:10px 8px; border-bottom:1px solid #eee; vertical-align:middle; }
+        .partner-table tr:hover td { background:#f8f9fa; }
+        .badge-pending { background:#fff3cd; color:#856404; padding:3px 9px; border-radius:12px; font-size:12px; font-weight:700; }
+        .badge-approved { background:#d4edda; color:#155724; padding:3px 9px; border-radius:12px; font-size:12px; font-weight:700; }
+        .url-chips { display:flex; gap:5px; flex-wrap:wrap; }
+        .url-chip { padding:4px 10px; background:#e8f0fe; color:#1a73e8; border-radius:12px; font-size:11px; cursor:pointer; border:1px solid #c5d9fc; transition:background .15s; }
+        .url-chip:hover { background:#d2e3fc; }
     </style>
 </head>
 
@@ -444,6 +455,7 @@
                 <button class="tab" onclick="switchTab('schedule')">📅 연간 일정 관리</button>
                 <button class="tab" onclick="switchTab('deadline')">📢 마감일 관리</button>
                 <button class="tab" onclick="switchTab('event')">🎤 이달 행사 관리</button>
+                <button class="tab" onclick="switchTab('partner')">🤝 파트너 관리</button>
             </div>
 
             <!-- 세미나 편집 탭 -->
@@ -751,6 +763,100 @@
                 </div>
             </div>
 
+    <!-- 파트너 관리 탭 -->
+    <div id="partnerTab" class="tab-content">
+      <h2 style="margin-bottom:16px;">🤝 파트너 GFC팀장 관리</h2>
+      <div class="alert alert-info" style="margin-bottom:16px;">
+        파트너로 등록·<strong>승인된</strong> GFC팀장은 본인 이름/연락처로 A·B·C·D 채용 카드를 공유할 수 있습니다.<br>
+        전용 URL 형식: <code>gfc_wine_card.html<strong>?p=파트너코드</strong></code> — 승인된 파트너에 한해 URL이 활성화됩니다.
+      </div>
+
+      <!-- 등록 폼 -->
+      <fieldset style="border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:24px;">
+        <legend style="font-weight:700;padding:0 8px;color:#1428A0;">➕ 신규 파트너 등록</legend>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:10px;">
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">추천자 구분</label>
+            <select id="pt-type" class="form-select">
+              <option value="GFC">삼성생명 GFC</option>
+              <option value="FC">삼성생명 FC</option>
+              <option value="화재">삼성화재</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">이름 *</label>
+            <input id="pt-name" class="form-input" type="text" placeholder="홍길동">
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">핸드폰번호 *</label>
+            <input id="pt-phone" class="form-input" type="text" placeholder="010-1234-5678">
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">사번</label>
+            <input id="pt-empNum" class="form-input" type="text" placeholder="9618628">
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">소속지점</label>
+            <input id="pt-branch" class="form-input" type="text" placeholder="안산법인지점">
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">직책</label>
+            <input id="pt-title" class="form-input" type="text" placeholder="팀장" value="팀장">
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">조직명장 여부</label>
+            <select id="pt-orgLeader" class="form-select">
+              <option value="N">아니오</option>
+              <option value="Y">예 (조직명장)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">Share 약정비율 [GFC]</label>
+            <select id="pt-share" class="form-select">
+              <option value="50">50%</option>
+              <option value="40">40%</option>
+              <option value="30" selected>30%</option>
+              <option value="20">20%</option>
+              <option value="10">10%</option>
+            </select>
+          </div>
+          <div style="grid-column:1/-1;">
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px;">파트너 코드 * (URL에 사용, 영문+숫자 권장)</label>
+            <div style="display:flex;gap:6px;">
+              <input id="pt-code" class="form-input" type="text" placeholder="예: hong2026" style="flex:1;">
+              <button type="button" onclick="autoGenCode()" style="padding:10px 14px;background:#6c757d;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;">자동생성</button>
+            </div>
+            <p style="font-size:11px;color:#999;margin-top:4px;">예시 URL: https://admin-samsung-vvip.web.app/gfc_wine_card.html?p=<span id="pt-code-preview">파트너코드</span></p>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <button onclick="savePartner()" class="btn btn-primary">등록하기</button>
+        </div>
+      </fieldset>
+
+      <!-- 파트너 목록 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h3 style="font-size:16px;color:#333;">등록된 파트너 목록</h3>
+        <button onclick="loadPartnerTab()" style="padding:6px 14px;background:#6c757d;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">🔄 새로고침</button>
+      </div>
+      <div id="partnerStatus" style="font-size:13px;color:#666;margin-bottom:8px;"></div>
+      <div style="overflow-x:auto;">
+        <table class="partner-table">
+          <thead>
+            <tr>
+              <th>구분</th><th>이름/직책</th><th>소속지점</th><th>연락처</th>
+              <th>사번</th><th>Share</th><th>코드</th><th>상태</th>
+              <th>공유 URL (카드별)</th><th>관리</th>
+            </tr>
+          </thead>
+          <tbody id="partnerTableBody">
+            <tr><td colspan="10" style="text-align:center;padding:20px;color:#999;">탭 진입 시 자동 로드됩니다</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Firebase SDK (samsung-gfc Firestore 마감일 관리용) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -948,6 +1054,159 @@
       } catch(e) {
         alert('❌ 저장 실패: ' + e.message);
       }
+    };
+
+    // ── 파트너 관리 ──────────────────────────────────────────────────────────
+    window.autoGenCode = function() {
+      var name = document.getElementById('pt-name').value.trim();
+      if (!name) { alert('이름을 먼저 입력하세요.'); return; }
+      var initials = name.replace(/\s/g,'').substring(0,2);
+      var rand = Math.floor(Math.random() * 9000) + 1000;
+      var code = initials + rand;
+      document.getElementById('pt-code').value = code;
+      var preview = document.getElementById('pt-code-preview');
+      if (preview) preview.textContent = code;
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var codeInput = document.getElementById('pt-code');
+      if (codeInput) {
+        codeInput.addEventListener('input', function() {
+          var preview = document.getElementById('pt-code-preview');
+          if (preview) preview.textContent = this.value || '파트너코드';
+        });
+      }
+    });
+
+    window.savePartner = async function() {
+      initBloFirebase();
+      if (!bloDb) { alert('Firebase 초기화 오류'); return; }
+      function getVal(id) { var el=document.getElementById(id); return el ? el.value.trim() : ''; }
+      var name  = getVal('pt-name');
+      var phone = getVal('pt-phone');
+      var code  = getVal('pt-code');
+      if (!name || !phone || !code) { alert('이름, 연락처, 파트너 코드는 필수입니다.'); return; }
+      if (!/^[a-zA-Z0-9가-힣_-]+$/.test(code)) { alert('파트너 코드는 영문, 숫자, 한글, _, - 만 사용 가능합니다.'); return; }
+
+      var data = {
+        type:      getVal('pt-type'),
+        name:      name,
+        phone:     phone,
+        empNum:    getVal('pt-empNum'),
+        branch:    getVal('pt-branch'),
+        title:     getVal('pt-title') || '팀장',
+        orgLeader: getVal('pt-orgLeader') === 'Y',
+        shareRate: parseInt(getVal('pt-share')) || 30,
+        code:      code,
+        status:    'pending',
+        createdAt: new Date().toLocaleString('ko-KR')
+      };
+
+      try {
+        var existing = await bloDb.collection('partners').doc(code).get();
+        if (existing.exists && !confirm('코드 [' + code + ']가 이미 존재합니다. 덮어쓰시겠습니까?')) return;
+        await bloDb.collection('partners').doc(code).set(data);
+        alert('✅ 파트너 등록 완료!\n승인 후 URL이 활성화됩니다.\n\n코드: ' + code);
+        ['pt-name','pt-phone','pt-empNum','pt-branch','pt-code'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+        loadPartnerTab();
+      } catch(e) { alert('❌ 등록 실패: ' + e.message); }
+    };
+
+    window.loadPartnerTab = async function() {
+      initBloFirebase();
+      if (!bloDb) return;
+      var tbody   = document.getElementById('partnerTableBody');
+      var statusEl = document.getElementById('partnerStatus');
+      if (!tbody) return;
+      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:20px;color:#999;">로딩 중...</td></tr>';
+      try {
+        var snap = await bloDb.collection('partners').get();
+        if (snap.empty) {
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:20px;color:#999;">등록된 파트너가 없습니다.</td></tr>';
+          if (statusEl) statusEl.textContent = '';
+          return;
+        }
+        var docs = [];
+        snap.forEach(function(doc) { docs.push(doc.data()); });
+        docs.sort(function(a,b){ return (b.createdAt||'').localeCompare(a.createdAt||''); });
+
+        tbody.innerHTML = '';
+        var BASE = 'https://admin-samsung-vvip.web.app/';
+        var CARDS = ['gfc_wine_card.html','gfc_wine_card_b.html','gfc_wine_card_c.html','gfc_wine_card_d.html'];
+        var LABELS = ['A','B','C','D'];
+
+        docs.forEach(function(d) {
+          var isApproved = d.status === 'approved';
+          var urlHtml = isApproved
+            ? '<div class="url-chips">' +
+              LABELS.map(function(lbl,i){
+                var full = BASE + CARDS[i] + '?p=' + encodeURIComponent(d.code);
+                return '<span class="url-chip" onclick="copyPartnerUrl(\''+full+'\',\''+lbl+'\')" title="'+full+'">'+lbl+'카드</span>';
+              }).join('') + '</div>'
+            : '<span style="color:#bbb;font-size:12px;">승인 후 활성화</span>';
+
+          var manageBtns = isApproved
+            ? '<button onclick="revokePartner(\''+d.code+'\')" style="display:block;width:100%;padding:5px;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-bottom:4px;">취소</button>'
+            : '<button onclick="approvePartner(\''+d.code+'\')" style="display:block;width:100%;padding:5px;background:#28a745;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-bottom:4px;">✅ 승인</button>';
+          manageBtns += '<button onclick="deletePartner(\''+d.code+'\',\''+d.name+'\')" style="display:block;width:100%;padding:5px;background:#6c757d;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;">삭제</button>';
+
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td style="text-align:center;font-size:12px;white-space:nowrap;">'+d.type+'</td>' +
+            '<td><strong>'+d.name+'</strong><br><span style="font-size:11px;color:#888;">'+d.title+(d.orgLeader?' · 명장':'')+'</span></td>' +
+            '<td style="font-size:12px;white-space:nowrap;">'+(d.branch||'-')+'</td>' +
+            '<td style="font-size:12px;white-space:nowrap;">'+d.phone+'</td>' +
+            '<td style="text-align:center;font-size:12px;">'+(d.empNum||'-')+'</td>' +
+            '<td style="text-align:center;font-weight:700;color:#1428A0;">'+d.shareRate+'%</td>' +
+            '<td style="text-align:center;"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:12px;">'+d.code+'</code></td>' +
+            '<td style="text-align:center;">'+(isApproved ? '<span class="badge-approved">✅ 승인</span>' : '<span class="badge-pending">⏳ 대기</span>')+'</td>' +
+            '<td>'+urlHtml+'</td>' +
+            '<td style="min-width:70px;">'+manageBtns+'</td>';
+          tbody.appendChild(tr);
+        });
+
+        if (statusEl) statusEl.textContent = '총 '+docs.length+'명 · 마지막 로드: '+new Date().toLocaleTimeString('ko-KR');
+      } catch(e) {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:20px;color:#f44336;">오류: '+e.message+'</td></tr>';
+      }
+    };
+
+    window.approvePartner = async function(code) {
+      initBloFirebase();
+      if (!confirm('['+code+'] 파트너를 승인하시겠습니까?\n승인 즉시 전용 URL이 활성화됩니다.')) return;
+      try {
+        await bloDb.collection('partners').doc(code).update({ status:'approved', approvedAt: new Date().toLocaleString('ko-KR') });
+        alert('✅ 승인 완료! 파트너 URL이 활성화되었습니다.');
+        loadPartnerTab();
+      } catch(e) { alert('❌ 오류: '+e.message); }
+    };
+
+    window.revokePartner = async function(code) {
+      initBloFirebase();
+      if (!confirm('['+code+'] 파트너 승인을 취소하시겠습니까?')) return;
+      try {
+        await bloDb.collection('partners').doc(code).update({ status:'pending' });
+        alert('승인이 취소되었습니다. URL이 비활성화됩니다.');
+        loadPartnerTab();
+      } catch(e) { alert('❌ 오류: '+e.message); }
+    };
+
+    window.deletePartner = async function(code, name) {
+      initBloFirebase();
+      if (!confirm('['+name+'] 파트너를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
+      try {
+        await bloDb.collection('partners').doc(code).delete();
+        alert('삭제 완료.');
+        loadPartnerTab();
+      } catch(e) { alert('❌ 오류: '+e.message); }
+    };
+
+    window.copyPartnerUrl = function(url, cardType) {
+      navigator.clipboard.writeText(url).then(function() {
+        alert('✅ '+cardType+'카드 URL 복사 완료!\n\n'+url);
+      }).catch(function() {
+        window.prompt(cardType+'카드 파트너 URL을 복사하세요:', url);
+      });
     };
 
     window.saveDeadline = async function(key) {
@@ -1411,6 +1670,10 @@
             // 이달 행사 탭 진입 시 데이터 로드
             if (tabName === 'event') {
                 loadEventTab();
+            }
+            // 파트너 관리 탭 진입 시 데이터 로드
+            if (tabName === 'partner') {
+                loadPartnerTab();
             }
         }
 
