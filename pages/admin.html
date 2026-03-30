@@ -1342,16 +1342,8 @@
                 MAX_LOGIN_ATTEMPTS: 5,
                 LOCKOUT_DURATION: 15 * 60 * 1000, // 15분
 
-                // 관리자 계정 (전체 권한)
-                ADMIN_EMAIL: 'jb2park@naver.com',
-                ADMIN_PASSWORD: '',
-
-                // 데모 계정 (읽기 전용)
-                DEMO_EMAIL: 'demo@blo-seminar.com',
-                DEMO_PASSWORD: 'Demo2026!',
-
-                // SHA-256 해시
-                PASSWORD_HASH: 'a7f8d9e6c4b2a1f3e5d7c9b8a6f4e2d0c8b6a4f2e0d8c6b4a2f0e8d6c4b2a0f8'
+                // 허용 관리자 이메일 목록 (Firebase Auth로 검증)
+                ALLOWED_EMAILS: ['jb2park@gmail.com', 'jb2park@naver.com']
             };
 
             // 사용자 역할 정의
@@ -1374,7 +1366,7 @@
                 return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             }
 
-            // 관리자 인증 시스템
+            // 관리자 인증 시스템 — Firebase Auth 전용 (하드코딩 자격증명 없음)
             window.login = async function () {
                 const email = document.getElementById('loginEmail').value.trim();
                 const password = document.getElementById('loginPassword').value;
@@ -1393,19 +1385,40 @@
                     return;
                 }
 
-                // 계정 검증
-                let userRole = USER_ROLES.GUEST;
-                let isValidLogin = false;
-
-                // 관리자 계정 확인
-                if (email === SECURITY_CONFIG.ADMIN_EMAIL && password === SECURITY_CONFIG.ADMIN_PASSWORD) {
-                    userRole = USER_ROLES.ADMIN;
-                    isValidLogin = true;
+                // 허용된 이메일인지 확인
+                if (!SECURITY_CONFIG.ALLOWED_EMAILS.includes(email)) {
+                    loginAttempts++;
+                    localStorage.setItem('loginAttempts', String(loginAttempts));
+                    if (loginAttempts >= SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS) {
+                        lockoutUntil = Date.now() + SECURITY_CONFIG.LOCKOUT_DURATION;
+                        localStorage.setItem('lockoutUntil', String(lockoutUntil));
+                    }
+                    alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+                    return;
                 }
-                // 데모 계정 확인
-                else if (email === SECURITY_CONFIG.DEMO_EMAIL && password === SECURITY_CONFIG.DEMO_PASSWORD) {
-                    userRole = USER_ROLES.DEMO;
+
+                // Firebase Auth로 인증
+                initBloFirebase();
+                if (!bloAuth) {
+                    alert('인증 서비스 초기화 실패. 잠시 후 다시 시도해주세요.');
+                    return;
+                }
+
+                let isValidLogin = false;
+                try {
+                    await bloAuth.signInWithEmailAndPassword(email, password);
                     isValidLogin = true;
+                } catch(e) {
+                    loginAttempts++;
+                    localStorage.setItem('loginAttempts', String(loginAttempts));
+                    if (loginAttempts >= SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS) {
+                        lockoutUntil = Date.now() + SECURITY_CONFIG.LOCKOUT_DURATION;
+                        localStorage.setItem('lockoutUntil', String(lockoutUntil));
+                        alert(`⚠️ ${SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS}회 실패로 ${SECURITY_CONFIG.LOCKOUT_DURATION/60000}분간 잠깁니다.`);
+                    } else {
+                        alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+                    }
+                    return;
                 }
 
                 if (isValidLogin) {
@@ -1413,6 +1426,8 @@
                     loginAttempts = 0;
                     localStorage.setItem('loginAttempts', '0');
                     localStorage.removeItem('lockoutUntil');
+
+                    const userRole = USER_ROLES.ADMIN;
 
                     // 세션 생성
                     const sessionData = {
@@ -1431,45 +1446,17 @@
                     document.getElementById('adminDashboard').style.display = 'block';
 
                     // 사용자 정보 표시
-                    const roleLabel = userRole === USER_ROLES.ADMIN ? '관리자' : '데모 (읽기 전용)';
-                    document.getElementById('userName').textContent = `${email} (${roleLabel})`;
-
-                    // 마감일 저장을 위한 Firebase Auth 인증 (관리자만)
-                    if (userRole === USER_ROLES.ADMIN) {
-                        bloSignIn(email, password);
-                    }
+                    document.getElementById('userName').textContent = `${email} (관리자)`;
 
                     loadDashboardData();
                     startSessionMonitoring();
                     applyRoleRestrictions(userRole);
 
-                    // 데모 계정 환영 메시지
-                    if (userRole === USER_ROLES.DEMO) {
-                        setTimeout(() => {
-                            alert('🎯 데모 계정으로 로그인했습니다!\n\n• 모든 데이터를 조회할 수 있습니다.\n• 데이터 수정, 저장, 발송 기능은 제한됩니다.\n• 실제 운영에는 영향을 주지 않습니다.');
-                        }, 500);
-                    }
-
-                    console.log(`✅ ${roleLabel} 로그인 성공`);
-                } else {
-                    // 로그인 실패
-                    loginAttempts++;
-                    localStorage.setItem('loginAttempts', loginAttempts.toString());
-
-                    if (loginAttempts >= SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS) {
-                        // 계정 잠금
-                        lockoutUntil = Date.now() + SECURITY_CONFIG.LOCKOUT_DURATION;
-                        localStorage.setItem('lockoutUntil', lockoutUntil.toString());
-
-                        alert(`🚨 보안 경고\n\n${SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS}회 로그인 실패로 계정이 잠겼습니다.\n15분 후에 다시 시도해주세요.`);
-                    } else {
-                        const remainingAttempts = SECURITY_CONFIG.MAX_LOGIN_ATTEMPTS - loginAttempts;
-                        alert(`❌ 로그인 실패\n\n이메일 또는 비밀번호가 올바르지 않습니다.\n남은 시도 횟수: ${remainingAttempts}회`);
-                    }
-
-                    // 비밀번호 필드 초기화
-                    document.getElementById('loginPassword').value = '';
+                    console.log(`✅ 관리자 로그인 성공: ${email}`);
                 }
+
+                // 비밀번호 필드 초기화
+                document.getElementById('loginPassword').value = '';
             };
 
             // 역할 기반 권한 제한 적용
