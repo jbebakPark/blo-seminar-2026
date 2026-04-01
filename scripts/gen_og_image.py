@@ -159,7 +159,7 @@ def make_wide_og(out_path):
 
     # 사이드바: 월 숫자
     fnum = load_font(F_BLACK, 110)
-    draw.text((18, 60), "03", font=fnum, fill=GOLD)
+    draw.text((18, 60), "04", font=fnum, fill=GOLD)
 
     fbadge_s = load_font(F_BOLD, 14)
     fbadge_m = load_font(F_BOLD, 13)
@@ -170,7 +170,7 @@ def make_wide_og(out_path):
     # 사이드바: 연도
     fy = load_font(F_REGULAR, 13)
     draw.text((18, 255), "2026", font=fy, fill=MID_GRAY)
-    draw.text((18, 272), "MARCH", font=fy, fill=MID_GRAY)
+    draw.text((18, 272), "APRIL", font=fy, fill=MID_GRAY)
 
     # 사이드바: 세로 장식선
     for i, (h_ratio, opacity) in enumerate([(0.55, 80), (0.72, 120), (0.85, 160), (0.65, 100), (0.78, 130)]):
@@ -187,7 +187,7 @@ def make_wide_og(out_path):
 
     # BLO 뱃지
     fbadge = load_font(F_BOLD, 16)
-    badge_text = "2030 BLO  3월 세미나"
+    badge_text = "2030 BLO  4월 세미나"
     bb = draw.textbbox((0,0), badge_text, font=fbadge)
     bw = bb[2] - bb[0] + 28
     draw_rounded_rect(draw, [MX, 20, MX + bw, 48], 4, BLUE)
@@ -196,15 +196,15 @@ def make_wide_og(out_path):
     # 메인 제목 (Korean font)
     ft1 = load_font(F_BOLD, 50)
     ft2 = load_font(F_BOLD, 48)
-    draw.text((MX, 68), "피지컬 AI와 로봇", font=ft1, fill=NAVY)
-    draw.text((MX, 126), "대항해의 시대", font=ft2, fill=NAVY)
+    draw.text((MX, 68), "AI 반도체가 주도하는", font=ft1, fill=NAVY)
+    draw.text((MX, 126), "금융시장", font=ft2, fill=NAVY)
 
     # 구분선
     draw.rectangle([MX, 192, MX + 480, 195], fill=GOLD)
 
     # 부제목
     fsub = load_font(F_BOLD2, 20)
-    draw.text((MX, 205), "Physical AI & Robot Navigation Era", font=fsub, fill=LIGHT_BLUE)
+    draw.text((MX, 205), "AI Semiconductor & Financial Market", font=fsub, fill=LIGHT_BLUE)
 
     # 이벤트 정보 박스
     draw.rectangle([MX, 245, MX + 720, 355], fill=LIGHT_GRAY)
@@ -214,8 +214,8 @@ def make_wide_og(out_path):
     finfo_r = load_font(F_REGULAR, 18)
 
     info_items = [
-        ("📅  일  시", "2026. 3. 24 (화)  오전 7:30 ~ 9:00"),
-        ("🎓  강  사", "조규진 교수  ·  서울대학교 기계공학과"),
+        ("📅  일  시", "2026. 4. 21 (화)  오전 7:30 ~ 9:00"),
+        ("🎓  강  사", "김선우 애널리스트  ·  메리츠증권 기업분석1팀장"),
         ("💻  신  청", "www.samsung2030blo.com"),
     ]
     for i, (label, value) in enumerate(info_items):
@@ -225,7 +225,7 @@ def make_wide_og(out_path):
 
     # 하단: 강사 프로필 칩들
     fchip = load_font(F_REGULAR, 15)
-    chips = ["인간중심 소프트로봇 연구센터장", "IEEE RAS 부회장", "카카오 사외이사", "Harvard 포스닥"]
+    chips = ["2025 반도체 베스트 애널리스트", "메리츠증권 기업분석1팀장", "前 Barclays", "前 삼성증권"]
     cx = MX
     cy = 370
     for chip in chips:
@@ -313,10 +313,10 @@ def make_vertical_card(out_path):
         draw.text((SIDE//2 - 6, 20 + ci*18), ch, font=fb2, fill=WHITE)
 
     # 사이드바: 큰 숫자
-    draw.text((10, 70), "03", font=fmn, fill=GOLD)
+    draw.text((10, 70), "04", font=fmn, fill=GOLD)
 
     # 사이드바: 연월
-    for ci, ch in enumerate("MARCH"):
+    for ci, ch in enumerate("APRIL"):
         draw.text((SIDE//2 - 6, 178 + ci*18), ch, font=fb2, fill=MID_GRAY)
 
     # 오른쪽 헤더 콘텐츠 영역
@@ -327,17 +327,17 @@ def make_vertical_card(out_path):
     draw.text((RX+8, 22), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
 
     # 제목 (흰 배경 위에 네이비 텍스트 → 절대 잘릴 수 없음)
-    draw.text((RX, 58),  "피지컬 AI와 로봇", font=ft,  fill=WHITE)
-    draw.text((RX, 108), "대항해의 시대",    font=ft2, fill=GOLD)
+    draw.text((RX, 58),  "AI 반도체가 주도하는", font=ft,  fill=WHITE)
+    draw.text((RX, 108), "금융시장",    font=ft2, fill=GOLD)
 
     # 부제목
     draw.rectangle([RX, 162, W-20, 164], fill=GOLD)
-    draw.text((RX, 172), "Physical AI & Robot", font=fsub, fill=WHITE)
-    draw.text((RX, 194), "Navigation Era",      font=fsub, fill=WHITE)
+    draw.text((RX, 172), "AI Semiconductor &", font=fsub, fill=WHITE)
+    draw.text((RX, 194), "Financial Market",   font=fsub, fill=WHITE)
 
     # 날짜/강사 간략 정보 (사이드바 안에)
     fi = load_font(F_REGULAR, 12)
-    draw.text((8, 300), "2026.3.24", font=fi, fill=MID_GRAY)
+    draw.text((8, 300), "2026.4.21", font=fi, fill=MID_GRAY)
     draw.text((8, 318), "07:30~", font=fi, fill=MID_GRAY)
     draw.text((8, 336), "09:00", font=fi, fill=MID_GRAY)
 
@@ -357,10 +357,10 @@ def make_vertical_card(out_path):
     draw.rectangle([24, y, W-24, y+218], fill=WHITE)
     draw.rectangle([24, y, W-24, y+4], fill=BLUE)
     card_items = [
-        ("📅 일  시", "2026. 3. 24 (화)"),
+        ("📅 일  시", "2026. 4. 21 (화)"),
         ("",          "오전 7:30 ~ 9:00 / 재방송 20:00~22:00"),
-        ("🎓 강  사", "조규진 교수"),
-        ("",          "서울대학교 기계공학과"),
+        ("🎓 강  사", "김선우 애널리스트"),
+        ("",          "메리츠증권 기업분석1팀장"),
         ("💻 신  청", "www.samsung2030blo.com"),
         ("📍 장  소", "삼성금융캠퍼스 B2F 비전홀"),
     ]
@@ -378,12 +378,12 @@ def make_vertical_card(out_path):
     y += 10
     draw.rectangle([24, y, W-24, y+148], fill=WHITE)
     draw.rectangle([24, y, 28, y+148], fill=GOLD)
-    draw.text((40, y+10), "조규진 교수",         font=fprof_t, fill=NAVY)
-    draw.text((40, y+36), "서울대학교 기계공학과", font=fprof_s, fill=BLUE)
+    draw.text((40, y+10), "김선우 애널리스트",    font=fprof_t, fill=NAVY)
+    draw.text((40, y+36), "메리츠증권 기업분석1팀장 (IT총괄)", font=fprof_s, fill=BLUE)
     for i, item in enumerate([
-        "· 인간중심 소프트로봇 연구센터장",
-        "· 카카오 사외이사  /  IEEE RAS 부회장",
-        "· Harvard Microrobotics Lab 포스닥",
+        "· 2025 반도체 부문 베스트 애널리스트",
+        "· 前 Barclays (Downstream Tech - 세트/부품)",
+        "· 前 삼성증권 (반도체/디스플레이 장비/소재)",
     ]):
         draw.text((40, y+62+i*24), item, font=fprof_r, fill=TEXT_DARK)
     y += 158
@@ -406,7 +406,7 @@ def make_vertical_card(out_path):
     for i, (num, step) in enumerate([
         ("①", "samsung2030blo.com 접속"),
         ("②", "추천인 코드 9618628 입력"),
-        ("③", "3/24 오전 7:15 생방송 입장"),
+        ("③", "4/21 오전 7:15 생방송 입장"),
     ]):
         ys = y+24+i*30
         draw_rounded_rect(draw, [24, ys, 42, ys+22], 4, BLUE)
@@ -426,7 +426,7 @@ def make_vertical_card(out_path):
     draw.text((24, y),    "오프라인 조찬세미나 문의",           font=foff_b, fill=TEXT_MID)
     draw.text((24, y+22), "📞  010-5137-2327  (박재박 팀장)",  font=foff,   fill=TEXT_DARK)
     draw.text((24, y+42), "💬  카카오톡 오픈채팅 문의 가능",    font=foff,   fill=TEXT_DARK)
-    draw.text((24, y+62), "📅  오프라인 마감: 3/19(목) 17:00", font=foff,   fill=(180,50,50))
+    draw.text((24, y+62), "📅  오프라인 마감: 4/17(금) 17:00", font=foff,   fill=(180,50,50))
 
     # 하단 바
     draw.rectangle([0, H-72, W, H], fill=NAVY)
