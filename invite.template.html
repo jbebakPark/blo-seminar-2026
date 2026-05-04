@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{OG_TITLE}}">
+<meta property="og:description" content="{{OG_DESC}}">
+<meta property="og:url" content="https://admin-samsung-vvip.web.app/invite.html">
+<meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v={{OG_VER}}">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="576">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<title>{{PAGE_TITLE}}</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body {
+  background: #f0f4fa;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  font-size: 15px; font-weight: 500; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+.wrap { max-width: 480px; margin: 0 auto; background: #fff; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+
+/* 워터마크 */
+.watermark-overlay {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  pointer-events: none; z-index: 9999; overflow: hidden; opacity: 0.04;
+}
+.watermark-overlay svg { width:100%; height:100%; }
+
+/* ══ 히어로 ══ */
+.hero {
+  background: linear-gradient(160deg, #0A1628 0%, #0D2244 55%, #102A50 100%);
+  padding: 0; position: relative; overflow: hidden;
+}
+.hero::before {
+  content:''; position:absolute;
+  width:320px; height:320px; border-radius:50%;
+  background: radial-gradient(circle, rgba(16,80,160,0.25) 0%, transparent 70%);
+  top:-80px; right:-80px; pointer-events:none;
+}
+.hero::after {
+  content:''; position:absolute;
+  width:200px; height:200px; border-radius:50%;
+  background: radial-gradient(circle, rgba(220,100,80,0.1) 0%, transparent 70%);
+  bottom:20px; left:-40px; pointer-events:none;
+}
+
+.hero-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px 0; position:relative; z-index:2;
+}
+.blo-mark { border:2px solid rgba(200,168,75,0.6); padding:5px 11px; display:inline-block; }
+.blo-mark-sub { font-size:10px; font-weight:700; color:#C8A84B; letter-spacing:1.5px; }
+.blo-mark-main { font-size:13px; font-weight:900; color:#C8A84B; letter-spacing:2px; }
+.hero-tag {
+  background: rgba(200,168,75,0.15); border:1px solid rgba(200,168,75,0.4);
+  color:#C8A84B; font-size:13px; font-weight:700; padding:6px 14px; border-radius:20px;
+}
+
+.hero-main { padding:20px 22px 10px; position:relative; z-index:2; }
+.hero-month {
+  font-size:110px; font-weight:900; color:rgba(255,255,255,0.1);
+  line-height:1; font-style:italic; letter-spacing:-6px;
+  position:absolute; right:10px; top:10px; pointer-events:none;
+}
+.hero-label {
+  font-size:13px; font-weight:700; color:#C8A84B;
+  letter-spacing:1px; margin-bottom:10px;
+  display:flex; align-items:center; gap:6px;
+}
+.hero-label::before { content:''; display:inline-block; width:18px; height:2px; background:#C8A84B; }
+.hero-h1 { font-size:32px; font-weight:900; color:#fff; line-height:1.25; letter-spacing:-1.5px; word-break:keep-all; }
+.hero-h1 em { color:#FF7A5C; font-style:normal; }
+.hero-sub { font-size:14px; font-weight:500; color:#7FA8D4; margin-top:10px; }
+.hero-divider { height:3px; background: linear-gradient(90deg, #C8A84B 0%, rgba(200,168,75,0.3) 60%, transparent 100%); margin:14px 22px 0; }
+
+/* 두 강사 카드 */
+.speakers-bar {
+  background:#fff; border-bottom:3px solid #1050A0;
+}
+.speakers-title {
+  font-size:11px; font-weight:800; color:#1050A0; letter-spacing:1px;
+  padding:12px 20px 8px; border-bottom:1px solid #F0F4FA;
+}
+.speaker-row {
+  display:flex; align-items:center; gap:14px;
+  padding:12px 20px;
+  border-bottom:1px solid #F7F9FC;
+}
+.speaker-row:last-child { border-bottom:none; }
+.part-badge {
+  font-size:10px; font-weight:900; color:#fff;
+  background:#1050A0; padding:3px 8px; border-radius:4px;
+  flex-shrink:0; align-self:flex-start; margin-top:3px;
+}
+.part-badge.part2 { background:#C8A84B; color:#0D1A2E; }
+.sp-circle {
+  width:52px; height:52px; border-radius:50%; flex-shrink:0;
+  background: linear-gradient(135deg, #1050A0 0%, #0D2244 100%);
+  border:2px solid #C8A84B;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  box-shadow:0 4px 12px rgba(16,80,160,0.2);
+}
+.sp-circle.part2-circle { background: linear-gradient(135deg, #7A5800 0%, #B8860B 100%); }
+.sp-circle-name { font-size:13px; font-weight:900; color:#fff; }
+.sp-circle-title { font-size:9px; color:rgba(255,255,255,0.8); margin-top:1px; }
+.sp-detail {}
+.sp-name { font-size:16px; font-weight:900; color:#0D1A2E; }
+.sp-name span { font-size:12px; font-weight:500; color:#778899; margin-left:4px; }
+.sp-creds { margin-top:5px; display:flex; flex-wrap:wrap; gap:4px; }
+.sp-cred { font-size:11px; color:#445566; background:#f0f4fa; border:1px solid #D8E4F0; padding:3px 8px; border-radius:10px; }
+
+/* 일시 바 */
+.info-bar { background:#fff; padding:0 20px; border-bottom:1px solid #E8EEF6; }
+.info-row {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:13px 0; border-bottom:1px solid #F0F4FA;
+}
+.info-row:last-child { border-bottom:none; }
+.info-icon { width:34px; height:34px; border-radius:8px; background:#EEF3FA; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; margin-top:2px; }
+.info-lbl { font-size:11px; font-weight:800; color:#1050A0; letter-spacing:0.5px; margin-bottom:3px; }
+.info-val { font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5; }
+.info-sub { font-size:12px; color:#778899; margin-top:2px; }
+.info-sub a { color:#1A6FE8; text-decoration:none; }
+
+/* 본문 */
+.body-sec {
+  background:#f7f9fc; padding:20px 22px;
+  border-top:1px solid #e4eaf2; border-bottom:1px solid #e4eaf2;
+}
+.body-sec p { font-size:15px; font-weight:500; color:#2a3a4a; line-height:2.0; word-break:keep-all; }
+.body-sec p+p { margin-top:10px; }
+
+/* 토스트 알림 */
+.toast {
+  position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:#1050A0; color:#fff; font-size:14px; font-weight:700;
+  padding:12px 22px; border-radius:30px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  opacity:0; transition:all 0.3s; z-index:2000; white-space:nowrap;
+  max-width:90vw; text-align:center;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════
+   신청 섹션
+══════════════════════════════ */
+.apply-sec {
+  background: linear-gradient(160deg, #0A1628 0%, #0D2244 100%);
+  padding: 28px 20px 30px;
+}
+.apply-sec-title {
+  font-size:20px; font-weight:900; color:#fff;
+  margin-bottom:6px; letter-spacing:-0.5px;
+}
+.apply-sec-sub {
+  font-size:13px; color:#7FA8D4; margin-bottom:22px;
+}
+
+/* 탭 선택 */
+.apply-tabs {
+  display:flex; gap:8px; margin-bottom:18px;
+}
+.apply-tab {
+  flex:1; padding:13px 10px; border-radius:10px;
+  border:2px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.65);
+  font-size:14px; font-weight:800; text-align:center;
+  cursor:pointer; transition:all 0.2s;
+}
+.apply-tab.active {
+  background:#C8A84B; color:#0D1A2E;
+  border-color:#C8A84B;
+  box-shadow:0 4px 16px rgba(200,168,75,0.4);
+}
+.apply-tab-icon { font-size:20px; display:block; margin-bottom:4px; }
+
+/* 온라인 신청 카드 */
+.online-card {
+  background:#fff; border-radius:16px;
+  padding:24px 20px; box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+.online-card-title {
+  font-size:16px; font-weight:900; color:#0D1A2E;
+  margin-bottom:6px;
+}
+.online-card-sub {
+  font-size:13px; color:#778899; margin-bottom:22px; line-height:1.7;
+}
+
+/* 단계 표시 */
+.steps-wrap { margin-bottom:20px; }
+.step-item {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:0 0 18px 0; position:relative;
+}
+.step-item:last-child { padding-bottom:0; }
+.step-item::before {
+  content:''; position:absolute; left:17px; top:36px; bottom:0;
+  width:2px; background:#E8EEF6;
+}
+.step-item:last-child::before { display:none; }
+.step-circle {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:#1050A0; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:900;
+  position:relative; z-index:1;
+  box-shadow:0 2px 8px rgba(16,80,160,0.3);
+}
+.step-circle.gold { background:#C8A84B; color:#0D1A2E; }
+.step-body { padding-top:4px; }
+.step-title { font-size:14px; font-weight:800; color:#0D1A2E; margin-bottom:4px; }
+.step-desc { font-size:12px; color:#667788; line-height:1.7; }
+
+/* 추천인 코드 박스 */
+.code-box {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  border-radius:14px; padding:20px;
+  text-align:center; margin-bottom:14px;
+}
+.code-box-label {
+  font-size:11px; color:#a8c4e4; font-weight:700;
+  letter-spacing:0.5px; margin-bottom:8px;
+}
+.code-box-warn {
+  display:inline-block; background:rgba(200,168,75,0.2);
+  border:1px solid rgba(200,168,75,0.5);
+  color:#C8A84B; font-size:11px; font-weight:700;
+  padding:3px 10px; border-radius:20px; margin-bottom:10px;
+}
+.code-number {
+  font-size:42px; font-weight:900; color:#C8A84B;
+  letter-spacing:10px; line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.code-copy-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:14px; background:#C8A84B; border:none;
+  color:#0D1A2E; font-size:14px; font-weight:900;
+  padding:12px 28px; border-radius:10px; cursor:pointer;
+  font-family:inherit; width:100%; justify-content:center;
+  box-shadow:0 3px 12px rgba(200,168,75,0.45);
+  transition:all 0.2s;
+}
+.code-copy-btn:active { transform:scale(0.97); }
+.code-copy-btn.copied { background:#16A34A; color:#fff; }
+
+/* 신청 이동 버튼 */
+.go-apply-btn {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:17px;
+  background: linear-gradient(135deg, #1050A0 0%, #1A5BB5 100%);
+  color:#fff; border:none; border-radius:12px;
+  font-size:16px; font-weight:900; cursor:pointer;
+  font-family:inherit; text-decoration:none;
+  box-shadow:0 4px 18px rgba(16,80,160,0.45);
+  transition:all 0.2s;
+}
+.go-apply-btn:active { transform:scale(0.98); }
+.go-apply-note {
+  margin-top:10px; font-size:11px; color:#94A3B8;
+  text-align:center; line-height:1.7;
+}
+.go-apply-note strong { color:#445566; }
+
+/* 오프라인 신청 */
+.offline-box {
+  background:#fff; border-radius:16px;
+  padding:24px 20px; box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+.offline-box-title { font-size:16px; font-weight:900; color:#0D1A2E; margin-bottom:16px; }
+.off-row { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.off-row:last-child { margin-bottom:0; }
+.off-dot { width:8px; height:8px; background:#C8A84B; border-radius:50%; margin-top:5px; flex-shrink:0; }
+.off-lbl { font-size:11px; font-weight:800; color:#B8860B; margin-bottom:2px; }
+.off-val { font-size:14px; color:#1A2A3A; font-weight:700; line-height:1.5; }
+.off-sub { font-size:12px; color:#667788; margin-top:2px; }
+.off-hr { height:1px; background:#E8EEF6; margin:12px 0; }
+.off-notice {
+  background:#FFF8E7; border:1.5px solid #E8A000; border-radius:10px;
+  padding:12px 14px; margin-bottom:16px;
+  font-size:13px; color:#7A4F00; line-height:1.7;
+}
+.off-notice strong { font-weight:900; }
+.call-btn {
+  display:block; width:100%; margin-bottom:10px;
+  background:#1050A0; color:#fff;
+  font-size:15px; font-weight:900;
+  padding:15px; border-radius:10px;
+  text-align:center; text-decoration:none;
+  box-shadow:0 3px 12px rgba(16,80,160,0.35);
+}
+.call-btn:active { background:#0a3878; }
+.kakao-btn {
+  display:block; width:100%;
+  background:#FEE500; color:#1A1A1A;
+  font-size:15px; font-weight:800;
+  padding:15px; border-radius:10px;
+  text-align:center; text-decoration:none;
+}
+.kakao-btn:active { background:#F0D800; }
+
+/* ══ 행사 진행 흐름 ══ */
+.flow-sec { background:#fff; padding:24px 22px; border-top:3px solid #1050A0; }
+.sec-title-row {
+  font-size:15px; font-weight:900; color:#0D1A2E;
+  margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+.sec-title-row::after { content:''; flex:1; height:2px; background:#E8EEF6; }
+.flow-steps { display:flex; flex-direction:column; gap:0; position:relative; }
+.flow-step { display:flex; align-items:flex-start; gap:14px; padding:0 0 20px 0; position:relative; }
+.flow-step:last-child { padding-bottom:0; }
+.flow-step::before {
+  content:''; position:absolute; left:17px; top:36px; bottom:0;
+  width:2px; background:#E8EEF6;
+}
+.flow-step:last-child::before { display:none; }
+.flow-num {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:#1050A0; display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:900; color:#fff;
+  position:relative; z-index:1; box-shadow:0 2px 8px rgba(16,80,160,0.25);
+}
+.flow-num.gold { background:#C8A84B; }
+.flow-time { font-size:11px; font-weight:700; color:#C8A84B; margin-bottom:2px; }
+.flow-name { font-size:14px; font-weight:800; color:#0D1A2E; }
+.flow-desc { font-size:11px; color:#778899; margin-top:2px; line-height:1.6; }
+
+/* ══ 연간 일정 ══ */
+.schedule-sec { background:#fff; padding:0 0 20px; border-top:4px solid #C8A84B; }
+.schedule-banner {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  padding:16px 22px; display:flex; align-items:center; justify-content:space-between;
+}
+.schedule-banner-title { font-size:16px; font-weight:900; color:#fff; }
+.schedule-banner-sub { font-size:12px; color:rgba(255,255,255,0.75); margin-top:3px; }
+.schedule-more-link {
+  font-size:12px; color:#C8A84B; font-weight:800; text-decoration:none;
+  background:rgba(200,168,75,0.15); border:1px solid rgba(200,168,75,0.4);
+  padding:7px 12px; border-radius:20px; white-space:nowrap; flex-shrink:0;
+}
+.year-benefit {
+  margin:14px 22px 14px;
+  background: linear-gradient(135deg, #FFF8E6 0%, #FFFBF0 100%);
+  border:1.5px solid #C8A84B; border-radius:10px; padding:12px 14px;
+  font-size:13px; color:#7A5800; font-weight:700; line-height:1.7;
+}
+
+/* Q 탭 */
+.q-tabs {
+  display:flex; gap:6px; margin:0 22px 16px;
+  overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.q-tabs::-webkit-scrollbar { display:none; }
+.q-tab {
+  flex-shrink:0; font-size:13px; font-weight:700;
+  padding:9px 14px; border-radius:20px;
+  border:1.5px solid #D8E4F0; background:#f7f9fc; color:#778899;
+  cursor:pointer; transition:all 0.15s; white-space:nowrap;
+}
+.q-tab.active { background:#0D2244; color:#C8A84B; border-color:#0D2244; }
+.q-panel { display:none; }
+.q-panel.active { display:block; }
+.sched-quarter { padding:0 22px; }
+.sched-q-label {
+  font-size:12px; font-weight:900; color:#1050A0; letter-spacing:0.5px;
+  margin-bottom:12px; display:flex; align-items:center; gap:6px;
+}
+.sched-q-label::after { content:''; flex:1; height:1px; background:#E8EEF6; }
+.sched-item {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px; border-radius:8px; margin-bottom:6px;
+  background:#f7f9fc; border-left:3px solid #D8E4F0;
+}
+.sched-item.completed { border-left-color:#22A06B; background:#f0faf5; opacity:0.75; }
+.sched-item.current {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  border-left:none; border-radius:12px; padding:16px; position:relative;
+  overflow:hidden; box-shadow:0 6px 24px rgba(16,80,160,0.3); margin-bottom:8px;
+}
+.sched-item.current::after {
+  content:'▶ THIS MONTH'; position:absolute; top:0; right:0;
+  background:#C8A84B; color:#0D1A2E; font-size:11px; font-weight:900;
+  padding:6px 12px; border-radius:0 12px 0 10px; letter-spacing:0.5px;
+}
+.sched-item.upcoming { border-left-color:#C8D8F0; }
+.sched-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.completed .sched-dot { background:#22A06B; }
+.current .sched-dot { background:#C8A84B; }
+.upcoming .sched-dot { background:#B0C4DE; }
+.sched-date { font-size:13px; font-weight:700; color:#1050A0; margin-bottom:4px; }
+.current .sched-date { color:#C8A84B; font-size:14px; }
+.sched-title-text { font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5; word-break:keep-all; }
+.current .sched-title-text { color:#fff; font-size:16px; font-weight:900; }
+.sched-speaker { font-size:13px; color:#778899; margin-top:4px; }
+.current .sched-speaker { color:#a8c4e4; }
+.sched-status {
+  display:inline-block; font-size:12px; font-weight:700;
+  padding:3px 9px; border-radius:10px; margin-top:5px;
+}
+.sched-status.done { background:#DCFCE7; color:#166534; }
+.sched-status.now { background:#C8A84B; color:#0D1A2E; font-weight:900; }
+.sched-status.soon { background:#DBEAFE; color:#1e40af; }
+
+/* ══ 혜택 ══ */
+.benefit-sec { background:#f7f9fc; padding:24px 22px; border-top:1px solid #E8EEF6; }
+.benefit-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.benefit-card {
+  background:#fff; border:1.5px solid #D8E4F0; border-radius:12px;
+  padding:16px 14px; box-shadow:0 1px 6px rgba(0,0,0,0.05);
+}
+.benefit-icon { font-size:24px; margin-bottom:8px; }
+.benefit-title { font-size:13px; font-weight:800; color:#0D1A2E; margin-bottom:4px; }
+.benefit-desc { font-size:11px; color:#667788; line-height:1.6; }
+
+/* ══ 링크 ══ */
+.pub-link-sec { background:#fff; padding:20px 22px; border-top:1px solid #E8EEF6; display:flex; gap:10px; }
+.pub-link-btn {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+  background:#f0f4fa; border:1.5px solid #D0DCF0; border-radius:10px;
+  padding:13px 10px; text-decoration:none;
+  font-size:12px; font-weight:700; color:#1050A0;
+}
+.pub-link-btn:active { background:#dce6f5; }
+
+.note-bar { background:#E8EEF6; padding:10px 24px; font-size:10px; color:#778899; text-align:center; }
+.copyright-bar { background:#0D1A2E; color:#8899AA; font-size:10px; text-align:center; padding:10px 16px; }
+
+/* ══ 하단 고정 CTA ══ */
+.sticky-cta {
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:480px;
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  padding:12px 16px;
+  display:flex; gap:10px; align-items:center;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.3); z-index:1000;
+}
+.sticky-cta-text { font-size:12px; color:rgba(255,255,255,0.85); font-weight:600; flex:1; line-height:1.5; }
+.sticky-cta-text strong { color:#C8A84B; display:block; font-size:13px; }
+.sticky-cta-btn {
+  background:#C8A84B; color:#0D1A2E;
+  font-size:14px; font-weight:900; padding:12px 20px; border-radius:10px;
+  border:none; cursor:pointer; white-space:nowrap; text-decoration:none;
+  display:inline-block; box-shadow:0 3px 12px rgba(200,168,75,0.5); transition:all 0.2s;
+}
+.sticky-cta-btn:active { transform:scale(0.97); }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ① 히어로 -->
+<div class="hero">
+  <div class="hero-topbar">
+    <div class="blo-mark">
+      <div class="blo-mark-sub">2030 BUSINESS</div>
+      <div class="blo-mark-main">LIVE ON</div>
+    </div>
+    <div class="hero-tag">{{HERO_TAG}}</div>
+  </div>
+  <div class="hero-main">
+    <div class="hero-month">{{HERO_MONTH}}</div>
+    <div>
+      <div class="hero-label">{{HERO_LABEL}}</div>
+      <h1 class="hero-h1">{{HERO_H1}}</h1>
+      <div class="hero-sub">{{HERO_SUB}}</div>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+</div>
+
+<!-- ② 강사 소개 (2인) -->
+<div class="speakers-bar">
+  <div class="speakers-title">강사 소개 · {{SPEAKERS_TITLE}}</div>
+  {{SPEAKERS_HTML}}
+</div>
+
+<!-- ③ 일시/장소 정보 -->
+<div class="info-bar">
+  <div class="info-row">
+    <div class="info-icon">📅</div>
+    <div>
+      <div class="info-lbl">DATE &amp; TIME</div>
+      <div class="info-val">{{EVENT_DATE}}</div>
+      <div class="info-sub">{{EVENT_TIME_PARTS}}</div>
+    </div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">🍽️</div>
+    <div>
+      <div class="info-lbl">조찬 (오프라인 참석자)</div>
+      <div class="info-val">06:30 ~ 07:20</div>
+      <div class="info-sub">삼성금융캠퍼스 지하 2층 카페테리아</div>
+    </div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">📍</div>
+    <div>
+      <div class="info-lbl">OFFLINE 장소</div>
+      <div class="info-val">삼성금융캠퍼스 B2F 비전홀</div>
+      <div class="info-sub">서울 서초구 사임당로 23길 27 · 오프라인 마감 <strong>{{OFFLINE_DEADLINE_SHORT}}</strong></div>
+    </div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">🌐</div>
+    <div>
+      <div class="info-lbl">ONLINE 시청</div>
+      <div class="info-val">아래 신청 폼으로 즉시 신청</div>
+      <div class="info-sub">신청 후 <a href="http://www.samsung2030blo.com" target="_blank">www.samsung2030blo.com</a>에서 시청</div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 본문 -->
+<div class="body-sec">
+  {{BODY_HTML}}
+</div>
+
+<!-- ⑤ 신청 섹션 (핵심 개편) -->
+<div class="apply-sec" id="applySection">
+  <div class="apply-sec-title">세미나 신청하기</div>
+  <div class="apply-sec-sub">아래에서 신청 방법을 선택해 주세요</div>
+
+  <!-- 탭 선택 -->
+  <div class="apply-tabs">
+    <div class="apply-tab active" id="tabOnline" onclick="selectTab('online')">
+      <span class="apply-tab-icon">🎥</span>
+      온라인 신청
+    </div>
+    <div class="apply-tab" id="tabOffline" onclick="selectTab('offline')">
+      <span class="apply-tab-icon">🍽️</span>
+      오프라인 신청
+    </div>
+  </div>
+
+  <!-- 온라인 신청 패널 -->
+  <div id="onlinePanel">
+    <div class="online-card">
+      <div class="online-card-title">🎥 온라인 강연 신청 방법</div>
+      <div class="online-card-sub">
+        아래 순서대로 하시면 30초 안에 신청이 완료됩니다.
+      </div>
+
+      <div class="steps-wrap">
+        <div class="step-item">
+          <div class="step-circle gold">1</div>
+          <div class="step-body">
+            <div class="step-title">추천인 코드 복사</div>
+            <div class="step-desc">아래 [코드 복사하기] 버튼을 누르면<br>코드가 자동으로 복사됩니다.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <div class="step-body">
+            <div class="step-title">BLO 사이트에서 회원가입</div>
+            <div class="step-desc">아래 [신청 사이트 바로가기] 클릭 →<br>회원가입 화면에서 <strong>추천인 코드란에 붙여넣기</strong></div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <div class="step-body">
+            <div class="step-title">당일 강연 입장</div>
+            <div class="step-desc">{{WATCH_DATE}} 07:15부터 접속 → 강연 입장<br>재방송 당일 20:00~22:00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 추천인 코드 박스 -->
+      <div class="code-box">
+        <div class="code-box-label">온라인 신청 시 반드시 입력 — 추천인 코드</div>
+        <div class="code-box-warn">⚠️ 회원가입 시 추천인 코드란에 입력</div>
+        <div class="code-number" id="refCode">9618628</div>
+        <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">
+          📋 코드 복사하기
+        </button>
+      </div>
+
+      <!-- 신청 사이트 이동 버튼 -->
+      <a class="go-apply-btn" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="onGoApply()">
+        🌐 신청 사이트 바로가기
+      </a>
+      <div class="go-apply-note">
+        <strong>www.samsung2030blo.com</strong><br>
+        1회 신청으로 2026년 12월까지 전 강연 시청 가능
+      </div>
+    </div>
+  </div><!-- /onlinePanel -->
+
+  <!-- 오프라인 신청 -->
+  <div id="offlinePanel" style="display:none;">
+    <div class="offline-box">
+      <div class="offline-box-title">🍽️ 오프라인 조찬 신청</div>
+
+      <div class="off-notice">
+        <strong>⚠️ 신청 마감: {{OFFLINE_DEADLINE}}</strong><br>
+        반드시 컨설턴트(FP/FO)를 통해 신청하시거나<br>아래로 직접 문의해 주세요. (선착순 200명)
+      </div>
+
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
+          <div class="off-lbl">조찬</div>
+          <div class="off-val">06:30 ~ 07:20</div>
+          <div class="off-sub">삼성금융캠퍼스 지하 2층 카페테리아</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
+          <div class="off-lbl">세미나</div>
+          <div class="off-val">07:30 ~ 09:10</div>
+          <div class="off-sub">삼성금융캠퍼스 B2F 비전홀<br>서울 서초구 사임당로 23길 27</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
+          <div class="off-lbl">주의사항</div>
+          <div class="off-val" style="font-size:13px;color:#445566;">컨설턴트님은 1층 카페 또는 나눔룸 이용<br>비전홀 내부는 고객에 한하여 출입 가능</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <a class="call-btn" href="tel:01051372327">📞 전화 신청 · 010-5137-2327</a>
+      <a class="kakao-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">💬 카카오톡으로 문의하기</a>
+    </div>
+  </div><!-- /offlinePanel -->
+
+</div><!-- /apply-sec -->
+
+<!-- ⑥ 행사 진행 흐름 -->
+<div class="flow-sec">
+  <div class="sec-title-row">🎊 행사 진행 흐름</div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div>
+        <div class="flow-time">사전 접수 · {{OFFLINE_DEADLINE}}</div>
+        <div class="flow-name">온라인/오프라인 신청</div>
+        <div class="flow-desc">온라인: 이 페이지에서 바로 신청 / 오프라인: FP·FO 통해 신청</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>
+        <div class="flow-time">06:30 ~ 07:20</div>
+        <div class="flow-name">프리미엄 조찬</div>
+        <div class="flow-desc">삼성금융캠퍼스 B2F 카페테리아 · 오프라인 참석자 대상</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num gold">3</div>
+      <div>
+        <div class="flow-time">{{SEMINAR_TIME}}</div>
+        <div class="flow-name">세미나 본강연 ({{PARTS_LABEL}})</div>
+        <div class="flow-desc">삼성금융캠퍼스 B2F 비전홀 (오프라인) + 실시간 온라인 동시 중계</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>
+        <div class="flow-time">당일 20:00 ~ 22:00</div>
+        <div class="flow-name">재방송 시청</div>
+        <div class="flow-desc">당일 저녁 재방송 · 이후 2026년 내 다시보기 가능</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑦ 연간 일정 -->
+<div class="schedule-sec">
+  <div class="schedule-banner">
+    <div>
+      <div class="schedule-banner-title">📅 2026 연간 세미나 일정 · 12강</div>
+      <div class="schedule-banner-sub">1회 신청으로 2026년 12월까지 전 강연 시청 가능</div>
+    </div>
+    <a class="schedule-more-link" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">전체보기 ›</a>
+  </div>
+  <div class="year-benefit">
+    🏆 지금 신청하면 <strong>2026년 12월까지</strong> 매월 강연 모두 시청 가능<br>
+    총 12강 · 1Q Tech ⚡ · 2Q Money 💰 · 3Q Human 🤝 · 4Q 2027 🚀
+  </div>
+
+  <div class="q-tabs">
+    <div class="q-tab" onclick="switchQ(1)" id="qtab1">1Q · Tech ⚡</div>
+    <div class="q-tab active" onclick="switchQ(2)" id="qtab2">2Q · Money 💰</div>
+    <div class="q-tab" onclick="switchQ(3)" id="qtab3">3Q · Human 🤝</div>
+    <div class="q-tab" onclick="switchQ(4)" id="qtab4">4Q · 2027 🚀</div>
+  </div>
+
+  {{SCHEDULE_HTML}}
+</div>
+
+<!-- ⑧ 참여 혜택 -->
+<div class="benefit-sec">
+  <div class="sec-title-row">🎁 참여 혜택</div>
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🍳</div>
+      <div class="benefit-title">프리미엄 조찬</div>
+      <div class="benefit-desc">삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🎥</div>
+      <div class="benefit-title">실시간 온라인</div>
+      <div class="benefit-desc">어디서나 실시간 시청 · 당일 재방송 20:00~22:00</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🤝</div>
+      <div class="benefit-title">프리미엄 네트워킹</div>
+      <div class="benefit-desc">오프라인 참석 시 CEO·자산가 교류의 장</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🏆</div>
+      <div class="benefit-title">연간 세미나 우선권</div>
+      <div class="benefit-desc">1회 신청으로 2026년 12월까지 전 강연 시청</div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑨ 공개 페이지 링크 -->
+<div class="pub-link-sec">
+  <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">
+    <span>📅</span><span>연간 일정 보기</span>
+  </a>
+  <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/archive.html" target="_blank">
+    <span>📚</span><span>지난 세미나 보기</span>
+  </a>
+</div>
+
+<div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
+<div class="copyright-bar">&copy; 2026 2030 BLO (Business Live ON) &nbsp;|&nbsp; 무단 복제·배포·도용 금지</div>
+
+</div><!-- /wrap -->
+
+<!-- 토스트 알림 -->
+<div class="toast" id="toastMsg"></div>
+
+<!-- 하단 고정 신청 버튼 -->
+<div class="sticky-cta">
+  <div class="sticky-cta-text">
+    <strong>{{STICKY_CTA}}</strong>
+    아래 폼에서 30초 신청 완료
+  </div>
+  <a class="sticky-cta-btn" href="#applySection" onclick="scrollToApply(event)">지금 신청하기 ›</a>
+</div>
+
+<!-- 워터마크 -->
+<div class="watermark-overlay" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="wm" x="0" y="0" width="260" height="130" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+        <text x="0" y="30" font-size="13" fill="#1050A0" font-family="sans-serif" font-weight="bold">2030 BLO</text>
+        <text x="0" y="55" font-size="10" fill="#1050A0" font-family="monospace" id="wmDateText">2026</text>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#wm)"/>
+  </svg>
+</div>
+
+<script src="/js/security.js"></script>
+<script>
+/* ── 탭 전환 ── */
+function selectTab(type) {
+  var tabOnline    = document.getElementById('tabOnline');
+  var tabOffline   = document.getElementById('tabOffline');
+  var panelOnline  = document.getElementById('onlinePanel');
+  var panelOffline = document.getElementById('offlinePanel');
+  if (type === 'online') {
+    tabOnline.classList.add('active');
+    tabOffline.classList.remove('active');
+    panelOnline.style.display  = 'block';
+    panelOffline.style.display = 'none';
+  } else {
+    tabOffline.classList.add('active');
+    tabOnline.classList.remove('active');
+    panelOffline.style.display = 'block';
+    panelOnline.style.display  = 'none';
+  }
+}
+
+/* ── 토스트 알림 ── */
+function showToast(msg) {
+  var t = document.getElementById('toastMsg');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+
+/* ── 추천인 코드 복사 ── */
+function copyCode() {
+  var code = '9618628';
+  var btn  = document.getElementById('copyBtn');
+  try {
+    navigator.clipboard.writeText(code).then(function() {
+      markCopied(btn);
+    }).catch(function() { fallbackCopy(code, btn); });
+  } catch(e) { fallbackCopy(code, btn); }
+}
+function fallbackCopy(text, btn) {
+  var el = document.createElement('textarea');
+  el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
+  document.body.appendChild(el); el.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(el);
+  markCopied(btn);
+}
+function markCopied(btn) {
+  btn.textContent = '✅ 복사 완료!';
+  btn.classList.add('copied');
+  showToast('📋 코드 9618628이 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
+  setTimeout(function() {
+    btn.textContent = '📋 코드 복사하기';
+    btn.classList.remove('copied');
+  }, 3000);
+}
+
+/* ── 신청 사이트 이동 (코드 미복사 시 경고) ── */
+function onGoApply() {
+  var btn = document.getElementById('copyBtn');
+  if (!btn.classList.contains('copied')) {
+    showToast('💡 먼저 코드를 복사한 뒤 사이트에서 추천인 코드란에 붙여넣으세요!');
+  }
+}
+
+/* ── Q 탭 전환 ── */
+function switchQ(q) {
+  for (var i = 1; i <= 4; i++) {
+    var tab   = document.getElementById('qtab'   + i);
+    var panel = document.getElementById('qpanel' + i);
+    if (i === q) {
+      tab.classList.add('active');
+      panel.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+      panel.classList.remove('active');
+    }
+  }
+}
+
+/* ── 신청 섹션 스크롤 ── */
+function scrollToApply(e) {
+  e.preventDefault();
+  var el = document.getElementById('applySection');
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ── 워터마크 날짜 ── */
+(function() {
+  var now = new Date();
+  var s = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
+  var el = document.getElementById('wmDateText');
+  if (el) el.textContent = s;
+})();
+</script>
+</body>
+</html>

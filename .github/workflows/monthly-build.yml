@@ -1,0 +1,69 @@
+name: 🔄 월별 세미나 자동 빌드 & 배포
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/current-seminar.json'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: 빌드 + 배포
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Pillow 설치
+        run: pip install Pillow
+
+      - name: 🏗️ 세미나 파일 빌드
+        run: python -X utf8 scripts/build_invite.py
+
+      - name: 📁 생성 파일 확인
+        run: |
+          echo "=== 생성된 파일 ==="
+          ls -la invite.html assets/og-kakao-wide.png assets/og-kakao-vertical.png
+
+      - name: 📤 변경사항 커밋 & 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add invite.html assets/og-kakao-wide.png assets/og-kakao-vertical.png
+          git diff --staged --quiet || git commit -m "chore: 월별 세미나 자동 빌드 [skip ci]"
+          git push
+
+      - name: 🔧 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Firebase CLI 설치
+        run: npm install -g firebase-tools
+
+      - name: 🚀 Firebase Hosting 배포
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ADMIN_SAMSUNG_VVIP }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT_JSON" > /tmp/firebase-service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-service-account.json
+          firebase deploy --only hosting --project admin-samsung-vvip --non-interactive
+
+      - name: ✅ 완료 요약
+        if: success()
+        run: |
+          echo "=========================================="
+          echo "✅ 월별 빌드 & 배포 완료!"
+          echo "🌐 https://admin-samsung-vvip.web.app"
+          echo "⏰ $(date)"
+          echo "=========================================="
