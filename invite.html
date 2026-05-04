@@ -4,1653 +4,1024 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AI 반도체가 주도하는 금융시장 | 2030 BLO 4월 세미나">
-<meta property="og:description" content="김선우 애널리스트 | 2026.4.21(화) 오전 7:30~9:00 | 지금 바로 신청하세요">
+<meta property="og:title" content="중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제 | 2030 BLO 5월 세미나">
+<meta property="og:description" content="박현도 교수 · 박종훈 소장 | 2026.5.19(화) 오전 7:30~9:10 | 지금 바로 신청하세요">
 <meta property="og:url" content="https://admin-samsung-vvip.web.app/invite.html">
-<meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=4">
+<meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=5">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="576">
-<meta property="og:image:alt" content="AI 반도체가 주도하는 금융시장 - 2030 BLO 4월 세미나">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=3">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<!-- Firebase SDK (마감일 Firestore 조회 + 보안 로그용) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script>
-  // samsung-gfc Firestore에서 BLO 마감일 조회
-  (function() {
-    var cfg = {
-      apiKey: "AIzaSyBpDZF4L3FPpm54HWZFx9ZkGiGb1MPlVN0",
-      authDomain: "samsung-gfc.firebaseapp.com",
-      projectId: "samsung-gfc",
-      appId: "1:583640326398:web:1662178587cbab8ca605af"
-    };
-    try {
-      var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
-      var db  = firebase.firestore(app);
-      db.collection('bloSeminarConfig').doc('deadlines2026').get().then(function(doc) {
-        if (!doc.exists) return;
-        var data = doc.data();
-        // 현재 활성 달 key (예: "2026-03")
-        var now  = new Date();
-        var key  = '2026-' + String(now.getMonth() + 1).padStart(2, '0');
-        var ev   = data[key];
-        if (!ev || !ev.confirmed) return;  // 미확정 → 기본값("추후 공지") 유지
-
-        var elShort = document.getElementById('deadlineShort');
-        var elFull  = document.getElementById('deadlineFull');
-        var elFlow  = document.getElementById('deadlineFlow');
-        if (elShort) elShort.textContent = ev.deadlineShort;
-        if (elFull)  elFull.textContent  = ev.deadlineFull;
-        if (elFlow)  elFlow.textContent  = ev.deadlineFull;
-      }).catch(function() {});  // 오류 시 기본값 유지
-    } catch(e) {}
-  })();
-</script>
-<title>AI 반도체가 주도하는 금융시장 | 2030 BLO 4월</title>
+<title>중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제 | 2030 BLO 5월</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
 html, body {
   background: #f0f4fa;
   font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.6;
+  font-size: 15px; font-weight: 500; line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  padding-bottom: 80px;
 }
+.wrap { max-width: 480px; margin: 0 auto; background: #fff; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
 
-.wrap {
-  max-width: 480px;
-  margin: 0 auto;
-  background: #fff;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-
-/* 워터마크 오버레이 */
+/* 워터마크 */
 .watermark-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  z-index: 9999;
-  overflow: hidden;
-  opacity: 0.04;
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  pointer-events: none; z-index: 9999; overflow: hidden; opacity: 0.04;
 }
-.watermark-overlay svg { width: 100%; height: 100%; }
+.watermark-overlay svg { width:100%; height:100%; }
 
-/* ══════════════════════════════
-   히어로 섹션
-══════════════════════════════ */
+/* ══ 히어로 ══ */
 .hero {
   background: linear-gradient(160deg, #0A1628 0%, #0D2244 55%, #102A50 100%);
-  padding: 0;
-  position: relative;
-  overflow: hidden;
+  padding: 0; position: relative; overflow: hidden;
 }
-/* 배경 장식 원 */
 .hero::before {
-  content:'';
-  position:absolute;
-  width:320px; height:320px;
-  border-radius:50%;
+  content:''; position:absolute;
+  width:320px; height:320px; border-radius:50%;
   background: radial-gradient(circle, rgba(16,80,160,0.25) 0%, transparent 70%);
-  top:-80px; right:-80px;
-  pointer-events:none;
+  top:-80px; right:-80px; pointer-events:none;
 }
 .hero::after {
-  content:'';
-  position:absolute;
-  width:200px; height:200px;
-  border-radius:50%;
-  background: radial-gradient(circle, rgba(200,168,75,0.12) 0%, transparent 70%);
-  bottom:20px; left:-40px;
-  pointer-events:none;
+  content:''; position:absolute;
+  width:200px; height:200px; border-radius:50%;
+  background: radial-gradient(circle, rgba(220,100,80,0.1) 0%, transparent 70%);
+  bottom:20px; left:-40px; pointer-events:none;
 }
 
-/* 상단 뱃지 바 */
 .hero-topbar {
   display:flex; align-items:center; justify-content:space-between;
-  padding:16px 22px 0;
-  position:relative; z-index:2;
+  padding:16px 22px 0; position:relative; z-index:2;
 }
-.blo-mark {
-  border:2px solid rgba(200,168,75,0.6);
-  padding:5px 11px;
-  display:inline-block;
-}
+.blo-mark { border:2px solid rgba(200,168,75,0.6); padding:5px 11px; display:inline-block; }
 .blo-mark-sub { font-size:10px; font-weight:700; color:#C8A84B; letter-spacing:1.5px; }
 .blo-mark-main { font-size:13px; font-weight:900; color:#C8A84B; letter-spacing:2px; }
 .hero-tag {
-  background: rgba(200,168,75,0.15);
-  border:1px solid rgba(200,168,75,0.4);
-  color:#C8A84B;
-  font-size:13px; font-weight:700;
-  padding:6px 14px;
-  border-radius:20px;
-  letter-spacing:0.3px;
+  background: rgba(200,168,75,0.15); border:1px solid rgba(200,168,75,0.4);
+  color:#C8A84B; font-size:13px; font-weight:700; padding:6px 14px; border-radius:20px;
 }
 
-/* 월 + 타이틀 */
-.hero-main {
-  padding:20px 22px 10px;
-  position:relative; z-index:2;
-  display:flex; align-items:flex-start; gap:0;
-}
+.hero-main { padding:20px 22px 10px; position:relative; z-index:2; }
 .hero-month {
-  font-size:110px; font-weight:900; color:rgba(255,255,255,0.13);
+  font-size:110px; font-weight:900; color:rgba(255,255,255,0.1);
   line-height:1; font-style:italic; letter-spacing:-6px;
-  position:absolute; right:10px; top:10px;
-  pointer-events:none;
-  text-shadow: 0 2px 20px rgba(255,255,255,0.08);
+  position:absolute; right:10px; top:10px; pointer-events:none;
 }
-.hero-title-wrap { position:relative; z-index:1; }
 .hero-label {
   font-size:13px; font-weight:700; color:#C8A84B;
   letter-spacing:1px; margin-bottom:10px;
   display:flex; align-items:center; gap:6px;
 }
-.hero-label::before {
-  content:''; display:inline-block;
-  width:18px; height:2px; background:#C8A84B;
-}
-.hero-h1 {
-  font-size:36px; font-weight:900; color:#fff;
-  line-height:1.2; letter-spacing:-1.5px; word-break:keep-all;
-}
-.hero-sub {
-  font-size:15px; font-weight:500; color:#7FA8D4;
-  margin-top:10px; letter-spacing:0.3px;
-}
+.hero-label::before { content:''; display:inline-block; width:18px; height:2px; background:#C8A84B; }
+.hero-h1 { font-size:32px; font-weight:900; color:#fff; line-height:1.25; letter-spacing:-1.5px; word-break:keep-all; }
+.hero-h1 em { color:#FF7A5C; font-style:normal; }
+.hero-sub { font-size:14px; font-weight:500; color:#7FA8D4; margin-top:10px; }
+.hero-divider { height:3px; background: linear-gradient(90deg, #C8A84B 0%, rgba(200,168,75,0.3) 60%, transparent 100%); margin:14px 22px 0; }
 
-/* 골드 구분선 */
-.hero-divider {
-  height:3px;
-  background: linear-gradient(90deg, #C8A84B 0%, rgba(200,168,75,0.3) 60%, transparent 100%);
-  margin: 14px 22px 0;
+/* 두 강사 카드 */
+.speakers-bar {
+  background:#fff; border-bottom:3px solid #1050A0;
 }
-
-/* 강사 카드 — 히어로 아래 화이트 카드 */
-.hero-speaker {
-  padding:18px 22px 20px;
-  background:#fff;
-  display:flex; align-items:center; gap:16px;
-  border-bottom:1px solid #E8EEF6;
+.speakers-title {
+  font-size:11px; font-weight:800; color:#1050A0; letter-spacing:1px;
+  padding:12px 20px 8px; border-bottom:1px solid #F0F4FA;
 }
+.speaker-row {
+  display:flex; align-items:center; gap:14px;
+  padding:12px 20px;
+  border-bottom:1px solid #F7F9FC;
+}
+.speaker-row:last-child { border-bottom:none; }
+.part-badge {
+  font-size:10px; font-weight:900; color:#fff;
+  background:#1050A0; padding:3px 8px; border-radius:4px;
+  flex-shrink:0; align-self:flex-start; margin-top:3px;
+}
+.part-badge.part2 { background:#C8A84B; color:#0D1A2E; }
 .sp-circle {
-  width:68px; height:68px; border-radius:50%; flex-shrink:0;
+  width:52px; height:52px; border-radius:50%; flex-shrink:0;
   background: linear-gradient(135deg, #1050A0 0%, #0D2244 100%);
   border:2px solid #C8A84B;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  box-shadow: 0 4px 16px rgba(16,80,160,0.2);
+  box-shadow:0 4px 12px rgba(16,80,160,0.2);
 }
-.sp-circle-name { font-size:14px; font-weight:900; color:#fff; }
-.sp-circle-title { font-size:11px; color:#C8A84B; margin-top:2px; }
-.sp-info {}
-.sp-name-row { font-size:18px; font-weight:900; color:#0D1A2E; margin-bottom:8px; }
-.sp-name-row span { font-size:13px; font-weight:500; color:#778899; margin-left:4px; }
-.sp-chips { display:flex; flex-wrap:wrap; gap:6px; }
-.sp-chip {
-  font-size:12px; font-weight:600; color:#334455;
-  background:#f0f4fa;
-  border:1px solid #D8E4F0;
-  padding:5px 10px; border-radius:12px;
-}
+.sp-circle.part2-circle { background: linear-gradient(135deg, #7A5800 0%, #B8860B 100%); }
+.sp-circle-name { font-size:13px; font-weight:900; color:#fff; }
+.sp-circle-title { font-size:9px; color:rgba(255,255,255,0.8); margin-top:1px; }
+.sp-detail {}
+.sp-name { font-size:16px; font-weight:900; color:#0D1A2E; }
+.sp-name span { font-size:12px; font-weight:500; color:#778899; margin-left:4px; }
+.sp-creds { margin-top:5px; display:flex; flex-wrap:wrap; gap:4px; }
+.sp-cred { font-size:11px; color:#445566; background:#f0f4fa; border:1px solid #D8E4F0; padding:3px 8px; border-radius:10px; }
 
-/* ══ 일시/정보 바 ══ */
-.info-bar {
-  background:#fff;
-  padding:16px 22px;
-  display:flex; flex-direction:column; gap:0;
-  border-bottom:3px solid #1050A0;
-}
+/* 일시 바 */
+.info-bar { background:#fff; padding:0 20px; border-bottom:1px solid #E8EEF6; }
 .info-row {
-  display:flex; align-items:center; gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid #F0F4FA;
+  display:flex; align-items:flex-start; gap:12px;
+  padding:13px 0; border-bottom:1px solid #F0F4FA;
 }
 .info-row:last-child { border-bottom:none; }
-.info-icon {
-  width:34px; height:34px; border-radius:8px;
-  background:#EEF3FA;
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px; flex-shrink:0;
-}
-.info-text {}
-.info-lbl { font-size:12px; font-weight:700; color:#1050A0; letter-spacing:0.5px; margin-bottom:3px; }
-.info-val { font-size:15px; font-weight:700; color:#0D1A2E; line-height:1.5; }
-.info-sub-txt { font-size:13px; color:#778899; margin-top:3px; }
-.info-divider { display:none; }
+.info-icon { width:34px; height:34px; border-radius:8px; background:#EEF3FA; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; margin-top:2px; }
+.info-lbl { font-size:11px; font-weight:800; color:#1050A0; letter-spacing:0.5px; margin-bottom:3px; }
+.info-val { font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5; }
+.info-sub { font-size:12px; color:#778899; margin-top:2px; }
+.info-sub a { color:#1A6FE8; text-decoration:none; }
 
-/* ══ 본문 ══ */
+/* 본문 */
 .body-sec {
-  background:#f7f9fc;
-  padding:22px 24px;
-  border-top:1px solid #e4eaf2;
-  border-bottom:1px solid #e4eaf2;
+  background:#f7f9fc; padding:20px 22px;
+  border-top:1px solid #e4eaf2; border-bottom:1px solid #e4eaf2;
 }
-.body-sec p {
-  font-size:15px; font-weight:500; color:#2a3a4a; line-height:2.0; word-break:keep-all;
-}
+.body-sec p { font-size:15px; font-weight:500; color:#2a3a4a; line-height:2.0; word-break:keep-all; }
 .body-sec p+p { margin-top:10px; }
 
-/* ══════════════════════════════
-   연간 세미나 일정 섹션
-══════════════════════════════ */
-.schedule-sec {
-  background:#fff;
-  padding:0 0 20px;
-  border-top:4px solid #C8A84B;
+/* 토스트 알림 */
+.toast {
+  position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:#1050A0; color:#fff; font-size:14px; font-weight:700;
+  padding:12px 22px; border-radius:30px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  opacity:0; transition:all 0.3s; z-index:2000; white-space:nowrap;
+  max-width:90vw; text-align:center;
 }
-.schedule-sec-banner {
-  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
-  padding: 16px 22px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.schedule-sec-banner-left { display:flex; flex-direction:column; gap:3px; }
-.schedule-sec-title {
-  font-size:17px; font-weight:900; color:#fff;
-  display:flex; align-items:center; gap:8px;
-}
-.schedule-sec-title span { color:#C8A84B; }
-.schedule-banner-sub {
-  font-size:13px; color:rgba(255,255,255,0.75);
-  font-weight:600;
-}
-.schedule-more-link {
-  font-size:13px; color:#C8A84B; font-weight:800;
-  text-decoration:none; display:flex; align-items:center; gap:4px;
-  background:rgba(200,168,75,0.15);
-  border:1px solid rgba(200,168,75,0.4);
-  padding:7px 13px; border-radius:20px;
-  white-space:nowrap; flex-shrink:0;
-}
-.schedule-more-link:active { opacity:0.7; }
-
-.schedule-theme {
-  font-size:13px; color:#5A6878; margin:14px 22px 14px;
-  padding:10px 14px;
-  background:#f7f9fc;
-  border-radius:6px;
-  border-left:3px solid #C8A84B;
-  font-weight:600;
-}
-/* 연간 혜택 뱃지 */
-.year-benefit-badge {
-  margin: 0 22px 14px;
-  background: linear-gradient(135deg, #FFF8E6 0%, #FFFBF0 100%);
-  border: 1.5px solid #C8A84B;
-  border-radius: 10px;
-  padding: 10px 14px;
-  display: flex; align-items: center; gap: 10px;
-}
-.year-benefit-icon { font-size: 22px; flex-shrink:0; }
-.year-benefit-text { font-size: 13px; color: #7A5800; font-weight: 700; line-height: 1.6; }
-
-/* 탭 네비 */
-.q-tabs {
-  display:flex; gap:6px; margin:0 22px 16px;
-  overflow-x:auto; -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.q-tabs::-webkit-scrollbar { display:none; }
-.q-tab {
-  flex-shrink:0;
-  font-size:13px; font-weight:700;
-  padding:9px 15px; border-radius:20px;
-  border:1.5px solid #D8E4F0;
-  background:#f7f9fc; color:#778899;
-  cursor:pointer; transition:all 0.15s;
-  white-space:nowrap; position:relative;
-}
-.q-tab.active {
-  background:#0D2244; color:#C8A84B;
-  border-color:#0D2244;
-}
-.q-tab.has-current {
-  border-color:#C8A84B; color:#B8860B;
-  background:#FFFBF0;
-}
-.q-tab.has-current.active {
-  background:#0D2244; color:#C8A84B; border-color:#0D2244;
-}
-/* 잔여 강연 뱃지 */
-.q-tab .q-badge {
-  display:inline-block; font-size:10px; font-weight:900;
-  background:#E8F4FF; color:#1050A0;
-  border-radius:8px; padding:1px 6px; margin-left:4px;
-  vertical-align:middle; line-height:1.6;
-}
-.q-tab.active .q-badge { background:rgba(200,168,75,0.25); color:#C8A84B; }
-.q-tab.all-done .q-badge { background:#DCFCE7; color:#166534; }
-/* 예정 분기 강조 점 */
-.q-tab.has-upcoming::after {
-  content:''; position:absolute; top:4px; right:4px;
-  width:7px; height:7px; border-radius:50%;
-  background:#1A6FE8;
-}
-
-/* 탭 패널 */
-.q-panel { display:none; }
-.q-panel.active { display:block; }
-
-/* 분기 그룹 */
-.sched-quarter { margin-bottom:0; padding:0 22px; }
-.sched-q-label {
-  font-size:12px; font-weight:900; color:#1050A0;
-  letter-spacing:0.5px; margin-bottom:12px;
-  display:flex; align-items:center; gap:6px;
-}
-.sched-q-label::after {
-  content:''; flex:1; height:1px; background:#E8EEF6;
-}
-
-/* 세션 아이템 */
-.sched-item {
-  display:flex; align-items:flex-start; gap:10px;
-  padding:10px 12px;
-  border-radius:8px;
-  margin-bottom:6px;
-  background:#f7f9fc;
-  border-left:3px solid #D8E4F0;
-  transition:all 0.15s;
-}
-.sched-item:last-child { margin-bottom:0; }
-
-.sched-item.completed {
-  border-left-color:#22A06B;
-  background:#f0faf5;
-  opacity:0.75;
-}
-.sched-item.current {
-  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
-  border-left:none;
-  border-radius:12px;
-  padding:16px 16px 14px;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 6px 24px rgba(16,80,160,0.3);
-  margin-bottom:8px;
-}
-.sched-item.current::after {
-  content:'▶ THIS MONTH';
-  position:absolute; top:0; right:0;
-  background:#C8A84B; color:#0D1A2E;
-  font-size:11px; font-weight:900;
-  padding:6px 13px;
-  border-radius:0 12px 0 10px;
-  letter-spacing:0.5px;
-}
-.sched-item.upcoming {
-  border-left-color:#C8D8F0;
-}
-
-.sched-dot {
-  width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px;
-}
-.completed .sched-dot { background:#22A06B; }
-.current .sched-dot { background:#C8A84B; }
-.upcoming .sched-dot { background:#B0C4DE; }
-
-.sched-content {}
-.sched-date {
-  font-size:13px; font-weight:700; color:#1050A0; margin-bottom:4px;
-}
-.current .sched-date { color:#C8A84B; font-size:14px; }
-.sched-title-text {
-  font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5;
-  word-break:keep-all;
-}
-.current .sched-title-text { color:#fff; font-size:16px; font-weight:900; }
-.sched-speaker {
-  font-size:13px; color:#778899; margin-top:4px;
-}
-.current .sched-speaker { color:#a8c4e4; }
-.sched-type-badge {
-  display:inline-block; font-size:12px; font-weight:700;
-  padding:3px 9px; border-radius:4px; margin-right:5px;
-  background:#E8EEF6; color:#445566;
-}
-.current .sched-type-badge { background:rgba(255,255,255,0.15); color:#d0e4ff; }
-.sched-status {
-  display:inline-block; font-size:12px; font-weight:700;
-  padding:3px 9px; border-radius:10px; margin-top:5px;
-}
-.sched-status.done { background:#DCFCE7; color:#166534; }
-.sched-status.now  { background:#C8A84B; color:#0D1A2E; font-weight:900; }
-.sched-status.soon { background:#DBEAFE; color:#1e40af; }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* ══════════════════════════════
-   신청 프로세스 안내 (신규)
-══════════════════════════════ */
-.how-to-sec {
-  background: linear-gradient(135deg, #F4F7FF 0%, #EBF2FF 100%);
-  padding: 20px 22px;
-  border-top: 1px solid #D8E4F4;
-  border-bottom: 1px solid #D8E4F4;
-}
-.how-to-title {
-  font-size: 15px; font-weight: 900; color: #1050A0;
-  margin-bottom: 16px; display: flex; align-items: center; gap: 7px;
-}
-.how-to-title::after {
-  content: ''; flex:1; height:1.5px; background: #C8D8F4;
-}
-.how-to-steps {
-  display: flex; align-items: flex-start; gap: 0;
-}
-.how-to-step {
-  flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
-  position: relative;
-}
-.how-to-step:not(:last-child)::after {
-  content: '›'; position: absolute;
-  right: -8px; top: 16px;
-  font-size: 20px; color: #1050A0; font-weight: 900;
-}
-.how-to-num {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: #1050A0; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; font-weight: 900; margin-bottom: 10px;
-  box-shadow: 0 3px 10px rgba(16,80,160,0.25);
-}
-.how-to-step.step-key .how-to-num {
-  background: #C8A84B;
-  color: #0D1A2E;
-  box-shadow: 0 3px 10px rgba(200,168,75,0.4);
-}
-.how-to-label {
-  font-size: 13px; font-weight: 800; color: #0D1A2E; line-height: 1.4; margin-bottom: 4px;
-}
-.how-to-desc { font-size: 12px; color: #778899; line-height: 1.6; }
-.how-to-step.step-key .how-to-label { color: #7A5800; }
-
-/* 하단 고정 CTA */
-.sticky-cta {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px;
-  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
-  padding: 12px 16px;
-  display: flex; gap: 10px; align-items: center;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
-  z-index: 1000;
-}
-.sticky-cta-text {
-  font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 600; flex: 1;
-  line-height: 1.5;
-}
-.sticky-cta-text strong { color: #C8A84B; display: block; font-size: 14px; }
-.sticky-cta-btn {
-  background: #C8A84B; color: #0D1A2E;
-  font-size: 14px; font-weight: 900;
-  padding: 12px 20px; border-radius: 10px;
-  border: none; cursor: pointer; white-space: nowrap;
-  text-decoration: none; display: inline-block;
-  box-shadow: 0 3px 12px rgba(200,168,75,0.5);
-  transition: all 0.2s;
-}
-.sticky-cta-btn:active { transform: scale(0.97); }
-/* sticky CTA 공간 확보용 바디 패딩 */
-body { padding-bottom: 72px; }
-
-/* ══════════════════════════════
-   접수 섹션
+   신청 섹션
 ══════════════════════════════ */
 .apply-sec {
-  background:#0D1A2E;
-  padding:26px 20px;
+  background: linear-gradient(160deg, #0A1628 0%, #0D2244 100%);
+  padding: 28px 20px 30px;
 }
-.apply-head {
-  display:flex; align-items:center; gap:10px; margin-bottom:18px;
+.apply-sec-title {
+  font-size:20px; font-weight:900; color:#fff;
+  margin-bottom:6px; letter-spacing:-0.5px;
 }
-.apply-head-icon {
-  width:36px; height:36px; background:#C8A84B; border-radius:8px;
-  display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
-}
-.apply-head-title { font-size:20px; font-weight:900; color:#fff; letter-spacing:-0.5px; }
-.apply-head-sub { font-size:13px; color:#7FA8D4; margin-top:4px; }
-
-/* 신청 박스 */
-.apply-box {
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 4px 24px rgba(0,0,0,0.25);
+.apply-sec-sub {
+  font-size:13px; color:#7FA8D4; margin-bottom:22px;
 }
 
-/* 온라인 */
-.online-sec {
-  padding:20px;
-  border-bottom:1.5px solid #E8EEF6;
+/* 탭 선택 */
+.apply-tabs {
+  display:flex; gap:8px; margin-bottom:18px;
 }
-.sec-header {
-  font-size:16px; font-weight:800; color:#1050A0;
-  margin-bottom:16px; display:flex; align-items:center; gap:6px;
-  padding-bottom:12px; border-bottom:1px solid #E8EEF6;
+.apply-tab {
+  flex:1; padding:13px 10px; border-radius:10px;
+  border:2px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.65);
+  font-size:14px; font-weight:800; text-align:center;
+  cursor:pointer; transition:all 0.2s;
 }
-.panel-step {
-  display:flex; align-items:flex-start; gap:12px;
-  margin-bottom:12px;
+.apply-tab.active {
+  background:#C8A84B; color:#0D1A2E;
+  border-color:#C8A84B;
+  box-shadow:0 4px 16px rgba(200,168,75,0.4);
 }
-.panel-step:last-child { margin-bottom:0; }
-.step-num {
-  width:26px; height:26px; background:#1050A0; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:13px; font-weight:900; color:#fff; flex-shrink:0; margin-top:2px;
-}
-.step-text { font-size:14px; color:#334455; line-height:1.7; }
-.step-text strong { color:#0D1A2E; font-size:15px; }
-.step-text a { color:#1A6FE8; text-decoration:none; font-weight:600; }
+.apply-tab-icon { font-size:20px; display:block; margin-bottom:4px; }
 
-/* 추천인 코드 */
-.referral-box {
-  margin-top:16px;
-  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
-  border-radius:12px;
-  padding:18px;
-  text-align:center;
+/* 온라인 신청 카드 */
+.online-card {
+  background:#fff; border-radius:16px;
+  padding:24px 20px; box-shadow:0 8px 32px rgba(0,0,0,0.3);
 }
-.ref-label { font-size:11px; color:#a8c4e4; font-weight:700; margin-bottom:8px; letter-spacing:0.2px; }
-.ref-code { font-size:36px; font-weight:900; color:#C8A84B; letter-spacing:8px; }
-.ref-copy {
-  display:inline-flex; align-items:center; gap:6px;
-  margin-top:12px;
-  background:#C8A84B; border:none;
-  color:#0D1A2E; font-size:13px; font-weight:900;
-  padding:11px 24px; border-radius:8px; cursor:pointer;
-  transition:all 0.2s;
-  box-shadow:0 3px 12px rgba(200,168,75,0.4);
-  width:100%; justify-content:center;
+.online-card-title {
+  font-size:16px; font-weight:900; color:#0D1A2E;
+  margin-bottom:6px;
 }
-.ref-copy:active { transform:scale(0.97); }
-.ref-copy.copied { background:#16A34A; color:#fff; box-shadow:0 3px 12px rgba(22,163,74,0.4); }
+.online-card-sub {
+  font-size:13px; color:#778899; margin-bottom:22px; line-height:1.7;
+}
 
-.online-btn {
-  display:block; width:100%; margin-top:14px;
-  font-size:15px; font-weight:900;
-  padding:16px; border-radius:10px;
-  text-align:center; text-decoration:none;
-  border:none; cursor:not-allowed;
-  transition:all 0.3s;
-  background:#E2E8F0; color:#94A3B8;
-  pointer-events:none;
-  letter-spacing:-0.3px;
+/* 단계 표시 */
+.steps-wrap { margin-bottom:20px; }
+.step-item {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:0 0 18px 0; position:relative;
 }
-.online-btn.enabled {
-  background: linear-gradient(135deg, #1050A0 0%, #1A5BB5 100%);
-  color:#fff; cursor:pointer; pointer-events:auto;
-  box-shadow:0 4px 16px rgba(16,80,160,0.4);
-  animation: pulse-btn 0.4s ease;
+.step-item:last-child { padding-bottom:0; }
+.step-item::before {
+  content:''; position:absolute; left:17px; top:36px; bottom:0;
+  width:2px; background:#E8EEF6;
 }
-.online-btn.enabled:active { transform:scale(0.98); }
-@keyframes pulse-btn {
-  0%   { transform:scale(1); }
-  50%  { transform:scale(1.02); }
-  100% { transform:scale(1); }
-}
-.lock-msg {
-  font-size:11px; color:#94A3B8; text-align:center;
-  margin-top:7px; transition:opacity 0.3s;
-}
-.lock-msg.hidden { opacity:0; }
-
-.box-divider { height:1.5px; background:#E8EEF6; }
-
-/* 오프라인 */
-.offline-sec { padding:20px; }
-.offline-row { display:flex; gap:10px; align-items:flex-start; margin-bottom:10px; }
-.offline-row:last-child { margin-bottom:0; }
-.off-dot { width:8px; height:8px; background:#C8A84B; border-radius:50%; margin-top:5px; flex-shrink:0; }
-.off-label { font-size:11px; font-weight:700; color:#B8860B; margin-bottom:2px; }
-.off-val { font-size:13.5px; color:#1A2A3A; line-height:1.6; font-weight:600; }
-.off-sub { font-size:11px; color:#667788; margin-top:2px; }
-.off-hr { height:1px; background:#E8EEF6; margin:10px 0; }
-
-.call-btn {
-  display:block; width:100%; margin-top:14px;
+.step-item:last-child::before { display:none; }
+.step-circle {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
   background:#1050A0; color:#fff;
-  font-size:14px; font-weight:900;
-  padding:14px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:900;
+  position:relative; z-index:1;
+  box-shadow:0 2px 8px rgba(16,80,160,0.3);
+}
+.step-circle.gold { background:#C8A84B; color:#0D1A2E; }
+.step-body { padding-top:4px; }
+.step-title { font-size:14px; font-weight:800; color:#0D1A2E; margin-bottom:4px; }
+.step-desc { font-size:12px; color:#667788; line-height:1.7; }
+
+/* 추천인 코드 박스 */
+.code-box {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  border-radius:14px; padding:20px;
+  text-align:center; margin-bottom:14px;
+}
+.code-box-label {
+  font-size:11px; color:#a8c4e4; font-weight:700;
+  letter-spacing:0.5px; margin-bottom:8px;
+}
+.code-box-warn {
+  display:inline-block; background:rgba(200,168,75,0.2);
+  border:1px solid rgba(200,168,75,0.5);
+  color:#C8A84B; font-size:11px; font-weight:700;
+  padding:3px 10px; border-radius:20px; margin-bottom:10px;
+}
+.code-number {
+  font-size:42px; font-weight:900; color:#C8A84B;
+  letter-spacing:10px; line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.code-copy-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:14px; background:#C8A84B; border:none;
+  color:#0D1A2E; font-size:14px; font-weight:900;
+  padding:12px 28px; border-radius:10px; cursor:pointer;
+  font-family:inherit; width:100%; justify-content:center;
+  box-shadow:0 3px 12px rgba(200,168,75,0.45);
+  transition:all 0.2s;
+}
+.code-copy-btn:active { transform:scale(0.97); }
+.code-copy-btn.copied { background:#16A34A; color:#fff; }
+
+/* 신청 이동 버튼 */
+.go-apply-btn {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:17px;
+  background: linear-gradient(135deg, #1050A0 0%, #1A5BB5 100%);
+  color:#fff; border:none; border-radius:12px;
+  font-size:16px; font-weight:900; cursor:pointer;
+  font-family:inherit; text-decoration:none;
+  box-shadow:0 4px 18px rgba(16,80,160,0.45);
+  transition:all 0.2s;
+}
+.go-apply-btn:active { transform:scale(0.98); }
+.go-apply-note {
+  margin-top:10px; font-size:11px; color:#94A3B8;
+  text-align:center; line-height:1.7;
+}
+.go-apply-note strong { color:#445566; }
+
+/* 오프라인 신청 */
+.offline-box {
+  background:#fff; border-radius:16px;
+  padding:24px 20px; box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+.offline-box-title { font-size:16px; font-weight:900; color:#0D1A2E; margin-bottom:16px; }
+.off-row { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.off-row:last-child { margin-bottom:0; }
+.off-dot { width:8px; height:8px; background:#C8A84B; border-radius:50%; margin-top:5px; flex-shrink:0; }
+.off-lbl { font-size:11px; font-weight:800; color:#B8860B; margin-bottom:2px; }
+.off-val { font-size:14px; color:#1A2A3A; font-weight:700; line-height:1.5; }
+.off-sub { font-size:12px; color:#667788; margin-top:2px; }
+.off-hr { height:1px; background:#E8EEF6; margin:12px 0; }
+.off-notice {
+  background:#FFF8E7; border:1.5px solid #E8A000; border-radius:10px;
+  padding:12px 14px; margin-bottom:16px;
+  font-size:13px; color:#7A4F00; line-height:1.7;
+}
+.off-notice strong { font-weight:900; }
+.call-btn {
+  display:block; width:100%; margin-bottom:10px;
+  background:#1050A0; color:#fff;
+  font-size:15px; font-weight:900;
+  padding:15px; border-radius:10px;
   text-align:center; text-decoration:none;
-  border:none; cursor:pointer;
-  box-shadow:0 2px 10px rgba(16,80,160,0.3);
+  box-shadow:0 3px 12px rgba(16,80,160,0.35);
 }
 .call-btn:active { background:#0a3878; }
 .kakao-btn {
-  display:block; width:100%; margin-top:8px;
+  display:block; width:100%;
   background:#FEE500; color:#1A1A1A;
-  font-size:14px; font-weight:700;
-  padding:14px; border-radius:8px;
+  font-size:15px; font-weight:800;
+  padding:15px; border-radius:10px;
   text-align:center; text-decoration:none;
-  border:none; cursor:pointer;
 }
 .kakao-btn:active { background:#F0D800; }
 
 /* ══ 행사 진행 흐름 ══ */
-.flow-sec {
-  background:#fff;
-  padding:24px 22px 20px;
-  border-top:3px solid #1050A0;
-}
+.flow-sec { background:#fff; padding:24px 22px; border-top:3px solid #1050A0; }
 .sec-title-row {
   font-size:15px; font-weight:900; color:#0D1A2E;
-  margin-bottom:16px; display:flex; align-items:center; gap:8px;
+  margin-bottom:18px; display:flex; align-items:center; gap:8px;
 }
-.sec-title-row::after {
-  content:''; flex:1; height:2px; background:#E8EEF6;
-}
-.flow-steps {
-  display:flex; flex-direction:column; gap:0;
-  position:relative;
-}
-.flow-step {
-  display:flex; align-items:flex-start; gap:14px;
-  padding:0 0 18px 0;
-  position:relative;
-}
+.sec-title-row::after { content:''; flex:1; height:2px; background:#E8EEF6; }
+.flow-steps { display:flex; flex-direction:column; gap:0; position:relative; }
+.flow-step { display:flex; align-items:flex-start; gap:14px; padding:0 0 20px 0; position:relative; }
 .flow-step:last-child { padding-bottom:0; }
 .flow-step::before {
-  content:''; position:absolute;
-  left:17px; top:36px; bottom:0;
+  content:''; position:absolute; left:17px; top:36px; bottom:0;
   width:2px; background:#E8EEF6;
 }
 .flow-step:last-child::before { display:none; }
 .flow-num {
   width:36px; height:36px; border-radius:50%; flex-shrink:0;
-  background:#1050A0;
-  display:flex; align-items:center; justify-content:center;
+  background:#1050A0; display:flex; align-items:center; justify-content:center;
   font-size:14px; font-weight:900; color:#fff;
-  position:relative; z-index:1;
-  box-shadow:0 2px 8px rgba(16,80,160,0.25);
+  position:relative; z-index:1; box-shadow:0 2px 8px rgba(16,80,160,0.25);
 }
 .flow-num.gold { background:#C8A84B; }
-.flow-body {}
 .flow-time { font-size:11px; font-weight:700; color:#C8A84B; margin-bottom:2px; }
 .flow-name { font-size:14px; font-weight:800; color:#0D1A2E; }
 .flow-desc { font-size:11px; color:#778899; margin-top:2px; line-height:1.6; }
 
-/* ══ 참여 혜택 ══ */
-.benefit-sec {
-  background:#f7f9fc;
-  padding:24px 22px 20px;
-  border-top:1px solid #E8EEF6;
+/* ══ 연간 일정 ══ */
+.schedule-sec { background:#fff; padding:0 0 20px; border-top:4px solid #C8A84B; }
+.schedule-banner {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  padding:16px 22px; display:flex; align-items:center; justify-content:space-between;
 }
-.benefit-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+.schedule-banner-title { font-size:16px; font-weight:900; color:#fff; }
+.schedule-banner-sub { font-size:12px; color:rgba(255,255,255,0.75); margin-top:3px; }
+.schedule-more-link {
+  font-size:12px; color:#C8A84B; font-weight:800; text-decoration:none;
+  background:rgba(200,168,75,0.15); border:1px solid rgba(200,168,75,0.4);
+  padding:7px 12px; border-radius:20px; white-space:nowrap; flex-shrink:0;
 }
+.year-benefit {
+  margin:14px 22px 14px;
+  background: linear-gradient(135deg, #FFF8E6 0%, #FFFBF0 100%);
+  border:1.5px solid #C8A84B; border-radius:10px; padding:12px 14px;
+  font-size:13px; color:#7A5800; font-weight:700; line-height:1.7;
+}
+
+/* Q 탭 */
+.q-tabs {
+  display:flex; gap:6px; margin:0 22px 16px;
+  overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.q-tabs::-webkit-scrollbar { display:none; }
+.q-tab {
+  flex-shrink:0; font-size:13px; font-weight:700;
+  padding:9px 14px; border-radius:20px;
+  border:1.5px solid #D8E4F0; background:#f7f9fc; color:#778899;
+  cursor:pointer; transition:all 0.15s; white-space:nowrap;
+}
+.q-tab.active { background:#0D2244; color:#C8A84B; border-color:#0D2244; }
+.q-panel { display:none; }
+.q-panel.active { display:block; }
+.sched-quarter { padding:0 22px; }
+.sched-q-label {
+  font-size:12px; font-weight:900; color:#1050A0; letter-spacing:0.5px;
+  margin-bottom:12px; display:flex; align-items:center; gap:6px;
+}
+.sched-q-label::after { content:''; flex:1; height:1px; background:#E8EEF6; }
+.sched-item {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px; border-radius:8px; margin-bottom:6px;
+  background:#f7f9fc; border-left:3px solid #D8E4F0;
+}
+.sched-item.completed { border-left-color:#22A06B; background:#f0faf5; opacity:0.75; }
+.sched-item.current {
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  border-left:none; border-radius:12px; padding:16px; position:relative;
+  overflow:hidden; box-shadow:0 6px 24px rgba(16,80,160,0.3); margin-bottom:8px;
+}
+.sched-item.current::after {
+  content:'▶ THIS MONTH'; position:absolute; top:0; right:0;
+  background:#C8A84B; color:#0D1A2E; font-size:11px; font-weight:900;
+  padding:6px 12px; border-radius:0 12px 0 10px; letter-spacing:0.5px;
+}
+.sched-item.upcoming { border-left-color:#C8D8F0; }
+.sched-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.completed .sched-dot { background:#22A06B; }
+.current .sched-dot { background:#C8A84B; }
+.upcoming .sched-dot { background:#B0C4DE; }
+.sched-date { font-size:13px; font-weight:700; color:#1050A0; margin-bottom:4px; }
+.current .sched-date { color:#C8A84B; font-size:14px; }
+.sched-title-text { font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5; word-break:keep-all; }
+.current .sched-title-text { color:#fff; font-size:16px; font-weight:900; }
+.sched-speaker { font-size:13px; color:#778899; margin-top:4px; }
+.current .sched-speaker { color:#a8c4e4; }
+.sched-status {
+  display:inline-block; font-size:12px; font-weight:700;
+  padding:3px 9px; border-radius:10px; margin-top:5px;
+}
+.sched-status.done { background:#DCFCE7; color:#166534; }
+.sched-status.now { background:#C8A84B; color:#0D1A2E; font-weight:900; }
+.sched-status.soon { background:#DBEAFE; color:#1e40af; }
+
+/* ══ 혜택 ══ */
+.benefit-sec { background:#f7f9fc; padding:24px 22px; border-top:1px solid #E8EEF6; }
+.benefit-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .benefit-card {
-  background:#fff;
-  border:1.5px solid #D8E4F0;
-  border-radius:12px;
-  padding:16px 14px;
-  box-shadow:0 1px 6px rgba(0,0,0,0.05);
+  background:#fff; border:1.5px solid #D8E4F0; border-radius:12px;
+  padding:16px 14px; box-shadow:0 1px 6px rgba(0,0,0,0.05);
 }
 .benefit-icon { font-size:24px; margin-bottom:8px; }
 .benefit-title { font-size:13px; font-weight:800; color:#0D1A2E; margin-bottom:4px; }
 .benefit-desc { font-size:11px; color:#667788; line-height:1.6; }
 
-/* ══ 공개 페이지 링크 ══ */
-.pub-link-sec {
-  background:#fff;
-  padding:20px 22px;
-  border-top:1px solid #E8EEF6;
-  display:flex; gap:10px;
-}
+/* ══ 링크 ══ */
+.pub-link-sec { background:#fff; padding:20px 22px; border-top:1px solid #E8EEF6; display:flex; gap:10px; }
 .pub-link-btn {
   flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
   background:#f0f4fa; border:1.5px solid #D0DCF0; border-radius:10px;
   padding:13px 10px; text-decoration:none;
   font-size:12px; font-weight:700; color:#1050A0;
-  transition:all 0.15s;
 }
-.pub-link-btn:active { background:#dce6f5; transform:scale(0.97); }
-.pub-link-icon { font-size:18px; }
+.pub-link-btn:active { background:#dce6f5; }
 
-/* ══ 잡페어 장소변경 공지 ══ */
-.jobfair-notice {
-  background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D0 100%);
-  border-top: 3px solid #E8A000;
-  border-bottom: 3px solid #E8A000;
-  padding: 16px 22px;
-}
-.jobfair-notice-header {
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 12px;
-}
-.jobfair-notice-badge {
-  background: #E8A000; color: #fff;
-  font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
-  padding: 4px 10px; border-radius: 20px; flex-shrink: 0;
-}
-.jobfair-notice-title {
-  font-size: 15px; font-weight: 900; color: #7A4F00;
-}
-.jobfair-change-box {
-  background: #fff;
-  border: 1.5px solid #F0D080;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-}
-.jobfair-change-label {
-  font-size: 11px; font-weight: 700; color: #B07800; margin-bottom: 8px;
-}
-.jobfair-change-row {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 700;
-}
-.jobfair-change-old { text-decoration: line-through; color: #AABBCC; }
-.jobfair-change-arrow { color: #E8A000; font-size: 18px; }
-.jobfair-change-new { color: #C0352A; }
-.jobfair-info-rows { display: flex; flex-direction: column; gap: 7px; }
-.jobfair-info-row {
-  display: flex; gap: 8px; align-items: flex-start;
-  font-size: 13px; color: #334455;
-}
-.jobfair-info-dot { color: #E8A000; font-weight: 900; flex-shrink: 0; }
+.note-bar { background:#E8EEF6; padding:10px 24px; font-size:10px; color:#778899; text-align:center; }
+.copyright-bar { background:#0D1A2E; color:#8899AA; font-size:10px; text-align:center; padding:10px 16px; }
 
-/* ══ 하단 ══ */
-.note-bar {
-  background:#E8EEF6;
-  padding:10px 24px;
-  font-size:10px; color:#778899; text-align:center;
+/* ══ 하단 고정 CTA ══ */
+.sticky-cta {
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:480px;
+  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
+  padding:12px 16px;
+  display:flex; gap:10px; align-items:center;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.3); z-index:1000;
 }
-.copyright-bar {
-  background:#0D1A2E;
-  color:#8899AA;
-  font-size:10px;
-  text-align:center;
-  padding:10px 16px;
-  letter-spacing:0.2px;
+.sticky-cta-text { font-size:12px; color:rgba(255,255,255,0.85); font-weight:600; flex:1; line-height:1.5; }
+.sticky-cta-text strong { color:#C8A84B; display:block; font-size:13px; }
+.sticky-cta-btn {
+  background:#C8A84B; color:#0D1A2E;
+  font-size:14px; font-weight:900; padding:12px 20px; border-radius:10px;
+  border:none; cursor:pointer; white-space:nowrap; text-decoration:none;
+  display:inline-block; box-shadow:0 3px 12px rgba(200,168,75,0.5); transition:all 0.2s;
 }
+.sticky-cta-btn:active { transform:scale(0.97); }
+
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- ① 히어로 -->
-  <div class="hero">
-    <div class="hero-topbar">
-      <div class="blo-mark">
-        <div class="blo-mark-sub">2030 BUSINESS</div>
-        <div class="blo-mark-main">LIVE ON</div>
-      </div>
-      <div class="hero-tag" id="dyn-heroTag">4월 세미나</div>
+<!-- ① 히어로 -->
+<div class="hero">
+  <div class="hero-topbar">
+    <div class="blo-mark">
+      <div class="blo-mark-sub">2030 BUSINESS</div>
+      <div class="blo-mark-main">LIVE ON</div>
     </div>
+    <div class="hero-tag">5월 세미나</div>
+  </div>
+  <div class="hero-main">
+    <div class="hero-month">05</div>
+    <div>
+      <div class="hero-label">MAY 2026 · GLOBAL ECONOMY</div>
+      <h1 class="hero-h1"><em>중동의 불꽃,</em><br>전쟁이 뒤흔든<br>글로벌경제</h1>
+      <div class="hero-sub">Middle East Conflict &amp; Global Economy</div>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+</div>
 
-    <div class="hero-main">
-      <div class="hero-month" id="dyn-heroMonth">04</div>
-      <div class="hero-title-wrap">
-        <div class="hero-label" id="dyn-heroLabel">APRIL 2026 · AI SEMICONDUCTOR</div>
-        <h1 class="hero-h1" id="dyn-heroTitle">AI 반도체가<br>주도하는 금융시장</h1>
-        <div class="hero-sub" id="dyn-heroSub">AI Semiconductor &amp; Financial Market</div>
-      </div>
+<!-- ② 강사 소개 (2인) -->
+<div class="speakers-bar">
+  <div class="speakers-title">강사 소개 · 1부 + 2부</div>
+  <div class="speaker-row">
+    <div class="part-badge">1부</div>
+    <div class="sp-circle">
+      <div class="sp-circle-name">박현도</div>
+      <div class="sp-circle-title">교수</div>
     </div>
-    <div class="hero-divider"></div>
-  </div><!-- /hero -->
-
-  <div class="hero-speaker" id="dyn-speakerSection">
-      <div class="sp-circle">
-        <div class="sp-circle-name" id="dyn-spCircleName">김선우</div>
-        <div class="sp-circle-title" id="dyn-spCircleTitle">애널리스트</div>
-      </div>
-      <div class="sp-info">
-        <div class="sp-name-row" id="dyn-spNameRow">김선우 <span>애널리스트</span></div>
-        <div class="sp-chips" id="dyn-spChips">
-          <span class="sp-chip">2025 반도체 베스트 애널리스트</span>
-          <span class="sp-chip">메리츠증권 기업분석1팀장</span>
-          <span class="sp-chip">前 Barclays</span>
-          <span class="sp-chip">前 삼성증권</span>
-        </div>
-      </div>
-  </div><!-- /hero-speaker -->
-
-  <!-- 일시/정보 바 -->
-  <div class="info-bar">
-    <div class="info-row">
-      <div class="info-icon">📅</div>
-      <div class="info-text">
-        <div class="info-lbl">DATE &amp; TIME</div>
-        <div class="info-val" id="dyn-eventDate">2026.4.21 (화) 오전 7:30 ~ 9:00</div>
-        <div class="info-sub-txt" id="dyn-replayNote">당일 재방송 20:00~22:00</div>
-      </div>
-    </div>
-    <div class="info-row">
-      <div class="info-icon">🌐</div>
-      <div class="info-text">
-        <div class="info-lbl">ONLINE</div>
-        <div class="info-val">www.samsung2030blo.com</div>
-        <div class="info-sub-txt">PC/모바일 모두 접속 가능</div>
-      </div>
-    </div>
-    <div class="info-row">
-      <div class="info-icon">🍽️</div>
-      <div class="info-text">
-        <div class="info-lbl">OFFLINE</div>
-        <div class="info-val">삼성금융캠퍼스 B2F 비전홀</div>
-        <div class="info-sub-txt">서울 서초구 사임당로 23길 27 · 마감 <span id="deadlineShort">4/17(금)</span></div>
+    <div class="sp-detail">
+      <div class="sp-name">박현도 <span>교수</span></div>
+      <div class="sp-creds">
+        <span class="sp-cred">서강대 유로메나연구소 대교수</span>
+        <span class="sp-cred">중동아프리카연구회 연구교수</span>
+        <span class="sp-cred">법무부 국가정황정보 자문위원</span>
       </div>
     </div>
   </div>
-
-  <!-- 잡페어 공지 (관리자 설정으로 표시/숨김) -->
-  <div class="jobfair-notice" id="dyn-jobfairSection" style="display:none;">
-    <div class="jobfair-notice-header">
-      <div class="jobfair-notice-badge">📢 <span id="dyn-jobfairBadge">공지</span></div>
-      <div class="jobfair-notice-title" id="dyn-jobfairTitle">삼성생명 JOB FAIR</div>
+  <div class="speaker-row">
+    <div class="part-badge part2">2부</div>
+    <div class="sp-circle part2-circle">
+      <div class="sp-circle-name">박종훈</div>
+      <div class="sp-circle-title">소장</div>
     </div>
-    <div class="jobfair-info-rows" id="dyn-jobfairRows"></div>
-  </div>
-
-  <!-- 신청 프로세스 안내 -->
-  <div class="how-to-sec">
-    <div class="how-to-title">📋 세미나 신청 방법 (3단계)</div>
-    <div class="how-to-steps">
-      <div class="how-to-step step-key">
-        <div class="how-to-num">1</div>
-        <div class="how-to-label">추천인 코드<br>복사</div>
-        <div class="how-to-desc">아래 코드<br>복사 버튼 클릭</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">2</div>
-        <div class="how-to-label">BLO 사이트<br>접속·신청</div>
-        <div class="how-to-desc">samsung2030<br>blo.com</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">3</div>
-        <div class="how-to-label">코드 입력 후<br>신청 완료</div>
-        <div class="how-to-desc">D-4일 전<br>ID 문자 수신</div>
+    <div class="sp-detail">
+      <div class="sp-name">박종훈 <span>소장</span></div>
+      <div class="sp-creds">
+        <span class="sp-cred">지식경제연구소 소장</span>
+        <span class="sp-cred">KBS 경제부장 · 기자협회장</span>
+        <span class="sp-cred">한국은행</span>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ② 본문 -->
-  <div class="body-sec" id="dyn-bodySec">
-    <p>대전환의 시대, 금융시장 광풍의 중심에 선<br>
-       글로벌 반도체 산업.</p>
-    <p>기술의 진화와 기업의 경쟁력, 산업의 구조를<br>
-       전문가의 시각으로 살펴볼 시간입니다.</p>
-    <p>4월 2030 Business Live ON은<br>
-       김선우 애널리스트와 함께<br>
-       AI 시대 투자 인사이트를 제시합니다.</p>
+<!-- ③ 일시/장소 정보 -->
+<div class="info-bar">
+  <div class="info-row">
+    <div class="info-icon">📅</div>
+    <div>
+      <div class="info-lbl">DATE &amp; TIME</div>
+      <div class="info-val">2026.5.19 (화) 오전 07:30 ~ 09:10</div>
+      <div class="info-sub">1부 07:30~08:20 · 2부 08:20~09:10 · 재방송 20:00~22:00</div>
+    </div>
   </div>
-
-  <!-- ③ 연간 세미나 일정 -->
-  <div class="schedule-sec">
-    <div class="schedule-sec-banner">
-      <div class="schedule-sec-banner-left">
-        <div class="schedule-sec-title">📅 2026 연간 세미나 일정 <span>·</span> 12강</div>
-        <div class="schedule-banner-sub">1회 신청으로 12월까지 전 강연 시청 가능</div>
-      </div>
-      <a class="schedule-more-link" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">전체보기 ›</a>
+  <div class="info-row">
+    <div class="info-icon">🍽️</div>
+    <div>
+      <div class="info-lbl">조찬 (오프라인 참석자)</div>
+      <div class="info-val">06:30 ~ 07:20</div>
+      <div class="info-sub">삼성금융캠퍼스 지하 2층 카페테리아</div>
     </div>
-    <div class="schedule-theme">The Great Transition, 대전환의 시대</div>
-    <div class="year-benefit-badge">
-      <div class="year-benefit-icon">🏆</div>
-      <div class="year-benefit-text">지금 신청하면 <strong>2026년 12월까지</strong> 매월 강연 모두 시청 가능<br>총 12강 · 1Q Tech ⚡ · 2Q Money 💰 · 3Q Human 🤝 · 4Q 2027 🚀</div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">📍</div>
+    <div>
+      <div class="info-lbl">OFFLINE 장소</div>
+      <div class="info-val">삼성금융캠퍼스 B2F 비전홀</div>
+      <div class="info-sub">서울 서초구 사임당로 23길 27 · 오프라인 마감 <strong>5/15(금) 17시</strong></div>
     </div>
-
-    <!-- 탭 버튼 -->
-    <div class="q-tabs">
-      <div class="q-tab" onclick="switchQ(1)" id="qtab1">1Q · Tech ⚡</div>
-      <div class="q-tab" onclick="switchQ(2)" id="qtab2">2Q · Money 💰</div>
-      <div class="q-tab" onclick="switchQ(3)" id="qtab3">3Q · Human 🤝</div>
-      <div class="q-tab" onclick="switchQ(4)" id="qtab4">4Q · 2027 🚀</div>
+  </div>
+  <div class="info-row">
+    <div class="info-icon">🌐</div>
+    <div>
+      <div class="info-lbl">ONLINE 시청</div>
+      <div class="info-val">아래 신청 폼으로 즉시 신청</div>
+      <div class="info-sub">신청 후 <a href="http://www.samsung2030blo.com" target="_blank">www.samsung2030blo.com</a>에서 시청</div>
     </div>
+  </div>
+</div>
 
-    <!-- Q1 패널 -->
-    <div class="q-panel" id="qpanel1">
-      <div class="sched-quarter">
-        <div class="sched-q-label">1Q · Tech Insight, 차세대 혁신 기술</div>
-        <div class="sched-item completed">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">1/13 (화)</div>
-            <div class="sched-title-text">AI시대, 인간의 판단력은 어디로?</div>
-            <div class="sched-speaker">송길영 작가 · 이동우 교수</div>
-            <span class="sched-status done">✓ 완료</span>
-          </div>
-        </div>
-        <div class="sched-item completed">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">2/24 (화)</div>
-            <div class="sched-title-text">인류의 새로운 도전, 우주 탐사와 그 너머</div>
-            <div class="sched-speaker">강성주 박사</div>
-            <span class="sched-status done">✓ 완료</span>
-          </div>
-        </div>
-        <div class="sched-item completed">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">3/24 (화)</div>
-            <div class="sched-title-text">피지컬 AI와 로봇 대항해의 시대</div>
-            <div class="sched-speaker">조규진 교수 · 서울대학교 기계공학과</div>
-            <span class="sched-status done">✓ 완료</span>
-          </div>
-        </div>
-      </div>
+<!-- ④ 본문 -->
+<div class="body-sec">
+  <p>중동에 치솟은 불꽃과 함께<br>불확실성에 빠진 세계.</p>
+  <p>종교와 문화, 정치와 경제가 얽힌<br>중동 분쟁의 인과를 분석하고,<br>경제적 파급효과를 알아볼 시간입니다.</p>
+  <p>삼성생명 Business Live ON이 준비한 특집,<br>5월은 박현도 교수와 박종훈 소장이<br>삼성생명 고객 여러분을 찾아옵니다.</p>
+</div>
+
+<!-- ⑤ 신청 섹션 (핵심 개편) -->
+<div class="apply-sec" id="applySection">
+  <div class="apply-sec-title">세미나 신청하기</div>
+  <div class="apply-sec-sub">아래에서 신청 방법을 선택해 주세요</div>
+
+  <!-- 탭 선택 -->
+  <div class="apply-tabs">
+    <div class="apply-tab active" id="tabOnline" onclick="selectTab('online')">
+      <span class="apply-tab-icon">🎥</span>
+      온라인 신청
     </div>
-
-    <!-- Q2 패널 -->
-    <div class="q-panel" id="qpanel2">
-      <div class="sched-quarter">
-        <div class="sched-q-label">2Q · Money Insight, 변화하는 자산 시장</div>
-        <div class="sched-item current">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">4/21 (화) 오전 7:30</div>
-            <div><span class="sched-type-badge">Class</span><span class="sched-status now">▶ 진행중</span></div>
-            <div class="sched-title-text">AI 반도체가 주도하는 금융시장</div>
-            <div class="sched-speaker">김선우 애널리스트 · 메리츠증권</div>
-          </div>
-        </div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">5/19 (화)</div>
-            <div class="sched-title-text">대한민국 부동산 시장 전망과 투자 전략</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">6/16 (화)</div>
-            <div class="sched-title-text">암호화폐·블록체인 기술과 디지털 경제</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Q3 패널 -->
-    <div class="q-panel" id="qpanel3">
-      <div class="sched-quarter">
-        <div class="sched-q-label">3Q · Human Insight, 격변에 대처하는 리더의 자세</div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">7/21 (화)</div>
-            <div class="sched-title-text">세계 축구 명장들을 통해서 본 리더십</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">8/18 (화)</div>
-            <div class="sched-title-text">리더를 위한 정신과 의사의 조언</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">9/15 (화)</div>
-            <div class="sched-title-text">타인의 마음을 얻는 소통</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Q4 패널 -->
-    <div class="q-panel" id="qpanel4">
-      <div class="sched-quarter">
-        <div class="sched-q-label">4Q · 혁신과 성장을 위한 2027년 전망</div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">10/20 (화)</div>
-            <div class="sched-title-text">Next transition 2027 : 소비 트렌드</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">11/17 (화)</div>
-            <div class="sched-title-text">Next transition 2027 : 국제정세</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-        <div class="sched-item upcoming">
-          <div class="sched-dot"></div>
-          <div class="sched-content">
-            <div class="sched-date">12/15 (화)</div>
-            <div class="sched-title-text">Next transition 2027 : 경제/투자</div>
-            <span class="sched-status soon">예정</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="font-size:11px;color:#8899AA;text-align:center;margin-top:14px;padding-top:10px;border-top:1px solid #E8EEF6;">
-      ※ 1회 신청으로 2026년 12월까지 전 강연 시청 가능
+    <div class="apply-tab" id="tabOffline" onclick="selectTab('offline')">
+      <span class="apply-tab-icon">🍽️</span>
+      오프라인 신청
     </div>
   </div>
 
-  <!-- ④ 신청 섹션 -->
-  <div class="apply-sec">
-    <div class="apply-head">
-      <div class="apply-head-icon">📋</div>
+  <!-- 온라인 신청 패널 -->
+  <div id="onlinePanel">
+    <div class="online-card">
+      <div class="online-card-title">🎥 온라인 강연 신청 방법</div>
+      <div class="online-card-sub">
+        아래 순서대로 하시면 30초 안에 신청이 완료됩니다.
+      </div>
+
+      <div class="steps-wrap">
+        <div class="step-item">
+          <div class="step-circle gold">1</div>
+          <div class="step-body">
+            <div class="step-title">추천인 코드 복사</div>
+            <div class="step-desc">아래 [코드 복사하기] 버튼을 누르면<br>코드가 자동으로 복사됩니다.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <div class="step-body">
+            <div class="step-title">BLO 사이트에서 회원가입</div>
+            <div class="step-desc">아래 [신청 사이트 바로가기] 클릭 →<br>회원가입 화면에서 <strong>추천인 코드란에 붙여넣기</strong></div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <div class="step-body">
+            <div class="step-title">당일 강연 입장</div>
+            <div class="step-desc">5/19(화) 07:15부터 접속 → 강연 입장<br>재방송 당일 20:00~22:00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 추천인 코드 박스 -->
+      <div class="code-box">
+        <div class="code-box-label">온라인 신청 시 반드시 입력 — 추천인 코드</div>
+        <div class="code-box-warn">⚠️ 회원가입 시 추천인 코드란에 입력</div>
+        <div class="code-number" id="refCode">9618628</div>
+        <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">
+          📋 코드 복사하기
+        </button>
+      </div>
+
+      <!-- 신청 사이트 이동 버튼 -->
+      <a class="go-apply-btn" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="onGoApply()">
+        🌐 신청 사이트 바로가기
+      </a>
+      <div class="go-apply-note">
+        <strong>www.samsung2030blo.com</strong><br>
+        1회 신청으로 2026년 12월까지 전 강연 시청 가능
+      </div>
+    </div>
+  </div><!-- /onlinePanel -->
+
+  <!-- 오프라인 신청 -->
+  <div id="offlinePanel" style="display:none;">
+    <div class="offline-box">
+      <div class="offline-box-title">🍽️ 오프라인 조찬 신청</div>
+
+      <div class="off-notice">
+        <strong>⚠️ 신청 마감: 5/15(금) 17:00까지</strong><br>
+        반드시 컨설턴트(FP/FO)를 통해 신청하시거나<br>아래로 직접 문의해 주세요. (선착순 200명)
+      </div>
+
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
+          <div class="off-lbl">조찬</div>
+          <div class="off-val">06:30 ~ 07:20</div>
+          <div class="off-sub">삼성금융캠퍼스 지하 2층 카페테리아</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
+          <div class="off-lbl">세미나</div>
+          <div class="off-val">07:30 ~ 09:10</div>
+          <div class="off-sub">삼성금융캠퍼스 B2F 비전홀<br>서울 서초구 사임당로 23길 27</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
+          <div class="off-lbl">주의사항</div>
+          <div class="off-val" style="font-size:13px;color:#445566;">컨설턴트님은 1층 카페 또는 나눔룸 이용<br>비전홀 내부는 고객에 한하여 출입 가능</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <a class="call-btn" href="tel:01051372327">📞 전화 신청 · 010-5137-2327</a>
+      <a class="kakao-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">💬 카카오톡으로 문의하기</a>
+    </div>
+  </div><!-- /offlinePanel -->
+
+</div><!-- /apply-sec -->
+
+<!-- ⑥ 행사 진행 흐름 -->
+<div class="flow-sec">
+  <div class="sec-title-row">🎊 행사 진행 흐름</div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
       <div>
-        <div class="apply-head-title">세미나 신청하기</div>
-        <div class="apply-head-sub">추천인 코드 복사 후 온라인 신청 가능</div>
+        <div class="flow-time">사전 접수 · 5/15(금) 17:00까지</div>
+        <div class="flow-name">온라인/오프라인 신청</div>
+        <div class="flow-desc">온라인: 이 페이지에서 바로 신청 / 오프라인: FP·FO 통해 신청</div>
       </div>
     </div>
-
-    <div class="apply-box">
-
-      <!-- 온라인 -->
-      <div class="online-sec">
-        <div class="sec-header">🎥 온라인 강연 신청</div>
-        <div class="panel-step">
-          <div class="step-num">1</div>
-          <div class="step-text">
-            <strong>추천인 코드 복사</strong><br>
-            아래 버튼을 눌러 코드를 복사하세요
-          </div>
-        </div>
-        <div class="panel-step">
-          <div class="step-num">2</div>
-          <div class="step-text">
-            <strong>사이트 접속 후 신청</strong><br>
-            <a href="http://www.samsung2030blo.com" target="_blank">www.samsung2030blo.com</a>
-          </div>
-        </div>
-        <div class="panel-step">
-          <div class="step-num">3</div>
-          <div class="step-text">
-            <strong>당일 시청</strong><br>
-            <span id="dyn-watchDate">4/21(화)</span> 7:15부터 접속 가능
-            <span style="display:block;color:#8BB8D8;font-size:11px;margin-top:2px">재방송 당일 20:00~22:00</span>
-          </div>
-        </div>
-
-        <div class="referral-box">
-          <div class="ref-label">⚠️ 신청 시 반드시 입력 — 추천인 코드</div>
-          <div class="ref-code" id="refCode" data-dyn="refCode">9618628</div>
-          <button class="ref-copy" id="copyBtn" onclick="copyCode()">📋 코드 복사하기</button>
-        </div>
-
-        <a class="online-btn" id="onlineBtn" href="http://www.samsung2030blo.com" target="_blank">
-          🔒 추천인 코드를 먼저 복사해주세요
-        </a>
-        <div class="lock-msg" id="lockMsg">코드 복사 후 신청 버튼이 활성화됩니다</div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>
+        <div class="flow-time">06:30 ~ 07:20</div>
+        <div class="flow-name">프리미엄 조찬</div>
+        <div class="flow-desc">삼성금융캠퍼스 B2F 카페테리아 · 오프라인 참석자 대상</div>
       </div>
-
-      <div class="box-divider"></div>
-
-      <!-- 오프라인 -->
-      <div class="offline-sec">
-        <div class="sec-header">🍽️ 오프라인 조찬 신청</div>
-        <div class="offline-row">
-          <div class="off-dot"></div>
-          <div>
-            <div class="off-label">신청 마감</div>
-            <div class="off-val" id="deadlineFull">3/19(목) 17:00까지</div>
-          </div>
-        </div>
-        <div class="off-hr"></div>
-        <div class="offline-row">
-          <div class="off-dot"></div>
-          <div>
-            <div class="off-label">조찬</div>
-            <div class="off-val">06:30~07:20</div>
-            <div class="off-sub">삼성금융캠퍼스 B2F 카페테리아</div>
-          </div>
-        </div>
-        <div class="off-hr"></div>
-        <div class="offline-row">
-          <div class="off-dot"></div>
-          <div>
-            <div class="off-label">세미나</div>
-            <div class="off-val">07:30~09:00</div>
-            <div class="off-sub">삼성금융캠퍼스 B2F 비전홀<br>서울 서초구 사임당로 23길 27</div>
-          </div>
-        </div>
-        <a class="call-btn" href="tel:01051372327">
-          📞 전화로 신청하기 &nbsp;|&nbsp; 010-5137-2327
-        </a>
-        <a class="kakao-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">
-          💬 카카오톡으로 문의하기
-        </a>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num gold">3</div>
+      <div>
+        <div class="flow-time">07:30 ~ 09:10</div>
+        <div class="flow-name">세미나 본강연 (1부 + 2부)</div>
+        <div class="flow-desc">삼성금융캠퍼스 B2F 비전홀 (오프라인) + 실시간 온라인 동시 중계</div>
       </div>
-
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>
+        <div class="flow-time">당일 20:00 ~ 22:00</div>
+        <div class="flow-name">재방송 시청</div>
+        <div class="flow-desc">당일 저녁 재방송 · 이후 2026년 내 다시보기 가능</div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- ⑤ 행사 진행 흐름 -->
-  <div class="flow-sec">
-    <div class="sec-title-row">🎊 행사 진행 흐름</div>
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="flow-num">1</div>
-        <div class="flow-body">
-          <div class="flow-time">신청 마감 · <span id="deadlineFlow">3/19(목) 17:00까지</span></div>
-          <div class="flow-name">사전 접수</div>
-          <div class="flow-desc">온라인 신청 (추천인 코드 입력) 또는 오프라인 전화·카카오톡 문의</div>
+<!-- ⑦ 연간 일정 -->
+<div class="schedule-sec">
+  <div class="schedule-banner">
+    <div>
+      <div class="schedule-banner-title">📅 2026 연간 세미나 일정 · 12강</div>
+      <div class="schedule-banner-sub">1회 신청으로 2026년 12월까지 전 강연 시청 가능</div>
+    </div>
+    <a class="schedule-more-link" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">전체보기 ›</a>
+  </div>
+  <div class="year-benefit">
+    🏆 지금 신청하면 <strong>2026년 12월까지</strong> 매월 강연 모두 시청 가능<br>
+    총 12강 · 1Q Tech ⚡ · 2Q Money 💰 · 3Q Human 🤝 · 4Q 2027 🚀
+  </div>
+
+  <div class="q-tabs">
+    <div class="q-tab" onclick="switchQ(1)" id="qtab1">1Q · Tech ⚡</div>
+    <div class="q-tab active" onclick="switchQ(2)" id="qtab2">2Q · Money 💰</div>
+    <div class="q-tab" onclick="switchQ(3)" id="qtab3">3Q · Human 🤝</div>
+    <div class="q-tab" onclick="switchQ(4)" id="qtab4">4Q · 2027 🚀</div>
+  </div>
+
+  <!-- Q1 패널 -->
+  <div class="q-panel" id="qpanel1">
+    <div class="sched-quarter">
+      <div class="sched-q-label">1Q · Tech Insight, 차세대 혁신 기술</div>
+      <div class="sched-item completed">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">1/13 (화)</div>
+          <div class="sched-title-text">AI시대, 인간의 판단력은 어디로?</div>
+          <div class="sched-speaker">송길영 작가 · 이동우 교수</div>
+          <span class="sched-status done">✓ 완료</span>
         </div>
       </div>
-      <div class="flow-step">
-        <div class="flow-num">2</div>
-        <div class="flow-body">
-          <div class="flow-time">06:30 ~ 07:20</div>
-          <div class="flow-name">프리미엄 조찬</div>
-          <div class="flow-desc">삼성금융캠퍼스 B2F 카페테리아 · 오프라인 참석자 대상</div>
+      <div class="sched-item completed">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">2/24 (화)</div>
+          <div class="sched-title-text">인류의 새로운 도전, 우주 탐사와 그 너머</div>
+          <div class="sched-speaker">강성주 박사</div>
+          <span class="sched-status done">✓ 완료</span>
         </div>
       </div>
-      <div class="flow-step">
-        <div class="flow-num gold">3</div>
-        <div class="flow-body">
-          <div class="flow-time">07:30 ~ 09:00</div>
-          <div class="flow-name">세미나 본강연</div>
-          <div class="flow-desc">삼성금융캠퍼스 B2F 비전홀 (오프라인) + 실시간 온라인 동시 중계</div>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">4</div>
-        <div class="flow-body">
-          <div class="flow-time">당일 20:00 ~ 22:00</div>
-          <div class="flow-name">재방송 시청</div>
-          <div class="flow-desc">당일 저녁 재방송 · 이후 연도 내 다시보기 시청 가능</div>
+      <div class="sched-item completed">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">3/24 (화)</div>
+          <div class="sched-title-text">피지컬 AI와 로봇 대항해의 시대</div>
+          <div class="sched-speaker">조규진 교수 · 서울대학교 기계공학과</div>
+          <span class="sched-status done">✓ 완료</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ⑥ 참여 혜택 -->
-  <div class="benefit-sec">
-    <div class="sec-title-row">🎁 참여 혜택</div>
-    <div class="benefit-grid">
-      <div class="benefit-card">
-        <div class="benefit-icon">🍳</div>
-        <div class="benefit-title">프리미엄 조찬</div>
-        <div class="benefit-desc">삼성금융캠퍼스 B2F 특별 조찬 제공</div>
+  <!-- Q2 패널 -->
+  <div class="q-panel active" id="qpanel2">
+    <div class="sched-quarter">
+      <div class="sched-q-label">2Q · Money Insight, 변화하는 자산 시장</div>
+      <div class="sched-item completed">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">4/21 (화)</div>
+          <div class="sched-title-text">AI 반도체가 주도하는 금융시장</div>
+          <div class="sched-speaker">김선우 애널리스트 · 메리츠증권</div>
+          <span class="sched-status done">✓ 완료</span>
+        </div>
       </div>
-      <div class="benefit-card">
-        <div class="benefit-icon">🎥</div>
-        <div class="benefit-title">실시간 온라인</div>
-        <div class="benefit-desc">어디서나 실시간 시청 · 당일 재방송 20:00~22:00</div>
+      <div class="sched-item current">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">5/19 (화) 오전 7:30</div>
+          <span class="sched-status now">▶ 신청중</span>
+          <div class="sched-title-text">중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제</div>
+          <div class="sched-speaker">박현도 교수 (1부) · 박종훈 소장 (2부)</div>
+        </div>
       </div>
-      <div class="benefit-card">
-        <div class="benefit-icon">🤝</div>
-        <div class="benefit-title">프리미엄 네트워킹</div>
-        <div class="benefit-desc">오프라인 참석 시 교류의 장 제공</div>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon">🏆</div>
-        <div class="benefit-title">연간 세미나 우선권</div>
-        <div class="benefit-desc">1회 신청으로 26년 12월까지 시청 가능</div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">6/16 (화)</div>
+          <div class="sched-title-text">6월 강연 (추후 공지)</div>
+          <div class="sched-speaker">강사 미정</div>
+          <span class="sched-status soon">예정</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ⑦ 공개 페이지 링크 -->
-  <div class="pub-link-sec">
-    <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">
-      <span class="pub-link-icon">📅</span>
-      <span>연간 일정 보기</span>
-    </a>
-    <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/archive.html" target="_blank">
-      <span class="pub-link-icon">📚</span>
-      <span>지난 세미나 보기</span>
-    </a>
+  <!-- Q3 패널 -->
+  <div class="q-panel" id="qpanel3">
+    <div class="sched-quarter">
+      <div class="sched-q-label">3Q · Human Insight, 리더십과 비즈니스</div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">7/21 (화)</div>
+          <div class="sched-title-text">7월 강연 (추후 공지)</div>
+          <span class="sched-status soon">예정</span>
+        </div>
+      </div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">8/18 (화)</div>
+          <div class="sched-title-text">8월 강연 (추후 공지)</div>
+          <span class="sched-status soon">예정</span>
+        </div>
+      </div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">9/15 (화)</div>
+          <div class="sched-title-text">9월 강연 (추후 공지)</div>
+          <span class="sched-status soon">예정</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-
-  <div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
-  <div class="copyright-bar">
-    &copy; 2026 2030 BLO (Business Live ON) &nbsp;|&nbsp; 무단 복제·배포·도용 금지
+  <!-- Q4 패널 -->
+  <div class="q-panel" id="qpanel4">
+    <div class="sched-quarter">
+      <div class="sched-q-label">4Q · Future Insight, 2027 전망</div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">10/20 (화)</div>
+          <div class="sched-title-text">10월 강연 (추후 공지)</div>
+          <span class="sched-status soon">예정</span>
+        </div>
+      </div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">11/17 (화)</div>
+          <div class="sched-title-text">11월 강연 (추후 공지)</div>
+          <span class="sched-status soon">예정</span>
+        </div>
+      </div>
+      <div class="sched-item upcoming">
+        <div class="sched-dot"></div>
+        <div>
+          <div class="sched-date">12/15 (화)</div>
+          <div class="sched-title-text">12월 강연 (추후 공지)</div>
+          <span class="sched-status soon">예정</span>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+<!-- ⑧ 참여 혜택 -->
+<div class="benefit-sec">
+  <div class="sec-title-row">🎁 참여 혜택</div>
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🍳</div>
+      <div class="benefit-title">프리미엄 조찬</div>
+      <div class="benefit-desc">삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🎥</div>
+      <div class="benefit-title">실시간 온라인</div>
+      <div class="benefit-desc">어디서나 실시간 시청 · 당일 재방송 20:00~22:00</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🤝</div>
+      <div class="benefit-title">프리미엄 네트워킹</div>
+      <div class="benefit-desc">오프라인 참석 시 CEO·자산가 교류의 장</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🏆</div>
+      <div class="benefit-title">연간 세미나 우선권</div>
+      <div class="benefit-desc">1회 신청으로 2026년 12월까지 전 강연 시청</div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑨ 공개 페이지 링크 -->
+<div class="pub-link-sec">
+  <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">
+    <span>📅</span><span>연간 일정 보기</span>
+  </a>
+  <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/archive.html" target="_blank">
+    <span>📚</span><span>지난 세미나 보기</span>
+  </a>
+</div>
+
+<div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
+<div class="copyright-bar">&copy; 2026 2030 BLO (Business Live ON) &nbsp;|&nbsp; 무단 복제·배포·도용 금지</div>
 
 </div><!-- /wrap -->
 
-<!-- 항상 보이는 하단 고정 신청 버튼 -->
-<div class="sticky-cta" id="stickyCta">
+<!-- 토스트 알림 -->
+<div class="toast" id="toastMsg"></div>
+
+<!-- 하단 고정 신청 버튼 -->
+<div class="sticky-cta">
   <div class="sticky-cta-text">
-    <strong>📋 코드 복사 → 사이트 신청</strong>
-    1회 신청으로 12월까지 전 강연 시청
+    <strong>5/19(화) 중동의 불꽃, 글로벌 경제</strong>
+    아래 폼에서 30초 신청 완료
   </div>
-  <a class="sticky-cta-btn" href="#" onclick="scrollToApply(event)">세미나 신청하기 ›</a>
+  <a class="sticky-cta-btn" href="#applySection" onclick="scrollToApply(event)">지금 신청하기 ›</a>
 </div>
 
-<!-- 워터마크 오버레이 (세션 ID 포함 — 스크린샷 추적 가능) -->
-<div class="watermark-overlay" aria-hidden="true" id="wmOverlay">
-  <svg id="wmSvg" xmlns="http://www.w3.org/2000/svg">
+<!-- 워터마크 -->
+<div class="watermark-overlay" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg">
     <defs>
       <pattern id="wm" x="0" y="0" width="260" height="130" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
         <text x="0" y="30" font-size="13" fill="#1050A0" font-family="sans-serif" font-weight="bold">2030 BLO</text>
-        <text x="0" y="55" font-size="10" fill="#1050A0" font-family="monospace" id="wmSessionText">BLO-SESSION</text>
-        <text x="0" y="78" font-size="10" fill="#1050A0" font-family="sans-serif" id="wmDateText">2026</text>
+        <text x="0" y="55" font-size="10" fill="#1050A0" font-family="monospace" id="wmDateText">2026</text>
       </pattern>
     </defs>
     <rect width="100%" height="100%" fill="url(#wm)"/>
   </svg>
 </div>
-<script>
-  // 워터마크에 세션 ID + 날짜/시각 삽입 (스크린샷 유출 시 추적 가능)
-  (function() {
-    function updateWatermark() {
-      var sid = (window.__BLO_SESSION__ || 'BLO-???');
-      var now = new Date();
-      var dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-      var s = document.getElementById('wmSessionText');
-      var d = document.getElementById('wmDateText');
-      if (s) s.textContent = sid;
-      if (d) d.textContent = dateStr;
-    }
-    // security.js 로드 후 실행
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', updateWatermark);
-    } else {
-      setTimeout(updateWatermark, 0);
-    }
-  })();
-</script>
 
 <script src="/js/security.js"></script>
 <script>
-  /* ─── 2026 BLO 자동 날짜 감지 ─── */
-  (function() {
-    // ─────────────────────────────────────────────────────────────────────────
-    // 2026 BLO 연간 세미나 일정
-    // 규칙: 각 달 신청 공지는 해당 달이 되어야 열림 (D+1월 공지 = D+1월 1일~)
-    // ─────────────────────────────────────────────────────────────────────────
-    // deadline: 오프라인 조찬 신청 마감일 (매달 다를 수 있음)
-    // deadlineShort: 짧은 표기 (히어로 섹션),  deadlineFull: 전체 표기 (신청 섹션·흐름)
-    // ※ 다음 달 마감일 확정되면 아래 deadline 값만 수정하면 자동 반영됨
-    var EVENTS = [
-      { month: 1,  day: 13, q: 1, deadlineShort: '1/8(목)',   deadlineFull: '1/8(목) 17:00까지'  },
-      { month: 2,  day: 24, q: 1, deadlineShort: '2/19(목)',  deadlineFull: '2/19(목) 17:00까지' },
-      { month: 3,  day: 24, q: 1, deadlineShort: '3/16(일)',   deadlineFull: '3/16(일) 17:00까지' },
-      { month: 4,  day: 21, q: 2, deadlineShort: '4/17(금)',  deadlineFull: '4/17(금) 17:00까지' },
-      { month: 5,  day: 19, q: 2, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 6,  day: 16, q: 2, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 7,  day: 21, q: 3, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 8,  day: 18, q: 3, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 9,  day: 15, q: 3, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 10, day: 20, q: 4, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 11, day: 17, q: 4, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-      { month: 12, day: 15, q: 4, deadlineShort: '추후 공지', deadlineFull: '추후 공지' },
-    ];
-
-    var MONTH_NAMES = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-
-    var now   = new Date();
-    var todayMonth = now.getMonth() + 1;  // 1~12
-    var todayDay   = now.getDate();
-
-    // ── 상태 분류 ──────────────────────────────────────────────────────────
-    // "이번 달" 이벤트: todayMonth === ev.month
-    //   → 행사일 당일(포함) 이전이면 "진행중(신청가능)", 이후면 "완료"
-    // "지난 달" 이벤트: todayMonth > ev.month  → "완료"
-    // "다음 달+" 이벤트: todayMonth < ev.month
-    //   → 바로 다음 달(todayMonth+1)이면 "다음달 신청 공지 예정", 그 이후면 "예정"
-    // ───────────────────────────────────────────────────────────────────────
-
-    // 현재 활성 이벤트 인덱스 (이번 달 이벤트, 아직 행사일 안 지남)
-    var activeIdx  = -1;
-    // 직전 완료 이벤트 인덱스
-    var lastDoneIdx = -1;
-    // 다음 달 이벤트 인덱스 (신청 공지 예정)
-    var nextMonthIdx = -1;
-
-    for (var i = 0; i < EVENTS.length; i++) {
-      var ev = EVENTS[i];
-      if (ev.month < todayMonth) {
-        lastDoneIdx = i;
-      } else if (ev.month === todayMonth) {
-        if (todayDay <= ev.day) {
-          activeIdx = i;   // 이번 달, 아직 행사일 전 or 당일
-        } else {
-          lastDoneIdx = i; // 이번 달이지만 행사일 지남 → 완료
-        }
-      } else if (ev.month === todayMonth + 1 && nextMonthIdx === -1) {
-        nextMonthIdx = i;  // 바로 다음 달 이벤트
-      }
-    }
-
-    // 스케줄 아이템 (.sched-item) — Q1:0~2, Q2:3~5, Q3:6~8, Q4:9~11
-    var items = document.querySelectorAll('.sched-item');
-    if (!items.length) return;
-
-    items.forEach(function(el, idx) {
-      var statusEl = el.querySelector('.sched-status');
-      el.classList.remove('current', 'completed', 'upcoming');
-
-      if (idx <= lastDoneIdx) {
-        // 완료된 강연
-        el.classList.add('completed');
-        if (statusEl) { statusEl.className = 'sched-status done'; statusEl.textContent = '✓ 완료'; }
-
-      } else if (idx === activeIdx) {
-        // 이번 달 신청 중
-        el.classList.add('current');
-        if (statusEl) { statusEl.className = 'sched-status now'; statusEl.textContent = '▶ 신청중'; }
-
-      } else if (idx === nextMonthIdx) {
-        // 다음 달 → 신청 공지 예정
-        el.classList.add('upcoming');
-        if (statusEl) { statusEl.className = 'sched-status soon'; statusEl.textContent = '📢 ' + MONTH_NAMES[EVENTS[idx].month-1] + ' 공지 예정'; }
-
-      } else {
-        // 그 외 미래
-        el.classList.add('upcoming');
-        if (statusEl) { statusEl.className = 'sched-status soon'; statusEl.textContent = '예정'; }
-      }
-    });
-
-    // ── 상단 배너 ──────────────────────────────────────────────────────────
-    var wrap = document.querySelector('.wrap');
-    if (!wrap) return;
-    var banner = document.createElement('div');
-    banner.id = 'eventStateBanner';
-    banner.style.cssText = 'text-align:center;padding:13px 16px;font-size:13.5px;line-height:1.7;';
-
-    // ── 마감일 자동 교체 ───────────────────────────────────────────────────
-    // 현재 신청 가능한 이벤트(activeIdx)의 마감일로 페이지 내 3곳 일괄 교체
-    var deadlineIdx = activeIdx >= 0 ? activeIdx : (lastDoneIdx >= 0 ? lastDoneIdx : 0);
-    var dEv = EVENTS[deadlineIdx];
-    var elShort  = document.getElementById('deadlineShort');
-    var elFull   = document.getElementById('deadlineFull');
-    var elFlow   = document.getElementById('deadlineFlow');
-    if (elShort) elShort.textContent = dEv.deadlineShort;
-    if (elFull)  elFull.textContent  = dEv.deadlineFull;
-    if (elFlow)  elFlow.textContent  = dEv.deadlineFull;
-
-    if (activeIdx >= 0) {
-      // 이번 달 신청 기간 중 → 배너 불필요, 표시 안 함
-      return;
-
-    } else if (nextMonthIdx >= 0) {
-      // 이번 달 행사 끝, 다음 달 공지 전
-      var prevEv = EVENTS[lastDoneIdx >= 0 ? lastDoneIdx : 0];
-      var nextEv = EVENTS[nextMonthIdx];
-      banner.style.background = '#1428A0';
-      banner.style.color = '#fff';
-      banner.innerHTML =
-        '✅ <strong>' + MONTH_NAMES[prevEv.month-1] + ' 강연이 완료되었습니다.</strong><br>'
-        + '<span style="font-size:12.5px;opacity:.9;">다음 강연 <strong>' + MONTH_NAMES[nextEv.month-1] + ' ' + nextEv.day + '일(화)</strong> · 신청 공지는 <strong>' + MONTH_NAMES[nextEv.month-1] + ' 초</strong>에 안내됩니다.</span>';
-      wrap.insertBefore(banner, wrap.firstChild);
-
-    } else if (lastDoneIdx === EVENTS.length - 1) {
-      // 12월까지 모두 완료
-      banner.style.background = '#1428A0';
-      banner.style.color = '#fff';
-      banner.innerHTML = '🎉 <strong>2026 BLO 연간 세미나가 모두 완료되었습니다. 감사합니다.</strong>';
-      wrap.insertBefore(banner, wrap.firstChild);
-    }
-  })();
-
-  /* ─── Firestore에서 이달 행사 정보 로드 ─── */
-  (function() {
-    try {
-      var cfg = {
-        apiKey: "AIzaSyBpDZF4L3FPpm54HWZFx9ZkGiGb1MPlVN0",
-        authDomain: "samsung-gfc.firebaseapp.com",
-        projectId: "samsung-gfc",
-        appId: "1:583640326398:web:1662178587cbab8ca605af"
-      };
-      var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
-      var db  = firebase.firestore(app);
-
-      db.collection('bloSeminarConfig').doc('currentEvent').get().then(function(doc) {
-        if (!doc.exists) return;
-        var d = doc.data();
-
-        function setText(id, val) {
-          var el = document.getElementById(id);
-          if (el && val) el.textContent = val;
-        }
-        function setHTML(id, val) {
-          var el = document.getElementById(id);
-          if (el && val) el.innerHTML = val;
-        }
-
-        // 히어로
-        setText('dyn-heroTag',   d.heroTag);
-        setText('dyn-heroMonth', d.monthNum);
-        setText('dyn-heroLabel', d.heroLabel);
-        setHTML('dyn-heroTitle', d.title);
-        setText('dyn-heroSub',   d.titleSub);
-
-        // 강사
-        if (d.speaker) {
-          setText('dyn-spCircleName',  d.speaker.circleName || d.speaker.name);
-          setText('dyn-spCircleTitle', d.speaker.circleTitle || d.speaker.title);
-          setHTML('dyn-spNameRow', d.speaker.name + ' <span>' + d.speaker.title + '</span>');
-          if (d.speaker.chips && d.speaker.chips.length) {
-            var chips = d.speaker.chips.map(function(c){ return '<span class="sp-chip">' + c + '</span>'; }).join('');
-            setHTML('dyn-spChips', chips);
-          }
-        }
-
-        // 일시
-        setText('dyn-eventDate',  d.eventDate);
-        setText('dyn-replayNote', d.replayNote);
-        setText('dyn-watchDate',  d.watchDate);
-
-        // 추천인 코드
-        var refEl = document.getElementById('refCode');
-        if (refEl && d.referralCode) refEl.textContent = d.referralCode;
-
-        // 본문
-        if (d.bodyText && d.bodyText.length) {
-          var bodyEl = document.getElementById('dyn-bodySec');
-          if (bodyEl) bodyEl.innerHTML = d.bodyText.map(function(t){ return '<p>' + t + '</p>'; }).join('');
-        }
-
-        // 잡페어 섹션
-        var jfEl = document.getElementById('dyn-jobfairSection');
-        if (jfEl) {
-          if (d.jobfair && d.jobfair.show) {
-            setText('dyn-jobfairBadge', d.jobfair.badge || '공지');
-            setText('dyn-jobfairTitle', d.jobfair.title || 'JOB FAIR');
-            var rows = (d.jobfair.rows || []).map(function(r){
-              return '<div class="jobfair-info-row"><span class="jobfair-info-dot">▸</span>'
-                + '<span><strong>' + r.label + '</strong> &nbsp;' + r.value + '</span></div>';
-            }).join('');
-            setHTML('dyn-jobfairRows', rows);
-            jfEl.style.display = '';
-          } else {
-            jfEl.style.display = 'none';
-          }
-        }
-
-      }).catch(function(){});
-    } catch(e) {}
-  })();
-
-  /* ─── 행사 종료 후 자동 화면 전환 ─── */
-  (function() {
-    // 현재 행사일: 4/21. 이후 → 종료 안내 화면으로 교체
-    var EVENT_DATE = new Date(2026, 3, 21); // 4월 21일
-    var today = new Date(); today.setHours(0,0,0,0);
-    if (today <= EVENT_DATE) return; // 행사일 당일까지는 정상 표시
-
-    // ① 히어로 태그 교체
-    var heroTag = document.querySelector('.hero-tag');
-    if (heroTag) heroTag.textContent = '4월 세미나 완료';
-
-    // ② 히어로 라벨 교체
-    var heroLabel = document.querySelector('.hero-label');
-    if (heroLabel) heroLabel.textContent = '✅ APRIL 2026 · 강연 완료';
-
-    // ③ 신청 섹션 전체를 종료 안내로 교체
-    var applySec = document.querySelector('.apply-sec');
-    if (applySec) {
-      applySec.innerHTML =
-        '<div style="padding:28px 20px;text-align:center;">' +
-          '<div style="font-size:2.5rem;margin-bottom:12px;">✅</div>' +
-          '<div style="font-size:17px;font-weight:900;color:#ffffff;margin-bottom:8px;">4월 강연이 완료되었습니다</div>' +
-          '<div style="font-size:14px;color:#a8c4e4;line-height:1.7;margin-bottom:20px;">' +
-            '다음 강연 <strong style="color:#C8A84B;">5월 19일(화)</strong> 신청 공지는<br>5월 초에 안내됩니다.' +
-          '</div>' +
-          '<a href="https://open.kakao.com/o/sleUSUei" target="_blank" ' +
-            'style="display:block;padding:14px;background:#1428A0;color:#fff;font-size:14px;font-weight:900;' +
-            'border-radius:10px;text-decoration:none;margin-bottom:10px;">' +
-            '💬 카카오톡 공지 채널 신청하기' +
-          '</a>' +
-          '<a href="tel:01051372327" ' +
-            'style="display:block;padding:14px;background:#f0f4ff;color:#1428A0;font-size:14px;font-weight:900;' +
-            'border-radius:10px;text-decoration:none;">' +
-            '📞 담당자에게 직접 문의하기' +
-          '</a>' +
-        '</div>';
-    }
-
-    // ④ Sticky CTA 버튼도 교체
-    var ctaBtn = document.querySelector('.sticky-cta-btn');
-    var ctaText = document.querySelector('.sticky-cta-text');
-    if (ctaBtn) { ctaBtn.textContent = '5월 공지 받기 ›'; ctaBtn.href = 'https://open.kakao.com/o/sleUSUei'; ctaBtn.target = '_blank'; ctaBtn.onclick = null; }
-    if (ctaText) ctaText.innerHTML = '<strong>4월 세미나 완료</strong> &nbsp;5월 19일(화) 다음 강연';
-  })();
-
-  /* ─── 분기 탭 자동 전환 + 잔여 뱃지 ─── */
-  function switchQ(q) {
-    for (var i = 1; i <= 4; i++) {
-      document.getElementById('qtab' + i).classList.remove('active');
-      document.getElementById('qpanel' + i).classList.remove('active');
-    }
-    document.getElementById('qtab' + q).classList.add('active');
-    document.getElementById('qpanel' + q).classList.add('active');
+/* ── 탭 전환 ── */
+function selectTab(type) {
+  var tabOnline    = document.getElementById('tabOnline');
+  var tabOffline   = document.getElementById('tabOffline');
+  var panelOnline  = document.getElementById('onlinePanel');
+  var panelOffline = document.getElementById('offlinePanel');
+  if (type === 'online') {
+    tabOnline.classList.add('active');
+    tabOffline.classList.remove('active');
+    panelOnline.style.display  = 'block';
+    panelOffline.style.display = 'none';
+  } else {
+    tabOffline.classList.add('active');
+    tabOnline.classList.remove('active');
+    panelOffline.style.display = 'block';
+    panelOnline.style.display  = 'none';
   }
-
-  (function() {
-    // 오늘 기준 현재 분기(Q) 자동 계산
-    var todayMonth = new Date().getMonth() + 1; // 1~12
-    var currentQ = todayMonth <= 3 ? 1 : todayMonth <= 6 ? 2 : todayMonth <= 9 ? 3 : 4;
-
-    // 각 분기별 완료/예정 강연 수 계산 (EVENTS 배열 기준)
-    var today = new Date(); today.setHours(0,0,0,0);
-    var qStats = { 1:{done:0,upcoming:0}, 2:{done:0,upcoming:0}, 3:{done:0,upcoming:0}, 4:{done:0,upcoming:0} };
-    if (typeof EVENTS !== 'undefined') {
-      EVENTS.forEach(function(ev) {
-        var evDate = new Date(2026, ev.month - 1, ev.day);
-        var q = ev.q;
-        if (evDate < today) qStats[q].done++;
-        else qStats[q].upcoming++;
-      });
-    }
-
-    // 탭 뱃지 + 강조 처리
-    for (var q = 1; q <= 4; q++) {
-      var tab = document.getElementById('qtab' + q);
-      if (!tab) continue;
-      var stat = qStats[q];
-      var badge = tab.querySelector('.q-badge');
-
-      // 뱃지 없으면 생성
-      if (!badge) {
-        badge = document.createElement('span');
-        badge.className = 'q-badge';
-        tab.appendChild(badge);
-      }
-
-      if (stat.upcoming > 0) {
-        badge.textContent = stat.upcoming + '강 예정';
-        tab.classList.add('has-upcoming');
-        tab.classList.remove('all-done');
-      } else {
-        badge.textContent = '완료';
-        tab.classList.add('all-done');
-        tab.classList.remove('has-upcoming');
-      }
-    }
-
-    // 현재 분기 탭으로 자동 전환
-    switchQ(currentQ);
-  })();
-
-  /* ─── 추천인 코드 복사 ─── */
-  var codeCopied = false;
-  function copyCode() {
-    var code = document.getElementById('refCode').innerText;
-    var copyBtn  = document.getElementById('copyBtn');
-    var onlineBtn = document.getElementById('onlineBtn');
-    var lockMsg  = document.getElementById('lockMsg');
-    function onCopied() {
-      codeCopied = true;
-      copyBtn.textContent = '✅ 코드 복사 완료!';
-      copyBtn.classList.add('copied');
-      copyBtn.disabled = true;
-      onlineBtn.classList.add('enabled');
-      onlineBtn.textContent = '🎥 온라인 강연 신청하기';
-      lockMsg.classList.add('hidden');
-      // Sticky CTA 업데이트 → 바로 사이트 이동 버튼으로
-      var ctaBtn = document.querySelector('.sticky-cta-btn');
-      var ctaText = document.querySelector('.sticky-cta-text');
-      if (ctaBtn) {
-        ctaBtn.textContent = '신청 사이트 바로가기 ›';
-        ctaBtn.href = 'http://www.samsung2030blo.com';
-        ctaBtn.target = '_blank';
-        ctaBtn.onclick = null;
-      }
-      if (ctaText) {
-        ctaText.innerHTML = '<strong>✅ 코드 복사 완료!</strong>이제 사이트에서 신청을 완료해 주세요';
-      }
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).then(onCopied).catch(function(){ fallbackCopy(code, onCopied); });
-    } else { fallbackCopy(code, onCopied); }
-  }
-  function fallbackCopy(text, cb) {
-    var el = document.createElement('textarea');
-    el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
-    document.body.appendChild(el); el.focus(); el.select();
-    try { document.execCommand('copy'); cb(); } catch(e) {}
-    document.body.removeChild(el);
-  }
-  document.getElementById('onlineBtn').addEventListener('click', function(e){
-    if (!codeCopied) {
-      e.preventDefault();
-      var box = document.querySelector('.referral-box');
-      box.style.animation = 'none'; box.offsetHeight;
-      box.style.animation = 'shake 0.4s ease';
-    }
-  });
-
-  /* ─── Sticky CTA 스크롤 ─── */
-  function scrollToApply(e) {
-    e.preventDefault();
-    var applyEl = document.querySelector('.apply-sec');
-    if (applyEl) {
-      applyEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  /* ─── Sticky CTA 숨김 처리 (하단 도달 시) ─── */
-  window.addEventListener('scroll', function() {
-    var cta = document.getElementById('stickyCta');
-    var footer = document.querySelector('.copyright-bar');
-    if (!cta || !footer) return;
-    var footerTop = footer.getBoundingClientRect().top;
-    if (footerTop < window.innerHeight) {
-      cta.style.display = 'none';
-    } else {
-      cta.style.display = 'flex';
-    }
-  });
-</script>
-<style>
-@keyframes shake {
-  0%,100%{ transform:translateX(0); }
-  20%    { transform:translateX(-6px); }
-  40%    { transform:translateX(6px); }
-  60%    { transform:translateX(-4px); }
-  80%    { transform:translateX(4px); }
 }
-</style>
 
+/* ── 토스트 알림 ── */
+function showToast(msg) {
+  var t = document.getElementById('toastMsg');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+
+/* ── 추천인 코드 복사 ── */
+function copyCode() {
+  var code = '9618628';
+  var btn  = document.getElementById('copyBtn');
+  try {
+    navigator.clipboard.writeText(code).then(function() {
+      markCopied(btn);
+    }).catch(function() { fallbackCopy(code, btn); });
+  } catch(e) { fallbackCopy(code, btn); }
+}
+function fallbackCopy(text, btn) {
+  var el = document.createElement('textarea');
+  el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
+  document.body.appendChild(el); el.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(el);
+  markCopied(btn);
+}
+function markCopied(btn) {
+  btn.textContent = '✅ 복사 완료!';
+  btn.classList.add('copied');
+  showToast('📋 코드 9618628이 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
+  setTimeout(function() {
+    btn.textContent = '📋 코드 복사하기';
+    btn.classList.remove('copied');
+  }, 3000);
+}
+
+/* ── 신청 사이트 이동 (코드 미복사 시 경고) ── */
+function onGoApply() {
+  var btn = document.getElementById('copyBtn');
+  if (!btn.classList.contains('copied')) {
+    showToast('💡 먼저 코드를 복사한 뒤 사이트에서 추천인 코드란에 붙여넣으세요!');
+  }
+}
+
+/* ── Q 탭 전환 ── */
+function switchQ(q) {
+  for (var i = 1; i <= 4; i++) {
+    var tab   = document.getElementById('qtab'   + i);
+    var panel = document.getElementById('qpanel' + i);
+    if (i === q) {
+      tab.classList.add('active');
+      panel.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+      panel.classList.remove('active');
+    }
+  }
+}
+
+/* ── 신청 섹션 스크롤 ── */
+function scrollToApply(e) {
+  e.preventDefault();
+  var el = document.getElementById('applySection');
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ── 워터마크 날짜 ── */
+(function() {
+  var now = new Date();
+  var s = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
+  var el = document.getElementById('wmDateText');
+  if (el) el.textContent = s;
+})();
+</script>
 </body>
 </html>
