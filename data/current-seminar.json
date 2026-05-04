@@ -48,19 +48,19 @@
     "삼성생명 Business Live ON이 준비한 특집,<br>5월은 박현도 교수와 박종훈 소장이<br>삼성생명 고객 여러분을 찾아옵니다."
   ],
   "stickyCta": "5/19(화) 중동의 불꽃, 글로벌 경제",
-  "ogTitle": "중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제 | 2030 BLO 5월 세미나",
+  "ogTitle": "중동의 불꽃 전쟁이 뒤흔든 글로벌경제 | 2030 BLO 5월 세미나",
   "ogDescription": "박현도 교수 · 박종훈 소장 | 2026.5.19(화) 오전 7:30~9:10 | 지금 바로 신청하세요",
-  "ogImageVersion": "8",
+  "ogImageVersion": "9",
   "ogWideTitle1": "중동의 불꽃,",
-  "ogWideTitle2": "전쟁이 뒤흔든 글로벌경제",
+  "ogWideTitle2": "전쟁이 뒤흔든글로벌경제",
   "ogWideSubtitle": "Middle East Conflict & Global Economy",
-  "ogWideInfoDate": "2026. 5. 19 (화)  오전 7:30 ~ 9:10",
+  "ogWideInfoDate": "2026. 5. 19 (화)  오전 07:30 ~ 09:10",
   "ogWideInfoSpeaker": "박현도 교수 (1부)  ·  박종훈 소장 (2부)",
   "ogWideChips": [
     "서강대 유로메나연구소 대교수",
-    "법무부 국가정황정보 자문위원",
+    "중동아프리카연구회 연구교수",
     "지식경제연구소 소장",
-    "KBS 경제부장"
+    "KBS 경제부장 · 기자협회장"
   ],
   "ogSidebarMonth": "05",
   "ogSidebarMonthLabel": "MAY",
@@ -73,19 +73,20 @@
   "ogVerticalSub1": "글로벌경제",
   "ogVerticalSub2": "박현도 교수 · 박종훈 소장",
   "ogCardDate": "2026. 5. 19 (화)",
-  "ogCardTimeLine": "오전 7:30 ~ 9:10 / 재방송 20:00~22:00",
+  "ogCardTimeLine": "오전 07:30 ~ 09:10 / 재방송 20:00~22:00",
   "ogCardSpeaker1": "박현도 교수 (1부)",
-  "ogCardSpeaker2": "박종훈 소장 (2부) · 지식경제연구소",
+  "ogCardSpeaker2": "박종훈 소장 (2부) · 지식경제연구소 소장",
   "ogProfileTitle1": "박현도 교수  ·  1부",
   "ogProfileOrg1": "서강대 유로메나연구소 대교수",
   "ogProfileItems1": [
-    "· 한국종교학회 유대교·이슬람 분과위원장",
+    "· 중동아프리카연구회 연구교수",
     "· 법무부 국가정황정보 자문위원"
   ],
   "ogProfileTitle2": "박종훈 소장  ·  2부",
   "ogProfileOrg2": "지식경제연구소 소장",
   "ogProfileItems2": [
-    "· KBS 경제부장 · 기자협회장 · 한국은행"
+    "· KBS 경제부장 · 기자협회장",
+    "· 한국은행"
   ],
   "ogOfflineDeadline": "5/15(금) 17:00",
   "ogStep3": "5/19 오전 7:15 생방송 입장"
