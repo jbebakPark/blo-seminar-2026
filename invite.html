@@ -430,6 +430,14 @@ html, body {
   font-size:12px; font-weight:700; color:#1050A0;
 }
 .pub-link-btn:active { background:#dce6f5; }
+.share-btn {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+  background:#FEE500; border:1.5px solid #E6D000; border-radius:10px;
+  padding:13px 10px; text-decoration:none;
+  font-size:12px; font-weight:700; color:#3A1D00; cursor:pointer;
+  border:none;
+}
+.share-btn:active { background:#F0D800; }
 
 .note-bar { background:#E8EEF6; padding:10px 24px; font-size:10px; color:#778899; text-align:center; }
 .copyright-bar { background:#0D1A2E; color:#8899AA; font-size:10px; text-align:center; padding:10px 16px; }
@@ -895,6 +903,9 @@ html, body {
   <a class="pub-link-btn" href="https://admin-samsung-vvip.web.app/pages/archive.html" target="_blank">
     <span>📚</span><span>지난 세미나 보기</span>
   </a>
+  <button class="share-btn" onclick="shareInvite()">
+    <span>📤</span><span>초대장 공유하기</span>
+  </button>
 </div>
 
 <div class="note-bar">강사 및 강의 일정은 내부사정에 따라 변경될 수 있습니다.</div>
@@ -1013,6 +1024,27 @@ function scrollToApply(e) {
   e.preventDefault();
   var el = document.getElementById('applySection');
   if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ── 초대장 공유 ── */
+function shareInvite() {
+  var url = 'https://admin-samsung-vvip.web.app/invite';
+  var title = document.querySelector('meta[property="og:title"]')?.content || '2030 BLO 세미나';
+  var desc  = document.querySelector('meta[property="og:description"]')?.content || '';
+  if (navigator.share) {
+    navigator.share({ title: title, text: desc, url: url }).catch(function(e) {
+      if (e.name !== 'AbortError') fallbackCopy(url);
+    });
+  } else {
+    fallbackCopy(url);
+  }
+}
+function fallbackCopy(url) {
+  navigator.clipboard.writeText(url).then(function() {
+    showToast('초대장 링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
+  }).catch(function() {
+    showToast('링크: admin-samsung-vvip.web.app/invite');
+  });
 }
 
 /* ── 워터마크 날짜 ── */
