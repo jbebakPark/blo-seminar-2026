@@ -4,7 +4,6 @@
   "monthLabel": "MAY",
   "monthKor": "5월",
   "year": "2026",
-
   "heroTag": "5월 세미나",
   "heroLabel": "MAY 2026 · GLOBAL ECONOMY",
   "titleLine1": "중동의 불꽃,",
@@ -12,13 +11,11 @@
   "titleLine2": "전쟁이 뒤흔든",
   "titleLine3": "글로벌경제",
   "subtitle": "Middle East Conflict & Global Economy",
-
   "eventDate": "2026.5.19 (화) 오전 07:30 ~ 09:10",
   "eventTimeParts": "1부 07:30~08:20 · 2부 08:20~09:10 · 재방송 20:00~22:00",
   "offlineDeadline": "5/15(금) 17:00까지",
   "offlineDeadlineShort": "5/15(금) 17시",
   "seminarTime": "07:30 ~ 09:10",
-
   "speakers": [
     {
       "part": "1부",
@@ -45,19 +42,15 @@
       ]
     }
   ],
-
   "bodyParagraphs": [
     "중동에 치솟은 불꽃과 함께<br>불확실성에 빠진 세계.",
     "종교와 문화, 정치와 경제가 얽힌<br>중동 분쟁의 인과를 분석하고,<br>경제적 파급효과를 알아볼 시간입니다.",
     "삼성생명 Business Live ON이 준비한 특집,<br>5월은 박현도 교수와 박종훈 소장이<br>삼성생명 고객 여러분을 찾아옵니다."
   ],
-
   "stickyCta": "5/19(화) 중동의 불꽃, 글로벌 경제",
-
   "ogTitle": "중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제 | 2030 BLO 5월 세미나",
   "ogDescription": "박현도 교수 · 박종훈 소장 | 2026.5.19(화) 오전 7:30~9:10 | 지금 바로 신청하세요",
-  "ogImageVersion": "6",
-
+  "ogImageVersion": "7",
   "ogWideTitle1": "중동의 불꽃,",
   "ogWideTitle2": "전쟁이 뒤흔든 글로벌경제",
   "ogWideSubtitle": "Middle East Conflict & Global Economy",
