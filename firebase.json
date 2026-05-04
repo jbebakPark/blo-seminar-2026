@@ -1,4 +1,11 @@
 {
+    "functions": [
+        {
+            "source": "functions",
+            "codebase": "default",
+            "ignore": ["node_modules", "**/.git/**"]
+        }
+    ],
     "hosting": {
         "site": "admin-samsung-vvip",
         "public": ".",
@@ -6,6 +13,7 @@
             "firebase.json",
             "**/.*",
             "**/node_modules/**",
+            "functions/**",
             "scripts/**",
             "docs/**",
             ".git/**",
@@ -24,6 +32,11 @@
             {
                 "source": "/invite",
                 "destination": "/invite.html"
+            },
+            {
+                "source": "/api/updateSeminar",
+                "function": "updateSeminar",
+                "region": "asia-northeast3"
             },
             {
                 "source": "**",
