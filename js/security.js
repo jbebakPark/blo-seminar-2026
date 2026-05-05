@@ -84,18 +84,64 @@
     //    → Firebase Hosting 서버 로그에도 IP 자동 기록됨
     // ────────────────────────────────────────────────
     function logPageVisit() {
-        firestoreWrite('access_logs', {
-            sessionId:   { stringValue: SESSION_ID },
-            page:        { stringValue: window.location.pathname },
-            url:         { stringValue: window.location.href },
-            referrer:    { stringValue: document.referrer || '(direct)' },
-            userAgent:   { stringValue: navigator.userAgent },
-            language:    { stringValue: navigator.language },
-            screenSize:  { stringValue: `${screen.width}x${screen.height}` },
-            timezone:    { stringValue: Intl.DateTimeFormat().resolvedOptions().timeZone || '' },
-            timestamp:   { timestampValue: new Date().toISOString() },
-            cookieEnabled: { stringValue: String(navigator.cookieEnabled) },
-        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const fpCode = urlParams.get('fp') || '';
+
+        const fields = {
+            sessionId:    { stringValue: SESSION_ID },
+            page:         { stringValue: window.location.pathname },
+            url:          { stringValue: window.location.href },
+            referrer:     { stringValue: document.referrer || '(direct)' },
+            userAgent:    { stringValue: navigator.userAgent },
+            language:     { stringValue: navigator.language },
+            screenSize:   { stringValue: `${screen.width}x${screen.height}` },
+            timezone:     { stringValue: Intl.DateTimeFormat().resolvedOptions().timeZone || '' },
+            timestamp:    { timestampValue: new Date().toISOString() },
+            cookieEnabled:{ stringValue: String(navigator.cookieEnabled) },
+        };
+        if (fpCode) fields.fpCode = { stringValue: fpCode };
+
+        firestoreWrite('access_logs', fields);
+        if (fpCode) trackFpClick(fpCode);
+    }
+
+    // FP 링크 클릭 카운터 (inviteClicks/{month}_{fpCode})
+    async function trackFpClick(fpCode) {
+        if (SEC.FIREBASE_API_KEY === 'REPLACE_WITH_REAL_API_KEY') return;
+        const month  = new Date().toISOString().slice(0, 7); // "2026-05"
+        const docId  = `${month}_${fpCode}`;
+        const base   = `projects/${SEC.FIREBASE_PROJECT}/databases/(default)/documents`;
+        const url    = `https://firestore.googleapis.com/v1/${base}:commit?key=${SEC.FIREBASE_API_KEY}`;
+        try {
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    writes: [
+                        {
+                            update: {
+                                name: `${base}/inviteClicks/${docId}`,
+                                fields: {
+                                    month:  { stringValue: month },
+                                    fpCode: { stringValue: fpCode }
+                                }
+                            },
+                            updateMask: { fieldPaths: ['month', 'fpCode'] }
+                        },
+                        {
+                            transform: {
+                                document: `${base}/inviteClicks/${docId}`,
+                                fieldTransforms: [
+                                    { fieldPath: 'count',     increment: { integerValue: '1' } },
+                                    { fieldPath: 'lastClick', setToServerValue: 'REQUEST_TIME' }
+                                ]
+                            }
+                        }
+                    ]
+                }),
+                keepalive: true
+            });
+        } catch (_) {}
     }
 
     // ────────────────────────────────────────────────

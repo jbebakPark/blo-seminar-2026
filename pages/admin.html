@@ -206,6 +206,37 @@
   }
   .toast.show { opacity: 1; }
 
+  /* ── FP 링크 클릭 현황 ── */
+  .fp-click-card {
+    background: linear-gradient(135deg, #0a1a10, #0d3020);
+    border: 1px solid #1a4030; border-radius: 12px;
+    padding: 20px 24px; margin: 16px;
+  }
+  .fp-click-title {
+    font-size: 13px; font-weight: 700; color: #4caf82;
+    margin-bottom: 14px; letter-spacing: 0.5px;
+  }
+  .fp-click-table {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  .fp-click-table th {
+    text-align: left; padding: 6px 10px;
+    color: var(--muted); font-weight: 600; border-bottom: 1px solid #1a4030;
+  }
+  .fp-click-table td {
+    padding: 8px 10px; border-bottom: 1px solid #1a3025;
+  }
+  .fp-click-table td:nth-child(2) {
+    font-size: 22px; font-weight: 900; color: #4caf82; text-align: center;
+  }
+  .fp-click-empty { color: var(--muted); font-size: 12px; padding: 10px 0; }
+  .btn-fp-refresh {
+    margin-top: 12px; width: 100%; padding: 9px; border: 1px solid #1a4030;
+    background: transparent; color: #4caf82; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .btn-fp-refresh:hover { background: #0d3020; }
+
   /* ── 신청자 현황 카드 ── */
   .counter-card {
     background: linear-gradient(135deg, #0d2244, #1050a0);
@@ -298,6 +329,13 @@
     <div class="form-panel">
 
       <div class="status-bar" id="statusBar"></div>
+
+      <!-- ⓪-1 FP 링크 클릭 현황 -->
+      <div class="fp-click-card">
+        <div class="fp-click-title">🔗 내 링크 클릭 현황 (fp 파라미터 추적)</div>
+        <div id="fpClickBody"><span class="fp-click-empty">불러오는 중...</span></div>
+        <button class="btn-fp-refresh" onclick="loadFpClicks()">🔄 새로고침</button>
+      </div>
 
       <!-- ⓪ 신청자 현황 -->
       <div class="counter-card">
@@ -579,6 +617,46 @@ let currentData = {};
 let githubPAT = '';
 let adminPW = '';
 
+// ── FP 링크 클릭 현황 ──
+const FS_PROJECT = 'admin-samsung-vvip';
+const FS_API_KEY = 'AIzaSyCnAY6JbQLLkpidwzhtCLFKpRB9cBOU_so';
+
+async function loadFpClicks() {
+  const el = document.getElementById('fpClickBody');
+  if (!el) return;
+  el.innerHTML = '<span class="fp-click-empty">불러오는 중...</span>';
+  try {
+    const url = `https://firestore.googleapis.com/v1/projects/${FS_PROJECT}/databases/(default)/documents/inviteClicks?key=${FS_API_KEY}&pageSize=50`;
+    const res = await fetch(url);
+    const json = await res.json();
+    const docs = json.documents || [];
+    if (docs.length === 0) {
+      el.innerHTML = '<span class="fp-click-empty">아직 fp 링크 클릭 기록이 없습니다.<br>링크 공유 시 ?fp=9618628 파라미터를 포함해 주세요.</span>';
+      return;
+    }
+    // 현재 월 기준 정렬
+    docs.sort((a, b) => {
+      const ma = a.fields?.month?.stringValue || '';
+      const mb = b.fields?.month?.stringValue || '';
+      return mb.localeCompare(ma);
+    });
+    let html = '<table class="fp-click-table"><thead><tr><th>월</th><th>클릭</th><th>FP코드</th><th>마지막 클릭</th></tr></thead><tbody>';
+    docs.forEach(doc => {
+      const f = doc.fields || {};
+      const month     = f.month?.stringValue || '-';
+      const fpCode    = f.fpCode?.stringValue || '-';
+      const count     = f.count?.integerValue || '0';
+      const lastRaw   = f.lastClick?.timestampValue || '';
+      const lastClick = lastRaw ? new Date(lastRaw).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' }) : '-';
+      html += `<tr><td>${month}</td><td>${count}</td><td><code>${fpCode}</code></td><td>${lastClick}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+  } catch (e) {
+    el.innerHTML = `<span class="fp-click-empty">오류: ${e.message}</span>`;
+  }
+}
+
 // ── 신청자 현황 ──
 function updateCounterTotal() {
   const off = parseInt(document.getElementById('cntOffline').value) || 0;
@@ -658,6 +736,7 @@ function doLogin() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminScreen').style.display = 'block';
   loadCurrentData();
+  loadFpClicks();
 }
 
 function doLogout() {

@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 방문 로그 — 공개 쓰기 only (읽기 차단)
+    match /access_logs/{doc} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // 보안 위반 로그 — 공개 쓰기 only
+    match /security_violations/{doc} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // FP 링크 클릭 카운터 — 공개 쓰기 + 읽기 허용 (관리자 페이지용)
+    match /inviteClicks/{doc} {
+      allow create, update: if true;
+      allow read: if true;
+      allow delete: if false;
+    }
+
+    // 나머지 모든 컬렉션 차단
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
