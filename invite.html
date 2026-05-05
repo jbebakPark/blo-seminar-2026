@@ -1157,7 +1157,9 @@ function scrollToApply(e) {
 
 /* ── 초대장 공유 ── */
 function shareInvite() {
-  var url = 'https://admin-samsung-vvip.web.app/invite?m=2026-05';
+  var base   = 'https://admin-samsung-vvip.web.app/invite?m=2026-05';
+  var fpCode = new URLSearchParams(window.location.search).get('fp') || '';
+  var url    = fpCode ? base + '&fp=' + fpCode : base;
   var msg =
     '🎓 BLO 조찬세미나 신청 안내\n' +
     '━━━━━━━━━━━━━━━━\n' +

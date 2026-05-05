@@ -206,6 +206,42 @@
   }
   .toast.show { opacity: 1; }
 
+  /* ── 내 초대 링크 생성기 ── */
+  .my-link-card {
+    background: linear-gradient(135deg, #1a1000, #3a2800);
+    border: 2px solid #c9a96e; border-radius: 12px;
+    padding: 20px 24px; margin: 16px;
+  }
+  .my-link-title {
+    font-size: 13px; font-weight: 700; color: var(--gold);
+    margin-bottom: 14px; letter-spacing: 0.5px;
+  }
+  .my-link-box {
+    background: #0a0a0a; border: 1px solid #3a2800;
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 12px; color: #e8e8e8; word-break: break-all;
+    font-family: 'Courier New', monospace; margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .my-link-box strong { color: var(--gold); }
+  .my-link-btns { display: flex; gap: 8px; }
+  .btn-copy-link {
+    flex: 1; padding: 11px; border: none; border-radius: 8px;
+    background: var(--gold); color: #1a1200;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .btn-copy-link:hover { background: var(--gold-light); }
+  .btn-copy-link.copied { background: #4caf82; color: #fff; }
+  .btn-share-kakao {
+    flex: 1; padding: 11px; border: none; border-radius: 8px;
+    background: #FEE500; color: #1a1a1a;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .btn-share-kakao:hover { background: #F0D800; }
+  .my-link-note {
+    margin-top: 10px; font-size: 11px; color: var(--muted); line-height: 1.7;
+  }
+
   /* ── FP 링크 클릭 현황 ── */
   .fp-click-card {
     background: linear-gradient(135deg, #0a1a10, #0d3020);
@@ -329,6 +365,26 @@
     <div class="form-panel">
 
       <div class="status-bar" id="statusBar"></div>
+
+      <!-- ⓪-0 내 초대 링크 생성기 -->
+      <div class="my-link-card">
+        <div class="my-link-title">🔗 내 초대 링크 생성 &amp; 배포</div>
+        <div class="my-link-box" id="myLinkDisplay">
+          데이터 로딩 후 자동 생성됩니다...
+        </div>
+        <div class="my-link-btns">
+          <button class="btn-copy-link" id="btnCopyLink" onclick="copyMyLink()">
+            📋 링크 복사
+          </button>
+          <button class="btn-share-kakao" onclick="shareMyLinkKakao()">
+            💬 카카오 문자 복사
+          </button>
+        </div>
+        <div class="my-link-note">
+          위 링크를 고객에게 카카오톡으로 전송하세요.<br>
+          고객이 링크 클릭 시 아래 <strong>클릭 현황</strong>에 자동으로 집계됩니다.
+        </div>
+      </div>
 
       <!-- ⓪-1 FP 링크 클릭 현황 -->
       <div class="fp-click-card">
@@ -617,6 +673,56 @@ let currentData = {};
 let githubPAT = '';
 let adminPW = '';
 
+// ── 내 초대 링크 생성기 ──
+let _myInviteLink = '';
+let _myShareMsg   = '';
+
+function buildMyLink(data) {
+  const year   = data.year   || '2026';
+  const month  = data.month  || '05';
+  const fpCode = data.referralCode || '';
+  const mParam = `${year}-${String(month).padStart(2,'0')}`;
+  _myInviteLink = `https://admin-samsung-vvip.web.app/invite?m=${mParam}&fp=${fpCode}`;
+
+  const stickyCta  = data.stickyCta  || data.ogTitle || '';
+  const watchDate  = `${parseInt(month)}/${(data.speakers ? data.speakers.map(s=>s.name).join(' · ') : '')}`;
+  const speakerStr = data.speakers ? data.speakers.map(s => s.name + ' ' + s.title).join(' · ') : '';
+  const eventDate  = data.eventDate || '';
+
+  _myShareMsg =
+    '🎓 BLO 조찬세미나 신청 안내\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    stickyCta + '\n' +
+    '📅 ' + eventDate + '\n' +
+    '🎤 ' + speakerStr + '\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '🔑 추천인 코드 : ' + fpCode + '\n' +
+    '✅ 세미나 신청하기 → www.samsung2030blo.com\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '세부 안내: ' + _myInviteLink;
+
+  const el = document.getElementById('myLinkDisplay');
+  if (el) el.innerHTML = `<strong>${_myInviteLink}</strong>`;
+}
+
+function copyMyLink() {
+  if (!_myInviteLink) return;
+  navigator.clipboard.writeText(_myInviteLink).then(function() {
+    const btn = document.getElementById('btnCopyLink');
+    const orig = btn.textContent;
+    btn.textContent = '✅ 복사 완료!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+function shareMyLinkKakao() {
+  if (!_myShareMsg) return;
+  navigator.clipboard.writeText(_myShareMsg).then(function() {
+    alert('카카오 전송용 문자가 복사되었습니다!\n카카오톡을 열고 고객에게 붙여넣기 하세요.');
+  });
+}
+
 // ── FP 링크 클릭 현황 ──
 const FS_PROJECT = 'admin-samsung-vvip';
 const FS_API_KEY = 'AIzaSyCnAY6JbQLLkpidwzhtCLFKpRB9cBOU_so';
@@ -754,6 +860,7 @@ async function loadCurrentData() {
     const data = await res.json();
     currentData = data;
     populateForm(data);
+    buildMyLink(data);
     document.getElementById('currentBadge').textContent =
       `${data.year}년 ${data.monthKor} · v${data.ogImageVersion}`;
     showStatus('success', `${data.year}년 ${data.monthKor} 데이터 로드 완료`);
