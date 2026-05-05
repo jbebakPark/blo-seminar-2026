@@ -721,7 +721,7 @@ html, body {
       <div class="confirm-gate">
         <div class="confirm-gate-title">⚠️ 신청 전 반드시 확인하세요</div>
         <label class="confirm-item">
-          <input type="checkbox" id="chk1" onchange="updateApplyBtn()">
+          <input type="checkbox" id="chk1" onchange="if(this.checked){copyCode();}else{updateApplyBtn();}">
           <span>위 [코드 복사하기] 버튼으로 추천인 코드 <strong>9618628</strong>을 복사했습니다</span>
         </label>
         <label class="confirm-item">
