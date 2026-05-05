@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{OG_TITLE}}">
-<meta property="og:description" content="{{OG_DESC}}">
+<meta property="og:title" content="세미나 신청하기 · 추천인코드 {{REFERRAL_CODE}} | BLO 조찬세미나">
+<meta property="og:description" content="{{OG_TITLE}} | {{WATCH_DATE}} 오전 7:30 | {{OG_DESC_SPEAKERS}} | 신청: www.samsung2030blo.com">
 <meta property="og:url" content="{{SHARE_URL}}">
 <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v={{OG_VER}}">
 <meta property="og:image:width" content="1024">
@@ -894,19 +894,27 @@ function scrollToApply(e) {
 /* ── 초대장 공유 ── */
 function shareInvite() {
   var url = '{{SHARE_URL}}';
-  var title = document.querySelector('meta[property="og:title"]')?.content || '2030 BLO 세미나';
-  var desc  = document.querySelector('meta[property="og:description"]')?.content || '';
+  var msg =
+    '🎓 BLO 조찬세미나 신청 안내\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '{{STICKY_CTA}}\n' +
+    '📅 {{WATCH_DATE}} 오전 7:30\n' +
+    '🎤 {{OG_DESC_SPEAKERS}}\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '🔑 추천인 코드 : {{REFERRAL_CODE}}\n' +
+    '✅ 세미나 신청하기 → www.samsung2030blo.com\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '세부 안내: ' + url;
   if (navigator.share) {
-    navigator.share({ title: title, text: desc, url: url }).catch(function(e) {
-      if (e.name !== 'AbortError') fallbackCopy(url);
-    });
+    navigator.share({ title: 'BLO 세미나 신청하기', text: msg, url: url })
+      .catch(function(e) { if (e.name !== 'AbortError') fallbackCopy(msg); });
   } else {
-    fallbackCopy(url);
+    fallbackCopy(msg);
   }
 }
-function fallbackCopy(url) {
-  navigator.clipboard.writeText(url).then(function() {
-    showToast('초대장 링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
+function fallbackCopy(text) {
+  navigator.clipboard.writeText(text).then(function() {
+    showToast('초대장이 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
   }).catch(function() {
     showToast('링크: admin-samsung-vvip.web.app/invite');
   });

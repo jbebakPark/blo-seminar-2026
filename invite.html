@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제">
-<meta property="og:description" content="박현도 교수 · 박종훈 소장 | 2026.5.19(화) 오전 7:30~9:10 | 지금 바로 신청하세요">
+<meta property="og:title" content="세미나 신청하기 · 추천인코드 9618628 | BLO 조찬세미나">
+<meta property="og:description" content="중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제 | 5/19(화) 오전 7:30 | 박현도 교수 · 박종훈 소장 | 신청: www.samsung2030blo.com">
 <meta property="og:url" content="https://admin-samsung-vvip.web.app/invite?m=2026-05">
 <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=10">
 <meta property="og:image:width" content="1024">
@@ -1044,19 +1044,27 @@ function scrollToApply(e) {
 /* ── 초대장 공유 ── */
 function shareInvite() {
   var url = 'https://admin-samsung-vvip.web.app/invite?m=2026-05';
-  var title = document.querySelector('meta[property="og:title"]')?.content || '2030 BLO 세미나';
-  var desc  = document.querySelector('meta[property="og:description"]')?.content || '';
+  var msg =
+    '🎓 BLO 조찬세미나 신청 안내\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제\n' +
+    '📅 2026.5.19(화) 오전 7:30\n' +
+    '🎤 박현도 교수 · 박종훈 소장\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '🔑 추천인 코드 : 9618628\n' +
+    '✅ 세미나 신청하기 → www.samsung2030blo.com\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '세부 안내: ' + url;
   if (navigator.share) {
-    navigator.share({ title: title, text: desc, url: url }).catch(function(e) {
-      if (e.name !== 'AbortError') fallbackCopy(url);
-    });
+    navigator.share({ title: 'BLO 세미나 신청하기', text: msg, url: url })
+      .catch(function(e) { if (e.name !== 'AbortError') fallbackCopy(msg); });
   } else {
-    fallbackCopy(url);
+    fallbackCopy(msg);
   }
 }
-function fallbackCopy(url) {
-  navigator.clipboard.writeText(url).then(function() {
-    showToast('초대장 링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
+function fallbackCopy(text) {
+  navigator.clipboard.writeText(text).then(function() {
+    showToast('초대장이 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
   }).catch(function() {
     showToast('링크: admin-samsung-vvip.web.app/invite');
   });
