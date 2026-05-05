@@ -246,8 +246,8 @@ def build_og_images(d):
     assets_dir = os.path.join(BASE_DIR, "assets")
     os.makedirs(assets_dir, exist_ok=True)
 
-    gen_og.make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"))
-    gen_og.make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"))
+    gen_og.make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"), d)
+    gen_og.make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"), d)
 
 
 # ─────────────────────────────────────────────

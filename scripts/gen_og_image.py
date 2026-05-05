@@ -2,21 +2,18 @@
 # -*- coding: utf-8 -*-
 """
 BLO 세미나 OG 이미지 생성기 (카카오톡 공유용)
-1200×630 가로형 + 630×1200 세로형
+1200×630 가로형 + 630×1380 세로형
+
+모든 텍스트 내용은 data/current-seminar.json에서 읽어옵니다.
 """
 
 from PIL import Image, ImageDraw, ImageFont
 import os
+import json
 import platform
 import urllib.request
-import pathlib
 
 # ── 폰트 경로 ──────────────────────────────────────
-# 환경에 따라 적절한 한글 글꼴을 찾아서 사용합니다.
-# Windows의 경우 기본적으로 Malgun Gothic이 설치되어 있습니다.
-# Linux(컨테이너)에서는 Nanum 글꼴을 사용합니다.
-# (시스템에 한글 글꼴이 없으면 Noto Sans KR을 자동으로 내려받아 사용합니다.)
-
 FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
 os.makedirs(FONT_DIR, exist_ok=True)
 
@@ -25,8 +22,8 @@ NOTO_BOLD = os.path.join(FONT_DIR, "NotoSansKR-Bold.otf")
 NOTO_REGULAR_URL = "https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Korean/NotoSansKR-Regular.otf"
 NOTO_BOLD_URL = "https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Korean/NotoSansKR-Bold.otf"
 
-# Windows 전용: Malgun Gothic Bold 고정 사용 (한글 깨짐 문제 방지)
-FONT_MALGUNBD = r"C:\Windows\Fonts\malgunbd.ttf"
+LOCAL_FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
+LOCAL_MALGUNBD = os.path.join(LOCAL_FONT_DIR, "malgunbd.ttf")
 
 
 def download_if_missing(path, url):
@@ -45,9 +42,6 @@ def find_font(candidates):
             return p
     return None
 
-# Use a local copy of Malgun Bold if available (repo-local), otherwise fallback to system fonts.
-LOCAL_FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
-LOCAL_MALGUNBD = os.path.join(LOCAL_FONT_DIR, "malgunbd.ttf")
 
 if os.path.exists(LOCAL_MALGUNBD):
     F_BLACK = LOCAL_MALGUNBD
@@ -63,7 +57,7 @@ else:
         F_BOLD2   = find_font([os.path.join(FONT_BASE, "malgunbd.ttf"), os.path.join(FONT_BASE, "gulim.ttc")])
     elif platform.system() == "Darwin":
         FONT_BASE = "/Library/Fonts"
-        F_BLACK   = find_font([os.path.join(FONT_BASE, "Apple SD Gothic Neo Bold.ttf"), os.path.join(FONT_BASE, "Apple SD Gothic Neo.ttc")])
+        F_BLACK   = find_font([os.path.join(FONT_BASE, "Apple SD Gothic Neo Bold.ttf")])
         F_BOLD    = F_BLACK
         F_REGULAR = find_font([os.path.join(FONT_BASE, "Apple SD Gothic Neo.ttf")])
         F_BOLD2   = F_BLACK
@@ -74,7 +68,6 @@ else:
         F_REGULAR  = find_font([os.path.join(FONT_BASE, "NanumBarunGothic.ttf"), os.path.join(FONT_BASE, "NanumGothic.ttf")])
         F_BOLD2    = find_font([os.path.join(FONT_BASE, "NanumBarunGothicBold.ttf"), os.path.join(FONT_BASE, "NanumGothicBold.ttf")])
 
-# Fallback: use Noto Sans KR if no system font was found
 if not (F_REGULAR and os.path.exists(F_REGULAR)):
     download_if_missing(NOTO_REGULAR, NOTO_REGULAR_URL)
     if os.path.exists(NOTO_REGULAR):
@@ -87,7 +80,6 @@ if not (F_BOLD and os.path.exists(F_BOLD)):
 
 if not (F_BOLD2 and os.path.exists(F_BOLD2)):
     F_BOLD2 = F_BOLD or F_REGULAR
-
 if not (F_BLACK and os.path.exists(F_BLACK)):
     F_BLACK = F_BOLD or F_REGULAR
 
@@ -98,21 +90,20 @@ print(f"  F_REGULAR= {F_REGULAR}")
 print(f"  F_BOLD2  = {F_BOLD2}")
 
 # ── 색상 팔레트 ────────────────────────────────────
-NAVY       = (13, 26, 46)       # #0D1A2E
-BLUE       = (16, 80, 160)      # #1050A0
-LIGHT_BLUE = (26, 111, 232)     # #1A6FE8
-GOLD       = (201, 168, 76)     # #C9A84C
+NAVY       = (13, 26, 46)
+BLUE       = (16, 80, 160)
+LIGHT_BLUE = (26, 111, 232)
+GOLD       = (201, 168, 76)
 WHITE      = (255, 255, 255)
-LIGHT_GRAY = (240, 244, 250)    # #F0F4FA
+LIGHT_GRAY = (240, 244, 250)
 MID_GRAY   = (180, 195, 215)
-TEXT_DARK  = (20, 35, 60)       # 본문 진한색
+TEXT_DARK  = (20, 35, 60)
 TEXT_MID   = (60, 85, 120)
 
 
 def load_font(path, size):
     if not path or not os.path.exists(path):
         return ImageFont.load_default()
-
     try:
         return ImageFont.truetype(path, size)
     except Exception:
@@ -120,7 +111,6 @@ def load_font(path, size):
 
 
 def draw_multiline_centered(draw, text, x_center, y, font, fill, line_height=None):
-    """여러 줄 텍스트를 중앙 정렬로 그리기"""
     lines = text.split('\n')
     for i, line in enumerate(lines):
         bbox = draw.textbbox((0, 0), line, font=font)
@@ -131,7 +121,6 @@ def draw_multiline_centered(draw, text, x_center, y, font, fill, line_height=Non
 
 
 def draw_rounded_rect(draw, xy, radius, fill, outline=None, outline_width=1):
-    """모서리 둥근 사각형"""
     x1, y1, x2, y2 = xy
     draw.rectangle([x1 + radius, y1, x2 - radius, y2], fill=fill)
     draw.rectangle([x1, y1 + radius, x2, y2 - radius], fill=fill)
@@ -146,33 +135,47 @@ def draw_rounded_rect(draw, xy, radius, fill, outline=None, outline_width=1):
         draw.rectangle([x2 - outline_width, y1 + radius, x2, y2 - radius], fill=outline)
 
 
+def load_seminar_data():
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    path = os.path.join(base_dir, "data", "current-seminar.json")
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
 # ══════════════════════════════════════════════════
 # 가로형 OG 이미지 1200×630 (카톡 링크 미리보기용)
 # ══════════════════════════════════════════════════
-def make_wide_og(out_path):
+def make_wide_og(out_path, d):
     W, H = 1200, 630
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
+    month_num   = d.get("ogSidebarMonth",   d.get("month", "05"))
+    month_label = d.get("ogSidebarMonthLabel", d.get("monthLabel", "MAY"))
+    month_kor   = d.get("monthKor", "?월")
+    title1      = d.get("ogWideTitle1", "")
+    title2      = d.get("ogWideTitle2", "")
+    subtitle    = d.get("ogWideSubtitle", "")
+    info_date   = d.get("ogWideInfoDate", "")
+    info_speaker= d.get("ogWideInfoSpeaker", "")
+    chips       = d.get("ogWideChips", [])
+    og_deadline = d.get("ogOfflineDeadline", "")
+
     # ── 왼쪽 네이비 사이드바 (180px) ──
     draw.rectangle([0, 0, 180, H], fill=NAVY)
 
-    # 사이드바: 월 숫자
     fnum = load_font(F_BLACK, 110)
-    draw.text((18, 60), "05", font=fnum, fill=GOLD)
+    draw.text((18, 60), month_num, font=fnum, fill=GOLD)
 
     fbadge_s = load_font(F_BOLD, 14)
-    fbadge_m = load_font(F_BOLD, 13)
     draw.text((18, 185), "2030", font=fbadge_s, fill=WHITE)
     draw.text((18, 202), "BUSINESS", font=load_font(F_BOLD, 11), fill=MID_GRAY)
     draw.text((18, 217), "LIVE ON", font=load_font(F_BOLD, 11), fill=MID_GRAY)
 
-    # 사이드바: 연도
     fy = load_font(F_REGULAR, 13)
-    draw.text((18, 255), "2026", font=fy, fill=MID_GRAY)
-    draw.text((18, 272), "MAY", font=fy, fill=MID_GRAY)
+    draw.text((18, 255), d.get("year", "2026"), font=fy, fill=MID_GRAY)
+    draw.text((18, 272), month_label, font=fy, fill=MID_GRAY)
 
-    # 사이드바: 세로 장식선
     for i, (h_ratio, opacity) in enumerate([(0.55, 80), (0.72, 120), (0.85, 160), (0.65, 100), (0.78, 130)]):
         bar_h = int(H * h_ratio)
         bar_y = H - bar_h - 10
@@ -180,33 +183,27 @@ def make_wide_og(out_path):
         draw.rectangle([152 + i*5, bar_y, 156 + i*5, H], fill=alpha_color)
 
     # ── 오른쪽 메인 영역 ──
-    MX = 200  # 메인 시작 x
+    MX = 200
 
-    # 상단 골드 포인트 라인
     draw.rectangle([MX, 0, W, 6], fill=GOLD)
 
-    # BLO 뱃지
     fbadge = load_font(F_BOLD, 16)
-    badge_text = "2030 BLO  5월 세미나"
+    badge_text = f"2030 BLO  {month_kor} 세미나"
     bb = draw.textbbox((0,0), badge_text, font=fbadge)
     bw = bb[2] - bb[0] + 28
     draw_rounded_rect(draw, [MX, 20, MX + bw, 48], 4, BLUE)
     draw.text((MX + 14, 26), badge_text, font=fbadge, fill=WHITE)
 
-    # 메인 제목
     ft1 = load_font(F_BOLD, 48)
     ft2 = load_font(F_BOLD, 46)
-    draw.text((MX, 65),  "중동의 불꽃,", font=ft1, fill=NAVY)
-    draw.text((MX, 118), "전쟁이 뒤흔든 글로벌경제", font=ft2, fill=NAVY)
+    draw.text((MX, 65),  title1, font=ft1, fill=NAVY)
+    draw.text((MX, 118), title2, font=ft2, fill=NAVY)
 
-    # 구분선
     draw.rectangle([MX, 182, MX + 480, 185], fill=GOLD)
 
-    # 부제목
     fsub = load_font(F_BOLD2, 18)
-    draw.text((MX, 194), "Middle East Conflict & Global Economy", font=fsub, fill=LIGHT_BLUE)
+    draw.text((MX, 194), subtitle, font=fsub, fill=LIGHT_BLUE)
 
-    # 이벤트 정보 박스
     draw.rectangle([MX, 235, MX + 720, 355], fill=LIGHT_GRAY)
     draw.rectangle([MX, 235, MX + 4, 355], fill=BLUE)
 
@@ -214,8 +211,8 @@ def make_wide_og(out_path):
     finfo_r = load_font(F_REGULAR, 17)
 
     info_items = [
-        ("📅  일  시", "2026. 5. 19 (화)  오전 7:30 ~ 9:10"),
-        ("🎓  강  사", "박현도 교수 (1부)  ·  박종훈 소장 (2부)"),
+        ("📅  일  시", info_date),
+        ("🎓  강  사", info_speaker),
         ("💻  신  청", "www.samsung2030blo.com"),
     ]
     for i, (label, value) in enumerate(info_items):
@@ -223,9 +220,7 @@ def make_wide_og(out_path):
         draw.text((MX + 18, y), label, font=finfo_l, fill=BLUE)
         draw.text((MX + 140, y), value, font=finfo_r, fill=TEXT_DARK)
 
-    # 하단: 강사 칩
     fchip = load_font(F_REGULAR, 14)
-    chips = ["서강대 유로메나연구소 대교수", "법무부 국가정황정보 자문위원", "지식경제연구소 소장", "KBS 경제부장"]
     cx = MX
     cy = 370
     for chip in chips:
@@ -238,7 +233,6 @@ def make_wide_og(out_path):
         draw.text((cx+10, cy+4), chip, font=fchip, fill=BLUE)
         cx += cw + 8
 
-    # 우하단: CTA 버튼
     btn_x1, btn_y1 = W - 240, H - 75
     btn_x2, btn_y2 = W - 20,  H - 25
     draw_rounded_rect(draw, [btn_x1, btn_y1, btn_x2, btn_y2], 8, BLUE)
@@ -249,16 +243,14 @@ def make_wide_og(out_path):
     bh2 = bb2[3] - bb2[1]
     draw.text((btn_x1 + (220-bw2)//2, btn_y1 + (50-bh2)//2), btn_text, font=fbtn, fill=WHITE)
 
-    # 추천인 코드
     fcode_l = load_font(F_REGULAR, 16)
     fcode_v = load_font(F_BOLD2, 18)
     draw.text((MX, H-65), "추천인 코드", font=fcode_l, fill=TEXT_MID)
     draw.text((MX + 95, H-67), "9618628", font=fcode_v, fill=GOLD)
 
-    # 하단 바
     draw.rectangle([0, H-22, W, H], fill=NAVY)
     ffoot = load_font(F_REGULAR, 13)
-    draw.text((MX, H-17), "admin-samsung-vvip.web.app/invite.html", font=ffoot, fill=MID_GRAY)
+    draw.text((MX, H-17), "admin-samsung-vvip.web.app/invite", font=ffoot, fill=MID_GRAY)
 
     img.save(out_path, "PNG", optimize=True)
     size_kb = os.path.getsize(out_path) // 1024
@@ -266,12 +258,11 @@ def make_wide_og(out_path):
 
 
 # ══════════════════════════════════════════════════
-# 세로형 카드 (카톡 이미지 첨부용) - 흰배경+사이드바 레이아웃
+# 세로형 카드 (카톡 이미지 첨부용)
 # ══════════════════════════════════════════════════
-def make_vertical_card(out_path):
+def make_vertical_card(out_path, d):
     W, H = 630, 1380
 
-    # ── 폰트 ──
     fb      = load_font(F_BOLD,    13)
     fmn     = load_font(F_BLACK,   80)
     fmy     = load_font(F_BOLD,    15)
@@ -292,75 +283,82 @@ def make_vertical_card(out_path):
     ffoot_t = load_font(F_BOLD,    15)
     ffoot_r = load_font(F_REGULAR, 12)
 
+    month_num    = d.get("ogSidebarMonth",    d.get("month", "05"))
+    month_label  = d.get("ogSidebarMonthLabel", d.get("monthLabel", "MAY"))
+    sidebar_date = d.get("ogSidebarDate", "")
+    sidebar_t1   = d.get("ogSidebarTime1", "")
+    sidebar_t2   = d.get("ogSidebarTime2", "")
+    vtitle1      = d.get("ogVerticalTitle1", "")
+    vtitle2      = d.get("ogVerticalTitle2", "")
+    vsub1        = d.get("ogVerticalSub1", "")
+    vsub2        = d.get("ogVerticalSub2", "")
+    card_date    = d.get("ogCardDate", "")
+    card_time    = d.get("ogCardTimeLine", "")
+    speaker1     = d.get("ogCardSpeaker1", "")
+    speaker2     = d.get("ogCardSpeaker2", "")
+    prof_title1  = d.get("ogProfileTitle1", "")
+    prof_org1    = d.get("ogProfileOrg1", "")
+    prof_items1  = d.get("ogProfileItems1", [])
+    prof_title2  = d.get("ogProfileTitle2", "")
+    prof_org2    = d.get("ogProfileOrg2", "")
+    prof_items2  = d.get("ogProfileItems2", [])
+    step3        = d.get("ogStep3", "")
+    og_deadline  = d.get("ogOfflineDeadline", "")
+    subtitle     = d.get("ogWideSubtitle", d.get("subtitle", ""))
+
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    # ══ 상단 헤더 블록: 완전 흰 배경, 상단 굵은 파란 테두리 ══
-    # 상단 3px 골드 라인
     draw.rectangle([0, 0, W, 5], fill=GOLD)
-    # 왼쪽 네이비 사이드바 (120px)
     SIDE = 120
     draw.rectangle([0, 0, SIDE, 380], fill=NAVY)
-    # 오른쪽 장식 세로선 (헤더 영역 오른쪽)
+
     for i, (hr, c) in enumerate([(0.5,40),(0.7,70),(0.9,110),(0.75,70),(0.55,45),(0.85,85)]):
         bh = int(380 * hr)
         lc = tuple(min(255, LIGHT_BLUE[j]+c) for j in range(3))
         draw.rectangle([W-50+i*8, 380-bh, W-46+i*8, 380], fill=lc)
 
-    # 사이드바: 뱃지 텍스트 세로
     fb2 = load_font(F_BOLD, 11)
     for ci, ch in enumerate("2030 BLO"):
         draw.text((SIDE//2 - 6, 20 + ci*18), ch, font=fb2, fill=WHITE)
 
-    # 사이드바: 큰 숫자
-    draw.text((10, 70), "05", font=fmn, fill=GOLD)
+    draw.text((10, 70), month_num, font=fmn, fill=GOLD)
 
-    # 사이드바: 연월
-    for ci, ch in enumerate("MAY"):
+    for ci, ch in enumerate(month_label):
         draw.text((SIDE//2 - 6, 178 + ci*18), ch, font=fb2, fill=MID_GRAY)
 
-    # 오른쪽 헤더 콘텐츠 영역
-    RX = SIDE + 20   # 오른쪽 콘텐츠 x 시작
+    RX = SIDE + 20
 
-    # BLO 뱃지
     draw.rectangle([RX, 18, RX+180, 18+26], fill=BLUE)
     draw.text((RX+8, 22), "2030 BUSINESS LIVE ON", font=fb, fill=WHITE)
 
-    # 제목
-    draw.text((RX, 58),  "중동의 불꽃,", font=ft,  fill=WHITE)
-    draw.text((RX, 108), "전쟁이 뒤흔든",    font=ft2, fill=GOLD)
+    draw.text((RX, 58),  vtitle1, font=ft,  fill=WHITE)
+    draw.text((RX, 108), vtitle2, font=ft2, fill=GOLD)
 
-    # 부제목
     draw.rectangle([RX, 162, W-20, 164], fill=GOLD)
-    draw.text((RX, 172), "글로벌경제", font=fsub, fill=WHITE)
-    draw.text((RX, 194), "박현도 교수 · 박종훈 소장", font=fsub, fill=WHITE)
+    draw.text((RX, 172), vsub1, font=fsub, fill=WHITE)
+    draw.text((RX, 194), vsub2, font=fsub, fill=WHITE)
 
-    # 날짜/강사 간략 정보 (사이드바 안에)
     fi = load_font(F_REGULAR, 12)
-    draw.text((8, 300), "2026.5.19", font=fi, fill=MID_GRAY)
-    draw.text((8, 318), "07:30~", font=fi, fill=MID_GRAY)
-    draw.text((8, 336), "09:10", font=fi, fill=MID_GRAY)
+    draw.text((8, 300), sidebar_date, font=fi, fill=MID_GRAY)
+    draw.text((8, 318), sidebar_t1,   font=fi, fill=MID_GRAY)
+    draw.text((8, 336), sidebar_t2,   font=fi, fill=MID_GRAY)
 
-    # ══ 본문 (y=380~) 흰/연회색 배경 ══
     draw.rectangle([0, 380, W, H], fill=(248, 250, 253))
-    # 본문 상단 구분선
     draw.rectangle([0, 380, W, 383], fill=BLUE)
 
-    # ─ y커서로 순차 배치 ─
     y = 400
 
-    # 부제목 (본문)
-    draw.text((24, y), "Middle East Conflict & Global Economy", font=fsub, fill=LIGHT_BLUE)
+    draw.text((24, y), subtitle, font=fsub, fill=LIGHT_BLUE)
     y += 36
 
-    # 세미나 정보 카드
     draw.rectangle([24, y, W-24, y+218], fill=WHITE)
     draw.rectangle([24, y, W-24, y+4], fill=BLUE)
     card_items = [
-        ("📅 일  시", "2026. 5. 19 (화)"),
-        ("",          "오전 7:30 ~ 9:10 / 재방송 20:00~22:00"),
-        ("🎓 강  사", "박현도 교수 (1부)"),
-        ("",          "박종훈 소장 (2부) · 지식경제연구소"),
+        ("📅 일  시", card_date),
+        ("",          card_time),
+        ("🎓 강  사", speaker1),
+        ("",          speaker2),
         ("💻 신  청", "www.samsung2030blo.com"),
         ("📍 장  소", "삼성금융캠퍼스 B2F 비전홀"),
     ]
@@ -374,26 +372,29 @@ def make_vertical_card(out_path):
         cy += 30
     y += 228
 
-    # 강사 프로필 (2인)
+    # 강사 프로필 1
     y += 10
-    draw.rectangle([24, y, W-24, y+168], fill=WHITE)
-    draw.rectangle([24, y, 28, y+168], fill=GOLD)
-    draw.text((40, y+10), "박현도 교수  ·  1부", font=fprof_t, fill=NAVY)
-    draw.text((40, y+36), "서강대 유로메나연구소 대교수", font=fprof_s, fill=BLUE)
-    for i, item in enumerate([
-        "· 한국종교학회 유대교·이슬람 분과위원장",
-        "· 법무부 국가정황정보 자문위원",
-    ]):
+    prof1_extra_h = max(0, (len(prof_items1) - 2) * 22)
+    prof2_extra_h = max(0, (len(prof_items2) - 1) * 22)
+    prof_box_h = 168 + prof1_extra_h + prof2_extra_h
+    draw.rectangle([24, y, W-24, y+prof_box_h], fill=WHITE)
+    draw.rectangle([24, y, 28, y+prof_box_h], fill=GOLD)
+    draw.text((40, y+10),  prof_title1, font=fprof_t, fill=NAVY)
+    draw.text((40, y+36),  prof_org1,   font=fprof_s, fill=BLUE)
+    for i, item in enumerate(prof_items1):
         draw.text((40, y+58+i*22), item, font=fprof_r, fill=TEXT_DARK)
 
-    draw.rectangle([40, y+106, W-40, y+107], fill=(220,230,245))
-    draw.text((40, y+114), "박종훈 소장  ·  2부", font=fprof_t, fill=NAVY)
-    draw.text((40, y+140), "지식경제연구소 소장", font=fprof_s, fill=BLUE)
-    draw.text((40, y+158), "· KBS 경제부장 · 기자협회장 · 한국은행", font=fprof_r, fill=TEXT_DARK)
-    y += 178
+    divider_y = y + 58 + len(prof_items1) * 22 + 6
+    draw.rectangle([40, divider_y, W-40, divider_y+1], fill=(220,230,245))
+
+    p2_y = divider_y + 9
+    draw.text((40, p2_y),    prof_title2, font=fprof_t, fill=NAVY)
+    draw.text((40, p2_y+26), prof_org2,   font=fprof_s, fill=BLUE)
+    for i, item in enumerate(prof_items2):
+        draw.text((40, p2_y+48+i*22), item, font=fprof_r, fill=TEXT_DARK)
+    y += prof_box_h + 10
 
     # 추천인 코드
-    y += 10
     draw_rounded_rect(draw, [24, y, W-24, y+84], 10, (240,246,255))
     draw.rectangle([24, y, 28, y+84], fill=BLUE)
     draw.text((40, y+8),  "⚠  온라인 신청 시 반드시 추천인 코드 입력!", font=fcode_t, fill=BLUE)
@@ -407,11 +408,13 @@ def make_vertical_card(out_path):
     # 신청 방법
     y += 14
     draw.text((24, y), "온라인 신청 방법", font=load_font(F_BOLD2, 16), fill=NAVY)
-    for i, (num, step) in enumerate([
+    month_day = d.get("ogSidebarDate", "")
+    steps = [
         ("①", "samsung2030blo.com 접속"),
         ("②", "추천인 코드 9618628 입력"),
-        ("③", "5/19 오전 7:15 생방송 입장"),
-    ]):
+        ("③", step3),
+    ]
+    for i, (num, step) in enumerate(steps):
         ys = y+24+i*30
         draw_rounded_rect(draw, [24, ys, 42, ys+22], 4, BLUE)
         draw.text((27, ys+2), num, font=load_font(F_BOLD,13), fill=WHITE)
@@ -430,26 +433,24 @@ def make_vertical_card(out_path):
     draw.text((24, y),    "오프라인 조찬세미나 문의",           font=foff_b, fill=TEXT_MID)
     draw.text((24, y+22), "📞  010-5137-2327  (박재박 팀장)",  font=foff,   fill=TEXT_DARK)
     draw.text((24, y+42), "💬  카카오톡 오픈채팅 문의 가능",    font=foff,   fill=TEXT_DARK)
-    draw.text((24, y+62), "📅  오프라인 마감: 5/15(금) 17:00", font=foff,   fill=(180,50,50))
+    draw.text((24, y+62), f"📅  오프라인 마감: {og_deadline}",  font=foff,   fill=(180,50,50))
 
-    # 하단 바
     draw.rectangle([0, H-72, W, H], fill=NAVY)
     draw.text((24, H-60), "2030 Business Live ON",              font=ffoot_t, fill=WHITE)
     draw.text((24, H-42), "프리미엄 경영 세미나  ·  삼성금융캠퍼스", font=ffoot_r, fill=MID_GRAY)
-    draw.text((24, H-24), "admin-samsung-vvip.web.app/invite.html", font=ffoot_r, fill=(100,130,170))
+    draw.text((24, H-24), "admin-samsung-vvip.web.app/invite",  font=ffoot_r, fill=(100,130,170))
 
     img.save(out_path, "PNG", optimize=True)
     size_kb = os.path.getsize(out_path) // 1024
     print(f"✅ 세로형 저장: {out_path}  ({size_kb} KB)")
 
 
-
-
 if __name__ == "__main__":
+    d = load_seminar_data()
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     assets_dir = os.path.join(base_dir, "assets")
     os.makedirs(assets_dir, exist_ok=True)
 
-    make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"))
-    make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"))
+    make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"), d)
+    make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"), d)
     print("\n🎉 이미지 생성 완료!")
