@@ -417,107 +417,108 @@ html, body {
 .flow-name { font-size:14px; font-weight:800; color:#0D1A2E; }
 .flow-desc { font-size:11px; color:#778899; margin-top:2px; line-height:1.6; }
 
-/* ══ 연간 일정 — 다크 풀카드 ══ */
+/* ══ 연간 일정 — 고대비 다크 카드 ══ */
 .annl-wrap {
-  background: linear-gradient(160deg, #060E1C 0%, #0A1628 55%, #0D2040 100%);
+  background: linear-gradient(170deg, #0E1D35 0%, #152640 50%, #0F1E36 100%);
   padding: 0; position: relative; overflow: hidden;
 }
 .annl-wrap::before {
   content: '';
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse at 15% 25%, rgba(0,160,255,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 75%, rgba(200,168,75,0.06) 0%, transparent 50%),
-    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px),
-    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px);
+    radial-gradient(ellipse at 10% 15%, rgba(0,140,255,0.1) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 85%, rgba(200,168,75,0.08) 0%, transparent 45%);
 }
 .annl-header {
-  text-align:center; padding:22px 20px 14px;
-  border-bottom:1px solid rgba(255,255,255,0.07); position:relative;
+  text-align:center; padding:24px 20px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.1); position:relative;
 }
 .annl-main-title {
-  font-size:19px; font-weight:900; color:#00CFFF; letter-spacing:0.5px;
-  text-shadow:0 0 18px rgba(0,200,255,0.55);
+  font-size:20px; font-weight:900; color:#40D4FF; letter-spacing:0.5px;
+  text-shadow:0 0 24px rgba(64,212,255,0.6);
 }
 .annl-year-label {
-  font-size:11px; color:rgba(255,255,255,0.45); letter-spacing:3px; margin-top:4px;
+  font-size:12px; color:rgba(255,255,255,0.65); letter-spacing:3px; margin-top:5px; font-weight:600;
 }
 .annl-badge-row {
-  display:flex; justify-content:center; gap:6px; margin-top:10px; flex-wrap:wrap;
+  display:flex; justify-content:center; gap:6px; margin-top:12px; flex-wrap:wrap;
 }
 .annl-q-pill {
-  font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:0.3px;
+  font-size:12px; font-weight:800; padding:5px 13px; border-radius:20px; letter-spacing:0.3px;
 }
-.annl-q-pill.q1 { background:rgba(0,200,255,0.15); color:#00C8FF; border:1px solid rgba(0,200,255,0.35); }
-.annl-q-pill.q2 { background:rgba(255,215,0,0.13); color:#FFD700; border:1px solid rgba(255,215,0,0.3); }
-.annl-q-pill.q3 { background:rgba(0,232,135,0.12); color:#00E887; border:1px solid rgba(0,232,135,0.3); }
-.annl-q-pill.q4 { background:rgba(255,120,120,0.12); color:#FF9090; border:1px solid rgba(255,120,120,0.28); }
+.annl-q-pill.q1 { background:#1A3A5C; color:#60D4FF; border:1.5px solid #3A8CC0; }
+.annl-q-pill.q2 { background:#3A2E00; color:#FFD700; border:1.5px solid #AA8800; }
+.annl-q-pill.q3 { background:#0A3020; color:#40E890; border:1.5px solid #208050; }
+.annl-q-pill.q4 { background:#3A1A1A; color:#FF9090; border:1.5px solid #AA4444; }
 
-.annl-body { padding:14px 14px 6px; position:relative; }
-.annl-quarter { margin-bottom:10px; }
+.annl-body { padding:16px 14px 8px; position:relative; }
+.annl-quarter { margin-bottom:14px; }
 .annl-q-header {
-  display:flex; align-items:center; gap:8px; margin-bottom:6px;
+  display:flex; align-items:center; gap:8px; margin-bottom:8px;
 }
 .annl-q-tag {
-  font-size:10px; font-weight:900; padding:3px 9px; border-radius:12px; flex-shrink:0;
+  font-size:11px; font-weight:900; padding:4px 11px; border-radius:12px; flex-shrink:0;
 }
-.annl-q-tag.q1 { background:rgba(0,200,255,0.18); color:#00C8FF; }
-.annl-q-tag.q2 { background:rgba(255,215,0,0.16); color:#FFD700; }
-.annl-q-tag.q3 { background:rgba(0,232,135,0.15); color:#00E887; }
-.annl-q-tag.q4 { background:rgba(255,120,120,0.15); color:#FF9090; }
+.annl-q-tag.q1 { background:#1A3A5C; color:#60D4FF; border:1px solid #3A8CC0; }
+.annl-q-tag.q2 { background:#3A2E00; color:#FFD700; border:1px solid #AA8800; }
+.annl-q-tag.q3 { background:#0A3020; color:#40E890; border:1px solid #208050; }
+.annl-q-tag.q4 { background:#3A1A1A; color:#FF9090; border:1px solid #AA4444; }
 .annl-q-theme {
-  font-size:11px; color:rgba(255,255,255,0.4); font-weight:700; flex:1;
+  font-size:12px; color:#C8D8E8; font-weight:700; flex:1;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.annl-q-line { flex:1; height:1px; background:rgba(255,255,255,0.07); }
+.annl-q-line { flex:1; height:1px; background:rgba(255,255,255,0.12); }
 
 .annl-row {
-  display:flex; align-items:center; gap:7px;
-  padding:7px 9px; border-radius:7px; margin-bottom:3px;
-  background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.05);
-  transition:all 0.15s;
+  display:flex; align-items:center; gap:8px;
+  padding:9px 11px; border-radius:8px; margin-bottom:4px;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09);
 }
-.annl-row.done { opacity:0.48; }
+.annl-row.done {
+  background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.06);
+}
 .annl-row.current {
-  background:linear-gradient(135deg, rgba(0,180,255,0.13) 0%, rgba(0,60,180,0.2) 100%);
-  border:1px solid rgba(0,200,255,0.55);
-  box-shadow:0 0 18px rgba(0,180,255,0.18), inset 0 0 12px rgba(0,180,255,0.05);
-  opacity:1; padding:10px 11px;
+  background:linear-gradient(135deg, #1A3D6A 0%, #1E4A80 100%);
+  border:2px solid #40C8FF;
+  box-shadow:0 0 20px rgba(64,200,255,0.25);
+  padding:11px 13px;
 }
 .annl-date {
-  font-size:13px; font-weight:900; color:#5A88AA; min-width:34px; flex-shrink:0; letter-spacing:0.3px;
+  font-size:13px; font-weight:900; color:#90C0E0; min-width:36px; flex-shrink:0;
 }
-.annl-row.current .annl-date { color:#00CFFF; font-size:14px; }
-.annl-row.done .annl-date { color:#3A5060; }
+.annl-row.current .annl-date { color:#40D4FF; font-size:15px; }
+.annl-row.done .annl-date { color:#607080; }
 .annl-type-tag {
-  font-size:10px; font-weight:800; padding:2px 7px; border-radius:6px; flex-shrink:0;
-  background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.45);
+  font-size:10px; font-weight:800; padding:3px 8px; border-radius:6px; flex-shrink:0;
+  background:rgba(255,255,255,0.12); color:#C0D8F0;
 }
-.annl-row.current .annl-type-tag { background:#00CFFF; color:#040C18; }
-.annl-type-tag.sp { background:rgba(255,215,0,0.15); color:#FFD700; }
+.annl-row.current .annl-type-tag { background:#40D4FF; color:#0A1A2E; font-weight:900; }
+.annl-type-tag.sp { background:#3A2E00; color:#FFD700; border:1px solid #AA8800; }
+.annl-row.done .annl-type-tag { background:rgba(255,255,255,0.07); color:#708090; }
 .annl-session-title {
-  flex:1; font-size:12px; font-weight:700; color:rgba(255,255,255,0.62);
-  line-height:1.35; word-break:keep-all;
+  flex:1; font-size:13px; font-weight:700; color:#E8F0F8;
+  line-height:1.4; word-break:keep-all;
 }
-.annl-row.current .annl-session-title { color:#fff; font-size:13px; font-weight:900; }
-.annl-done-mark { color:#22A06B; font-size:12px; font-weight:900; flex-shrink:0; }
+.annl-row.current .annl-session-title { color:#FFFFFF; font-size:14px; font-weight:900; }
+.annl-row.done .annl-session-title { color:#8AAABB; font-weight:600; }
+.annl-done-mark { color:#40C870; font-size:13px; font-weight:900; flex-shrink:0; }
 .annl-now-mark {
-  font-size:10px; font-weight:900; color:#FFD700;
-  background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.4);
-  padding:2px 7px; border-radius:8px; flex-shrink:0; white-space:nowrap;
+  font-size:11px; font-weight:900; color:#FFD700;
+  background:#3A2E00; border:1.5px solid #AA8800;
+  padding:3px 8px; border-radius:8px; flex-shrink:0; white-space:nowrap;
 }
 
-.annl-divider { height:1px; background:rgba(255,255,255,0.06); margin:8px 0; }
+.annl-divider { height:1px; background:rgba(255,255,255,0.1); margin:10px 0; }
 
 .annl-cta {
-  margin:10px 14px 18px;
-  background:linear-gradient(135deg, rgba(200,168,75,0.14) 0%, rgba(200,168,75,0.07) 100%);
-  border:1.5px solid rgba(200,168,75,0.45); border-radius:12px;
-  padding:14px 16px; text-align:center; position:relative;
+  margin:12px 14px 20px;
+  background:linear-gradient(135deg, #2C2000 0%, #3A2A00 100%);
+  border:2px solid #C8A030; border-radius:14px;
+  padding:16px 18px; text-align:center;
 }
-.annl-cta-icon { font-size:22px; margin-bottom:4px; }
-.annl-cta-text { font-size:12px; color:#B89A50; font-weight:700; line-height:1.7; }
-.annl-cta-text strong { color:#FFD700; font-size:14px; display:block; }
+.annl-cta-icon { font-size:24px; margin-bottom:6px; }
+.annl-cta-text { font-size:13px; color:#E0C060; font-weight:700; line-height:1.8; }
+.annl-cta-text strong { color:#FFD700; font-size:15px; display:block; font-weight:900; }
 
 /* ══ 혜택 ══ */
 .benefit-sec { background:#f7f9fc; padding:24px 22px; border-top:1px solid #E8EEF6; }
