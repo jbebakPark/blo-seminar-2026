@@ -994,7 +994,7 @@
           data = await res.json();
         }
         renderSeminar(data);
-        initializeCounter(CURRENT_SEMINAR_ID);
+        initializeCounter(CURRENT_SEMINAR_ID, data.counters);
         document.getElementById('loading').style.display = 'none';
         document.getElementById('seminarContent').style.display = 'block';
         // URL 해시가 있으면 해당 섹션으로 스크롤
@@ -1012,7 +1012,7 @@
     }
 
     /* ───── 카운터 ───── */
-    function initializeCounter(id) {
+    function initializeCounter(id, counters) {
       if (useFirebase) {
         counterUnsubscribe = db.collection('counters').doc(id).onSnapshot(doc => {
           if (doc.exists) {
@@ -1020,15 +1020,12 @@
             updateCounterDisplay(d.offline||0, d.online||0, d.total||0);
           }
         });
+      } else if (counters && counters.offline !== undefined) {
+        const off = counters.offline || 0;
+        const onl = counters.online || 0;
+        updateCounterDisplay(off, onl, off + onl);
       } else {
-        const saved = localStorage.getItem('counter_' + id);
-        if (saved) {
-          const d = JSON.parse(saved);
-          updateCounterDisplay(d.offline, d.online, d.total);
-        } else {
-          updateCounterDisplay(45, 128, 173);
-        }
-        simulateCounter(id);
+        updateCounterDisplay(0, 0, 0);
       }
     }
 

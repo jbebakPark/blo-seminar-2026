@@ -1,5 +1,6 @@
 {
   "month": "2026-05",
+  "counters": { "offline": 0, "online": 0 },
   "monthName": "5월",
   "date": "2026-05-19",
   "seminar": {

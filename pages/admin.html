@@ -206,6 +206,46 @@
   }
   .toast.show { opacity: 1; }
 
+  /* ── 신청자 현황 카드 ── */
+  .counter-card {
+    background: linear-gradient(135deg, #0d2244, #1050a0);
+    border: 1px solid #2a4a80; border-radius: 12px;
+    padding: 20px 24px; margin: 16px;
+  }
+  .counter-card-title {
+    font-size: 13px; font-weight: 700; color: var(--gold);
+    margin-bottom: 14px; letter-spacing: 0.5px;
+  }
+  .counter-inputs {
+    display: grid; grid-template-columns: 1fr 1fr 80px; gap: 12px;
+    margin-bottom: 14px; align-items: end;
+  }
+  .counter-inputs label {
+    display: block; font-size: 11px; color: #8899bb; margin-bottom: 5px;
+  }
+  .counter-inputs input[type=number] {
+    width: 100%; padding: 10px 14px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px; color: #fff; font-size: 24px; font-weight: 900;
+    text-align: center; outline: none; font-family: 'Courier New', monospace;
+  }
+  .counter-inputs input[type=number]:focus { border-color: var(--gold); }
+  .counter-total-box {
+    background: rgba(255,255,255,0.12); border-radius: 8px; padding: 10px;
+    text-align: center;
+  }
+  .counter-total-num {
+    font-size: 24px; font-weight: 900; color: var(--gold);
+    font-family: 'Courier New', monospace;
+  }
+  .btn-counter-save {
+    width: 100%; padding: 11px; border: none; border-radius: 8px;
+    background: var(--gold); color: #1a1200;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .btn-counter-save:hover { background: var(--gold-light); }
+  .btn-counter-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
   @media (max-width: 860px) {
     .admin-body { grid-template-columns: 1fr; }
     .preview-panel { display: none; }
@@ -258,6 +298,32 @@
     <div class="form-panel">
 
       <div class="status-bar" id="statusBar"></div>
+
+      <!-- ⓪ 신청자 현황 -->
+      <div class="counter-card">
+        <div class="counter-card-title">📊 신청자 현황 — samsung2030blo.com 확인 후 입력</div>
+        <div class="counter-inputs">
+          <div>
+            <label>오프라인 신청자</label>
+            <input type="number" id="cntOffline" min="0" value="0"
+                   oninput="updateCounterTotal()">
+          </div>
+          <div>
+            <label>온라인 신청자</label>
+            <input type="number" id="cntOnline" min="0" value="0"
+                   oninput="updateCounterTotal()">
+          </div>
+          <div>
+            <label>합계</label>
+            <div class="counter-total-box">
+              <div class="counter-total-num" id="cntTotal">0</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-counter-save" id="counterSaveBtn" onclick="saveCounter()">
+          📊 현황 업데이트 (index.html 즉시 반영)
+        </button>
+      </div>
 
       <!-- 저장 바 -->
       <div class="save-bar">
@@ -513,6 +579,62 @@ let currentData = {};
 let githubPAT = '';
 let adminPW = '';
 
+// ── 신청자 현황 ──
+function updateCounterTotal() {
+  const off = parseInt(document.getElementById('cntOffline').value) || 0;
+  const onl = parseInt(document.getElementById('cntOnline').value) || 0;
+  document.getElementById('cntTotal').textContent = off + onl;
+}
+
+function loadCounterFromData(data) {
+  const c = data.counters || {};
+  document.getElementById('cntOffline').value = c.offline || 0;
+  document.getElementById('cntOnline').value  = c.online  || 0;
+  updateCounterTotal();
+}
+
+async function saveCounter() {
+  if (!githubPAT) { showToast('GitHub PAT가 필요합니다'); return; }
+  const month = (currentData.month || '05').padStart(2, '0');
+  const year  = currentData.year || '2026';
+  const dataFilePath = `data/seminars/data-${year}-${month}.json`;
+  const dataApiUrl   = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${dataFilePath}`;
+
+  const btn = document.getElementById('counterSaveBtn');
+  btn.disabled = true;
+  btn.textContent = '저장 중...';
+
+  try {
+    const headers = {
+      'Authorization': `token ${githubPAT}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+    const getRes = await fetch(dataApiUrl, { headers });
+    if (!getRes.ok) throw new Error(`파일을 찾을 수 없습니다: ${dataFilePath}`);
+    const fileInfo = await getRes.json();
+    const existing = JSON.parse(atob(fileInfo.content.replace(/\n/g, '')));
+
+    const off = parseInt(document.getElementById('cntOffline').value) || 0;
+    const onl = parseInt(document.getElementById('cntOnline').value) || 0;
+    existing.counters = { offline: off, online: onl };
+
+    const contentB64 = btoa(unescape(encodeURIComponent(JSON.stringify(existing, null, 2))));
+    const msg = `chore: ${year}년 ${month}월 신청자 현황 업데이트 오프라인${off} 온라인${onl} [skip ci]`;
+    const putRes = await fetch(dataApiUrl, {
+      method: 'PUT', headers,
+      body: JSON.stringify({ message: msg, content: contentB64, sha: fileInfo.sha })
+    });
+    if (!putRes.ok) throw new Error('저장 실패');
+    showToast(`✅ 현황 업데이트 완료 (오프라인 ${off} · 온라인 ${onl} · 합계 ${off+onl})`);
+  } catch(e) {
+    showToast(`❌ ${e.message}`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📊 현황 업데이트 (index.html 즉시 반영)';
+  }
+}
+
 // ── 로그인 ──
 function doLogin() {
   const pw  = document.getElementById('pwInput').value.trim();
@@ -556,6 +678,13 @@ async function loadCurrentData() {
     document.getElementById('currentBadge').textContent =
       `${data.year}년 ${data.monthKor} · v${data.ogImageVersion}`;
     showStatus('success', `${data.year}년 ${data.monthKor} 데이터 로드 완료`);
+    // 신청자 현황 로드 (data/seminars/data-YYYY-MM.json)
+    const month = (data.month || '05').padStart(2, '0');
+    const seminarDataUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/seminars/data-${data.year}-${month}.json`;
+    fetch(seminarDataUrl, { headers: { 'Authorization': `token ${githubPAT}`, 'Accept': 'application/vnd.github.v3+json' } })
+      .then(r => r.ok ? r.json() : null)
+      .then(f => { if (f) loadCounterFromData(JSON.parse(atob(f.content.replace(/\n/g,'')))); })
+      .catch(() => {});
     setTimeout(hideStatus, 2000);
   } catch (e) {
     showStatus('error', '로드 실패: ' + e.message);
