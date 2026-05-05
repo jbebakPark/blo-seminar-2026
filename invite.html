@@ -417,81 +417,107 @@ html, body {
 .flow-name { font-size:14px; font-weight:800; color:#0D1A2E; }
 .flow-desc { font-size:11px; color:#778899; margin-top:2px; line-height:1.6; }
 
-/* ══ 연간 일정 ══ */
-.schedule-sec { background:#fff; padding:0 0 20px; border-top:4px solid #C8A84B; }
-.schedule-banner {
-  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
-  padding:16px 22px; display:flex; align-items:center; justify-content:space-between;
+/* ══ 연간 일정 — 다크 풀카드 ══ */
+.annl-wrap {
+  background: linear-gradient(160deg, #060E1C 0%, #0A1628 55%, #0D2040 100%);
+  padding: 0; position: relative; overflow: hidden;
 }
-.schedule-banner-title { font-size:16px; font-weight:900; color:#fff; }
-.schedule-banner-sub { font-size:12px; color:rgba(255,255,255,0.75); margin-top:3px; }
-.schedule-more-link {
-  font-size:12px; color:#C8A84B; font-weight:800; text-decoration:none;
-  background:rgba(200,168,75,0.15); border:1px solid rgba(200,168,75,0.4);
-  padding:7px 12px; border-radius:20px; white-space:nowrap; flex-shrink:0;
+.annl-wrap::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 25%, rgba(0,160,255,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(200,168,75,0.06) 0%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px);
 }
-.year-benefit {
-  margin:14px 22px 14px;
-  background: linear-gradient(135deg, #FFF8E6 0%, #FFFBF0 100%);
-  border:1.5px solid #C8A84B; border-radius:10px; padding:12px 14px;
-  font-size:13px; color:#7A5800; font-weight:700; line-height:1.7;
+.annl-header {
+  text-align:center; padding:22px 20px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.07); position:relative;
+}
+.annl-main-title {
+  font-size:19px; font-weight:900; color:#00CFFF; letter-spacing:0.5px;
+  text-shadow:0 0 18px rgba(0,200,255,0.55);
+}
+.annl-year-label {
+  font-size:11px; color:rgba(255,255,255,0.45); letter-spacing:3px; margin-top:4px;
+}
+.annl-badge-row {
+  display:flex; justify-content:center; gap:6px; margin-top:10px; flex-wrap:wrap;
+}
+.annl-q-pill {
+  font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:0.3px;
+}
+.annl-q-pill.q1 { background:rgba(0,200,255,0.15); color:#00C8FF; border:1px solid rgba(0,200,255,0.35); }
+.annl-q-pill.q2 { background:rgba(255,215,0,0.13); color:#FFD700; border:1px solid rgba(255,215,0,0.3); }
+.annl-q-pill.q3 { background:rgba(0,232,135,0.12); color:#00E887; border:1px solid rgba(0,232,135,0.3); }
+.annl-q-pill.q4 { background:rgba(255,120,120,0.12); color:#FF9090; border:1px solid rgba(255,120,120,0.28); }
+
+.annl-body { padding:14px 14px 6px; position:relative; }
+.annl-quarter { margin-bottom:10px; }
+.annl-q-header {
+  display:flex; align-items:center; gap:8px; margin-bottom:6px;
+}
+.annl-q-tag {
+  font-size:10px; font-weight:900; padding:3px 9px; border-radius:12px; flex-shrink:0;
+}
+.annl-q-tag.q1 { background:rgba(0,200,255,0.18); color:#00C8FF; }
+.annl-q-tag.q2 { background:rgba(255,215,0,0.16); color:#FFD700; }
+.annl-q-tag.q3 { background:rgba(0,232,135,0.15); color:#00E887; }
+.annl-q-tag.q4 { background:rgba(255,120,120,0.15); color:#FF9090; }
+.annl-q-theme {
+  font-size:11px; color:rgba(255,255,255,0.4); font-weight:700; flex:1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.annl-q-line { flex:1; height:1px; background:rgba(255,255,255,0.07); }
+
+.annl-row {
+  display:flex; align-items:center; gap:7px;
+  padding:7px 9px; border-radius:7px; margin-bottom:3px;
+  background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.05);
+  transition:all 0.15s;
+}
+.annl-row.done { opacity:0.48; }
+.annl-row.current {
+  background:linear-gradient(135deg, rgba(0,180,255,0.13) 0%, rgba(0,60,180,0.2) 100%);
+  border:1px solid rgba(0,200,255,0.55);
+  box-shadow:0 0 18px rgba(0,180,255,0.18), inset 0 0 12px rgba(0,180,255,0.05);
+  opacity:1; padding:10px 11px;
+}
+.annl-date {
+  font-size:13px; font-weight:900; color:#5A88AA; min-width:34px; flex-shrink:0; letter-spacing:0.3px;
+}
+.annl-row.current .annl-date { color:#00CFFF; font-size:14px; }
+.annl-row.done .annl-date { color:#3A5060; }
+.annl-type-tag {
+  font-size:10px; font-weight:800; padding:2px 7px; border-radius:6px; flex-shrink:0;
+  background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.45);
+}
+.annl-row.current .annl-type-tag { background:#00CFFF; color:#040C18; }
+.annl-type-tag.sp { background:rgba(255,215,0,0.15); color:#FFD700; }
+.annl-session-title {
+  flex:1; font-size:12px; font-weight:700; color:rgba(255,255,255,0.62);
+  line-height:1.35; word-break:keep-all;
+}
+.annl-row.current .annl-session-title { color:#fff; font-size:13px; font-weight:900; }
+.annl-done-mark { color:#22A06B; font-size:12px; font-weight:900; flex-shrink:0; }
+.annl-now-mark {
+  font-size:10px; font-weight:900; color:#FFD700;
+  background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.4);
+  padding:2px 7px; border-radius:8px; flex-shrink:0; white-space:nowrap;
 }
 
-/* Q 탭 */
-.q-tabs {
-  display:flex; gap:6px; margin:0 22px 16px;
-  overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+.annl-divider { height:1px; background:rgba(255,255,255,0.06); margin:8px 0; }
+
+.annl-cta {
+  margin:10px 14px 18px;
+  background:linear-gradient(135deg, rgba(200,168,75,0.14) 0%, rgba(200,168,75,0.07) 100%);
+  border:1.5px solid rgba(200,168,75,0.45); border-radius:12px;
+  padding:14px 16px; text-align:center; position:relative;
 }
-.q-tabs::-webkit-scrollbar { display:none; }
-.q-tab {
-  flex-shrink:0; font-size:13px; font-weight:700;
-  padding:9px 14px; border-radius:20px;
-  border:1.5px solid #D8E4F0; background:#f7f9fc; color:#778899;
-  cursor:pointer; transition:all 0.15s; white-space:nowrap;
-}
-.q-tab.active { background:#0D2244; color:#C8A84B; border-color:#0D2244; }
-.q-panel { display:none; }
-.q-panel.active { display:block; }
-.sched-quarter { padding:0 22px; }
-.sched-q-label {
-  font-size:12px; font-weight:900; color:#1050A0; letter-spacing:0.5px;
-  margin-bottom:12px; display:flex; align-items:center; gap:6px;
-}
-.sched-q-label::after { content:''; flex:1; height:1px; background:#E8EEF6; }
-.sched-item {
-  display:flex; align-items:flex-start; gap:10px;
-  padding:10px 12px; border-radius:8px; margin-bottom:6px;
-  background:#f7f9fc; border-left:3px solid #D8E4F0;
-}
-.sched-item.completed { border-left-color:#22A06B; background:#f0faf5; opacity:0.75; }
-.sched-item.current {
-  background: linear-gradient(135deg, #0D2244 0%, #1050A0 100%);
-  border-left:none; border-radius:12px; padding:16px; position:relative;
-  overflow:hidden; box-shadow:0 6px 24px rgba(16,80,160,0.3); margin-bottom:8px;
-}
-.sched-item.current::after {
-  content:'▶ THIS MONTH'; position:absolute; top:0; right:0;
-  background:#C8A84B; color:#0D1A2E; font-size:11px; font-weight:900;
-  padding:6px 12px; border-radius:0 12px 0 10px; letter-spacing:0.5px;
-}
-.sched-item.upcoming { border-left-color:#C8D8F0; }
-.sched-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
-.completed .sched-dot { background:#22A06B; }
-.current .sched-dot { background:#C8A84B; }
-.upcoming .sched-dot { background:#B0C4DE; }
-.sched-date { font-size:13px; font-weight:700; color:#1050A0; margin-bottom:4px; }
-.current .sched-date { color:#C8A84B; font-size:14px; }
-.sched-title-text { font-size:14px; font-weight:700; color:#0D1A2E; line-height:1.5; word-break:keep-all; }
-.current .sched-title-text { color:#fff; font-size:16px; font-weight:900; }
-.sched-speaker { font-size:13px; color:#778899; margin-top:4px; }
-.current .sched-speaker { color:#a8c4e4; }
-.sched-status {
-  display:inline-block; font-size:12px; font-weight:700;
-  padding:3px 9px; border-radius:10px; margin-top:5px;
-}
-.sched-status.done { background:#DCFCE7; color:#166534; }
-.sched-status.now { background:#C8A84B; color:#0D1A2E; font-weight:900; }
-.sched-status.soon { background:#DBEAFE; color:#1e40af; }
+.annl-cta-icon { font-size:22px; margin-bottom:4px; }
+.annl-cta-text { font-size:12px; color:#B89A50; font-weight:700; line-height:1.7; }
+.annl-cta-text strong { color:#FFD700; font-size:14px; display:block; }
 
 /* ══ 혜택 ══ */
 .benefit-sec { background:#f7f9fc; padding:24px 22px; border-top:1px solid #E8EEF6; }
@@ -860,155 +886,143 @@ html, body {
 </div>
 
 <!-- ⑦ 연간 일정 -->
-<div class="schedule-sec">
-  <div class="schedule-banner">
-    <div>
-      <div class="schedule-banner-title">📅 2026 연간 세미나 일정 · 12강</div>
-      <div class="schedule-banner-sub">1회 신청으로 2026년 12월까지 전 강연 시청 가능</div>
-    </div>
-    <a class="schedule-more-link" href="https://admin-samsung-vvip.web.app/pages/schedule.html" target="_blank">전체보기 ›</a>
-  </div>
-  <div class="year-benefit">
-    🏆 지금 신청하면 <strong>2026년 12월까지</strong> 매월 강연 모두 시청 가능<br>
-    총 12강 · 1Q Tech ⚡ · 2Q Money 💰 · 3Q Human 🤝 · 4Q 2027 🚀
-  </div>
+<div class="annl-wrap">
 
-  <div class="q-tabs">
-    <div class="q-tab" onclick="switchQ(1)" id="qtab1">1Q · Tech ⚡</div>
-    <div class="q-tab active" onclick="switchQ(2)" id="qtab2">2Q · Money 💰</div>
-    <div class="q-tab" onclick="switchQ(3)" id="qtab3">3Q · Human 🤝</div>
-    <div class="q-tab" onclick="switchQ(4)" id="qtab4">4Q · 2027 🚀</div>
-  </div>
-
-    <!-- Q1 패널 -->
-  <div class="q-panel" id="qpanel1">
-    <div class="sched-quarter">
-      <div class="sched-q-label">1Q · Tech Insight, 차세대 혁신 기술</div>
-      <div class="sched-item completed">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">1/13 (화)</div>
-          <div class="sched-title-text">AI시대, 인간의 판단력은 어디로?</div>
-          <div class="sched-speaker">송길영 작가 · 이동우 교수</div>
-          <span class="sched-status done">✓ 완료</span>
-        </div>
-      </div>
-      <div class="sched-item completed">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">2/24 (화)</div>
-          <div class="sched-title-text">인류의 새로운 도전, 우주 탐사와 그 너머</div>
-          <div class="sched-speaker">강성주 박사</div>
-          <span class="sched-status done">✓ 완료</span>
-        </div>
-      </div>
-      <div class="sched-item completed">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">3/24 (화)</div>
-          <div class="sched-title-text">피지컬 AI와 로봇 대항해의 시대</div>
-          <div class="sched-speaker">조규진 교수 · 서울대학교 기계공학과</div>
-          <span class="sched-status done">✓ 완료</span>
-        </div>
-      </div>
+  <!-- 헤더 -->
+  <div class="annl-header">
+    <div class="annl-main-title">2030 Business Live ON</div>
+    <div class="annl-year-label">2 0 2 6 &nbsp; 연 간 &nbsp; 일 정</div>
+    <div class="annl-badge-row">
+      <span class="annl-q-pill q1">1Q · Tech ⚡</span>
+      <span class="annl-q-pill q2">2Q · Money 💰</span>
+      <span class="annl-q-pill q3">3Q · Human 🤝</span>
+      <span class="annl-q-pill q4">4Q · 2027 🚀</span>
     </div>
   </div>
 
-  <!-- Q2 패널 -->
-  <div class="q-panel active" id="qpanel2">
-    <div class="sched-quarter">
-      <div class="sched-q-label">2Q · Money Insight, 변화하는 자산 시장</div>
-      <div class="sched-item completed">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">4/21 (화)</div>
-          <div class="sched-title-text">AI 반도체가 주도하는 금융시장</div>
-          <div class="sched-speaker">김선우 애널리스트 · 메리츠증권</div>
-          <span class="sched-status done">✓ 완료</span>
-        </div>
+  <div class="annl-body">
+
+    <!-- 1Q -->
+    <div class="annl-quarter">
+      <div class="annl-q-header">
+        <span class="annl-q-tag q1">1Q</span>
+        <span class="annl-q-theme">Tech Insight · 차세대 혁신 기술</span>
+        <span class="annl-q-line"></span>
       </div>
-      <div class="sched-item current">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">5/19 (화) 오전 7:30</div>
-          <span class="sched-status now">▶ 신청중</span>
-          <div class="sched-title-text">중동의 불꽃, 전쟁이 뒤흔든 글로벌경제</div>
-          <div class="sched-speaker">박현도 교수 (1부) · 박종훈 소장 (2부)</div>
-        </div>
+      <div class="annl-row done">
+        <span class="annl-date">01.13</span>
+        <span class="annl-type-tag">Forum</span>
+        <span class="annl-session-title">AI시대, 인간의 판단력은 어디로?</span>
+        <span class="annl-done-mark">✓</span>
       </div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">6/16 (화)</div>
-          <div class="sched-title-text">6월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
+      <div class="annl-row done">
+        <span class="annl-date">02.24</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">인류의 새로운 도전, 우주 탐사와 그 너머</span>
+        <span class="annl-done-mark">✓</span>
       </div>
+      <div class="annl-row done">
+        <span class="annl-date">03.24</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">피지컬 AI와 로봇 대항해의 시대</span>
+        <span class="annl-done-mark">✓</span>
+      </div>
+    </div>
+
+    <div class="annl-divider"></div>
+
+    <!-- 2Q -->
+    <div class="annl-quarter">
+      <div class="annl-q-header">
+        <span class="annl-q-tag q2">2Q</span>
+        <span class="annl-q-theme">Money Insight · 변화하는 자산 시장</span>
+        <span class="annl-q-line"></span>
+      </div>
+      <div class="annl-row done">
+        <span class="annl-date">04.21</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">AI 반도체가 주도하는 금융시장</span>
+        <span class="annl-done-mark">✓</span>
+      </div>
+      <div class="annl-row current">
+        <span class="annl-date">05.19</span>
+        <span class="annl-type-tag sp">특집</span>
+        <span class="annl-session-title">중동의 불꽃, 전쟁이 뒤흔든 글로벌경제</span>
+        <span class="annl-now-mark">▶ 신청중</span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">06.16</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">암호화폐 — 블록체인 기술과 디지털 경제</span>
+      </div>
+    </div>
+
+    <div class="annl-divider"></div>
+
+    <!-- 3Q -->
+    <div class="annl-quarter">
+      <div class="annl-q-header">
+        <span class="annl-q-tag q3">3Q</span>
+        <span class="annl-q-theme">Human Insight · 격변에 대처하는 리더의 자세</span>
+        <span class="annl-q-line"></span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">07.21</span>
+        <span class="annl-type-tag">Forum</span>
+        <span class="annl-session-title">세계 축구 명장들을 통해서 본 리더십</span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">08.18</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">리더를 위한 정신과 의사의 조언</span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">09.15</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">타인의 마음을 얻는 소통</span>
+      </div>
+    </div>
+
+    <div class="annl-divider"></div>
+
+    <!-- 4Q -->
+    <div class="annl-quarter">
+      <div class="annl-q-header">
+        <span class="annl-q-tag q4">4Q</span>
+        <span class="annl-q-theme">혁신과 성장을 위한 2027년 전망</span>
+        <span class="annl-q-line"></span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">10.20</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">Next transition 2027 : 소비 트렌드</span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">11.17</span>
+        <span class="annl-type-tag">Forum</span>
+        <span class="annl-session-title">Next transition 2027 : 국제정세</span>
+      </div>
+      <div class="annl-row">
+        <span class="annl-date">12.15</span>
+        <span class="annl-type-tag">Class</span>
+        <span class="annl-session-title">Next transition 2027 : 경제/투자</span>
+      </div>
+    </div>
+
+  </div><!-- /annl-body -->
+
+  <!-- CTA -->
+  <div class="annl-cta">
+    <div class="annl-cta-icon">🏆</div>
+    <div class="annl-cta-text">
+      <strong>지금 신청하면 12강 모두 무료 시청</strong>
+      1회 신청으로 2026년 12월까지 · 매월 최정상 강사의 강연<br>
+      <span style="font-size:11px;color:rgba(255,215,0,0.6);">* 해당 일정은 일부 변경될 수 있습니다</span>
     </div>
   </div>
 
-  <!-- Q3 패널 -->
-  <div class="q-panel" id="qpanel3">
-    <div class="sched-quarter">
-      <div class="sched-q-label">3Q · Human Insight, 리더십과 비즈니스</div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">7/21 (화)</div>
-          <div class="sched-title-text">7월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
-      </div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">8/18 (화)</div>
-          <div class="sched-title-text">8월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
-      </div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">9/15 (화)</div>
-          <div class="sched-title-text">9월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q4 패널 -->
-  <div class="q-panel" id="qpanel4">
-    <div class="sched-quarter">
-      <div class="sched-q-label">4Q · Future Insight, 2027 전망</div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">10/20 (화)</div>
-          <div class="sched-title-text">10월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
-      </div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">11/17 (화)</div>
-          <div class="sched-title-text">11월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
-      </div>
-      <div class="sched-item upcoming">
-        <div class="sched-dot"></div>
-        <div>
-          <div class="sched-date">12/15 (화)</div>
-          <div class="sched-title-text">12월 강연 (추후 공지)</div>
-          <span class="sched-status soon">예정</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
+
 
 <!-- ⑧ 참여 혜택 -->
 <div class="benefit-sec">
@@ -1209,20 +1223,6 @@ function onGoApply(e) {
   return false;
 }
 
-/* ── Q 탭 전환 ── */
-function switchQ(q) {
-  for (var i = 1; i <= 4; i++) {
-    var tab   = document.getElementById('qtab'   + i);
-    var panel = document.getElementById('qpanel' + i);
-    if (i === q) {
-      tab.classList.add('active');
-      panel.classList.add('active');
-    } else {
-      tab.classList.remove('active');
-      panel.classList.remove('active');
-    }
-  }
-}
 
 /* ── 신청 섹션 스크롤 ── */
 function scrollToApply(e) {
