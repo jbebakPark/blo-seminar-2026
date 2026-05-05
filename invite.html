@@ -308,6 +308,63 @@ html, body {
 }
 .kakao-btn:active { background:#F0D800; }
 
+/* ── 오프라인 카카오 전용 ── */
+.off-kakao-only-banner {
+  background:linear-gradient(135deg,#1A1208 0%,#3A2A00 100%);
+  border:2px solid #FEE500; border-radius:12px;
+  padding:16px; margin-bottom:16px; text-align:center;
+}
+.off-kakao-only-badge {
+  display:inline-block; background:#FEE500; color:#1A1A1A;
+  font-size:11px; font-weight:900; letter-spacing:0.5px;
+  padding:3px 10px; border-radius:20px; margin-bottom:8px;
+}
+.off-kakao-only-title {
+  font-size:15px; font-weight:900; color:#fff; margin-bottom:4px;
+}
+.off-kakao-only-sub {
+  font-size:11px; color:rgba(255,220,0,0.8); font-weight:600;
+}
+.kakao-main-btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:20px;
+  background:#FEE500; color:#1A1A1A;
+  font-size:19px; font-weight:900; border-radius:14px;
+  text-decoration:none; box-shadow:0 5px 20px rgba(254,229,0,0.55);
+  transition:transform 0.15s; margin-bottom:10px;
+}
+.kakao-main-btn:active { transform:scale(0.98); }
+.off-kakao-note {
+  text-align:center; font-size:11px; color:#94A3B8; line-height:1.7;
+}
+.off-kakao-note strong { color:#445566; }
+
+/* ── 온라인 체크박스 확인 게이트 ── */
+.confirm-gate {
+  background:#FFF5F5; border:2px solid #E00;
+  border-radius:12px; padding:16px; margin-bottom:14px;
+}
+.confirm-gate-title {
+  font-size:12px; font-weight:900; color:#CC0000;
+  margin-bottom:12px; display:flex; align-items:center; gap:6px; letter-spacing:0.3px;
+}
+.confirm-item {
+  display:flex; align-items:flex-start; gap:10px;
+  margin-bottom:10px; cursor:pointer;
+}
+.confirm-item:last-child { margin-bottom:0; }
+.confirm-item input[type=checkbox] {
+  width:20px; height:20px; margin-top:2px; flex-shrink:0;
+  cursor:pointer; accent-color:#CC0000;
+}
+.confirm-item span { font-size:13px; color:#1A1A1A; line-height:1.55; font-weight:600; }
+.confirm-item span strong { color:#CC0000; }
+.confirm-item span em { color:#0A5EA8; font-style:normal; font-weight:900; }
+.go-apply-btn.locked {
+  background:#CBD5E1; color:#94A3B8; box-shadow:none;
+  cursor:not-allowed; pointer-events:none; transform:none;
+}
+
 /* ══ 행사 진행 흐름 ══ */
 .flow-sec { background:#fff; padding:24px 22px; border-top:3px solid #1050A0; }
 .sec-title-row {
@@ -634,13 +691,30 @@ html, body {
         </button>
       </div>
 
-      <!-- 신청 사이트 이동 버튼 -->
-      <a class="go-apply-btn" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="onGoApply()">
-        🌐 신청 사이트 바로가기
+      <!-- ⚠️ 필수 확인 체크박스 (모두 체크 후 버튼 활성화) -->
+      <div class="confirm-gate">
+        <div class="confirm-gate-title">⚠️ 신청 전 반드시 확인하세요</div>
+        <label class="confirm-item">
+          <input type="checkbox" id="chk1" onchange="updateApplyBtn()">
+          <span>위 [코드 복사하기] 버튼으로 추천인 코드 <strong>9618628</strong>을 복사했습니다</span>
+        </label>
+        <label class="confirm-item">
+          <input type="checkbox" id="chk2" onchange="updateApplyBtn()">
+          <span>추천인 코드 미입력 시 본인 고객으로 등록되지 않아 <strong>서비스를 받을 수 없음</strong>을 확인했습니다</span>
+        </label>
+        <label class="confirm-item">
+          <input type="checkbox" id="chk3" onchange="updateApplyBtn()">
+          <span><em>1회 신청으로 2026년 12월까지</em> 전 강연 무료 시청 가능한 혜택을 이해했습니다</span>
+        </label>
+      </div>
+
+      <!-- 신청 사이트 이동 버튼 (체크박스 미완료 시 잠금) -->
+      <a class="go-apply-btn locked" href="#" target="_blank" id="goApplyBtn" onclick="onGoApply(event)">
+        🔒 위 항목 모두 확인 후 신청 가능
       </a>
       <div class="go-apply-note">
         <strong>www.samsung2030blo.com</strong><br>
-        1회 신청으로 2026년 12월까지 전 강연 시청 가능
+        1회 신청 → 2026년 12월까지 전 강연 무료 시청
       </div>
     </div>
   </div><!-- /onlinePanel -->
@@ -648,19 +722,29 @@ html, body {
   <!-- 오프라인 신청 -->
   <div id="offlinePanel" style="display:none;">
     <div class="offline-box">
-      <div class="offline-box-title">🍽️ 오프라인 조찬 신청</div>
+      <div class="offline-box-title">🍽️ 오프라인 조찬세미나 신청</div>
 
-      <div class="off-notice">
-        <strong>⚠️ 신청 마감: 5/15(금) 17:00까지</strong><br>
-        반드시 컨설턴트(FP/FO)를 통해 신청하시거나<br>아래로 직접 문의해 주세요. (선착순 200명)
+      <!-- 카카오 전용 안내 배너 -->
+      <div class="off-kakao-only-banner">
+        <div class="off-kakao-only-badge">📢 신청 방법 안내</div>
+        <div class="off-kakao-only-title">카카오 오픈채팅으로만 신청 가능</div>
+        <div class="off-kakao-only-sub">온라인(홈페이지) 신청 불가 · 선착순 200명 限</div>
       </div>
 
       <div class="off-row">
         <div class="off-dot"></div>
         <div>
+          <div class="off-lbl">신청 마감</div>
+          <div class="off-val">5/15(금) 17:00까지</div>
+        </div>
+      </div>
+      <div class="off-hr"></div>
+      <div class="off-row">
+        <div class="off-dot"></div>
+        <div>
           <div class="off-lbl">조찬</div>
           <div class="off-val">06:30 ~ 07:20</div>
-          <div class="off-sub">삼성금융캠퍼스 지하 2층 카페테리아</div>
+          <div class="off-sub">삼성금융캠퍼스 B2F 카페테리아</div>
         </div>
       </div>
       <div class="off-hr"></div>
@@ -673,16 +757,15 @@ html, body {
         </div>
       </div>
       <div class="off-hr"></div>
-      <div class="off-row">
-        <div class="off-dot"></div>
-        <div>
-          <div class="off-lbl">주의사항</div>
-          <div class="off-val" style="font-size:13px;color:#445566;">컨설턴트님은 1층 카페 또는 나눔룸 이용<br>비전홀 내부는 고객에 한하여 출입 가능</div>
-        </div>
+
+      <!-- 카카오 오픈채팅 메인 버튼 -->
+      <a class="kakao-main-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">
+        💬 카카오 오픈채팅으로 신청하기
+      </a>
+      <div class="off-kakao-note">
+        위 버튼 클릭 → 오픈채팅 입장 → 신청 완료<br>
+        <strong>컨설턴트(FP/FO)를 통한 신청도 가능합니다</strong>
       </div>
-      <div class="off-hr"></div>
-      <a class="call-btn" href="tel:01051372327">📞 전화 신청 · 010-5137-2327</a>
-      <a class="kakao-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">💬 카카오톡으로 문의하기</a>
     </div>
   </div><!-- /offlinePanel -->
 
@@ -935,7 +1018,7 @@ html, body {
       <span class="sticky-code-value">9618628</span>
     </div>
   </div>
-  <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener">
+  <a class="sticky-cta-btn" href="#applySection" onclick="stickyApplyClick(event)">
     세미나 신청하기 ▶
   </a>
 </div>
@@ -983,6 +1066,25 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
+/* ── 체크박스 게이트 ── */
+function updateApplyBtn() {
+  var c1 = document.getElementById('chk1');
+  var c2 = document.getElementById('chk2');
+  var c3 = document.getElementById('chk3');
+  var btn = document.getElementById('goApplyBtn');
+  if (!btn) return;
+  if (c1 && c2 && c3 && c1.checked && c2.checked && c3.checked) {
+    btn.classList.remove('locked');
+    btn.textContent = '🌐 신청 사이트 바로가기';
+    btn.href = 'http://www.samsung2030blo.com';
+    btn.target = '_blank';
+  } else {
+    btn.classList.add('locked');
+    btn.textContent = '🔒 위 항목 모두 확인 후 신청 가능';
+    btn.href = '#';
+  }
+}
+
 /* ── 추천인 코드 복사 ── */
 function copyCode() {
   var code = '9618628';
@@ -990,6 +1092,8 @@ function copyCode() {
   try {
     navigator.clipboard.writeText(code).then(function() {
       markCopied(btn);
+      var chk1 = document.getElementById('chk1');
+      if (chk1) { chk1.checked = true; updateApplyBtn(); }
     }).catch(function() { fallbackCopy(code, btn); });
   } catch(e) { fallbackCopy(code, btn); }
 }
@@ -1011,11 +1115,21 @@ function markCopied(btn) {
   }, 3000);
 }
 
-/* ── 신청 사이트 이동 (코드 미복사 시 경고) ── */
-function onGoApply() {
-  var btn = document.getElementById('copyBtn');
-  if (!btn.classList.contains('copied')) {
-    showToast('💡 먼저 코드를 복사한 뒤 사이트에서 추천인 코드란에 붙여넣으세요!');
+/* ── sticky CTA 클릭 → 온라인 탭으로 스크롤 ── */
+function stickyApplyClick(e) {
+  e.preventDefault();
+  selectTab('online');
+  var el = document.getElementById('applySection');
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ── 신청 사이트 이동 ── */
+function onGoApply(e) {
+  var btn = document.getElementById('goApplyBtn');
+  if (btn && btn.classList.contains('locked')) {
+    e.preventDefault();
+    showToast('⚠️ 위 3가지 항목을 모두 확인(체크)해 주세요!');
+    return false;
   }
 }
 
