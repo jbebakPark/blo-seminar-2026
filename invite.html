@@ -721,7 +721,7 @@ html, body {
       <div class="confirm-gate">
         <div class="confirm-gate-title">⚠️ 신청 전 반드시 확인하세요</div>
         <label class="confirm-item">
-          <input type="checkbox" id="chk1" onchange="if(this.checked){copyCode();}else{updateApplyBtn();}">
+          <input type="checkbox" id="chk1" onchange="if(this.checked){copyCode();}else{_codeCopied=false;updateApplyBtn();}">
           <span>위 [코드 복사하기] 버튼으로 추천인 코드 <strong>9618628</strong>을 복사했습니다</span>
         </label>
         <label class="confirm-item">
@@ -1115,6 +1115,9 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
+/* ── 추천인 코드 실제 복사 여부 추적 플래그 ── */
+var _codeCopied = false;
+
 /* ── 체크박스 게이트 ── */
 function updateApplyBtn() {
   var c1 = document.getElementById('chk1');
@@ -1122,15 +1125,20 @@ function updateApplyBtn() {
   var c3 = document.getElementById('chk3');
   var btn = document.getElementById('goApplyBtn');
   if (!btn) return;
-  if (c1 && c2 && c3 && c1.checked && c2.checked && c3.checked) {
+  var allChecked = c1 && c2 && c3 && c1.checked && c2.checked && c3.checked;
+  if (allChecked && _codeCopied) {
     btn.classList.remove('locked');
     btn.textContent = '🌐 신청 사이트 바로가기';
     btn.href = 'http://www.samsung2030blo.com';
     btn.target = '_blank';
   } else {
     btn.classList.add('locked');
-    btn.textContent = '🔒 위 항목 모두 확인 후 신청 가능';
     btn.href = '#';
+    if (allChecked && !_codeCopied) {
+      btn.textContent = '⚠️ 코드 복사 후 체크하세요';
+    } else {
+      btn.textContent = '🔒 위 항목 모두 확인 후 신청 가능';
+    }
   }
 }
 
@@ -1138,30 +1146,36 @@ function updateApplyBtn() {
 function copyCode() {
   var code = '9618628';
   var btn  = document.getElementById('copyBtn');
+  function onCopied() {
+    _codeCopied = true;
+    markCopied(btn);
+    var chk1 = document.getElementById('chk1');
+    if (chk1) { chk1.checked = true; updateApplyBtn(); }
+  }
   try {
-    navigator.clipboard.writeText(code).then(function() {
-      markCopied(btn);
-      var chk1 = document.getElementById('chk1');
-      if (chk1) { chk1.checked = true; updateApplyBtn(); }
-    }).catch(function() { fallbackCopy(code, btn); });
-  } catch(e) { fallbackCopy(code, btn); }
+    navigator.clipboard.writeText(code).then(onCopied).catch(function() {
+      fallbackCopy(code, btn, onCopied);
+    });
+  } catch(e) { fallbackCopy(code, btn, onCopied); }
 }
-function fallbackCopy(text, btn) {
+function fallbackCopy(text, btn, callback) {
   var el = document.createElement('textarea');
   el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
   document.body.appendChild(el); el.select();
   try { document.execCommand('copy'); } catch(e) {}
   document.body.removeChild(el);
-  markCopied(btn);
+  if (callback) callback();
 }
 function markCopied(btn) {
-  btn.textContent = '✅ 복사 완료!';
-  btn.classList.add('copied');
+  if (btn) {
+    btn.textContent = '✅ 복사 완료!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = '📋 코드 복사하기';
+      btn.classList.remove('copied');
+    }, 3000);
+  }
   showToast('📋 코드 9618628이 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
-  setTimeout(function() {
-    btn.textContent = '📋 코드 복사하기';
-    btn.classList.remove('copied');
-  }, 3000);
 }
 
 /* ── sticky CTA 클릭 → 온라인 탭으로 스크롤 ── */
@@ -1174,12 +1188,25 @@ function stickyApplyClick(e) {
 
 /* ── 신청 사이트 이동 ── */
 function onGoApply(e) {
-  var btn = document.getElementById('goApplyBtn');
-  if (btn && btn.classList.contains('locked')) {
-    e.preventDefault();
+  e.preventDefault();
+  if (!_codeCopied) {
+    var chk1 = document.getElementById('chk1');
+    if (chk1) chk1.checked = false;
+    updateApplyBtn();
+    showToast('⚠️ 추천인 코드를 먼저 복사해 주세요!');
+    var codeBox = document.getElementById('copyBtn');
+    if (codeBox) codeBox.scrollIntoView({ behavior:'smooth', block:'center' });
+    return false;
+  }
+  var c1 = document.getElementById('chk1');
+  var c2 = document.getElementById('chk2');
+  var c3 = document.getElementById('chk3');
+  if (!c1.checked || !c2.checked || !c3.checked) {
     showToast('⚠️ 위 3가지 항목을 모두 확인(체크)해 주세요!');
     return false;
   }
+  window.open('http://www.samsung2030blo.com', '_blank');
+  return false;
 }
 
 /* ── Q 탭 전환 ── */
