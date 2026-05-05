@@ -749,6 +749,11 @@
       text-align: center; font-size: 11px; color: #94A3B8;
       margin-top: 8px; line-height: 1.7;
     }
+    @keyframes pulse-warn {
+      0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(192,57,43,0.7); }
+      50%  { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(192,57,43,0); }
+      100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(192,57,43,0); }
+    }
 
     /* ═══════════════════════════════════════
        ⑦ 추천인 코드
@@ -1403,7 +1408,7 @@
                 </div>
               </div>
 
-              <a class="apply-btn-lock" id="applyBtn" href="http://${contact.website}" target="_blank">
+              <a class="apply-btn-lock" id="applyBtn" href="#" onclick="onApplyClick(event, '${contact.website}')">
                 🔒 추천인 코드를 먼저 복사해 주세요
               </a>
               <div class="lock-hint" id="lockHint">코드 복사 후 신청 버튼이 활성화됩니다</div>
@@ -1526,21 +1531,23 @@
 
     /* ───── 추천인 코드 복사 ───── */
     function copyRefCode() {
-      const code = document.getElementById('refCode').innerText;
+      const code = (document.getElementById('refCode').innerText || '').trim();
       const btn  = document.getElementById('copyBtn');
-      const applyBtn = document.getElementById('applyBtn');
-      const hint = document.getElementById('lockHint');
 
       function onDone() {
         codeCopied = true;
         btn.textContent = '✅ 복사 완료!';
         btn.classList.add('copied');
-        btn.disabled = true;
-        applyBtn.classList.add('unlocked');
-        applyBtn.textContent = '🎥 온라인 강연 신청하기';
-        if (hint) { hint.classList.add('hidden'); }
+        setTimeout(() => {
+          btn.textContent = '📋 코드 복사하기';
+          btn.classList.remove('copied');
+          btn.disabled = false;
+        }, 3000);
+        unlockApplyBtn();
+        showCopyToast();
       }
 
+      btn.disabled = true;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(code).then(onDone).catch(() => fallbackCopy(code, onDone));
       } else {
@@ -1551,11 +1558,83 @@
     function fallbackCopy(text, cb) {
       const el = document.createElement('textarea');
       el.value = text;
-      el.style.cssText = 'position:fixed;opacity:0;';
+      el.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
       document.body.appendChild(el);
-      el.select();
-      try { document.execCommand('copy'); cb(); } catch(e) {}
+      el.focus(); el.select();
+      const ok = document.execCommand('copy');
       document.body.removeChild(el);
+      if (ok) { cb(); }
+      else {
+        // 복사 실패 시 버튼 원상복구 후 알림
+        const btn = document.getElementById('copyBtn');
+        if (btn) btn.disabled = false;
+        alert('자동 복사가 지원되지 않습니다.\n코드 ' + text + ' 를 직접 메모해 주세요.');
+      }
+    }
+
+    function unlockApplyBtn() {
+      const applyBtn = document.getElementById('applyBtn');
+      const hint     = document.getElementById('lockHint');
+      if (!applyBtn) return;
+      applyBtn.classList.add('unlocked');
+      applyBtn.textContent = '🎥 온라인 강연 신청하기';
+      if (hint) hint.classList.add('hidden');
+    }
+
+    function showCopyToast() {
+      let t = document.getElementById('copyToast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'copyToast';
+        t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);'
+          + 'background:#1a3a6a;color:#fff;padding:12px 20px;border-radius:10px;'
+          + 'font-size:13px;font-weight:700;z-index:9999;text-align:center;'
+          + 'box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90vw;';
+        document.body.appendChild(t);
+      }
+      t.textContent = '📋 코드 9618628 복사 완료! 신청 사이트에서 추천인 코드란에 붙여넣으세요.';
+      t.style.display = 'block';
+      t.style.opacity = '1';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>{ t.style.display='none'; },400); }, 3500);
+    }
+
+    /* ───── 신청 버튼 클릭 — 최종 검증 ───── */
+    function onApplyClick(e, website) {
+      e.preventDefault();
+      if (!codeCopied) {
+        // 코드 복사 안 됨 → 코드 영역으로 스크롤 + 강조
+        const refBox = document.getElementById('sec-referral');
+        const copyBtn = document.getElementById('copyBtn');
+        if (refBox) refBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (copyBtn) {
+          copyBtn.style.animation = 'none';
+          setTimeout(() => {
+            copyBtn.style.animation = 'pulse-warn 0.4s ease 3';
+          }, 100);
+        }
+        // 경고 토스트
+        let t = document.getElementById('copyToast');
+        if (!t) {
+          t = document.createElement('div');
+          t.id = 'copyToast';
+          t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);'
+            + 'background:#c0392b;color:#fff;padding:12px 20px;border-radius:10px;'
+            + 'font-size:13px;font-weight:700;z-index:9999;text-align:center;'
+            + 'box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90vw;';
+          document.body.appendChild(t);
+        }
+        t.style.background = '#c0392b';
+        t.textContent = '⚠️ 추천인 코드를 먼저 복사해 주세요!';
+        t.style.display = 'block';
+        t.style.opacity = '1';
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>{ t.style.display='none'; },400); }, 3000);
+        return false;
+      }
+      // 복사 확인됨 → 새 탭으로 이동
+      window.open('http://' + website, '_blank');
+      return false;
     }
 
     /* ───── 네비 하이라이트 ───── */
