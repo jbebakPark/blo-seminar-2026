@@ -1492,14 +1492,15 @@
             <div class="ct-name">${contact.name}</div>
             <div class="ct-phone">📱 ${contact.phone}</div>
             <div class="contact-btn-group">
-              <a href="http://${contact.website}" class="btn-primary" target="_blank">
+              <a href="#" class="btn-primary" onclick="onApplyClick(event, '${contact.website}')">
                 🎥 온라인 실시간 생방송 신청하기
               </a>
-              <a href="tel:${contact.phone.replace(/-/g,'')}" class="btn-primary" style="background:#1A5BB5">
+              <a href="${contact.kakao}" class="btn-primary" style="background:#1A5BB5" target="_blank"
+                 onclick="onOfflineContactClick(event, '${contact.kakao}')">
                 🍽️ 오프라인 조찬세미나 신청
               </a>
               <a href="${contact.kakao}" class="btn-kakao" target="_blank">
-                💬 카카오톡 문의하기
+                💬 카카오톡으로 신청·문의하기
               </a>
             </div>
           </div>
@@ -1634,6 +1635,25 @@
       }
       // 복사 확인됨 → 새 탭으로 이동
       window.open('http://' + website, '_blank');
+      return false;
+    }
+
+    /* ───── 오프라인 신청 클릭 — 필수 안내 확인 후 카카오 이동 ───── */
+    function onOfflineContactClick(e, kakaoUrl) {
+      e.preventDefault();
+      const ok = confirm(
+        '⚠️ 오프라인 조찬세미나 신청 안내\n\n' +
+        '반드시 담당자를 통해서만 신청 가능합니다.\n' +
+        '좌석이 한정(200명)되어 있으며,\n' +
+        '신청 후 미참석 시 향후 신청이 제한됩니다.\n\n' +
+        '카카오 오픈채팅 입장 후 아래 3가지를 남겨주세요:\n' +
+        '  1. 회사명\n' +
+        '  2. 신청자 성함 / 직책\n' +
+        '  3. 연락처 (휴대폰 번호)\n\n' +
+        '(담당자 확인 후 접수 완료 안내)\n\n' +
+        '확인 후 카카오 오픈채팅으로 이동하시겠습니까?'
+      );
+      if (ok) window.open(kakaoUrl, '_blank');
       return false;
     }
 
