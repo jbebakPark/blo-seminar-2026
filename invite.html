@@ -1161,15 +1161,24 @@ function shareInvite() {
   var fpCode = new URLSearchParams(window.location.search).get('fp') || '';
   var url    = fpCode ? base + '&fp=' + fpCode : base;
   var msg =
-    '🎓 BLO 조찬세미나 신청 안내\n' +
+    '📢 삼성생명 BLO 세미나 안내\n' +
     '━━━━━━━━━━━━━━━━\n' +
-    '중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제\n' +
+    '📌 중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제\n' +
     '📅 2026.5.19(화) 오전 7:30\n' +
     '🎤 박현도 교수 · 박종훈 소장\n' +
     '━━━━━━━━━━━━━━━━\n' +
+    '🍽️ 오프라인 조찬세미나 신청\n' +
+    '  ▶ 카카오 오픈채팅으로만 신청 가능\n' +
+    '  https://open.kakao.com/o/sleUSUei\n' +
+    '\n' +
+    '🎥 온라인 강연 신청 (www.samsung2030blo.com)\n' +
+    '  ① 아래 추천인 코드를 먼저 복사하세요\n' +
+    '  ② 사이트 가입 시 추천인 코드란에 반드시 입력\n' +
+    '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
+    '\n' +
     '🔑 추천인 코드 : 9618628\n' +
-    '✅ 세미나 신청하기 → www.samsung2030blo.com\n' +
     '━━━━━━━━━━━━━━━━\n' +
+    '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
     '세부 안내: ' + url;
   if (navigator.share) {
     navigator.share({ title: 'BLO 세미나 신청하기', text: msg, url: url })

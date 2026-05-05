@@ -690,15 +690,24 @@ function buildMyLink(data) {
   const eventDate  = data.eventDate || '';
 
   _myShareMsg =
-    '🎓 BLO 조찬세미나 신청 안내\n' +
+    '📢 삼성생명 BLO 세미나 안내\n' +
     '━━━━━━━━━━━━━━━━\n' +
-    stickyCta + '\n' +
+    '📌 ' + stickyCta + '\n' +
     '📅 ' + eventDate + '\n' +
     '🎤 ' + speakerStr + '\n' +
     '━━━━━━━━━━━━━━━━\n' +
+    '🍽️ 오프라인 조찬세미나 신청\n' +
+    '  ▶ 카카오 오픈채팅으로만 신청 가능\n' +
+    '  https://open.kakao.com/o/sleUSUei\n' +
+    '\n' +
+    '🎥 온라인 강연 신청 (www.samsung2030blo.com)\n' +
+    '  ① 아래 추천인 코드를 먼저 복사하세요\n' +
+    '  ② 사이트 가입 시 추천인 코드란에 반드시 입력\n' +
+    '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
+    '\n' +
     '🔑 추천인 코드 : ' + fpCode + '\n' +
-    '✅ 세미나 신청하기 → www.samsung2030blo.com\n' +
     '━━━━━━━━━━━━━━━━\n' +
+    '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
     '세부 안내: ' + _myInviteLink;
 
   const el = document.getElementById('myLinkDisplay');
