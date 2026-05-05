@@ -446,30 +446,39 @@ html, body {
 .sticky-cta {
   position:fixed; bottom:0; left:50%; transform:translateX(-50%);
   width:100%; max-width:480px;
-  background: linear-gradient(135deg, #070F22 0%, #0C2060 100%);
-  padding:14px 16px 18px;
-  display:flex; gap:12px; align-items:center;
-  box-shadow:0 -4px 28px rgba(0,0,0,0.55); z-index:1000;
-  border-top:2px solid rgba(200,168,75,0.55);
+  background:#04091A;
+  padding:12px 16px 20px;
+  display:flex; flex-direction:column; gap:10px;
+  box-shadow:0 -6px 32px rgba(0,0,0,0.75); z-index:1000;
+  border-top:3px solid #C8A84B;
 }
-.sticky-left { flex:1; min-width:0; }
-.sticky-row1 { font-size:11px; color:rgba(255,255,255,0.6); font-weight:600; letter-spacing:0.3px; margin-bottom:4px; }
-.sticky-row2 { font-size:15px; color:#fff; font-weight:800; line-height:1.25; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.sticky-row3 { display:flex; align-items:center; gap:7px; }
-.sticky-code-label { font-size:11px; color:rgba(255,255,255,0.55); font-weight:600; }
-.sticky-code-value { font-size:20px; color:#C8A84B; font-weight:900; letter-spacing:2px; line-height:1; }
+.sticky-meta {
+  display:flex; align-items:center; justify-content:space-between;
+}
+.sticky-event-label {
+  font-size:11px; color:rgba(255,255,255,0.45); font-weight:600; letter-spacing:0.3px;
+}
+.sticky-code-wrap {
+  display:flex; align-items:center; gap:6px;
+}
+.sticky-code-label {
+  font-size:11px; color:rgba(255,255,255,0.5); font-weight:600;
+}
+.sticky-code-value {
+  font-size:22px; color:#C8A84B; font-weight:900; letter-spacing:3px; line-height:1;
+}
 .sticky-cta-btn {
-  background: linear-gradient(135deg, #C8A84B 0%, #E8C870 100%);
-  color:#07111E;
-  font-size:14px; font-weight:900; padding:16px 16px; border-radius:14px;
-  border:none; cursor:pointer; white-space:nowrap; text-decoration:none;
-  display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
-  box-shadow:0 4px 20px rgba(200,168,75,0.65); transition:all 0.2s;
-  line-height:1.15; text-align:center; flex-shrink:0; min-width:70px;
+  display:block; width:100%;
+  background:linear-gradient(135deg, #C8A84B 0%, #F0D96A 100%);
+  color:#04091A;
+  font-size:22px; font-weight:900;
+  padding:18px 0;
+  border-radius:14px; border:none; cursor:pointer;
+  text-align:center; text-decoration:none; letter-spacing:1px;
+  box-shadow:0 5px 24px rgba(200,168,75,0.75); transition:transform 0.15s;
+  box-sizing:border-box;
 }
-.sticky-cta-btn .btn-main { font-size:14px; font-weight:900; }
-.sticky-cta-btn .btn-arrow { font-size:16px; }
-.sticky-cta-btn:active { transform:scale(0.97); }
+.sticky-cta-btn:active { transform:scale(0.98); }
 
 </style>
 </head>
@@ -769,17 +778,15 @@ html, body {
 
 <!-- 하단 고정 신청 버튼 -->
 <div class="sticky-cta">
-  <div class="sticky-left">
-    <div class="sticky-row1">📅 {{WATCH_DATE}} 오전 7:30 · 삼성생명 BLO 조찬세미나</div>
-    <div class="sticky-row2">{{STICKY_CTA}}</div>
-    <div class="sticky-row3">
+  <div class="sticky-meta">
+    <span class="sticky-event-label">📅 {{WATCH_DATE}} · 삼성생명 BLO 조찬세미나</span>
+    <div class="sticky-code-wrap">
       <span class="sticky-code-label">추천인 코드</span>
       <span class="sticky-code-value">{{REFERRAL_CODE}}</span>
     </div>
   </div>
   <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener">
-    <span class="btn-main">지금 신청</span>
-    <span class="btn-arrow">▶</span>
+    세미나 신청하기 ▶
   </a>
 </div>
 
