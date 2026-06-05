@@ -46,7 +46,7 @@
           "speakers": [
             "조규진 교수"
           ],
-          "status": "current"
+          "status": "completed"
         }
       ]
     },
@@ -57,22 +57,22 @@
         {
           "id": "2026-04",
           "date": "2026-04-21",
-          "type": "Forum",
-          "title": "2030 WM 자산 포트폴리오 전략",
+          "type": "Class",
+          "title": "AI 반도체가 주도하는 금융시장",
           "speakers": [
             "미정"
           ],
-          "status": "upcoming"
+          "status": "completed"
         },
         {
           "id": "2026-05",
           "date": "2026-05-19",
           "type": "Class",
-          "title": "대한민국 부동산 시장 전망과 투자 전략",
+          "title": "중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제",
           "speakers": [
             "미정"
           ],
-          "status": "upcoming"
+          "status": "completed"
         },
         {
           "id": "2026-06",
@@ -82,7 +82,7 @@
           "speakers": [
             "박원갑 수석전문위원"
           ],
-          "status": "upcoming"
+          "status": "current"
         }
       ]
     },
@@ -93,8 +93,8 @@
         {
           "id": "2026-07",
           "date": "2026-07-21",
-          "type": "Forum",
-          "title": "세계 축구 명장들을 통해서 본 리더십",
+          "type": "Class",
+          "title": "3高 불황의 그림자, CEO의 하반기 생존 전략",
           "speakers": [
             "미정"
           ],
