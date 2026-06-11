@@ -383,6 +383,73 @@
 
   .footer strong { color: #2f374d; }
 
+  /* 잡페어 마감 배너 */
+  .jobfair-banner {
+    margin: 14px 18px 4px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #c8a84b;
+  }
+  .jobfair-header {
+    background: linear-gradient(135deg, #071a3f 0%, #10306b 100%);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .jobfair-title {
+    color: #f0d06b;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .jobfair-title span { color: #fff; font-size: 13px; font-weight: 600; margin-left: 6px; }
+  .jobfair-closed-badge {
+    background: #c0392b;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .jobfair-body {
+    background: #fff;
+    padding: 13px 16px 14px;
+  }
+  .jobfair-info-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #2f3448;
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+  .jobfair-info-row + .jobfair-info-row { margin-top: 4px; }
+  .jobfair-info-label { color: #10306b; font-weight: 700; min-width: 32px; flex-shrink: 0; }
+  .jobfair-schedule {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #dde3ef;
+  }
+  .jobfair-schedule-title { font-size: 11px; font-weight: 700; color: #8090b0; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+  .jobfair-row { display: flex; gap: 10px; font-size: 12px; color: #475067; line-height: 1.5; }
+  .jobfair-row + .jobfair-row { margin-top: 3px; }
+  .jobfair-time { color: #10306b; font-weight: 700; min-width: 90px; flex-shrink: 0; }
+  .jobfair-notice {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #fff4f4;
+    border-radius: 7px;
+    border: 1px solid #f5c6c6;
+    font-size: 12px;
+    color: #a93030;
+    font-weight: 600;
+    text-align: center;
+  }
+
   @media (max-width: 430px) {
     .hero { padding: 18px 17px 17px; }
     .hero h1 { font-size: 23px; }
@@ -403,6 +470,32 @@
     <h1>정년 없는 전문직을 <span>찾고 계신가요?</span></h1>
     <p>삼성생명 GFC 기업재무컨설턴트 공개 채용. 관심 있는 분 누구나 지원 가능합니다.</p>
   </section>
+
+  <!-- 잡페어 마감 배너 -->
+  <div class="jobfair-banner">
+    <div class="jobfair-header">
+      <div class="jobfair-title">GFC JOB FAIR <span>2026.6.25(목)</span></div>
+      <div class="jobfair-closed-badge">신청 마감</div>
+    </div>
+    <div class="jobfair-body">
+      <div class="jobfair-info-row">
+        <span class="jobfair-info-label">📅 일시</span>
+        <span>2026년 6월 25일(목) 10:30 ~ 13:30</span>
+      </div>
+      <div class="jobfair-info-row">
+        <span class="jobfair-info-label">📍 장소</span>
+        <span>삼성생명 휴먼센터 219호<br><span style="color:#8090b0;font-size:12px;">경기도 용인시 기흥구 보정로 5</span></span>
+      </div>
+      <div class="jobfair-schedule">
+        <div class="jobfair-schedule-title">행사 일정</div>
+        <div class="jobfair-row"><span class="jobfair-time">10:30 ~ 11:30</span><span>GFC 소개 · 대표 지점장</span></div>
+        <div class="jobfair-row"><span class="jobfair-time">11:40 ~ 11:45</span><span>GFC JOB 소개 · 동영상 시청</span></div>
+        <div class="jobfair-row"><span class="jobfair-time">11:45 ~ 12:30</span><span>나는 어떻게 연봉 5억 GFC가 되었을까? · 원종천 팀장</span></div>
+        <div class="jobfair-row"><span class="jobfair-time">12:30 ~ 13:30</span><span>중식</span></div>
+      </div>
+      <div class="jobfair-notice">⛔ 잡페어 신청이 마감되었습니다 (6/10 마감) · 개별 채용 지원은 아래에서 가능합니다</div>
+    </div>
+  </div>
 
   <!-- 팩트 강조 박스 -->
   <div class="fact-box">
