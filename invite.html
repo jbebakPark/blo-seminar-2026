@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="BLO 조찬세미나 | 세미나 신청하기 · 추천인코드 9618628">
-<meta property="og:description" content="변화하는 자산 시장, 부동산의 미래 | 6/16(화) 오전 7:30 | 박원갑 수석전문위원 | 신청: www.samsung2030blo.com">
+<meta property="og:title" content="BLO 조찬세미나 | 6월 행사 종료 · 7월 세미나 신청 안내">
+<meta property="og:description" content="변화하는 자산 시장, 부동산의 미래 | 6/16(화) 행사 종료 | 다음 세미나: 7/21(화) | www.samsung2030blo.com">
 <meta property="og:url" content="https://admin-samsung-vvip.web.app/invite?m=2026-06">
 <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=12">
 <meta property="og:image:width" content="1024">
@@ -391,6 +391,73 @@ html, body {
   cursor:not-allowed; pointer-events:none; transform:none;
 }
 
+/* 행사 종료 배너 */
+.ended-banner {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1515 100%);
+  border-bottom: 3px solid #CC2222;
+  padding: 14px 20px;
+  text-align: center;
+}
+.ended-banner-badge {
+  display: inline-block;
+  background: #CC2222;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.ended-banner-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.ended-banner-sub {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  font-weight: 500;
+}
+.ended-banner-next {
+  margin-top: 8px;
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #C8A84B;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 6px;
+}
+/* 신청 섹션 종료 처리 */
+.apply-ended-overlay {
+  background: linear-gradient(135deg, #0A1628 0%, #0D2244 100%);
+  padding: 30px 20px;
+  text-align: center;
+}
+.apply-ended-icon { font-size: 40px; margin-bottom: 12px; }
+.apply-ended-title { color: #fff; font-size: 20px; font-weight: 900; margin-bottom: 8px; }
+.apply-ended-desc { color: #7FA8D4; font-size: 14px; line-height: 1.7; }
+.apply-ended-next {
+  margin-top: 16px;
+  display: inline-block;
+  background: #C8A84B;
+  color: #0A1628;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+/* sticky 종료 */
+.sticky-cta-btn.ended {
+  background: #6B7280;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* ══ 행사 진행 흐름 ══ */
 .flow-sec { background:#fff; padding:24px 22px; border-top:3px solid #1050A0; }
 .sec-title-row {
@@ -595,6 +662,14 @@ html, body {
 <body>
 <div class="wrap">
 
+<!-- 행사 종료 배너 -->
+<div class="ended-banner">
+  <div class="ended-banner-badge">⛔ 행사 종료</div>
+  <div class="ended-banner-title">6월 세미나가 종료되었습니다</div>
+  <div class="ended-banner-sub">2026.6.16(화) · 변화하는 자산 시장, 부동산의 미래</div>
+  <div class="ended-banner-next">▶ 다음 세미나: 7/21(화) · 3高 불황의 그림자</div>
+</div>
+
 <!-- ① 히어로 -->
 <div class="hero">
   <div class="hero-topbar">
@@ -678,8 +753,22 @@ html, body {
   <p>6월 Business Live ON에서는<br>박원갑 수석전문위원과 함께<br>부동산 시장을 분석하고 전망합니다.</p>
 </div>
 
-<!-- ⑤ 신청 섹션 (핵심 개편) -->
+<!-- ⑤ 신청 섹션 (행사 종료) -->
 <div class="apply-sec" id="applySection">
+  <div class="apply-ended-overlay">
+    <div class="apply-ended-icon">🏁</div>
+    <div class="apply-ended-title">6월 세미나가 종료되었습니다</div>
+    <div class="apply-ended-desc">
+      2026.6.16(화) 오전 7:30 ~ 9:00<br>
+      변화하는 자산 시장, 부동산의 미래<br><br>
+      온라인 다시보기는 <strong style="color:#fff;">www.samsung2030blo.com</strong><br>
+      에서 시청 가능합니다.
+    </div>
+    <a class="apply-ended-next" href="http://www.samsung2030blo.com" target="_blank">
+      📺 온라인 다시보기 →
+    </a>
+  </div>
+  <div style="display:none;" id="applySection-hidden">
   <div class="apply-sec-title">세미나 신청하기</div>
   <div class="apply-sec-sub">아래에서 신청 방법을 선택해 주세요</div>
 
@@ -838,6 +927,7 @@ html, body {
     </div>
   </div><!-- /offlinePanel -->
 
+  </div><!-- /applySection-hidden -->
 </div><!-- /apply-sec -->
 
 <!-- ⑥ 행사 진행 흐름 -->
@@ -944,11 +1034,11 @@ html, body {
         <span class="annl-session-title">중동의 불꽃, 전쟁이 뒤흔든 글로벌경제</span>
         <span class="annl-done-mark">✓</span>
       </div>
-      <div class="annl-row current">
+      <div class="annl-row done">
         <span class="annl-date">06.16</span>
         <span class="annl-type-tag">Class</span>
         <span class="annl-session-title">변화하는 자산 시장, 부동산의 미래</span>
-        <span class="annl-now-mark">▶ 신청중</span>
+        <span class="annl-done-mark">✓</span>
       </div>
     </div>
 
@@ -1070,14 +1160,14 @@ html, body {
 <!-- 하단 고정 신청 버튼 -->
 <div class="sticky-cta">
   <div class="sticky-meta">
-    <span class="sticky-event-label">📅 6/16(화) · 삼성생명 BLO 조찬세미나</span>
+    <span class="sticky-event-label">🏁 6/16(화) 행사 종료 · 다음 7/21(화)</span>
     <div class="sticky-code-wrap">
       <span class="sticky-code-label">추천인 코드</span>
       <span class="sticky-code-value">9618628</span>
     </div>
   </div>
-  <a class="sticky-cta-btn" href="#applySection" onclick="stickyApplyClick(event)">
-    세미나 신청하기 ▶
+  <a class="sticky-cta-btn ended" href="#">
+    ⛔ 6월 세미나 종료 · 다음 세미나 7/21
   </a>
 </div>
 
