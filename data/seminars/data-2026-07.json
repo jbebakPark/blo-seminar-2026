@@ -1,0 +1,40 @@
+{
+  "month": "2026-07",
+  "counters": {
+    "offline": 0,
+    "online": 0
+  },
+  "monthName": "7월",
+  "date": "2026-07-21",
+  "seminar": {
+    "title": "3高 불황의 그림자, CEO의 하반기 생존 전략",
+    "subtitle": "2026 CEO Survival Strategy in High-Risk Economy",
+    "date": "2026년 7월 21일(화)",
+    "time": "오전 07:30 ~ 09:00",
+    "speaker": {
+      "name": "김경원 교수",
+      "org": "세종대학교 대외부총장 / 특임부총장"
+    },
+    "description": "지정학적 리스크와 함께 찾아온 3高 불황의 그림자. 대내외 경제 변수의 변화 속 생존하는 기업의 의사결정은 무엇이, 어떻게 다를까요?"
+  },
+  "contact": {
+    "name": "박재박 팀장",
+    "phone": "010-5137-2327",
+    "kakao": "https://open.kakao.com/o/sleUSUei",
+    "website": "www.samsung2030blo.com"
+  },
+  "reg": {
+    "offline": {
+      "deadline": "7/17(금) 17:00까지",
+      "breakfast": { "time": "06:30 ~ 07:20", "location": "삼성금융캠퍼스 지하 2층 카페테리아" },
+      "seminar":   { "time": "07:30 ~ 09:00", "location": "삼성금융캠퍼스 B2F 비전홀" },
+      "address": "서울특별시 서초구 사임당로 23길 27"
+    }
+  },
+  "benefits": [
+    { "icon": "🍳", "title": "프리미엄 조찬",    "desc": "삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)" },
+    { "icon": "🎥", "title": "실시간 온라인",    "desc": "어디서나 실시간 시청 · 당일 재방송 20:00~22:00" },
+    { "icon": "🤝", "title": "프리미엄 네트워킹","desc": "오프라인 참석 시 CEO·자산가 교류의 장" },
+    { "icon": "🏆", "title": "연간 세미나 우선권","desc": "1회 신청으로 2026년 12월까지 전 강연 시청" }
+  ]
+}
