@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="BLO 조찬세미나 | 세미나 신청하기 · 추천인코드 9618628">
+<meta property="og:title" content="BLO 조찬세미나 | 세미나 신청하기">
 <meta property="og:description" content="3高 불황의 그림자, CEO의 하반기 생존 전략 | 7/21(화) 오전 7:30 | 김경원 교수 | 신청: www.samsung2030blo.com">
 <meta property="og:url" content="https://admin-samsung-vvip.web.app/invite?m=2026-07">
 <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=13">
@@ -484,108 +484,106 @@ html, body {
 .flow-name { font-size:14px; font-weight:800; color:#0D1A2E; }
 .flow-desc { font-size:11px; color:#778899; margin-top:2px; line-height:1.6; }
 
-/* ══ 연간 일정 — 고대비 다크 카드 ══ */
+/* ══ 연간 일정 — 밝은 분기별 컬러 카드 ══ */
 .annl-wrap {
-  background: linear-gradient(170deg, #0E1D35 0%, #152640 50%, #0F1E36 100%);
-  padding: 0; position: relative; overflow: hidden;
-}
-.annl-wrap::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse at 10% 15%, rgba(0,140,255,0.1) 0%, transparent 45%),
-    radial-gradient(ellipse at 90% 85%, rgba(200,168,75,0.08) 0%, transparent 45%);
+  background: #F0F4FA;
+  padding: 0;
 }
 .annl-header {
-  text-align:center; padding:24px 20px 16px;
-  border-bottom:1px solid rgba(255,255,255,0.1); position:relative;
+  background: linear-gradient(135deg, #071a3f 0%, #10306b 100%);
+  text-align:center; padding:22px 20px 18px;
 }
 .annl-main-title {
-  font-size:20px; font-weight:900; color:#40D4FF; letter-spacing:0.5px;
-  text-shadow:0 0 24px rgba(64,212,255,0.6);
+  font-size:18px; font-weight:900; color:#fff; letter-spacing:0.5px;
 }
 .annl-year-label {
-  font-size:12px; color:rgba(255,255,255,0.65); letter-spacing:3px; margin-top:5px; font-weight:600;
+  font-size:13px; color:#C8A84B; letter-spacing:2px; margin-top:4px; font-weight:700;
 }
 .annl-badge-row {
   display:flex; justify-content:center; gap:6px; margin-top:12px; flex-wrap:wrap;
 }
 .annl-q-pill {
-  font-size:12px; font-weight:800; padding:5px 13px; border-radius:20px; letter-spacing:0.3px;
+  font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px;
 }
-.annl-q-pill.q1 { background:#1A3A5C; color:#60D4FF; border:1.5px solid #3A8CC0; }
-.annl-q-pill.q2 { background:#3A2E00; color:#FFD700; border:1.5px solid #AA8800; }
-.annl-q-pill.q3 { background:#0A3020; color:#40E890; border:1.5px solid #208050; }
-.annl-q-pill.q4 { background:#3A1A1A; color:#FF9090; border:1.5px solid #AA4444; }
+.annl-q-pill.q1 { background:#E8F0FF; color:#1050A0; border:1.5px solid #1050A0; }
+.annl-q-pill.q2 { background:#FFF8E0; color:#8A6000; border:1.5px solid #C8A030; }
+.annl-q-pill.q3 { background:#FFF0E8; color:#A04010; border:1.5px solid #D06030; }
+.annl-q-pill.q4 { background:#F0E8FF; color:#602090; border:1.5px solid #8040C0; }
 
-.annl-body { padding:16px 14px 8px; position:relative; }
-.annl-quarter { margin-bottom:14px; }
+.annl-body { padding:14px 14px 6px; }
+.annl-quarter {
+  background:#fff; border-radius:12px; overflow:hidden;
+  margin-bottom:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.07);
+}
 .annl-q-header {
-  display:flex; align-items:center; gap:8px; margin-bottom:8px;
+  display:flex; align-items:center; gap:0; margin-bottom:0; padding:10px 14px;
 }
 .annl-q-tag {
-  font-size:11px; font-weight:900; padding:4px 11px; border-radius:12px; flex-shrink:0;
+  font-size:11px; font-weight:900; padding:4px 12px; border-radius:6px 0 0 6px; flex-shrink:0;
+  margin-right:12px;
 }
-.annl-q-tag.q1 { background:#1A3A5C; color:#60D4FF; border:1px solid #3A8CC0; }
-.annl-q-tag.q2 { background:#3A2E00; color:#FFD700; border:1px solid #AA8800; }
-.annl-q-tag.q3 { background:#0A3020; color:#40E890; border:1px solid #208050; }
-.annl-q-tag.q4 { background:#3A1A1A; color:#FF9090; border:1px solid #AA4444; }
+.annl-q-tag.q1 { background:#1050A0; color:#fff; }
+.annl-q-tag.q2 { background:#C8A030; color:#fff; }
+.annl-q-tag.q3 { background:#D06030; color:#fff; }
+.annl-q-tag.q4 { background:#8040C0; color:#fff; }
 .annl-q-theme {
-  font-size:12px; color:#C8D8E8; font-weight:700; flex:1;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-size:12px; font-weight:800; color:#1A2A3A; flex:1; word-break:keep-all;
 }
-.annl-q-line { flex:1; height:1px; background:rgba(255,255,255,0.12); }
+.annl-q-line { display:none; }
 
+/* 분기별 좌측 컬러 보더 */
+.annl-quarter.q1-card { border-left:4px solid #1050A0; }
+.annl-quarter.q2-card { border-left:4px solid #C8A030; }
+.annl-quarter.q3-card { border-left:4px solid #D06030; }
+.annl-quarter.q4-card { border-left:4px solid #8040C0; }
+
+.annl-rows { border-top:1px solid #EEF2F8; }
 .annl-row {
   display:flex; align-items:center; gap:8px;
-  padding:9px 11px; border-radius:8px; margin-bottom:4px;
-  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09);
+  padding:9px 14px; border-bottom:1px solid #F0F4F8;
 }
-.annl-row.done {
-  background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.06);
-}
+.annl-row:last-child { border-bottom:none; }
+.annl-row.done { background:#FAFBFD; }
 .annl-row.current {
-  background:linear-gradient(135deg, #1A3D6A 0%, #1E4A80 100%);
-  border:2px solid #40C8FF;
-  box-shadow:0 0 20px rgba(64,200,255,0.25);
-  padding:11px 13px;
+  background:linear-gradient(135deg, #EBF2FF 0%, #E0ECFF 100%);
+  border-left:4px solid #1050A0;
+  padding:12px 14px 12px 10px;
 }
 .annl-date {
-  font-size:13px; font-weight:900; color:#90C0E0; min-width:36px; flex-shrink:0;
+  font-size:12px; font-weight:900; color:#1050A0; min-width:36px; flex-shrink:0;
 }
-.annl-row.current .annl-date { color:#40D4FF; font-size:15px; }
-.annl-row.done .annl-date { color:#607080; }
+.annl-row.done .annl-date { color:#A0AFBF; }
+.annl-row.current .annl-date { color:#1050A0; font-size:14px; }
 .annl-type-tag {
-  font-size:10px; font-weight:800; padding:3px 8px; border-radius:6px; flex-shrink:0;
-  background:rgba(255,255,255,0.12); color:#C0D8F0;
+  font-size:10px; font-weight:800; padding:2px 7px; border-radius:5px; flex-shrink:0;
+  background:#E8F0FF; color:#1050A0; border:1px solid #C0D0F0;
 }
-.annl-row.current .annl-type-tag { background:#40D4FF; color:#0A1A2E; font-weight:900; }
-.annl-type-tag.sp { background:#3A2E00; color:#FFD700; border:1px solid #AA8800; }
-.annl-row.done .annl-type-tag { background:rgba(255,255,255,0.07); color:#708090; }
+.annl-row.done .annl-type-tag { background:#F0F2F5; color:#A0AFBF; border-color:#E0E5EC; }
+.annl-row.current .annl-type-tag { background:#1050A0; color:#fff; border-color:#1050A0; }
+.annl-type-tag.sp { background:#FFF8E0; color:#8A6000; border:1px solid #C8A030; }
 .annl-session-title {
-  flex:1; font-size:13px; font-weight:700; color:#E8F0F8;
+  flex:1; font-size:13px; font-weight:700; color:#1A2A3A;
   line-height:1.4; word-break:keep-all;
 }
-.annl-row.current .annl-session-title { color:#FFFFFF; font-size:14px; font-weight:900; }
-.annl-row.done .annl-session-title { color:#8AAABB; font-weight:600; }
-.annl-done-mark { color:#40C870; font-size:13px; font-weight:900; flex-shrink:0; }
+.annl-row.done .annl-session-title { color:#A0AFBF; font-weight:500; }
+.annl-row.current .annl-session-title { color:#071a3f; font-size:14px; font-weight:900; }
+.annl-done-mark { color:#22AA66; font-size:13px; font-weight:900; flex-shrink:0; }
 .annl-now-mark {
-  font-size:11px; font-weight:900; color:#FFD700;
-  background:#3A2E00; border:1.5px solid #AA8800;
-  padding:3px 8px; border-radius:8px; flex-shrink:0; white-space:nowrap;
+  font-size:11px; font-weight:900; color:#fff;
+  background:#1050A0;
+  padding:4px 9px; border-radius:8px; flex-shrink:0; white-space:nowrap;
 }
-
-.annl-divider { height:1px; background:rgba(255,255,255,0.1); margin:10px 0; }
+.annl-divider { display:none; }
 
 .annl-cta {
-  margin:12px 14px 20px;
-  background:linear-gradient(135deg, #2C2000 0%, #3A2A00 100%);
-  border:2px solid #C8A030; border-radius:14px;
-  padding:16px 18px; text-align:center;
+  margin:10px 14px 18px;
+  background:linear-gradient(135deg, #071a3f 0%, #10306b 100%);
+  border-radius:12px; padding:16px 18px; text-align:center;
 }
 .annl-cta-icon { font-size:24px; margin-bottom:6px; }
-.annl-cta-text { font-size:13px; color:#E0C060; font-weight:700; line-height:1.8; }
-.annl-cta-text strong { color:#FFD700; font-size:15px; display:block; font-weight:900; }
+.annl-cta-text { font-size:13px; color:#C8D8F8; font-weight:600; line-height:1.8; }
+.annl-cta-text strong { color:#C8A84B; font-size:15px; display:block; font-weight:900; }
 
 /* ══ 혜택 ══ */
 .benefit-sec { background:#f7f9fc; padding:24px 22px; border-top:1px solid #E8EEF6; }
@@ -799,7 +797,7 @@ html, body {
       <div class="code-box">
         <div class="code-box-label">온라인 신청 시 반드시 입력 — 추천인 코드</div>
         <div class="code-box-warn">⚠️ 회원가입 시 추천인 코드란에 입력</div>
-        <div class="code-number" id="refCode">9618628</div>
+        <div class="code-number" id="refCode" style="letter-spacing:6px;color:#A0AFBF;">●●●●●●●</div>
         <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">
           📋 코드 복사하기
         </button>
@@ -810,7 +808,7 @@ html, body {
         <div class="confirm-gate-title">⚠️ 신청 전 반드시 확인하세요</div>
         <label class="confirm-item">
           <input type="checkbox" id="chk1" onchange="if(this.checked){copyCode();}else{_codeCopied=false;updateApplyBtn();}">
-          <span>위 [코드 복사하기] 버튼으로 추천인 코드 <strong>9618628</strong>을 복사했습니다</span>
+          <span>위 [코드 복사하기] 버튼으로 추천인 코드를 복사했습니다</span>
         </label>
         <label class="confirm-item">
           <input type="checkbox" id="chk2" onchange="updateApplyBtn()">
@@ -965,111 +963,109 @@ html, body {
   <div class="annl-body">
 
     <!-- 1Q -->
-    <div class="annl-quarter">
+    <div class="annl-quarter q1-card">
       <div class="annl-q-header">
         <span class="annl-q-tag q1">1Q</span>
         <span class="annl-q-theme">Tech Insight · 차세대 혁신 기술</span>
-        <span class="annl-q-line"></span>
       </div>
-      <div class="annl-row done">
-        <span class="annl-date">01.13</span>
-        <span class="annl-type-tag">Forum</span>
-        <span class="annl-session-title">AI시대, 인간의 판단력은 어디로?</span>
-        <span class="annl-done-mark">✓</span>
-      </div>
-      <div class="annl-row done">
-        <span class="annl-date">02.24</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">인류의 새로운 도전, 우주 탐사와 그 너머</span>
-        <span class="annl-done-mark">✓</span>
-      </div>
-      <div class="annl-row done">
-        <span class="annl-date">03.24</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">피지컬 AI와 로봇 대항해의 시대</span>
-        <span class="annl-done-mark">✓</span>
+      <div class="annl-rows">
+        <div class="annl-row done">
+          <span class="annl-date">01.13</span>
+          <span class="annl-type-tag">Forum</span>
+          <span class="annl-session-title">AI시대, 인간의 판단력은 어디로?</span>
+          <span class="annl-done-mark">✓</span>
+        </div>
+        <div class="annl-row done">
+          <span class="annl-date">02.24</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">인류의 새로운 도전, 우주 탐사와 그 너머</span>
+          <span class="annl-done-mark">✓</span>
+        </div>
+        <div class="annl-row done">
+          <span class="annl-date">03.24</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">피지컬 AI와 로봇 대항해의 시대</span>
+          <span class="annl-done-mark">✓</span>
+        </div>
       </div>
     </div>
 
-    <div class="annl-divider"></div>
-
     <!-- 2Q -->
-    <div class="annl-quarter">
+    <div class="annl-quarter q2-card">
       <div class="annl-q-header">
         <span class="annl-q-tag q2">2Q</span>
         <span class="annl-q-theme">Money Insight · 변화하는 자산 시장</span>
-        <span class="annl-q-line"></span>
       </div>
-      <div class="annl-row done">
-        <span class="annl-date">04.21</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">AI 반도체가 주도하는 금융시장</span>
-        <span class="annl-done-mark">✓</span>
-      </div>
-      <div class="annl-row done">
-        <span class="annl-date">05.19</span>
-        <span class="annl-type-tag sp">특집</span>
-        <span class="annl-session-title">중동의 불꽃, 전쟁이 뒤흔든 글로벌경제</span>
-        <span class="annl-done-mark">✓</span>
-      </div>
-      <div class="annl-row done">
-        <span class="annl-date">06.16</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">변화하는 자산 시장, 부동산의 미래</span>
-        <span class="annl-done-mark">✓</span>
+      <div class="annl-rows">
+        <div class="annl-row done">
+          <span class="annl-date">04.21</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">AI 반도체가 주도하는 금융시장</span>
+          <span class="annl-done-mark">✓</span>
+        </div>
+        <div class="annl-row done">
+          <span class="annl-date">05.19</span>
+          <span class="annl-type-tag sp">특집</span>
+          <span class="annl-session-title">중동의 불꽃, 전쟁이 뒤흔든 글로벌경제</span>
+          <span class="annl-done-mark">✓</span>
+        </div>
+        <div class="annl-row done">
+          <span class="annl-date">06.16</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">변화하는 자산 시장, 부동산의 미래</span>
+          <span class="annl-done-mark">✓</span>
+        </div>
       </div>
     </div>
 
-    <div class="annl-divider"></div>
-
-    <!-- 3Q -->
-    <div class="annl-quarter">
+    <!-- 3Q — 현재 신청 가능 -->
+    <div class="annl-quarter q3-card">
       <div class="annl-q-header">
         <span class="annl-q-tag q3">3Q</span>
         <span class="annl-q-theme">Human Insight · 격변에 대처하는 리더의 자세</span>
-        <span class="annl-q-line"></span>
       </div>
-      <div class="annl-row current">
-        <span class="annl-date">07.21</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">3高 불황의 그림자, CEO의 하반기 생존 전략</span>
-        <span class="annl-now-mark">▶ 신청중</span>
-      </div>
-      <div class="annl-row">
-        <span class="annl-date">08.18</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">리더를 위한 정신과 의사의 조언</span>
-      </div>
-      <div class="annl-row">
-        <span class="annl-date">09.15</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">타인의 마음을 얻는 소통</span>
+      <div class="annl-rows">
+        <div class="annl-row current">
+          <span class="annl-date">07.21</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">3高 불황의 그림자, CEO의 하반기 생존 전략</span>
+          <span class="annl-now-mark">▶ 신청중</span>
+        </div>
+        <div class="annl-row">
+          <span class="annl-date">08.18</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">리더를 위한 정신과 의사의 조언</span>
+        </div>
+        <div class="annl-row">
+          <span class="annl-date">09.15</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">타인의 마음을 얻는 소통</span>
+        </div>
       </div>
     </div>
 
-    <div class="annl-divider"></div>
-
     <!-- 4Q -->
-    <div class="annl-quarter">
+    <div class="annl-quarter q4-card">
       <div class="annl-q-header">
         <span class="annl-q-tag q4">4Q</span>
-        <span class="annl-q-theme">혁신과 성장을 위한 2027년 전망</span>
-        <span class="annl-q-line"></span>
+        <span class="annl-q-theme">2027 Outlook · 혁신과 성장</span>
       </div>
-      <div class="annl-row">
-        <span class="annl-date">10.20</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">Next transition 2027 : 소비 트렌드</span>
-      </div>
-      <div class="annl-row">
-        <span class="annl-date">11.17</span>
-        <span class="annl-type-tag">Forum</span>
-        <span class="annl-session-title">Next transition 2027 : 국제정세</span>
-      </div>
-      <div class="annl-row">
-        <span class="annl-date">12.15</span>
-        <span class="annl-type-tag">Class</span>
-        <span class="annl-session-title">Next transition 2027 : 경제/투자</span>
+      <div class="annl-rows">
+        <div class="annl-row">
+          <span class="annl-date">10.20</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">Next transition 2027 : 소비 트렌드</span>
+        </div>
+        <div class="annl-row">
+          <span class="annl-date">11.17</span>
+          <span class="annl-type-tag">Forum</span>
+          <span class="annl-session-title">Next transition 2027 : 국제정세</span>
+        </div>
+        <div class="annl-row">
+          <span class="annl-date">12.15</span>
+          <span class="annl-type-tag">Class</span>
+          <span class="annl-session-title">Next transition 2027 : 경제/투자</span>
+        </div>
       </div>
     </div>
 
@@ -1142,7 +1138,7 @@ html, body {
     <span class="sticky-event-label">📅 7/21(화) · 삼성생명 BLO 조찬세미나</span>
     <div class="sticky-code-wrap">
       <span class="sticky-code-label">추천인 코드</span>
-      <span class="sticky-code-value">9618628</span>
+      <span class="sticky-code-value" style="letter-spacing:3px;color:#A0B8CC;">●●●●●●●</span>
     </div>
   </div>
   <a class="sticky-cta-btn" href="#applySection" onclick="stickyApplyClick(event)">
@@ -1222,13 +1218,25 @@ function updateApplyBtn() {
 
 /* ── 추천인 코드 복사 ── */
 function copyCode() {
-  var code = '9618628';
+  var code = atob('OTYxODYyOA=='); /* 코드 난독화 */
   var btn  = document.getElementById('copyBtn');
+  var refEl = document.getElementById('refCode');
   function onCopied() {
     _codeCopied = true;
     markCopied(btn);
     var chk1 = document.getElementById('chk1');
     if (chk1) { chk1.checked = true; updateApplyBtn(); }
+    /* 복사 후 2초만 코드 표시, 이후 재마스킹 */
+    if (refEl) {
+      refEl.textContent = code;
+      refEl.style.letterSpacing = '4px';
+      refEl.style.color = '#071a3f';
+      setTimeout(function() {
+        refEl.textContent = '●●●●●●●';
+        refEl.style.letterSpacing = '6px';
+        refEl.style.color = '#A0AFBF';
+      }, 2000);
+    }
   }
   try {
     navigator.clipboard.writeText(code).then(onCopied).catch(function() {
@@ -1253,7 +1261,7 @@ function markCopied(btn) {
       btn.classList.remove('copied');
     }, 3000);
   }
-  showToast('📋 코드 9618628이 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
+  showToast('📋 추천인 코드가 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
 }
 
 /* ── sticky CTA 클릭 → 온라인 탭으로 스크롤 ── */
@@ -1297,9 +1305,8 @@ function scrollToApply(e) {
 
 /* ── 초대장 공유 ── */
 function shareInvite() {
-  var base   = 'https://admin-samsung-vvip.web.app/invite?m=2026-07';
-  var fpCode = new URLSearchParams(window.location.search).get('fp') || '';
-  var url    = fpCode ? base + '&fp=' + fpCode : base;
+  var url = 'https://admin-samsung-vvip.web.app/invite?m=2026-07';
+  var code = atob('OTYxODYyOA==');
   var msg =
     '📢 삼성생명 BLO 세미나 안내\n' +
     '━━━━━━━━━━━━━━━━\n' +
@@ -1320,7 +1327,7 @@ function shareInvite() {
     '  ② 가입 시 추천인 코드란에 반드시 입력\n' +
     '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
     '\n' +
-    '🔑 추천인 코드 : 9618628\n' +
+    '🔑 추천인 코드 : ' + code + '\n' +
     '━━━━━━━━━━━━━━━━\n' +
     '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
     '세부 안내: ' + url;

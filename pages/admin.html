@@ -682,7 +682,8 @@ function buildMyLink(data) {
   const month  = data.month  || '05';
   const fpCode = data.referralCode || '';
   const mParam = `${year}-${String(month).padStart(2,'0')}`;
-  _myInviteLink = `https://admin-samsung-vvip.web.app/invite?m=${mParam}&fp=${fpCode}`;
+  /* fp 코드는 URL에 포함하지 않음 — 메시지 본문에만 포함 */
+  _myInviteLink = `https://admin-samsung-vvip.web.app/invite?m=${mParam}`;
 
   const stickyCta  = data.stickyCta  || data.ogTitle || '';
   const watchDate  = `${parseInt(month)}/${(data.speakers ? data.speakers.map(s=>s.name).join(' · ') : '')}`;
@@ -750,7 +751,7 @@ async function loadFpClicks() {
     const json = await res.json();
     const docs = json.documents || [];
     if (docs.length === 0) {
-      el.innerHTML = '<span class="fp-click-empty">아직 fp 링크 클릭 기록이 없습니다.<br>링크 공유 시 ?fp=9618628 파라미터를 포함해 주세요.</span>';
+      el.innerHTML = '<span class="fp-click-empty">아직 초대 링크 클릭 기록이 없습니다.</span>';
       return;
     }
     // 현재 월 기준 정렬
