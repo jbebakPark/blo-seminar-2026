@@ -484,117 +484,119 @@ html, body {
 .flow-name { font-size:14px; font-weight:800; color:#0D1A2E; }
 .flow-desc { font-size:11px; color:#778899; margin-top:2px; line-height:1.6; }
 
-/* ══ 연간 일정 — 완전 리디자인 ══ */
-.annl-wrap { background:#0F1E3A; padding:0; }
+/* ══ 연간 일정 — 밝은 테마 고가독성 ══ */
+.annl-wrap { background:#F0F4FA; padding:0; }
 
 .annl-header {
-  background:linear-gradient(160deg,#071228 0%,#0D2244 60%,#102A50 100%);
-  text-align:center; padding:24px 16px 20px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
+  background:linear-gradient(135deg,#0A2550 0%,#0F3070 100%);
+  text-align:center; padding:22px 16px 18px;
 }
 .annl-main-title {
-  font-size:11px; font-weight:800; color:#C8A84B; letter-spacing:4px;
+  font-size:10px; font-weight:800; color:#C8A84B; letter-spacing:4px;
   text-transform:uppercase; margin-bottom:6px;
 }
 .annl-year-label {
   font-size:22px; font-weight:900; color:#fff; letter-spacing:1px;
 }
 .annl-badge-row {
-  display:flex; justify-content:center; gap:6px; margin-top:14px; flex-wrap:wrap;
+  display:flex; justify-content:center; gap:6px; margin-top:12px; flex-wrap:wrap;
 }
 .annl-q-pill {
-  font-size:10px; font-weight:800; padding:4px 11px; border-radius:20px; letter-spacing:0.5px;
+  font-size:10px; font-weight:800; padding:4px 12px; border-radius:20px;
 }
-.annl-q-pill.q1 { background:rgba(30,100,220,0.25); color:#7EB0FF; border:1px solid rgba(30,100,220,0.5); }
-.annl-q-pill.q2 { background:rgba(200,160,48,0.25); color:#FFCC55; border:1px solid rgba(200,160,48,0.5); }
-.annl-q-pill.q3 { background:rgba(220,80,30,0.25); color:#FF9060; border:1px solid rgba(220,80,30,0.5); }
-.annl-q-pill.q4 { background:rgba(140,60,220,0.25); color:#CC88FF; border:1px solid rgba(140,60,220,0.5); }
+.annl-q-pill.q1 { background:#1558D0; color:#fff; }
+.annl-q-pill.q2 { background:#C8920A; color:#fff; }
+.annl-q-pill.q3 { background:#C84010; color:#fff; }
+.annl-q-pill.q4 { background:#7020B0; color:#fff; }
 
-.annl-body { padding:12px 12px 4px; }
+.annl-body { padding:12px 12px 6px; }
 
-/* 분기 블록 */
-.annl-quarter { border-radius:14px; overflow:hidden; margin-bottom:10px; }
+/* 분기 카드 */
+.annl-quarter {
+  border-radius:12px; overflow:hidden;
+  margin-bottom:10px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.10);
+}
 
-/* 분기 헤더 — 강한 풀컬러 배경 */
+/* 분기 헤더 */
 .annl-q-header {
-  padding:12px 16px 10px;
-  display:flex; align-items:center; gap:10px;
+  padding:13px 16px 11px;
+  display:flex; align-items:center; gap:12px;
 }
-.annl-quarter.q1-card .annl-q-header { background:linear-gradient(100deg,#0D3A9E,#1A5CC8); }
-.annl-quarter.q2-card .annl-q-header { background:linear-gradient(100deg,#8A6200,#B8880A); }
-.annl-quarter.q3-card .annl-q-header { background:linear-gradient(100deg,#A03010,#CC5020); }
-.annl-quarter.q4-card .annl-q-header { background:linear-gradient(100deg,#602090,#8C30CC); }
+.annl-quarter.q1-card .annl-q-header { background:linear-gradient(100deg,#1148B8,#1E60D8); }
+.annl-quarter.q2-card .annl-q-header { background:linear-gradient(100deg,#A87000,#CC8C10); }
+.annl-quarter.q3-card .annl-q-header { background:linear-gradient(100deg,#B03010,#D84820); }
+.annl-quarter.q4-card .annl-q-header { background:linear-gradient(100deg,#5818A0,#7828C8); }
 
 .annl-q-tag {
-  font-size:18px; font-weight:900; color:#fff; flex-shrink:0;
-  opacity:0.9; line-height:1;
+  font-size:20px; font-weight:900; color:#fff; flex-shrink:0; line-height:1;
+  text-shadow:0 1px 3px rgba(0,0,0,0.3);
 }
 .annl-q-info { flex:1; }
 .annl-q-theme {
-  font-size:13px; font-weight:800; color:#fff; word-break:keep-all; line-height:1.3;
+  font-size:14px; font-weight:800; color:#fff; word-break:keep-all; line-height:1.3;
 }
 .annl-q-sub {
-  font-size:10px; font-weight:600; color:rgba(255,255,255,0.65); margin-top:2px;
+  font-size:11px; font-weight:600; color:rgba(255,255,255,0.8); margin-top:2px;
 }
 
-/* 세션 행 */
-.annl-rows { background:#1A2A42; }
+/* 세션 행 — 흰 배경 */
+.annl-rows { background:#fff; }
 .annl-row {
   display:flex; align-items:center; gap:10px;
-  padding:11px 14px; border-bottom:1px solid rgba(255,255,255,0.05);
+  padding:11px 14px; border-bottom:1px solid #EBF0F8;
 }
 .annl-row:last-child { border-bottom:none; }
 
 /* 완료 */
-.annl-row.done { background:#141E30; opacity:0.55; }
-.annl-row.done .annl-date { color:#4A5A70; }
-.annl-row.done .annl-session-title { color:#4A5A70; text-decoration:line-through; }
-.annl-row.done .annl-type-tag { background:#1E2A3E; color:#3A4A5E; border-color:#2A3A52; }
+.annl-row.done { background:#F8F9FB; }
+.annl-row.done .annl-date { color:#B0BAC8; }
+.annl-row.done .annl-session-title { color:#B0BAC8; text-decoration:line-through; font-weight:400; }
+.annl-row.done .annl-type-tag { background:#F0F2F6; color:#B0BAC8; border-color:#E0E5EC; }
+.annl-done-mark { color:#4CAF80; font-size:14px; font-weight:900; flex-shrink:0; }
 
 /* 현재 신청중 */
 .annl-row.current {
-  background:linear-gradient(100deg,rgba(30,80,200,0.3),rgba(20,60,160,0.15));
-  border-left:3px solid #5599FF; padding-left:11px;
-  opacity:1;
+  background:linear-gradient(100deg,#EAF2FF,#F0F6FF);
+  border-left:4px solid #1558D0; padding-left:10px;
 }
-.annl-row.current .annl-date { color:#80AAFF; font-size:14px; }
-.annl-row.current .annl-session-title { color:#fff; font-weight:800; font-size:13.5px; }
+.annl-row.current .annl-date { color:#1148B8; font-size:14px; font-weight:900; }
+.annl-row.current .annl-session-title { color:#0A1E50; font-weight:800; font-size:13.5px; }
+.annl-row.current .annl-type-tag { background:#1558D0; color:#fff; border-color:#1558D0; }
 
 /* 예정 */
-.annl-row:not(.done):not(.current) .annl-date { color:#7090C0; }
-.annl-row:not(.done):not(.current) .annl-session-title { color:#A8C0E0; }
+.annl-row:not(.done):not(.current) .annl-date { color:#3A6AC0; }
+.annl-row:not(.done):not(.current) .annl-session-title { color:#2A3A5A; }
 
 .annl-date {
-  font-size:12px; font-weight:900; min-width:38px; flex-shrink:0; font-variant-numeric:tabular-nums;
+  font-size:12px; font-weight:800; min-width:38px; flex-shrink:0;
+  font-variant-numeric:tabular-nums;
 }
 .annl-type-tag {
   font-size:10px; font-weight:700; padding:2px 8px; border-radius:5px; flex-shrink:0;
-  background:#243450; color:#6A90C0; border:1px solid #2E4060;
+  background:#EAF0FF; color:#1558D0; border:1px solid #C0D4F8;
 }
-.annl-type-tag.sp { background:#2A2010; color:#C8A030; border-color:#4A3A10; }
-.annl-row.current .annl-type-tag { background:#1E4090; color:#90C0FF; border-color:#2A5AB0; }
+.annl-type-tag.sp { background:#FFF8E0; color:#8A6000; border:1px solid #D4B040; }
 
 .annl-session-title {
   flex:1; font-size:13px; font-weight:600; line-height:1.4; word-break:keep-all;
 }
-.annl-done-mark { color:#2A6A44; font-size:13px; font-weight:900; flex-shrink:0; }
 .annl-now-mark {
   font-size:10px; font-weight:800; color:#fff;
-  background:linear-gradient(90deg,#1E4EB0,#2860D0);
-  padding:3px 8px; border-radius:8px; flex-shrink:0; white-space:nowrap;
-  box-shadow:0 2px 8px rgba(30,80,200,0.5);
+  background:#1558D0; padding:3px 9px; border-radius:8px;
+  flex-shrink:0; white-space:nowrap;
+  box-shadow:0 2px 6px rgba(21,88,208,0.35);
 }
 .annl-q-line { display:none; }
 .annl-divider { display:none; }
 
 .annl-cta {
   margin:10px 12px 16px;
-  background:linear-gradient(135deg,#0A1E40,#102A5A);
-  border:1px solid rgba(200,168,75,0.3);
-  border-radius:14px; padding:16px 18px; text-align:center;
+  background:linear-gradient(135deg,#0A2550,#0F3070);
+  border-radius:12px; padding:16px 18px; text-align:center;
 }
 .annl-cta-icon { font-size:22px; margin-bottom:6px; }
-.annl-cta-text { font-size:13px; color:#8AAAD0; font-weight:600; line-height:1.8; }
+.annl-cta-text { font-size:13px; color:#C0D4F0; font-weight:600; line-height:1.8; }
 .annl-cta-text strong { color:#C8A84B; font-size:15px; display:block; font-weight:900; margin-bottom:4px; }
 
 /* ══ 혜택 ══ */
