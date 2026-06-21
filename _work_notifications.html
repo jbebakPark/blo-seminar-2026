@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통보 이력 - 삼성생명 GFC</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <style>
+        :root {
+            --primary: #034EA2;
+            --secondary: #1D74C6;
+            --text-dark: #1A1A1A;
+            --text-light: #666;
+            --bg: #F8F9FA;
+            --white: #fff;
+            --border: #E0E0E0;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --gradient: linear-gradient(135deg, #034EA2 0%, #1D74C6 100%);
+            --shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        .admin-container { max-width: 1500px; margin: 0 auto; padding: 2rem 20px; }
+        .admin-header {
+            background: var(--gradient);
+            color: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .admin-header h1 { font-size: 1.6rem; }
+        .admin-header p { font-size: 0.9rem; opacity: 0.85; margin-top: 0.2rem; }
+        .admin-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+        .admin-nav a {
+            color: #fff; text-decoration: none;
+            padding: 0.45rem 0.9rem; border-radius: 8px;
+            font-size: 0.9rem; transition: background 0.2s;
+        }
+        .admin-nav a:hover { background: rgba(255,255,255,0.2); }
+        .admin-nav a.active { background: rgba(255,255,255,0.3); font-weight: 600; }
+        .btn-logout {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #fff; padding: 0.45rem 0.9rem;
+            border-radius: 8px; cursor: pointer;
+            font-size: 0.9rem; transition: background 0.2s;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,0.25); }
+        .admin-email { font-size: 0.8rem; opacity: 0.8; margin-right: 0.3rem; }
+
+        /* 통계 카드 */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: var(--white); padding: 1rem 1.2rem;
+            border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border-left: 4px solid var(--primary);
+        }
+        .stat-card.success-card { border-left-color: var(--success); }
+        .stat-card.fail-card { border-left-color: var(--danger); }
+        .stat-card.kakao-card { border-left-color: #FEE500; }
+        .stat-card h4 { font-size: 0.8rem; color: var(--text-light); margin-bottom: 0.3rem; }
+        .stat-card .num { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .stat-card.success-card .num { color: var(--success); }
+        .stat-card.fail-card .num { color: var(--danger); }
+        .stat-card.kakao-card .num { color: #b9a800; }
+
+        /* 필터 */
+        .filter-section {
+            background: var(--white); padding: 1.2rem 1.5rem;
+            border-radius: 12px; box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;
+        }
+        .filter-group { display: flex; flex-direction: column; gap: 0.3rem; }
+        .filter-group label { font-size: 0.8rem; color: var(--text-light); font-weight: 600; }
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 6px; font-size: 0.88rem;
+            min-width: 130px;
+        }
+        .btn-filter {
+            padding: 0.5rem 1.2rem;
+            background: var(--primary); color: #fff;
+            border: none; border-radius: 6px;
+            cursor: pointer; font-size: 0.88rem;
+            align-self: flex-end;
+        }
+        .btn-filter:hover { background: #023b7a; }
+        .btn-reset {
+            padding: 0.5rem 1rem;
+            background: #fff; color: var(--text-light);
+            border: 1px solid var(--border); border-radius: 6px;
+            cursor: pointer; font-size: 0.88rem;
+            align-self: flex-end;
+        }
+
+        /* 테이블 섹션 */
+        .table-section {
+            background: var(--white); padding: 1.5rem 2rem;
+            border-radius: 12px; box-shadow: var(--shadow);
+        }
+        .section-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem;
+        }
+        .section-header h2 { font-size: 1rem; }
+        .result-count { font-size: 0.85rem; color: var(--text-light); }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th, td { padding: 0.7rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg); font-weight: 600; color: var(--text-dark); white-space: nowrap; }
+        tr:hover td { background: #f0f6ff; }
+
+        /* 배지 */
+        .badge {
+            padding: 0.18rem 0.55rem; border-radius: 20px;
+            font-size: 0.78rem; font-weight: 600; display: inline-block;
+        }
+        .badge-applicant { background: #e3f2fd; color: #1565c0; }
+        .badge-referrer { background: #f3e5f5; color: #6a1b9a; }
+        .badge-admin { background: #e8f5e9; color: #2e7d32; }
+
+        .badge-email { background: #fff3e0; color: #e65100; }
+        .badge-kakao { background: #FFFDE7; color: #827717; }
+        .badge-sms   { background: #e8f5e9; color: #2e7d32; }
+
+        .badge-접수 { background: #e3f2fd; color: #1565c0; }
+        .badge-검토중 { background: #fff3e0; color: #e65100; }
+        .badge-승인 { background: #e8f5e9; color: #2e7d32; }
+        .badge-거절 { background: #fce4ec; color: #880e4f; }
+
+        .sent-ok { color: var(--success); font-weight: 600; }
+        .sent-fail { color: var(--danger); font-weight: 600; }
+        .error-tip {
+            font-size: 0.75rem; color: var(--danger);
+            display: block; margin-top: 2px;
+            max-width: 200px; white-space: normal;
+        }
+
+        .loading-row td {
+            text-align: center; padding: 3rem;
+            color: var(--text-light);
+        }
+        .spinner { animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            table { font-size: 0.78rem; }
+            th, td { padding: 0.5rem; }
+            .filter-section { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="admin-container">
+
+    <!-- 헤더 -->
+    <div class="admin-header">
+        <div>
+            <h1><i class="fas fa-bell"></i> 통보 이력 관리</h1>
+            <p>지원자 · 추천자 · 관리자 통보 발송 이력</p>
+        </div>
+        <nav class="admin-nav">
+            <a href="index.html"><i class="fas fa-tachometer-alt"></i> 대시보드</a>
+            <a href="applications.html"><i class="fas fa-users"></i> 지원자 관리</a>
+            <a href="notifications.html" class="active"><i class="fas fa-bell"></i> 통보 이력</a>
+            <a href="../index.html"><i class="fas fa-home"></i> 메인</a>
+            <span class="admin-email" id="admin-email"></span>
+            <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> 로그아웃</button>
+        </nav>
+    </div>
+
+    <!-- 통계 카드 -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <h4><i class="fas fa-paper-plane"></i> 전체 발송</h4>
+            <div class="num" id="stat-total">-</div>
+        </div>
+        <div class="stat-card success-card">
+            <h4><i class="fas fa-check-circle"></i> 발송 성공</h4>
+            <div class="num" id="stat-sent">-</div>
+        </div>
+        <div class="stat-card fail-card">
+            <h4><i class="fas fa-times-circle"></i> 발송 실패</h4>
+            <div class="num" id="stat-fail">-</div>
+        </div>
+        <div class="stat-card">
+            <h4><i class="fas fa-envelope"></i> 이메일</h4>
+            <div class="num" id="stat-email">-</div>
+        </div>
+        <div class="stat-card kakao-card">
+            <h4><i class="fas fa-comment"></i> 카카오</h4>
+            <div class="num" id="stat-kakao">-</div>
+        </div>
+    </div>
+
+    <!-- 필터 -->
+    <div class="filter-section">
+        <div class="filter-group">
+            <label>수신자 유형</label>
+            <select id="filter-recipient">
+                <option value="">전체</option>
+                <option value="applicant">지원자</option>
+                <option value="referrer">추천자</option>
+                <option value="admin">관리자</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>통보수단</label>
+            <select id="filter-method">
+                <option value="">전체</option>
+                <option value="email">이메일</option>
+                <option value="kakao">카카오</option>
+                <option value="sms">문자(SMS)</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>진행상태</label>
+            <select id="filter-status">
+                <option value="">전체</option>
+                <option value="접수">접수</option>
+                <option value="검토중">검토중</option>
+                <option value="승인">승인</option>
+                <option value="거절">거절</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>발송여부</label>
+            <select id="filter-sent">
+                <option value="">전체</option>
+                <option value="true">성공</option>
+                <option value="false">실패</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>지원자명 / 관리번호</label>
+            <input type="text" id="filter-search" placeholder="검색어 입력">
+        </div>
+        <button class="btn-filter" onclick="applyFilter()"><i class="fas fa-search"></i> 조회</button>
+        <button class="btn-reset" onclick="resetFilter()"><i class="fas fa-undo"></i> 초기화</button>
+    </div>
+
+    <!-- 이력 테이블 -->
+    <div class="table-section">
+        <div class="section-header">
+            <h2><i class="fas fa-list"></i> 통보 이력</h2>
+            <span class="result-count" id="result-count"></span>
+        </div>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>관리번호</th>
+                        <th>지원자명</th>
+                        <th>접수일시</th>
+                        <th>통보일시</th>
+                        <th>수신자</th>
+                        <th>연락처</th>
+                        <th>통보수단</th>
+                        <th>진행상태</th>
+                        <th>발송여부</th>
+                    </tr>
+                </thead>
+                <tbody id="notif-tbody">
+                    <tr class="loading-row">
+                        <td colspan="9">
+                            <i class="fas fa-circle-notch spinner"></i> 데이터 로딩 중...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Firebase 설정 -->
+<script src="../js/env-loader.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script>
+    let allHistory = [];
+    let filteredHistory = [];
+
+    // ========================================
+    // 인증 체크
+    // ========================================
+    (function checkAuth() {
+        const timer = setInterval(() => {
+            if (typeof firebase === 'undefined' || firebase.apps.length === 0) return;
+            clearInterval(timer);
+            const auth = firebase.auth();
+            auth.onAuthStateChanged(user => {
+                if (!user) {
+                    window.location.href = 'login.html';
+                } else {
+                    const emailEl = document.getElementById('admin-email');
+                    if (emailEl) emailEl.textContent = user.email;
+                    window.db = firebase.firestore();
+                    loadNotifications();
+                }
+            });
+        }, 100);
+    })();
+
+    function doLogout() {
+        if (!confirm('로그아웃 하시겠습니까?')) return;
+        firebase.auth().signOut().then(() => window.location.href = 'login.html');
+    }
+
+    // ========================================
+    // 데이터 로드
+    // ========================================
+    async function loadNotifications() {
+        const db = window.db;
+        if (!db) return;
+        try {
+            const snapshot = await db.collection('notification_history')
+                .orderBy('notification_datetime', 'desc')
+                .limit(200)
+                .get();
+            allHistory = [];
+            snapshot.forEach(doc => allHistory.push({ id: doc.id, ...doc.data() }));
+            filteredHistory = [...allHistory];
+            updateStats(allHistory);
+            renderTable(filteredHistory);
+            document.getElementById('result-count').textContent = `총 ${filteredHistory.length}건`;
+        } catch (err) {
+            console.warn('정렬 인덱스 없음, 기본 조회:', err.message);
+            try {
+                const snapshot2 = await db.collection('notification_history').limit(200).get();
+                allHistory = [];
+                snapshot2.forEach(doc => allHistory.push({ id: doc.id, ...doc.data() }));
+                allHistory.sort((a, b) => {
+                    const tA = toMs(a.notification_datetime);
+                    const tB = toMs(b.notification_datetime);
+                    return tB - tA;
+                });
+                filteredHistory = [...allHistory];
+                updateStats(allHistory);
+                renderTable(filteredHistory);
+                document.getElementById('result-count').textContent = `총 ${filteredHistory.length}건`;
+            } catch (err2) {
+                document.getElementById('notif-tbody').innerHTML =
+                    `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#c0392b;">
+                    <i class="fas fa-exclamation-triangle"></i> 로드 실패: ${err2.message}</td></tr>`;
+            }
+        }
+    }
+
+    function toMs(val) {
+        if (!val) return 0;
+        if (val && val.toDate) return val.toDate().getTime();
+        const d = new Date(val);
+        return isNaN(d) ? 0 : d.getTime();
+    }
+
+    function formatDateTime(val) {
+        if (!val) return '-';
+        const d = (val && val.toDate) ? val.toDate() : new Date(val);
+        if (isNaN(d)) return '-';
+        return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+    }
+    function p(n) { return String(n).padStart(2, '0'); }
+
+    function formatSubmission(str) {
+        if (!str) return '-';
+        const d = new Date(str);
+        if (isNaN(d)) return str.slice(0, 16).replace('T', ' ');
+        return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+    }
+
+    function maskContact(contact) {
+        if (!contact) return '-';
+        if (contact.includes('@')) {
+            const [id, domain] = contact.split('@');
+            const masked = id.length > 3 ? id.slice(0, 3) + '***' : id;
+            return masked + '@' + domain;
+        }
+        return contact.replace(/(\d{3})-?(\d{3,4})-?(\d{4})/, '$1-****-$3');
+    }
+
+    function buildFailText(h) {
+        const parts = [];
+        if (h.error_code) parts.push('[' + h.error_code + ']');
+        if (h.error_detail) parts.push(h.error_detail);
+        else if (h.error) parts.push(h.error);
+
+        if (h.fallback_sent === true) {
+            parts.push('SMS fallback success');
+        } else if (h.fallback_of && h.fallback_sent === false) {
+            parts.push('SMS fallback failed');
+            if (h.fallback_error_code) parts.push('[' + h.fallback_error_code + ']');
+            if (h.fallback_error) parts.push(h.fallback_error);
+        }
+        return parts.join(' | ');
+    }
+
+    // ========================================
+    // 통계 업데이트
+    // ========================================
+    function updateStats(data) {
+        document.getElementById('stat-total').textContent = data.length;
+        document.getElementById('stat-sent').textContent = data.filter(d => d.sent === true).length;
+        document.getElementById('stat-fail').textContent = data.filter(d => d.sent === false).length;
+        document.getElementById('stat-email').textContent = data.filter(d => d.notification_method === 'email').length;
+        document.getElementById('stat-kakao').textContent = data.filter(d => d.notification_method === 'kakao').length;
+    }
+
+    // ========================================
+    // 테이블 렌더링
+    // ========================================
+    function renderTable(data) {
+        const tbody = document.getElementById('notif-tbody');
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--text-light);">이력이 없습니다.</td></tr>';
+            return;
+        }
+
+        const recipientLabel = { applicant: '지원자', referrer: '추천자', admin: '관리자' };
+        const recipientClass = { applicant: 'badge-applicant', referrer: 'badge-referrer', admin: 'badge-admin' };
+        const methodClass = { email: 'badge-email', kakao: 'badge-kakao', sms: 'badge-sms' };
+        const methodIcon = { email: '✉', kakao: '💬', sms: '📱' };
+
+        tbody.innerHTML = data.map(h => {
+            const recType = h.recipient_type || '';
+            const method = h.notification_method || '';
+            const status = h.notification_status || '';
+            const sent = h.sent === true;
+            const errorText = buildFailText(h);
+
+            return `<tr>
+                <td style="font-family:monospace;font-size:0.8rem;">${h.management_number || '-'}</td>
+                <td>${h.applicant_name || '-'}</td>
+                <td style="font-size:0.8rem;">${formatSubmission(h.submission_datetime)}</td>
+                <td style="font-size:0.8rem;">${formatDateTime(h.notification_datetime)}</td>
+                <td>
+                    <span class="badge ${recipientClass[recType] || ''}">${recipientLabel[recType] || recType}</span>
+                    <div style="font-size:0.78rem;color:var(--text-light);margin-top:2px;">${h.recipient_name || ''}</div>
+                </td>
+                <td style="font-size:0.8rem;">${maskContact(h.recipient_contact)}</td>
+                <td><span class="badge ${methodClass[method] || ''}">${methodIcon[method] || ''} ${method}</span></td>
+                <td><span class="badge badge-${status}">${status || '-'}</span></td>
+                <td>
+                    ${sent
+                        ? '<span class="sent-ok"><i class="fas fa-check-circle"></i> 성공</span>'
+                          + ((h.fallback_of === 'kakao')
+                              ? '<div style="font-size:0.76rem;color:#1b5e20;margin-top:2px;">SMS fallback</div>'
+                              : '')
+                        : `<span class="sent-fail"><i class="fas fa-times-circle"></i> 실패</span>
+                           ${errorText ? `<span class="error-tip">${errorText}</span>` : ''}`
+                    }
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    // ========================================
+    // 필터 적용
+    // ========================================
+    function applyFilter() {
+        const recipient = document.getElementById('filter-recipient').value;
+        const method = document.getElementById('filter-method').value;
+        const status = document.getElementById('filter-status').value;
+        const sentVal = document.getElementById('filter-sent').value;
+        const search = document.getElementById('filter-search').value.trim().toLowerCase();
+
+        filteredHistory = allHistory.filter(h => {
+            if (recipient && h.recipient_type !== recipient) return false;
+            if (method && h.notification_method !== method) return false;
+            if (status && h.notification_status !== status) return false;
+            if (sentVal !== '') {
+                const sentBool = sentVal === 'true';
+                if (h.sent !== sentBool) return false;
+            }
+            if (search) {
+                const name = (h.applicant_name || '').toLowerCase();
+                const mgmt = (h.management_number || '').toLowerCase();
+                const recName = (h.recipient_name || '').toLowerCase();
+                if (!name.includes(search) && !mgmt.includes(search) && !recName.includes(search)) return false;
+            }
+            return true;
+        });
+
+        renderTable(filteredHistory);
+        document.getElementById('result-count').textContent = `총 ${filteredHistory.length}건 (전체 ${allHistory.length}건 중)`;
+    }
+
+    function resetFilter() {
+        document.getElementById('filter-recipient').value = '';
+        document.getElementById('filter-method').value = '';
+        document.getElementById('filter-status').value = '';
+        document.getElementById('filter-sent').value = '';
+        document.getElementById('filter-search').value = '';
+        filteredHistory = [...allHistory];
+        renderTable(filteredHistory);
+        document.getElementById('result-count').textContent = `총 ${filteredHistory.length}건`;
+    }
+
+    // Enter키 검색
+    document.getElementById('filter-search').addEventListener('keydown', e => {
+        if (e.key === 'Enter') applyFilter();
+    });
+</script>
+</body>
+</html>
