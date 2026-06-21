@@ -811,7 +811,7 @@ html, body {
         <div class="code-box-warn">⚠️ 회원가입 시 추천인 코드란에 입력</div>
         <div class="code-number" id="refCode" style="letter-spacing:6px;color:#A0AFBF;">●●●●●●●</div>
         <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">
-          📋 코드 복사하기
+          📋 코드 복사하기 (보안 코드)
         </button>
       </div>
 
@@ -1250,17 +1250,7 @@ function copyCode() {
     markCopied(btn);
     var chk1 = document.getElementById('chk1');
     if (chk1) { chk1.checked = true; updateApplyBtn(); }
-    /* 복사 후 2초만 코드 표시, 이후 재마스킹 */
-    if (refEl) {
-      refEl.textContent = code;
-      refEl.style.letterSpacing = '4px';
-      refEl.style.color = '#071a3f';
-      setTimeout(function() {
-        refEl.textContent = '●●●●●●●';
-        refEl.style.letterSpacing = '6px';
-        refEl.style.color = '#A0AFBF';
-      }, 2000);
-    }
+    /* 코드는 화면에 절대 표시하지 않음 (사번 보안) */
   }
   try {
     navigator.clipboard.writeText(code).then(onCopied).catch(function() {
