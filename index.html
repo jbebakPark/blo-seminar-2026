@@ -1098,19 +1098,20 @@
     /* ───── 렌더링 ───── */
     function renderSeminar(data) {
       const s = data.seminar;
-      const reg = data.registration;
+      const reg = data.reg || data.registration || {};
       const contact = data.contact;
       const monthParts = data.date ? data.date.split('-') : [];
       const monthLabel = data.monthName + ' ' + (monthParts[0] || '2026');
 
-      const credHtml = s.speaker.credentials.map(c =>
+      const credentials = s.speaker.credentials || [];
+      const credHtml = credentials.map(c =>
         `<li>${c}</li>`).join('');
 
       const benefitHtml = data.benefits.map(b => `
         <div class="benefit-card">
           <div class="benefit-icon">${b.icon}</div>
           <div class="benefit-title">${b.title}</div>
-          <div class="benefit-desc">${b.description}</div>
+          <div class="benefit-desc">${b.desc || b.description || ''}</div>
         </div>`).join('');
 
       const html = `
@@ -1162,7 +1163,7 @@
           <div class="header-quick-info">
             <span class="quick-chip">⏰ ${s.date} ${s.time}</span>
             <span class="quick-chip">🎤 ${s.speaker.name}</span>
-            <span class="quick-chip">🏛️ ${s.speaker.title}</span>
+            <span class="quick-chip">🏛️ ${s.speaker.title || s.speaker.org || ''}</span>
           </div>
         </div>
 
@@ -1173,7 +1174,7 @@
             <div class="info-row">
               <div class="info-label">일시</div>
               <div class="info-value"><span class="highlight">${s.date} ${s.time}</span>
-                <br><span style="font-size:12px;color:#888">※ 당일 재방송 ${reg.online.watchTime.split('|')[1]||'20:00~22:00'}</span>
+                <br><span style="font-size:12px;color:#888">※ 당일 재방송 20:00~22:00</span>
               </div>
             </div>
             <div class="info-row">
@@ -1182,7 +1183,7 @@
             </div>
             <div class="info-row">
               <div class="info-label">강사</div>
-              <div class="info-value">${s.speaker.name} · ${s.speaker.title}</div>
+              <div class="info-value">${s.speaker.name} · ${s.speaker.title || s.speaker.org || ''}</div>
             </div>
             <div class="info-row">
               <div class="info-label">장소</div>
@@ -1209,8 +1210,8 @@
               <div class="av-title">${s.speaker.name.includes('교수') ? '교수' : s.speaker.name.includes('박사') ? '박사' : ''}</div>
             </div>
             <div class="speaker-info">
-              <div class="sp-name">${s.speaker.name} <span>${s.speaker.title}</span></div>
-              <div class="sp-role">${s.speaker.credentials[0] || ''}</div>
+              <div class="sp-name">${s.speaker.name} <span>${s.speaker.title || s.speaker.org || ''}</span></div>
+              <div class="sp-role">${credentials[0] || s.speaker.org || ''}</div>
               <ul class="cred-list">${credHtml}</ul>
             </div>
           </div>
