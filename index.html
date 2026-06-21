@@ -1400,11 +1400,11 @@
               <div class="referral-box">
                 <div class="ref-warning">⚠️ 온라인 신청 시 반드시 입력 — 추천인 코드</div>
                 <div class="ref-code-wrap">
-                  <div class="ref-code-num" id="refCode">9618628</div>
+                  <div class="ref-code-num" id="refCode" style="letter-spacing:6px;color:#A0AFBF;">●●●●●●●</div>
                 </div>
                 <br>
                 <button class="ref-copy-btn" id="copyBtn" onclick="copyRefCode()">
-                  📋 코드 복사하기
+                  📋 코드 복사하기 (보안 코드)
                 </button>
                 <div class="ref-desc">
                   ✓ 온라인 신청 시 추천인 코드란에 위 숫자를 입력하세요<br>
@@ -1536,7 +1536,7 @@
 
     /* ───── 추천인 코드 복사 ───── */
     function copyRefCode() {
-      const code = (document.getElementById('refCode').innerText || '').trim();
+      const code = atob('OTYxODYyOA=='); /* 사번 보안 - 화면 미표시 */
       const btn  = document.getElementById('copyBtn');
 
       function onDone() {

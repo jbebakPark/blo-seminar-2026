@@ -37,8 +37,7 @@
     },
     "online": {
       "title": "온라인 강연 시청",
-      "startDate": "1/28(수) 14시 이후 신청 가능",
-      "watchTime": "2026.2.24(화) 오전 7:30~9:00",
+"watchTime": "2026.2.24(화) 오전 7:30~9:00",
       "accessTime": "7:15분부터 접속 가능",
       "website": "www.samsung2030blo.com",
       "steps": [
