@@ -460,9 +460,30 @@
                 speakers: ['박현도 교수', '박종훈 소장'],
                 description: '중동에 치솟은 불꽃과 함께 불확실성에 빠진 세계. 종교와 문화, 정치와 경제가 얽힌 중동 분쟁의 인과를 분석하고 경제적 파급효과를 살펴봅니다.',
                 tags: ['중동', '글로벌경제', '지정학', '투자'],
+                views: 156,
+                year: '2026'
+            },
+            {
+                id: '2026-06',
+                date: '2026-06-16',
+                type: 'Class',
+                title: '변화하는 자산 시장, 부동산의 미래',
+                speakers: ['박원갑 위원'],
+                description: '대전환의 시대 속에서 대한민국 부동산의 미래는 어디로 향하고 있을까요? 부의 이동, 불안과 기대가 함께하는 현재 자산의 본질을 생각할 시기입니다.',
+                tags: ['부동산', '자산시장', '투자', '경제'],
+                views: 204,
+                year: '2026'
+            },
+            {
+                id: '2026-07',
+                date: '2026-07-21',
+                type: 'Class',
+                title: '3高 불황의 그림자, CEO의 하반기 생존 전략',
+                speakers: ['김경원 교수'],
+                description: '지정학적 리스크와 함께 찾아온 3高 불황의 그림자. 대내외 경제 변수의 변화 속 생존하는 기업의 의사결정은 무엇이, 어떻게 다를까요?',
+                tags: ['경제', '불황', 'CEO', '생존전략'],
                 views: 0,
-                year: '2026',
-                upcoming: true
+                year: '2026'
             }
         ];
 
@@ -493,10 +514,13 @@
             grid.style.display = 'grid';
             document.getElementById('noResults').style.display = 'none';
 
+            const todayMs = new Date().setHours(0,0,0,0);
             grid.innerHTML = filteredSeminars.map(seminar => {
                 const date = new Date(seminar.date);
                 const dateStr = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-                const statusBadge = seminar.upcoming
+                /* 날짜 자동 계산: 오늘 이후 세미나만 신청중 표시 */
+                const isUpcoming = date.setHours(0,0,0,0) >= todayMs;
+                const statusBadge = isUpcoming
                     ? '<span style="display:inline-block;background:#1A6FE8;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-bottom:8px;">▶ 신청중</span>'
                     : '';
 
