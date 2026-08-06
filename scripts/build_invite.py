@@ -215,7 +215,6 @@ def build_invite(d):
         "{{WATCH_DATE}}":           watch_date(d),
         "{{SCHEDULE_HTML}}":        schedule_html(d),
         "{{STICKY_CTA}}":           d.get("stickyCta",""),
-        "{{REFERRAL_CODE}}":        d.get("referralCode",""),
         "{{OG_DESC_SPEAKERS}}":     d.get("ogDescSpeakers",""),
         "{{SHARE_URL}}":            f"https://admin-samsung-vvip.web.app/invite?m={d.get('year','2026')}-{d.get('month','05')}",
     }

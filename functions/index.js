@@ -12,6 +12,48 @@ const GITHUB_REPO  = 'blo-seminar-2026';
 const FILE_PATH    = 'data/current-seminar.json';
 const API_BASE     = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
 
+// 추천인 코드 — 정적 파일(JSON/HTML)·OG 이미지에는 절대 평문으로 담지 않고,
+// 이 엔드포인트를 통해서만 발급한다. GET은 공개 조회, POST는 관리자 비밀번호로 값 변경.
+exports.referralCode = onRequest(
+  {
+    secrets: [ADMIN_PASSWORD],
+    cors: true,
+    region: 'asia-northeast3',
+  },
+  async (req, res) => {
+    const db = admin.firestore();
+    const ref = db.collection('config').doc('referral');
+
+    if (req.method === 'GET') {
+      res.set('Cache-Control', 'no-store');
+      try {
+        const snap = await ref.get();
+        return res.json({ code: snap.exists ? snap.data().code || '' : '' });
+      } catch (e) {
+        return res.status(500).json({ error: '조회 실패' });
+      }
+    }
+
+    if (req.method === 'POST') {
+      const { password, code } = req.body || {};
+      if (!password || password !== ADMIN_PASSWORD.value()) {
+        return res.status(401).json({ error: '비밀번호가 올바르지 않습니다.' });
+      }
+      if (!code || typeof code !== 'string') {
+        return res.status(400).json({ error: '코드가 없습니다.' });
+      }
+      try {
+        await ref.set({ code, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+        return res.json({ ok: true });
+      } catch (e) {
+        return res.status(500).json({ error: '저장 실패' });
+      }
+    }
+
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+);
+
 exports.updateSeminar = onRequest(
   {
     secrets: [ADMIN_PASSWORD, GITHUB_PAT],

@@ -244,9 +244,7 @@ def make_wide_og(out_path, d):
     draw.text((btn_x1 + (220-bw2)//2, btn_y1 + (50-bh2)//2), btn_text, font=fbtn, fill=WHITE)
 
     fcode_l = load_font(F_REGULAR, 16)
-    fcode_v = load_font(F_BOLD2, 18)
-    draw.text((MX, H-65), "추천인 코드", font=fcode_l, fill=TEXT_MID)
-    draw.text((MX + 95, H-67), "9618628", font=fcode_v, fill=GOLD)
+    draw.text((MX, H-65), "추천인 코드 입력 필요 — 신청 페이지에서 확인", font=fcode_l, fill=TEXT_MID)
 
     draw.rectangle([0, H-22, W, H], fill=NAVY)
     ffoot = load_font(F_REGULAR, 13)
@@ -275,7 +273,7 @@ def make_vertical_card(out_path, d):
     fprof_s = load_font(F_BOLD2,   16)
     fprof_r = load_font(F_REGULAR, 14)
     fcode_t = load_font(F_BOLD2,   15)
-    fcode_v = load_font(F_BLACK,   34)
+    fcode_v2 = load_font(F_BOLD2,  16)
     fstep_r = load_font(F_REGULAR, 15)
     fbtn    = load_font(F_BLACK,   21)
     foff    = load_font(F_REGULAR, 14)
@@ -394,15 +392,15 @@ def make_vertical_card(out_path, d):
         draw.text((40, p2_y+48+i*22), item, font=fprof_r, fill=TEXT_DARK)
     y += prof_box_h + 10
 
-    # 추천인 코드
+    # 추천인 코드 — 보안상 이미지에는 코드값을 담지 않고, 신청 페이지 안내로 대체
     draw_rounded_rect(draw, [24, y, W-24, y+84], 10, (240,246,255))
     draw.rectangle([24, y, 28, y+84], fill=BLUE)
     draw.text((40, y+8),  "⚠  온라인 신청 시 반드시 추천인 코드 입력!", font=fcode_t, fill=BLUE)
-    code_text = "9618628"
-    cb  = draw.textbbox((0,0), code_text, font=fcode_v)
+    code_note = "추천인 코드는 신청 페이지에서 확인하세요"
+    cb  = draw.textbbox((0,0), code_note, font=fcode_v2)
     cw  = cb[2]-cb[0]
     draw_rounded_rect(draw, [W//2-cw//2-18, y+28, W//2+cw//2+18, y+76], 8, NAVY)
-    draw.text((W//2-cw//2, y+32), code_text, font=fcode_v, fill=GOLD)
+    draw.text((W//2-cw//2, y+40), code_note, font=fcode_v2, fill=GOLD)
     y += 94
 
     # 신청 방법
@@ -411,7 +409,7 @@ def make_vertical_card(out_path, d):
     month_day = d.get("ogSidebarDate", "")
     steps = [
         ("①", "samsung2030blo.com 접속"),
-        ("②", "추천인 코드 9618628 입력"),
+        ("②", "추천인 코드 입력 (신청 페이지에서 확인)"),
         ("③", step3),
     ]
     for i, (num, step) in enumerate(steps):

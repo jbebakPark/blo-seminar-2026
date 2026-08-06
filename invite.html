@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="세미나 신청하기 · 추천인코드 9618628 | BLO 조찬세미나">
+<meta property="og:title" content="세미나 신청하기 | BLO 조찬세미나">
 <meta property="og:description" content="몸과 마음의 시간, 리더를 위한 건강 관리 | 8/18(화) 오전 7:30 | 이동환 전문의 | 신청: www.samsung2030blo.com">
 <meta property="og:url" content="https://admin-samsung-vvip.web.app/invite?m=2026-08">
 <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=14">
@@ -656,7 +656,7 @@ html, body {
       <div class="code-box">
         <div class="code-box-label">온라인 신청 시 반드시 입력 — 추천인 코드</div>
         <div class="code-box-warn">⚠️ 회원가입 시 추천인 코드란에 입력</div>
-        <div class="code-number" id="refCode">9618628</div>
+        <div class="code-number" id="refCode">●●●●●●●</div>
         <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">
           📋 코드 복사하기
         </button>
@@ -980,7 +980,7 @@ html, body {
     <span class="sticky-event-label">📅 8/18(화) · 삼성생명 BLO 조찬세미나</span>
     <div class="sticky-code-wrap">
       <span class="sticky-code-label">추천인 코드</span>
-      <span class="sticky-code-value">9618628</span>
+      <span class="sticky-code-value">●●●●●●●</span>
     </div>
   </div>
   <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener">
@@ -1031,15 +1031,28 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
+/* ── 추천인 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ── */
+var __refCode = null;
+var __refCodePromise = fetch('/api/referral-code')
+  .then(function(r) { return r.json(); })
+  .then(function(d) { __refCode = d.code || ''; return __refCode; })
+  .catch(function() { return ''; });
+
+function getReferralCode() {
+  return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
+}
+
 /* ── 추천인 코드 복사 ── */
 function copyCode() {
-  var code = '9618628';
-  var btn  = document.getElementById('copyBtn');
-  try {
-    navigator.clipboard.writeText(code).then(function() {
-      markCopied(btn);
-    }).catch(function() { fallbackCopy(code, btn); });
-  } catch(e) { fallbackCopy(code, btn); }
+  var btn = document.getElementById('copyBtn');
+  getReferralCode().then(function(code) {
+    if (!code) { showToast('⚠️ 코드 조회에 실패했습니다. 새로고침 후 다시 시도해주세요.'); return; }
+    try {
+      navigator.clipboard.writeText(code).then(function() {
+        markCopied(btn);
+      }).catch(function() { fallbackCopy(code, btn); });
+    } catch(e) { fallbackCopy(code, btn); }
+  });
 }
 function fallbackCopy(text, btn) {
   var el = document.createElement('textarea');
@@ -1052,7 +1065,7 @@ function fallbackCopy(text, btn) {
 function markCopied(btn) {
   btn.textContent = '✅ 복사 완료!';
   btn.classList.add('copied');
-  showToast('📋 코드 9618628이 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
+  showToast('📋 추천인 코드가 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
   setTimeout(function() {
     btn.textContent = '📋 코드 복사하기';
     btn.classList.remove('copied');
@@ -1092,36 +1105,38 @@ function scrollToApply(e) {
 /* ── 초대장 공유 ── */
 function shareInvite() {
   var url = 'https://admin-samsung-vvip.web.app/invite?m=2026-08';
-  var msg =
-    '🎓 BLO 조찬세미나 신청 안내\n' +
-    '━━━━━━━━━━━━━━━━\n' +
-    '몸과 마음의 시간, 리더를 위한 건강 관리\n' +
-    '📅 8/18(화) 오전 7:30\n' +
-    '🎤 이동환 전문의\n' +
-    '━━━━━━━━━━━━━━━━\n' +
-    '🍽️ [오프라인 조찬세미나] 담당자 통해서만 신청\n' +
-    '  카카오 오픈채팅: https://open.kakao.com/o/sleUSUei\n' +
-    '  ※ 입장 후 반드시 아래 3가지 정보를 남겨주세요\n' +
-    '    1. 회사명\n' +
-    '    2. 신청자 성함 / 직책\n' +
-    '    3. 연락처\n' +
-    '  (담당자 확인 후 접수 완료 안내)\n' +
-    '\n' +
-    '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
-    '  ① 추천인 코드 먼저 복사 후 사이트 접속\n' +
-    '  ② 가입 시 추천인 코드란에 반드시 입력\n' +
-    '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
-    '\n' +
-    '🔑 추천인 코드 : 9618628\n' +
-    '━━━━━━━━━━━━━━━━\n' +
-    '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
-    '세부 안내: ' + url;
-  if (navigator.share) {
-    navigator.share({ title: 'BLO 세미나 신청하기', text: msg, url: url })
-      .catch(function(e) { if (e.name !== 'AbortError') fallbackCopy(msg); });
-  } else {
-    fallbackCopy(msg);
-  }
+  getReferralCode().then(function(code) {
+    var msg =
+      '🎓 BLO 조찬세미나 신청 안내\n' +
+      '━━━━━━━━━━━━━━━━\n' +
+      '몸과 마음의 시간, 리더를 위한 건강 관리\n' +
+      '📅 8/18(화) 오전 7:30\n' +
+      '🎤 이동환 전문의\n' +
+      '━━━━━━━━━━━━━━━━\n' +
+      '🍽️ [오프라인 조찬세미나] 담당자 통해서만 신청\n' +
+      '  카카오 오픈채팅: https://open.kakao.com/o/sleUSUei\n' +
+      '  ※ 입장 후 반드시 아래 3가지 정보를 남겨주세요\n' +
+      '    1. 회사명\n' +
+      '    2. 신청자 성함 / 직책\n' +
+      '    3. 연락처\n' +
+      '  (담당자 확인 후 접수 완료 안내)\n' +
+      '\n' +
+      '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
+      '  ① 추천인 코드 먼저 복사 후 사이트 접속\n' +
+      '  ② 가입 시 추천인 코드란에 반드시 입력\n' +
+      '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
+      '\n' +
+      '🔑 추천인 코드 : ' + (code || '사이트에서 확인') + '\n' +
+      '━━━━━━━━━━━━━━━━\n' +
+      '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
+      '세부 안내: ' + url;
+    if (navigator.share) {
+      navigator.share({ title: 'BLO 세미나 신청하기', text: msg, url: url })
+        .catch(function(e) { if (e.name !== 'AbortError') fallbackCopy(msg); });
+    } else {
+      fallbackCopy(msg);
+    }
+  });
 }
 function fallbackCopy(text) {
   navigator.clipboard.writeText(text).then(function() {

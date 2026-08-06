@@ -1530,30 +1530,48 @@
       document.getElementById('tabOffline').classList.toggle('active', type==='offline');
     }
 
+    /* ───── 추천인 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ───── */
+    let __refCode = null;
+    const __refCodePromise = fetch('/api/referral-code')
+      .then(r => r.json())
+      .then(d => { __refCode = d.code || ''; return __refCode; })
+      .catch(() => '');
+
+    function getReferralCode() {
+      return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
+    }
+
     /* ───── 추천인 코드 복사 ───── */
     function copyRefCode() {
-      const code = atob('OTYxODYyOA=='); /* 사번 보안 - 화면 미표시 */
-      const btn  = document.getElementById('copyBtn');
-
-      function onDone() {
-        codeCopied = true;
-        btn.textContent = '✅ 복사 완료!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = '📋 코드 복사하기';
-          btn.classList.remove('copied');
-          btn.disabled = false;
-        }, 3000);
-        unlockApplyBtn();
-        showCopyToast();
-      }
-
+      const btn = document.getElementById('copyBtn');
       btn.disabled = true;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(code).then(onDone).catch(() => fallbackCopy(code, onDone));
-      } else {
-        fallbackCopy(code, onDone);
-      }
+
+      getReferralCode().then(code => {
+        if (!code) {
+          btn.disabled = false;
+          alert('코드 조회에 실패했습니다. 새로고침 후 다시 시도해주세요.');
+          return;
+        }
+
+        function onDone() {
+          codeCopied = true;
+          btn.textContent = '✅ 복사 완료!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = '📋 코드 복사하기';
+            btn.classList.remove('copied');
+            btn.disabled = false;
+          }, 3000);
+          unlockApplyBtn();
+          showCopyToast();
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(onDone).catch(() => fallbackCopy(code, onDone));
+        } else {
+          fallbackCopy(code, onDone);
+        }
+      });
     }
 
     function fallbackCopy(text, cb) {
@@ -1593,7 +1611,7 @@
           + 'box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90vw;';
         document.body.appendChild(t);
       }
-      t.textContent = '📋 코드 9618628 복사 완료! 신청 사이트에서 추천인 코드란에 붙여넣으세요.';
+      t.textContent = '📋 추천인 코드 복사 완료! 신청 사이트에서 추천인 코드란에 붙여넣으세요.';
       t.style.display = 'block';
       t.style.opacity = '1';
       clearTimeout(t._timer);
