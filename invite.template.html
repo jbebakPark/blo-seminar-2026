@@ -320,6 +320,26 @@ html, body {
 }
 .off-manager-notice strong { font-weight:900; font-size:13px; }
 
+/* ══ 지인 추천 ══ */
+.refer-sec { background:#fff; padding:20px 22px 4px; }
+.refer-card {
+  background: linear-gradient(135deg, #FFF8E6 0%, #FFFBF0 100%);
+  border:1.5px solid #C8A84B; border-radius:14px;
+  padding:18px 16px; text-align:center;
+}
+.refer-icon { font-size:28px; margin-bottom:6px; }
+.refer-title { font-size:15px; font-weight:900; color:#0D1A2E; margin-bottom:4px; }
+.refer-desc { font-size:12.5px; color:#445566; line-height:1.6; margin-bottom:14px; }
+.refer-btn {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:14px;
+  background: linear-gradient(135deg, #C8A84B 0%, #DDBE66 100%);
+  color:#0D1A2E; border:none; border-radius:10px;
+  font-size:15px; font-weight:900; cursor:pointer; font-family:inherit;
+  box-shadow:0 4px 14px rgba(200,168,75,0.35); transition:all 0.2s;
+}
+.refer-btn:active { transform:scale(0.98); }
+
 /* ══ 행사 진행 흐름 ══ */
 .flow-sec { background:#fff; padding:24px 22px; border-top:3px solid #1050A0; }
 .sec-title-row {
@@ -671,6 +691,16 @@ html, body {
 
 </div><!-- /apply-sec -->
 
+<!-- ⑤-1 지인 추천 -->
+<div class="refer-sec">
+  <div class="refer-card">
+    <div class="refer-icon">🎁</div>
+    <div class="refer-title">함께 듣고 싶은 분이 있나요?</div>
+    <div class="refer-desc">버튼 한 번이면 추천인 코드까지 자동으로 담아<br>바로 전달할 수 있어요</div>
+    <button class="refer-btn" onclick="shareInvite('refer')">📤 지인에게 추천하기</button>
+  </div>
+</div>
+
 <!-- ⑥ 행사 진행 흐름 -->
 <div class="flow-sec">
   <div class="sec-title-row">🎊 행사 진행 흐름</div>
@@ -919,11 +949,14 @@ function scrollToApply(e) {
 }
 
 /* ── 초대장 공유 ── */
-function shareInvite() {
+function shareInvite(mode) {
   var url = '{{SHARE_URL}}';
   getReferralCode().then(function(code) {
+    var intro = mode === 'refer'
+      ? '🎁 제가 추천하는 세미나예요! 같이 들어보세요\n'
+      : '🎓 BLO 조찬세미나 신청 안내\n';
     var msg =
-      '🎓 BLO 조찬세미나 신청 안내\n' +
+      intro +
       '━━━━━━━━━━━━━━━━\n' +
       '{{STICKY_CTA}}\n' +
       '📅 {{WATCH_DATE}} 오전 7:30\n' +
