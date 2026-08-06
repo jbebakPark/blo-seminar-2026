@@ -12,6 +12,7 @@ data/current-seminar.json 하나만 수정하면 실행됩니다.
 
 import json
 import os
+import re
 import sys
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -229,6 +230,38 @@ def build_invite(d):
 
 
 # ─────────────────────────────────────────────
+# index.html og:image 캐시 버전 동기화
+# (index.html은 템플릿화되어 있지 않으므로, og:image 줄만 정규식으로
+#  현재 ogImageVersion과 맞춰준다. 이걸 빼먹으면 카카오/브라우저가
+#  예전 달 이미지를 몇 달이고 그대로 캐시해서 보여주는 버그가 재발한다.)
+# ─────────────────────────────────────────────
+
+def sync_index_og_version(d):
+    index_path = os.path.join(BASE_DIR, "index.html")
+    if not os.path.exists(index_path):
+        print("  ⚠️ index.html 없음 — og:image 버전 동기화 건너뜀")
+        return
+
+    ver = str(d.get("ogImageVersion", "1"))
+    with open(index_path, encoding="utf-8") as f:
+        html = f.read()
+
+    pattern = r'(og:image" content="https://admin-samsung-vvip\.web\.app/assets/og-kakao-wide\.png)(?:\?v=\d+)?(")'
+    new_html, n = re.subn(pattern, rf'\1?v={ver}\2', html)
+
+    if n == 0:
+        print("  ⚠️ index.html에서 og:image 태그를 찾지 못함 — 확인 필요")
+        return
+
+    if new_html != html:
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write(new_html)
+        print(f"  ✅ index.html og:image 버전 동기화: v={ver}")
+    else:
+        print(f"  ℹ️ index.html og:image 이미 v={ver} (변경 없음)")
+
+
+# ─────────────────────────────────────────────
 # OG 이미지 빌드 (gen_og_image.py 재사용)
 # ─────────────────────────────────────────────
 
@@ -265,10 +298,13 @@ if __name__ == "__main__":
     print(f"  대상 월: {d.get('year','')}년 {month_kor} ({d.get('titleLine1','')} {d.get('titleLine2','')})")
     print()
 
-    print("[1/2] invite.html 빌드 중...")
+    print("[1/3] invite.html 빌드 중...")
     build_invite(d)
 
-    print("[2/2] OG 이미지 생성 중...")
+    print("[2/3] index.html og:image 캐시 버전 동기화 중...")
+    sync_index_og_version(d)
+
+    print("[3/3] OG 이미지 생성 중...")
     try:
         build_og_images(d)
     except Exception as e:
@@ -278,7 +314,7 @@ if __name__ == "__main__":
     print()
     print("=" * 50)
     print(f"✅ {month_kor} 빌드 완료!")
-    print("   git add invite.html assets/og-kakao-wide.png assets/og-kakao-vertical.png")
+    print("   git add invite.html index.html assets/og-kakao-wide.png assets/og-kakao-vertical.png")
     print("   git commit -m 'feat: {month_kor} 세미나 자동 빌드'")
     print("   git push  →  GitHub Actions가 자동 배포합니다")
     print("=" * 50)

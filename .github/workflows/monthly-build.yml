@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add invite.html assets/og-kakao-wide.png assets/og-kakao-vertical.png
+          git add invite.html index.html assets/og-kakao-wide.png assets/og-kakao-vertical.png
           git diff --staged --quiet || git commit -m "chore: 월별 세미나 자동 빌드 [skip ci]"
           git pull --rebase origin main
           git push
