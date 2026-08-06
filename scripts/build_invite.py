@@ -100,12 +100,25 @@ def hero_h1(d):
     return "<br>".join(parts)
 
 
+def current_quarter(cur_month):
+    """cur_month(1~12)가 속한 분기(1~4)를 ANNUAL_SCHEDULE 기준으로 반환."""
+    for (mo, day, q, *_rest) in ANNUAL_SCHEDULE:
+        if mo == cur_month:
+            return q
+    return 1
+
+
+def _speaker_label(sp):
+    part = sp.get("part", "")
+    return f"{sp['name']} {sp['title']} ({part})" if part else f"{sp['name']} {sp['title']}"
+
+
 def schedule_html(d):
     cur_month = int(d.get("month", "1"))
     cur_title   = d.get("titleLine1","") + " " + d.get("titleLine2","") + " " + d.get("titleLine3","")
     cur_title   = cur_title.strip()
     speakers    = d.get("speakers", [])
-    cur_speaker = " · ".join(f"{sp['name']} {sp['title']} ({sp['part']})" for sp in speakers)
+    cur_speaker = " · ".join(_speaker_label(sp) for sp in speakers)
 
     # 분기별로 패널 생성
     panels = {1:[], 2:[], 3:[], 4:[]}
@@ -194,6 +207,9 @@ def build_invite(d):
     sp_html, sp_title_parts = speakers_html(d)
     sp_title = f"강사 소개 · {sp_title_parts}" if sp_title_parts else "강사 소개"
 
+    active_q = current_quarter(int(d.get("month", "1")))
+    qtab_active = {q: (" active" if q == active_q else "") for q in [1, 2, 3, 4]}
+
     replacements = {
         "{{OG_TITLE}}":             d.get("ogTitle",""),
         "{{OG_DESC}}":              d.get("ogDescription",""),
@@ -215,6 +231,10 @@ def build_invite(d):
         "{{PARTS_LABEL}}":          parts_label(d),
         "{{WATCH_DATE}}":           watch_date(d),
         "{{SCHEDULE_HTML}}":        schedule_html(d),
+        "{{QTAB1_ACTIVE}}":         qtab_active[1],
+        "{{QTAB2_ACTIVE}}":         qtab_active[2],
+        "{{QTAB3_ACTIVE}}":         qtab_active[3],
+        "{{QTAB4_ACTIVE}}":         qtab_active[4],
         "{{STICKY_CTA}}":           d.get("stickyCta",""),
         "{{OG_DESC_SPEAKERS}}":     d.get("ogDescSpeakers",""),
         "{{SHARE_URL}}":            f"https://admin-samsung-vvip.web.app/invite?m={d.get('year','2026')}-{d.get('month','05')}",
