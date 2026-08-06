@@ -1021,20 +1021,28 @@
     let counterUnsubscribe = null;
     let codeCopied = false;
 
-    /* ───── 인라인 데이터 (fetch 불필요) ───── */
-    const INLINE_DATA = {"month":"2026-07","counters":{"offline":0,"online":0},"monthName":"7월","date":"2026-07-21","seminar":{"title":"3高 불황의 그림자, CEO의 하반기 생존 전략","subtitle":"2026 CEO Survival Strategy in High-Risk Economy","date":"2026년 7월 21일(화)","time":"오전 07:30 ~ 09:00","speaker":{"name":"김경원 교수","org":"세종대학교 대외부총장 / 특임부총장","credentials":["세종대학교 대외부총장 / 특임부총장","전 KDB산업은행 경제연구소장","전 한국경제연구원 연구위원"]}},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"7/17(금) 17:00까지","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
+    /* ───── 인라인 데이터 (Firebase·fetch 둘 다 실패했을 때만 쓰는 최종 폴백) ───── */
+    const INLINE_DATA = {"month":"2026-08","counters":{"offline":0,"online":0},"monthName":"8월","date":"2026-08-18","seminar":{"title":"몸과 마음의 시간, 리더를 위한 건강 관리","subtitle":"2026 Health & Mind Management for Leaders","date":"2026년 8월 18일(화)","time":"오전 07:30 ~ 09:00","speaker":{"name":"이동환","title":"전문의","org":"가정의학과 전문의 / 직무스트레스 연구소 대표","credentials":["가정의학과 전문의","직무스트레스 연구소 대표","헬스경영연구원 원장","대한정주의학회 홍보이사","대한만성피로학회 명예회장","고도일병원 만성피로클리닉 원장"]},"description":"시대를 불문하고, 균형 잡힌 신체와 정신은 지속 가능한 리더십의 근간입니다. 8월 Business Live ON은 혹서기를 맞아 이동환 전문의와 함께 리더의 건강 관리법을 알아봅니다."},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"8/14(금) 17:00까지","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
 
-    /* ───── 데이터 로드 ───── */
+    /* ───── 데이터 로드 ─────
+       우선순위: Firebase(설정된 경우) → CURRENT_DATA_FILE fetch(매월 자동 갱신되는 실 데이터)
+       → INLINE_DATA(위 둘 다 실패했을 때만 쓰는 최종 폴백, 매월 수동 동기화 필요하니 오래 방치 금지) */
     async function loadSeminarData() {
       try {
-        let data;
+        let data = null;
         if (useFirebase) {
-          const doc = await db.collection('seminars').doc(CURRENT_SEMINAR_ID).get();
-          if (doc.exists) data = doc.data();
-          else data = INLINE_DATA;
-        } else {
-          data = INLINE_DATA;
+          try {
+            const doc = await db.collection('seminars').doc(CURRENT_SEMINAR_ID).get();
+            if (doc.exists) data = doc.data();
+          } catch (e) {}
         }
+        if (!data) {
+          try {
+            const res = await fetch(CURRENT_DATA_FILE + '?_=' + Date.now());
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+        }
+        if (!data) data = INLINE_DATA;
         renderSeminar(data);
         initializeCounter(CURRENT_SEMINAR_ID, data.counters);
         document.getElementById('loading').style.display = 'none';
@@ -1414,10 +1422,10 @@
                 </div>
               </div>
 
-              <a class="apply-btn-lock" id="applyBtn" href="#" onclick="onApplyClick(event, '${contact.website}')">
-                🔒 추천인 코드를 먼저 복사해 주세요
+              <a class="apply-btn-lock unlocked" id="applyBtn" href="#" onclick="onApplyClick(event, '${contact.website}')">
+                🎥 온라인 강연 신청하기
               </a>
-              <div class="lock-hint" id="lockHint">코드 복사 후 신청 버튼이 활성화됩니다</div>
+              <div class="lock-hint" id="lockHint">버튼을 누르면 추천인 코드가 자동으로 복사됩니다</div>
             </div>
           </div>
 
@@ -1449,8 +1457,8 @@
             </div>
 
             <div class="off-manager-notice">
-              <strong>⚠️ 반드시 담당자를 통해서만 신청 가능합니다</strong><br>
-              좌석이 한정(200명)되어 있으며, 신청 후 미참석 시<br>향후 신청이 제한될 수 있습니다.
+              <strong>⚠️ 오프라인 참석은 웹사이트 신청이 아닌, 반드시 담당자 사전 신청 필수</strong><br>
+              조찬 식수 인원 파악 및 주차 공간 확보를 위해 사전에 담당자를 통해서만<br>신청 가능합니다 (좌석 한정 200명). 신청 후 미참석 시 향후 신청이 제한될 수 있습니다.
             </div>
 
             <div class="off-required-box">
@@ -1624,41 +1632,24 @@
       t._timer = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>{ t.style.display='none'; },400); }, 3500);
     }
 
-    /* ───── 신청 버튼 클릭 — 최종 검증 ───── */
+    /* ───── 신청 버튼 클릭 — 코드 복사 단계를 건너뛰고 바로 눌러도 자동으로 복사 후 이동 ───── */
     function onApplyClick(e, website) {
       e.preventDefault();
-      if (!codeCopied) {
-        // 코드 복사 안 됨 → 코드 영역으로 스크롤 + 강조
-        const refBox = document.getElementById('sec-referral');
-        const copyBtn = document.getElementById('copyBtn');
-        if (refBox) refBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if (copyBtn) {
-          copyBtn.style.animation = 'none';
-          setTimeout(() => {
-            copyBtn.style.animation = 'pulse-warn 0.4s ease 3';
-          }, 100);
+      getReferralCode().then(code => {
+        if (code) {
+          const finish = () => {
+            codeCopied = true;
+            unlockApplyBtn();
+            showCopyToast();
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).then(finish).catch(finish);
+          } else {
+            finish();
+          }
         }
-        // 경고 토스트
-        let t = document.getElementById('copyToast');
-        if (!t) {
-          t = document.createElement('div');
-          t.id = 'copyToast';
-          t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);'
-            + 'background:#c0392b;color:#fff;padding:12px 20px;border-radius:10px;'
-            + 'font-size:13px;font-weight:700;z-index:9999;text-align:center;'
-            + 'box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90vw;';
-          document.body.appendChild(t);
-        }
-        t.style.background = '#c0392b';
-        t.textContent = '⚠️ 추천인 코드를 먼저 복사해 주세요!';
-        t.style.display = 'block';
-        t.style.opacity = '1';
-        clearTimeout(t._timer);
-        t._timer = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>{ t.style.display='none'; },400); }, 3000);
-        return false;
-      }
-      // 복사 확인됨 → 새 탭으로 이동
-      window.open('http://' + website, '_blank');
+        window.open('http://' + website, '_blank');
+      });
       return false;
     }
 
@@ -1667,8 +1658,9 @@
       e.preventDefault();
       const ok = confirm(
         '⚠️ 오프라인 조찬세미나 신청 안내\n\n' +
-        '반드시 담당자를 통해서만 신청 가능합니다.\n' +
-        '좌석이 한정(200명)되어 있으며,\n' +
+        '오프라인 참석은 웹사이트 신청이 아닌, 조찬 식수 인원\n' +
+        '파악 및 주차 공간 확보를 위해 반드시 담당자 사전\n' +
+        '신청이 필요합니다 (좌석 한정 200명).\n' +
         '신청 후 미참석 시 향후 신청이 제한됩니다.\n\n' +
         '카카오 오픈채팅 입장 후 아래 3가지를 남겨주세요:\n' +
         '  1. 회사명\n' +
