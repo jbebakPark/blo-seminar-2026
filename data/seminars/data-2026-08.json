@@ -1,0 +1,40 @@
+{
+  "month": "2026-08",
+  "counters": {
+    "offline": 0,
+    "online": 0
+  },
+  "monthName": "8월",
+  "date": "2026-08-18",
+  "seminar": {
+    "title": "몸과 마음의 시간, 리더를 위한 건강 관리",
+    "subtitle": "2026 Health & Mind Management for Leaders",
+    "date": "2026년 8월 18일(화)",
+    "time": "오전 07:30 ~ 09:00",
+    "speaker": {
+      "name": "이동환 전문의",
+      "org": "가정의학과 전문의 / 직무스트레스 연구소 대표"
+    },
+    "description": "시대를 불문하고, 균형 잡힌 신체와 정신은 지속 가능한 리더십의 근간입니다. 8월 Business Live ON은 혹서기를 맞아 이동환 전문의와 함께 리더의 건강 관리법을 알아봅니다."
+  },
+  "contact": {
+    "name": "박재박 팀장",
+    "phone": "010-5137-2327",
+    "kakao": "https://open.kakao.com/o/sleUSUei",
+    "website": "www.samsung2030blo.com"
+  },
+  "reg": {
+    "offline": {
+      "deadline": "8/14(금) 17:00까지",
+      "breakfast": { "time": "06:30 ~ 07:20", "location": "삼성금융캠퍼스 지하 2층 카페테리아" },
+      "seminar":   { "time": "07:30 ~ 09:00", "location": "삼성금융캠퍼스 B2F 비전홀" },
+      "address": "서울특별시 서초구 사임당로 23길 27"
+    }
+  },
+  "benefits": [
+    { "icon": "🍳", "title": "프리미엄 조찬",    "desc": "삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)" },
+    { "icon": "🎥", "title": "실시간 온라인",    "desc": "어디서나 실시간 시청 · 당일 재방송 20:00~22:00" },
+    { "icon": "🤝", "title": "프리미엄 네트워킹","desc": "오프라인 참석 시 CEO·자산가 교류의 장" },
+    { "icon": "🏆", "title": "연간 세미나 우선권","desc": "1회 신청으로 2026년 12월까지 전 강연 시청" }
+  ]
+}

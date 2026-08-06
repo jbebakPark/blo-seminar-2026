@@ -98,17 +98,17 @@
           "speakers": [
             "김경원 교수"
           ],
-          "status": "current"
+          "status": "completed"
         },
         {
           "id": "2026-08",
           "date": "2026-08-18",
           "type": "Class",
-          "title": "리더를 위한 정신과 의사의 조언",
+          "title": "몸과 마음의 시간, 리더를 위한 건강 관리",
           "speakers": [
-            "미정"
+            "이동환 전문의"
           ],
-          "status": "upcoming"
+          "status": "current"
         },
         {
           "id": "2026-09",
