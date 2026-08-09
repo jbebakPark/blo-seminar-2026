@@ -1090,7 +1090,7 @@ function scrollToApply(e) {
   if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-/* ── 초대장 공유 (mode: 'refer'면 지인 추천용 문구로 시작) ── */
+/* ── 초대장 공유 ── */
 function shareInvite(mode) {
   var url = 'https://admin-samsung-vvip.web.app/invite?m=2026-08';
   getReferralCode().then(function(code) {
