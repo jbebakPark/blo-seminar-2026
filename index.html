@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:title" content="2030 Business Live ON - 세미나 안내">
   <meta property="og:description" content="삼성생명 WM 사업부 | 프리미엄 경영 조찬 세미나">
-  <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=14">
+  <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=15">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://admin-samsung-vvip.web.app/">
@@ -1025,13 +1025,13 @@
       }
     } catch(e) {}
 
-    const CURRENT_DATA_FILE = '/data/seminars/data-2026-08.json';
-    const CURRENT_SEMINAR_ID = '2026-08';
+    const CURRENT_DATA_FILE = '/data/seminars/data-2026-09.json';
+    const CURRENT_SEMINAR_ID = '2026-09';
     let counterUnsubscribe = null;
     let codeCopied = false;
 
     /* ───── 인라인 데이터 (Firebase·fetch 둘 다 실패했을 때만 쓰는 최종 폴백) ───── */
-    const INLINE_DATA = {"month":"2026-08","counters":{"offline":0,"online":0},"monthName":"8월","date":"2026-08-18","seminar":{"title":"몸과 마음의 시간, 리더를 위한 건강 관리","subtitle":"2026 Health & Mind Management for Leaders","date":"2026년 8월 18일(화)","time":"오전 07:30 ~ 09:00","speaker":{"name":"이동환","title":"전문의","org":"가정의학과 전문의 / 직무스트레스 연구소 대표","credentials":["가정의학과 전문의","직무스트레스 연구소 대표","헬스경영연구원 원장","대한정주의학회 홍보이사","대한만성피로학회 명예회장","고도일병원 만성피로클리닉 원장"]},"description":"시대를 불문하고, 균형 잡힌 신체와 정신은 지속 가능한 리더십의 근간입니다. 8월 Business Live ON은 혹서기를 맞아 이동환 전문의와 함께 리더의 건강 관리법을 알아봅니다."},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"8/14(금) 17:00까지","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
+    const INLINE_DATA = {"month":"2026-09","counters":{"offline":0,"online":0},"monthName":"9월","date":"2026-09-16","seminar":{"title":"미래 사회의 리더십 : 피드백과 관계주의의 실행이 답이다!","subtitle":"2026 Leadership for a Changing Society","date":"2026년 9월 16일(수)","time":"오전 07:30 ~ 09:00","speaker":{"name":"김경일","title":"교수","org":"인지심리학자","credentials":["인지심리학자"]},"description":"빠르게 변화하는 시대, 미래사회가 요구하는 리더십의 핵심은 무엇일까요? 9월 Business Live ON은 인지심리학자 김경일 교수와 함께 그 질문에 대한 해답을 찾아봅니다. 피드백과 관계를 바탕으로 리더십의 방향을 조명하는 시간, 삼성생명 고객 여러분을 초대합니다."},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"추후 안내 예정","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
 
     /* ───── 데이터 로드 ─────
        우선순위: Firebase(설정된 경우) → CURRENT_DATA_FILE fetch(매월 자동 갱신되는 실 데이터)

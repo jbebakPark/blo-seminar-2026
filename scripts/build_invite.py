@@ -10,10 +10,19 @@ data/current-seminar.json 하나만 수정하면 실행됩니다.
   - assets/og-kakao-vertical.png
 """
 
+import calendar
 import json
 import os
 import re
 import sys
+
+WEEKDAY_KR = ["월", "화", "수", "목", "금", "토", "일"]
+
+
+def weekday_kr(year, month, day):
+    """(연,월,일) → 한글 요일 한 글자. ANNUAL_SCHEDULE의 날짜가 요일과 실제로
+    맞는지 매번 계산하지, '화'로 고정하지 않는다 (달마다 요일이 다를 수 있음)."""
+    return WEEKDAY_KR[calendar.weekday(year, month, day)]
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -34,8 +43,8 @@ ANNUAL_SCHEDULE = [
     (5,  19, 2, "2Q", "중동의 불꽃, 전쟁이 뒤흔든 글로벌 경제",    "박현도 교수 · 박종훈 소장"),
     (6,  16, 2, "2Q", "변화하는 자산 시장, 부동산의 미래",         "박원갑 수석전문위원"),
     (7,  21, 3, "3Q", "3高 불황의 그림자, CEO의 하반기 생존 전략", "김경원 교수"),
-    (8,  18, 3, "3Q", None, None),   # current-seminar.json 에서 읽음
-    (9,  15, 3, "3Q", None, None),
+    (8,  18, 3, "3Q", "몸과 마음의 시간, 리더를 위한 건강 관리", "이동환 전문의"),
+    (9,  16, 3, "3Q", "미래 사회의 리더십 : 피드백과 관계주의의 실행이 답이다!", "김경일 교수"),   # current-seminar.json 에서 읽음
     (10, 20, 4, "4Q", None, None),
     (11, 17, 4, "4Q", None, None),
     (12, 15, 4, "4Q", None, None),
@@ -115,6 +124,7 @@ def _speaker_label(sp):
 
 def schedule_html(d):
     cur_month = int(d.get("month", "1"))
+    year = int(d.get("year", "2026"))
     cur_title   = d.get("titleLine1","") + " " + d.get("titleLine2","") + " " + d.get("titleLine3","")
     cur_title   = cur_title.strip()
     speakers    = d.get("speakers", [])
@@ -129,7 +139,7 @@ def schedule_html(d):
             title   = cur_title
             speaker = cur_speaker
             status_class = "current"
-            date_str = f"{mo}/{day} (화) 오전 7:30"
+            date_str = f"{mo}/{day} ({weekday_kr(year, mo, day)}) 오전 7:30"
             status_html = '<span class="sched-status now">▶ 신청중</span>'
             panels[q].append(f"""      <div class="sched-item current">
         <div class="sched-dot"></div>
@@ -141,7 +151,7 @@ def schedule_html(d):
         </div>
       </div>""")
         elif mo < cur_month:
-            date_str = f"{mo}/{day} (화)"
+            date_str = f"{mo}/{day} ({weekday_kr(year, mo, day)})"
             title   = title or f"{MONTH_NAMES[mo-1]} 강연"
             speaker = speaker or ""
             speaker_html = f'\n          <div class="sched-speaker">{speaker}</div>' if speaker else ""
@@ -154,7 +164,7 @@ def schedule_html(d):
         </div>
       </div>""")
         else:
-            date_str = f"{mo}/{day} (화)"
+            date_str = f"{mo}/{day} ({weekday_kr(year, mo, day)})"
             title   = title or f"{MONTH_NAMES[mo-1]} 강연 (추후 공지)"
             panels[q].append(f"""      <div class="sched-item upcoming">
         <div class="sched-dot"></div>
@@ -197,12 +207,14 @@ def event_iso_date(d):
 
 
 def watch_date(d):
-    mo = d.get("month","5")
-    # ANNUAL_SCHEDULE에서 해당 달의 day 찾기
-    for (month, day, *_) in ANNUAL_SCHEDULE:
-        if str(month) == str(int(mo)):
-            return f"{int(mo)}/{day}(화)"
-    return f"{int(mo)}월 강연일"
+    """{{WATCH_DATE}}용: eventDate에서 뽑은 실제 날짜 기준으로 요일을 계산한다
+    (예전엔 '화'로 고정돼 있어 수요일 강연 등에서 요일이 틀리게 표시됐음)."""
+    iso = event_iso_date(d)
+    try:
+        y, mo, day = (int(x) for x in iso.split("-"))
+        return f"{mo}/{day}({weekday_kr(y, mo, day)})"
+    except (ValueError, AttributeError):
+        return f"{int(d.get('month', 5))}월 강연일"
 
 
 # ─────────────────────────────────────────────

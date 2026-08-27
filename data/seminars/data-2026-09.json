@@ -1,0 +1,44 @@
+{
+  "month": "2026-09",
+  "counters": {
+    "offline": 0,
+    "online": 0
+  },
+  "monthName": "9월",
+  "date": "2026-09-16",
+  "seminar": {
+    "title": "미래 사회의 리더십 : 피드백과 관계주의의 실행이 답이다!",
+    "subtitle": "2026 Leadership for a Changing Society",
+    "date": "2026년 9월 16일(수)",
+    "time": "오전 07:30 ~ 09:00",
+    "speaker": {
+      "name": "김경일",
+      "title": "교수",
+      "org": "인지심리학자",
+      "credentials": [
+        "인지심리학자"
+      ]
+    },
+    "description": "빠르게 변화하는 시대, 미래사회가 요구하는 리더십의 핵심은 무엇일까요? 9월 Business Live ON은 인지심리학자 김경일 교수와 함께 그 질문에 대한 해답을 찾아봅니다. 피드백과 관계를 바탕으로 리더십의 방향을 조명하는 시간, 삼성생명 고객 여러분을 초대합니다."
+  },
+  "contact": {
+    "name": "박재박 팀장",
+    "phone": "010-5137-2327",
+    "kakao": "https://open.kakao.com/o/sleUSUei",
+    "website": "www.samsung2030blo.com"
+  },
+  "reg": {
+    "offline": {
+      "deadline": "추후 안내 예정",
+      "breakfast": { "time": "06:30 ~ 07:20", "location": "삼성금융캠퍼스 지하 2층 카페테리아" },
+      "seminar":   { "time": "07:30 ~ 09:00", "location": "삼성금융캠퍼스 B2F 비전홀" },
+      "address": "서울특별시 서초구 사임당로 23길 27"
+    }
+  },
+  "benefits": [
+    { "icon": "🍳", "title": "프리미엄 조찬",    "desc": "삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)" },
+    { "icon": "🎥", "title": "실시간 온라인",    "desc": "어디서나 실시간 시청 · 당일 재방송 20:00~22:00" },
+    { "icon": "🤝", "title": "프리미엄 네트워킹","desc": "오프라인 참석 시 CEO·자산가 교류의 장" },
+    { "icon": "🏆", "title": "연간 세미나 우선권","desc": "1회 신청으로 2026년 12월까지 전 강연 시청" }
+  ]
+}
