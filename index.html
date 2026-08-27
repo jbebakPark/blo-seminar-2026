@@ -1673,20 +1673,24 @@
     /* ───── 신청 버튼 클릭 — 코드 복사 단계를 건너뛰고 바로 눌러도 자동으로 복사 후 이동 ───── */
     function onApplyClick(e, website) {
       e.preventDefault();
+      // window.open은 클릭 이벤트 처리 중 '동기적으로' 바로 호출해야 한다.
+      // 추천인 코드를 비동기로 받아온 뒤(then 콜백 안에서) 열면, 클릭과의
+      // 연결이 끊겨 모바일 브라우저(카카오톡 인앱, 삼성 인터넷 등)가
+      // 사용자 조작이 아니라고 판단해 팝업을 조용히 차단해버린다
+      // (버튼을 눌러도 아무 반응이 없는 것처럼 보이는 원인이었음).
+      window.open('http://' + website, '_blank');
       getReferralCode().then(code => {
-        if (code) {
-          const finish = () => {
-            codeCopied = true;
-            unlockApplyBtn();
-            showCopyToast();
-          };
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(code).then(finish).catch(finish);
-          } else {
-            finish();
-          }
+        if (!code) return;
+        const finish = () => {
+          codeCopied = true;
+          unlockApplyBtn();
+          showCopyToast();
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(finish).catch(finish);
+        } else {
+          finish();
         }
-        window.open('http://' + website, '_blank');
       });
       return false;
     }
