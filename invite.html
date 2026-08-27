@@ -512,10 +512,21 @@ html, body {
 }
 .sticky-cta-btn:active { transform:scale(0.98); }
 
+/* ══ 회차 만료 안내 배너 (지난 회차인데 다음 달 데이터가 아직 안 올라왔을 때만 자동 노출) ══ */
+.stale-banner {
+  display:none;
+  background:#B91C1C; color:#fff; font-size:12.5px; font-weight:800;
+  text-align:center; padding:10px 16px; letter-spacing:0.2px; line-height:1.5;
+}
+
 </style>
 </head>
-<body>
+<body data-event-date="2026-08-18">
 <div class="wrap">
+
+<div class="stale-banner" id="staleBanner">
+  ⏰ 이번 회차 강연일이 지났습니다 · 다음 세미나 안내를 준비 중입니다
+</div>
 
 <!-- ① 히어로 -->
 <div class="hero">
@@ -1143,6 +1154,31 @@ function fallbackCopy(text) {
   var s = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
   var el = document.getElementById('wmDateText');
   if (el) el.textContent = s;
+})();
+
+/* ── 회차 만료 자동 감지 ──
+   data/current-seminar.json 갱신을 깜빡해도, 강연일 다음날(KST 00:00)부터는
+   "지난 회차" 상태로 자동 전환한다: 상단 배너 노출 + 이미 지난 날짜의
+   오프라인 조찬 신청(정원·주차 예약이 필요한 실물 행사)만 잠금.
+   온라인 신청은 1회 신청으로 연말까지 유효한 구독형이라 계속 열어둔다. */
+(function() {
+  var iso = document.body.getAttribute('data-event-date');
+  if (!iso) return;
+  var eventDay = new Date(iso + 'T00:00:00+09:00');
+  if (isNaN(eventDay.getTime())) return;
+  var expiresAt = new Date(eventDay.getTime() + 24 * 60 * 60 * 1000);
+  if (new Date() < expiresAt) return; // 아직 이번 회차 유효 기간
+
+  var banner = document.getElementById('staleBanner');
+  if (banner) banner.style.display = 'block';
+
+  var tabOffline = document.getElementById('tabOffline');
+  if (tabOffline) {
+    tabOffline.style.opacity = '0.4';
+    tabOffline.style.pointerEvents = 'none';
+    tabOffline.innerHTML = '<span class="apply-tab-icon">🍽️</span>오프라인 마감';
+  }
+  selectTab('online');
 })();
 </script>
 </body>

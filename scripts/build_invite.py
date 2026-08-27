@@ -184,6 +184,18 @@ def parts_label(d):
     return " + ".join(sp.get("part","") for sp in speakers) if len(speakers) > 1 else "단독"
 
 
+def event_iso_date(d):
+    """eventDate("2026.8.18 (화) 오전 07:30 ~ 09:00")에서 YYYY-MM-DD를 뽑아낸다.
+    이 값으로 브라우저에서 '이번 회차 종료 여부'를 자동 판정한다 (data/current-seminar.json을
+    깜빡 잊고 안 갱신해도, 지난 회차 안내가 그대로 노출되는 사고를 막기 위함)."""
+    m = re.search(r"(\d{4})\.(\d{1,2})\.(\d{1,2})", d.get("eventDate", ""))
+    if m:
+        y, mo, day = m.groups()
+        return f"{y}-{int(mo):02d}-{int(day):02d}"
+    # eventDate 파싱 실패 시, year+month 1일로 안전하게 폴백
+    return f"{d.get('year','2026')}-{str(d.get('month','01')).zfill(2)}-01"
+
+
 def watch_date(d):
     mo = d.get("month","5")
     # ANNUAL_SCHEDULE에서 해당 달의 day 찾기
@@ -223,6 +235,7 @@ def build_invite(d):
         "{{SPEAKERS_TITLE}}":       sp_title_parts + " 부" if sp_title_parts else "강사 소개",
         "{{SPEAKERS_HTML}}":        sp_html,
         "{{EVENT_DATE}}":           d.get("eventDate",""),
+        "{{EVENT_ISO_DATE}}":       event_iso_date(d),
         "{{EVENT_TIME_PARTS}}":     d.get("eventTimeParts",""),
         "{{OFFLINE_DEADLINE_SHORT}}": d.get("offlineDeadlineShort",""),
         "{{BODY_HTML}}":            body_html(d),
