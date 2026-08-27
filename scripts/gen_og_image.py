@@ -210,10 +210,12 @@ def make_wide_og(out_path, d):
     finfo_l = load_font(F_BOLD2, 17)
     finfo_r = load_font(F_REGULAR, 17)
 
+    # 이모지는 여기서 쓰는 한글 폰트(맑은고딕/나눔고딕)에 글리프가 없어
+    # 빈 네모(tofu)로 깨져 나오므로 이미지에는 넣지 않는다 (HTML 쪽은 문제없음)
     info_items = [
-        ("📅  일  시", info_date),
-        ("🎓  강  사", info_speaker),
-        ("💻  신  청", "www.samsung2030blo.com"),
+        ("일  시", info_date),
+        ("강  사", info_speaker),
+        ("신  청", "www.samsung2030blo.com"),
     ]
     for i, (label, value) in enumerate(info_items):
         y = 248 + i * 34
@@ -309,7 +311,9 @@ def make_vertical_card(out_path, d):
 
     draw.rectangle([0, 0, W, 5], fill=GOLD)
     SIDE = 120
-    draw.rectangle([0, 0, SIDE, 380], fill=NAVY)
+    # 상단 히어로 밴드 전체를 네이비로 칠한다 (전에는 SIDE 칼럼만 칠해져 있어서,
+    # 오른쪽의 흰색 제목 텍스트(vtitle1)가 흰 배경 위에 흰 글씨로 그려져 안 보이던 버그가 있었음)
+    draw.rectangle([0, 0, W, 380], fill=NAVY)
 
     for i, (hr, c) in enumerate([(0.5,40),(0.7,70),(0.9,110),(0.75,70),(0.55,45),(0.85,85)]):
         bh = int(380 * hr)
@@ -322,8 +326,15 @@ def make_vertical_card(out_path, d):
 
     draw.text((10, 70), month_num, font=fmn, fill=GOLD)
 
+    # 세로로 한 글자씩 쌓는 월 라벨(SEPTEMBER, NOVEMBER 등 긴 이름) — 글자수에 맞춰
+    # 줄간격을 줄여서, 아래쪽 sidebar_date(연/월/일) 텍스트와 겹치지 않게 한다.
+    label_start_y = 178
+    label_bottom_limit = 295  # 이 아래로는 sidebar_date 영역이라 침범 금지
+    label_line_h = 18
+    if len(month_label) > 0:
+        label_line_h = min(18, max(11, (label_bottom_limit - label_start_y) // len(month_label)))
     for ci, ch in enumerate(month_label):
-        draw.text((SIDE//2 - 6, 178 + ci*18), ch, font=fb2, fill=MID_GRAY)
+        draw.text((SIDE//2 - 6, label_start_y + ci*label_line_h), ch, font=fb2, fill=MID_GRAY)
 
     RX = SIDE + 20
 
@@ -353,12 +364,12 @@ def make_vertical_card(out_path, d):
     draw.rectangle([24, y, W-24, y+218], fill=WHITE)
     draw.rectangle([24, y, W-24, y+4], fill=BLUE)
     card_items = [
-        ("📅 일  시", card_date),
-        ("",          card_time),
-        ("🎓 강  사", speaker1),
-        ("",          speaker2),
-        ("💻 신  청", "www.samsung2030blo.com"),
-        ("📍 장  소", "삼성금융캠퍼스 B2F 비전홀"),
+        ("일  시", card_date),
+        ("",        card_time),
+        ("강  사", speaker1),
+        ("",        speaker2),
+        ("신  청", "www.samsung2030blo.com"),
+        ("장  소", "삼성금융캠퍼스 B2F 비전홀"),
     ]
     cy = y + 16
     for label, value in card_items:
@@ -395,7 +406,7 @@ def make_vertical_card(out_path, d):
     # 추천인 코드 — 보안상 이미지에는 코드값을 담지 않고, 신청 페이지 안내로 대체
     draw_rounded_rect(draw, [24, y, W-24, y+84], 10, (240,246,255))
     draw.rectangle([24, y, 28, y+84], fill=BLUE)
-    draw.text((40, y+8),  "⚠  온라인 신청 시 반드시 추천인 코드 입력!", font=fcode_t, fill=BLUE)
+    draw.text((40, y+8),  "온라인 신청 시 반드시 추천인 코드 입력!", font=fcode_t, fill=BLUE)
     code_note = "추천인 코드는 신청 페이지에서 확인하세요"
     cb  = draw.textbbox((0,0), code_note, font=fcode_v2)
     cw  = cb[2]-cb[0]
@@ -428,10 +439,10 @@ def make_vertical_card(out_path, d):
 
     # 오프라인 문의
     y += 14
-    draw.text((24, y),    "오프라인 조찬세미나 문의",           font=foff_b, fill=TEXT_MID)
-    draw.text((24, y+22), "📞  010-5137-2327  (박재박 팀장)",  font=foff,   fill=TEXT_DARK)
-    draw.text((24, y+42), "💬  카카오톡 오픈채팅 문의 가능",    font=foff,   fill=TEXT_DARK)
-    draw.text((24, y+62), f"📅  오프라인 마감: {og_deadline}",  font=foff,   fill=(180,50,50))
+    draw.text((24, y),    "오프라인 조찬세미나 문의",         font=foff_b, fill=TEXT_MID)
+    draw.text((24, y+22), "010-5137-2327  (박재박 팀장)",    font=foff,   fill=TEXT_DARK)
+    draw.text((24, y+42), "카카오톡 오픈채팅 문의 가능",      font=foff,   fill=TEXT_DARK)
+    draw.text((24, y+62), f"오프라인 마감: {og_deadline}",    font=foff,   fill=(180,50,50))
 
     draw.rectangle([0, H-72, W, H], fill=NAVY)
     draw.text((24, H-60), "2030 Business Live ON",              font=ffoot_t, fill=WHITE)
