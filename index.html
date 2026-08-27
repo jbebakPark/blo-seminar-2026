@@ -1167,24 +1167,9 @@
           <div class="blo-badge">2030 BUSINESS LIVE ON</div>
         </div>
 
-        <!-- 실시간 카운터 -->
-        <div class="counter-section">
-          <div class="counter-title">🎉 실시간 신청 현황</div>
-          <div class="counter-display">
-            <div class="counter-box">
-              <div class="counter-label">오프라인</div>
-              <div class="counter-value" id="offlineCount">0</div>
-            </div>
-            <div class="counter-box">
-              <div class="counter-label">온라인</div>
-              <div class="counter-value" id="onlineCount">0</div>
-            </div>
-            <div class="counter-box" style="background:rgba(0,0,0,0.2)">
-              <div class="counter-label">총 신청자</div>
-              <div class="counter-value" id="totalCount">0</div>
-            </div>
-          </div>
-        </div>
+        <!-- 실시간 신청 현황 카운터: Firebase 연동 전까지는 실제 신청 수와 무관한
+             고정값(0)만 표시되어 오히려 신청을 주저하게 만들 수 있어 섹션 자체를 숨김.
+             (연동 완료되면 다시 노출) -->
 
         <!-- 메인 타이틀 -->
         <div class="seminar-header">
