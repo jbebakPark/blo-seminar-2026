@@ -108,17 +108,17 @@
           "speakers": [
             "이동환 전문의"
           ],
-          "status": "current"
+          "status": "completed"
         },
         {
           "id": "2026-09",
-          "date": "2026-09-15",
+          "date": "2026-09-16",
           "type": "Class",
-          "title": "타인의 마음을 얻는 소통",
+          "title": "미래 사회의 리더십 : 피드백과 관계주의의 실행이 답이다!",
           "speakers": [
-            "미정"
+            "김경일 교수"
           ],
-          "status": "upcoming"
+          "status": "completed"
         }
       ]
     },
@@ -130,11 +130,11 @@
           "id": "2026-10",
           "date": "2026-10-20",
           "type": "Class",
-          "title": "Next transition 2027 : 소비 트렌드",
+          "title": "미리 보는 트렌드코리아 2027",
           "speakers": [
-            "미정"
+            "김난도 교수"
           ],
-          "status": "upcoming"
+          "status": "current"
         },
         {
           "id": "2026-11",
