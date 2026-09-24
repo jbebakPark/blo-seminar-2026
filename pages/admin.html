@@ -386,12 +386,12 @@
         </div>
       </div>
 
-      <!-- ⓪-1.5 추천인 코드 관리 -->
+      <!-- ⓪-1.5 컨설턴트 코드 관리 -->
       <div class="my-link-card">
-        <div class="my-link-title">🔑 추천인 코드 관리</div>
+        <div class="my-link-title">🔑 컨설턴트 코드 관리</div>
         <div class="my-link-box" id="refCodeDisplay">코드 조회 중...</div>
         <div class="my-link-btns">
-          <input type="text" id="refCodeInput" placeholder="새 추천인 코드 입력"
+          <input type="text" id="refCodeInput" placeholder="새 컨설턴트 코드 입력"
                  style="flex:1;padding:10px 14px;border-radius:8px;border:1px solid #ccc;font-size:14px;">
           <button class="btn-copy-link" onclick="saveReferralCode()">💾 코드 저장</button>
         </div>
@@ -688,7 +688,7 @@ let currentData = {};
 let githubPAT = '';
 let adminPW = '';
 
-// ── 추천인 코드 (정적 파일엔 없음 — Cloud Function으로만 조회/저장) ──
+// ── 컨설턴트 코드 (정적 파일엔 없음 — Cloud Function으로만 조회/저장) ──
 const REFERRAL_API = '/api/referral-code';
 
 async function loadReferralCodeAdmin() {
@@ -717,7 +717,7 @@ async function saveReferralCode() {
     });
     const d = await res.json();
     if (!res.ok) throw new Error(d.error || '저장 실패');
-    showToast('✅ 추천인 코드가 변경되었습니다.');
+    showToast('✅ 컨설턴트 코드가 변경되었습니다.');
     input.value = '';
     await loadReferralCodeAdmin();
     buildMyLink(currentData);
@@ -759,11 +759,11 @@ async function buildMyLink(data) {
     '  (담당자 확인 후 접수 완료 안내)\n' +
     '\n' +
     '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
-    '  ① 추천인 코드 먼저 복사 후 사이트 접속\n' +
-    '  ② 가입 시 추천인 코드란에 반드시 입력\n' +
+    '  ① 컨설턴트 코드 먼저 복사 후 사이트 접속\n' +
+    '  ② 가입 시 컨설턴트 코드란에 반드시 입력\n' +
     '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
     '\n' +
-    '🔑 추천인 코드 : ' + fpCode + '\n' +
+    '🔑 컨설턴트 코드 : ' + fpCode + '\n' +
     '━━━━━━━━━━━━━━━━\n' +
     '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
     '세부 안내: ' + _myInviteLink;

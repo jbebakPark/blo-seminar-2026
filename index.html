@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:title" content="2030 Business Live ON - 세미나 안내">
   <meta property="og:description" content="삼성생명 WM 사업부 | 프리미엄 경영 조찬 세미나">
-  <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=18">
+  <meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=19">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://admin-samsung-vvip.web.app/">
@@ -771,7 +771,7 @@
     }
 
     /* ═══════════════════════════════════════
-       ⑦ 추천인 코드
+       ⑦ 컨설턴트 코드
     ═══════════════════════════════════════ */
     .referral-box {
       background: linear-gradient(135deg, #FFF8E1 0%, #FFF3CD 100%);
@@ -1380,8 +1380,8 @@
               <div class="o-step">
                 <div class="o-num">1</div>
                 <div class="o-text">
-                  <strong>추천인 코드 복사</strong><br>
-                  아래 '추천인 코드' 섹션에서 코드를 복사하세요
+                  <strong>컨설턴트 코드 복사</strong><br>
+                  아래 '컨설턴트 코드' 섹션에서 코드를 복사하세요
                 </div>
               </div>
               <div class="o-step">
@@ -1404,10 +1404,10 @@
               </div>
             </div>
 
-            <!-- 추천인 코드 -->
+            <!-- 컨설턴트 코드 -->
             <div id="sec-referral" style="margin-top:20px;">
               <div class="referral-box">
-                <div class="ref-warning">⚠️ 온라인 신청 시 반드시 입력 — 추천인 코드</div>
+                <div class="ref-warning">⚠️ 온라인 신청 시 반드시 입력 — 컨설턴트 코드</div>
                 <div class="ref-code-wrap">
                   <div class="ref-code-num" id="refCode" style="letter-spacing:6px;color:#A0AFBF;">●●●●●●●</div>
                 </div>
@@ -1416,7 +1416,7 @@
                   📋 코드 복사하기 (보안 코드)
                 </button>
                 <div class="ref-desc">
-                  ✓ 온라인 신청 시 추천인 코드란에 위 숫자를 입력하세요<br>
+                  ✓ 온라인 신청 시 컨설턴트 코드란에 위 숫자를 입력하세요<br>
                   ✓ 코드 입력 시 세미나 관련 안내를 받으실 수 있습니다
                 </div>
               </div>
@@ -1424,7 +1424,7 @@
               <a class="apply-btn-lock unlocked" id="applyBtn" href="#" onclick="onApplyClick(event, '${contact.website}')">
                 🎥 온라인 강연 신청하기
               </a>
-              <div class="lock-hint" id="lockHint">버튼을 누르면 추천인 코드가 자동으로 복사됩니다</div>
+              <div class="lock-hint" id="lockHint">버튼을 누르면 컨설턴트 코드가 자동으로 복사됩니다</div>
             </div>
           </div>
 
@@ -1567,7 +1567,7 @@
       document.getElementById('tabOffline').classList.toggle('active', type==='offline');
     }
 
-    /* ───── 추천인 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ───── */
+    /* ───── 컨설턴트 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ───── */
     let __refCode = null;
     const __refCodePromise = fetch('/api/referral-code')
       .then(r => r.json())
@@ -1578,7 +1578,7 @@
       return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
     }
 
-    /* ───── 추천인 코드 복사 ───── */
+    /* ───── 컨설턴트 코드 복사 ───── */
     function copyRefCode() {
       const btn = document.getElementById('copyBtn');
       btn.disabled = true;
@@ -1648,7 +1648,7 @@
           + 'box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90vw;';
         document.body.appendChild(t);
       }
-      t.textContent = '📋 추천인 코드 복사 완료! 신청 사이트에서 추천인 코드란에 붙여넣으세요.';
+      t.textContent = '📋 컨설턴트 코드 복사 완료! 신청 사이트에서 컨설턴트 코드란에 붙여넣으세요.';
       t.style.display = 'block';
       t.style.opacity = '1';
       clearTimeout(t._timer);
@@ -1659,7 +1659,7 @@
     function onApplyClick(e, website) {
       e.preventDefault();
       // window.open은 클릭 이벤트 처리 중 '동기적으로' 바로 호출해야 한다.
-      // 추천인 코드를 비동기로 받아온 뒤(then 콜백 안에서) 열면, 클릭과의
+      // 컨설턴트 코드를 비동기로 받아온 뒤(then 콜백 안에서) 열면, 클릭과의
       // 연결이 끊겨 모바일 브라우저(카카오톡 인앱, 삼성 인터넷 등)가
       // 사용자 조작이 아니라고 판단해 팝업을 조용히 차단해버린다
       // (버튼을 눌러도 아무 반응이 없는 것처럼 보이는 원인이었음).

@@ -246,7 +246,7 @@ def make_wide_og(out_path, d):
     draw.text((btn_x1 + (220-bw2)//2, btn_y1 + (50-bh2)//2), btn_text, font=fbtn, fill=WHITE)
 
     fcode_l = load_font(F_REGULAR, 16)
-    draw.text((MX, H-65), "추천인 코드 입력 필요 — 신청 페이지에서 확인", font=fcode_l, fill=TEXT_MID)
+    draw.text((MX, H-65), "컨설턴트 코드 입력 필요 — 신청 페이지에서 확인", font=fcode_l, fill=TEXT_MID)
 
     draw.rectangle([0, H-22, W, H], fill=NAVY)
     ffoot = load_font(F_REGULAR, 13)
@@ -403,11 +403,11 @@ def make_vertical_card(out_path, d):
         draw.text((40, p2_y+48+i*22), item, font=fprof_r, fill=TEXT_DARK)
     y += prof_box_h + 10
 
-    # 추천인 코드 — 보안상 이미지에는 코드값을 담지 않고, 신청 페이지 안내로 대체
+    # 컨설턴트 코드 — 보안상 이미지에는 코드값을 담지 않고, 신청 페이지 안내로 대체
     draw_rounded_rect(draw, [24, y, W-24, y+84], 10, (240,246,255))
     draw.rectangle([24, y, 28, y+84], fill=BLUE)
-    draw.text((40, y+8),  "온라인 신청 시 반드시 추천인 코드 입력!", font=fcode_t, fill=BLUE)
-    code_note = "추천인 코드는 신청 페이지에서 확인하세요"
+    draw.text((40, y+8),  "온라인 신청 시 반드시 컨설턴트 코드 입력!", font=fcode_t, fill=BLUE)
+    code_note = "컨설턴트 코드는 신청 페이지에서 확인하세요"
     cb  = draw.textbbox((0,0), code_note, font=fcode_v2)
     cw  = cb[2]-cb[0]
     draw_rounded_rect(draw, [W//2-cw//2-18, y+28, W//2+cw//2+18, y+76], 8, NAVY)
@@ -420,7 +420,7 @@ def make_vertical_card(out_path, d):
     month_day = d.get("ogSidebarDate", "")
     steps = [
         ("①", "samsung2030blo.com 접속"),
-        ("②", "추천인 코드 입력 (신청 페이지에서 확인)"),
+        ("②", "컨설턴트 코드 입력 (신청 페이지에서 확인)"),
         ("③", step3),
     ]
     for i, (num, step) in enumerate(steps):
