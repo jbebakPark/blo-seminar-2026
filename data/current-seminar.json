@@ -40,7 +40,7 @@
   "ogDescSpeakers": "김난도 교수",
   "ogTitle": "미리 보는 트렌드코리아 2027",
   "ogDescription": "김난도 교수 | 2026.10.20(화) 오전 7:30~9:00 | 지금 바로 신청하세요",
-  "ogImageVersion": "17",
+  "ogImageVersion": "18",
   "ogWideTitle1": "미리 보는",
   "ogWideTitle2": "트렌드코리아 2027",
   "ogWideSubtitle": "2027 Trend Korea, Preview",
@@ -59,5 +59,12 @@
   "ogCardSpeaker1": "김난도 교수",
   "ogCardSpeaker2": "서울대학교 소비자학과 명예교수",
   "ogOfflineDeadline": "추후 안내 예정",
-  "ogStep3": "10/20 오전 7:00 생방송 입장"
+  "ogStep3": "10/20 오전 7:00 생방송 입장",
+  "ogProfileTitle1": "김난도 교수",
+  "ogProfileOrg1": "서울대학교 소비자학과 명예교수",
+  "ogProfileItems1": [
+    "· 「트렌드 코리아」 시리즈 저자",
+    "· 서울대학교 소비트렌드분석센터장",
+    "· 한국소비자학회 상임이사"
+  ]
 }
