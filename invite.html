@@ -7,7 +7,7 @@
 <meta property="og:title" content="세미나 신청하기 | BLO 조찬세미나">
 <meta property="og:description" content="미리 보는 트렌드코리아 2027 | 10/20(화) 오전 7:30 | 김난도 교수 | 신청: www.samsung2030blo.com">
 <meta property="og:url" content="https://admin-samsung-vvip.web.app/invite?m=2026-10">
-<meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=18">
+<meta property="og:image" content="https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png?v=19">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="576">
 <meta name="twitter:card" content="summary_large_image">
@@ -632,10 +632,10 @@ html, body {
         아래 버튼 한 번이면 30초 안에 신청이 완료됩니다.
       </div>
 
-      <!-- 추천인 코드 + 신청 이동 (통합) -->
+      <!-- 컨설턴트 코드 + 신청 이동 (통합) -->
       <div class="apply-box">
         <div class="apply-box-code-row">
-          <span class="apply-box-code-label">추천인 코드</span>
+          <span class="apply-box-code-label">컨설턴트 코드</span>
           <span class="code-number" id="refCode">●●●●●●●</span>
           <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">📋 복사</button>
         </div>
@@ -643,7 +643,7 @@ html, body {
         <a class="go-apply-btn" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="onGoApply()">
           🌐 신청 사이트 바로가기 ▶
         </a>
-        <div class="go-apply-hint">클릭 시 코드가 자동 복사됩니다 — 가입 화면 추천인 코드란에 붙여넣기만 하면 완료!</div>
+        <div class="go-apply-hint">클릭 시 코드가 자동 복사됩니다 — 가입 화면 컨설턴트 코드란에 붙여넣기만 하면 완료!</div>
       </div>
 
       <div class="online-card-footer">
@@ -719,7 +719,7 @@ html, body {
   <div class="refer-card">
     <div class="refer-icon">🎁</div>
     <div class="refer-title">함께 듣고 싶은 분이 있나요?</div>
-    <div class="refer-desc">버튼 한 번이면 추천인 코드까지 자동으로 담아<br>바로 전달할 수 있어요</div>
+    <div class="refer-desc">버튼 한 번이면 컨설턴트 코드까지 자동으로 담아<br>바로 전달할 수 있어요</div>
     <button class="refer-btn" onclick="shareInvite('refer')">📤 지인에게 추천하기</button>
   </div>
 </div>
@@ -972,7 +972,7 @@ html, body {
   <div class="sticky-meta">
     <span class="sticky-event-label">📅 10/20(화) · 삼성생명 BLO 조찬세미나</span>
     <div class="sticky-code-wrap">
-      <span class="sticky-code-label">추천인 코드</span>
+      <span class="sticky-code-label">컨설턴트 코드</span>
       <span class="sticky-code-value">●●●●●●●</span>
     </div>
   </div>
@@ -1024,7 +1024,7 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
-/* ── 추천인 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ── */
+/* ── 컨설턴트 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ── */
 var __refCode = null;
 var __refCodePromise = fetch('/api/referral-code')
   .then(function(r) { return r.json(); })
@@ -1035,7 +1035,7 @@ function getReferralCode() {
   return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
 }
 
-/* ── 추천인 코드 복사 ── */
+/* ── 컨설턴트 코드 복사 ── */
 function copyCode() {
   var btn = document.getElementById('copyBtn');
   getReferralCode().then(function(code) {
@@ -1058,7 +1058,7 @@ function fallbackCopy(text, btn) {
 function markCopied(btn) {
   btn.textContent = '✅ 복사 완료!';
   btn.classList.add('copied');
-  showToast('📋 추천인 코드가 복사되었습니다. 사이트에서 추천인 코드란에 붙여넣으세요!');
+  showToast('📋 컨설턴트 코드가 복사되었습니다. 사이트에서 컨설턴트 코드란에 붙여넣으세요!');
   setTimeout(function() {
     btn.textContent = '📋 코드 복사하기';
     btn.classList.remove('copied');
@@ -1077,7 +1077,7 @@ function onGoApply() {
   var btn = document.getElementById('copyBtn');
   if (!btn.classList.contains('copied')) {
     autoCopyOnApply();
-    showToast('📋 추천인 코드가 자동으로 복사되었습니다. 회원가입 시 붙여넣으세요!');
+    showToast('📋 컨설턴트 코드가 자동으로 복사되었습니다. 회원가입 시 붙여넣으세요!');
   }
 }
 
@@ -1126,11 +1126,11 @@ function shareInvite(mode) {
       '  (담당자 확인 후 접수 완료 안내)\n' +
       '\n' +
       '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
-      '  ① 추천인 코드 먼저 복사 후 사이트 접속\n' +
-      '  ② 가입 시 추천인 코드란에 반드시 입력\n' +
+      '  ① 컨설턴트 코드 먼저 복사 후 사이트 접속\n' +
+      '  ② 가입 시 컨설턴트 코드란에 반드시 입력\n' +
       '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
       '\n' +
-      '🔑 추천인 코드 : ' + (code || '사이트에서 확인') + '\n' +
+      '🔑 컨설턴트 코드 : ' + (code || '사이트에서 확인') + '\n' +
       '━━━━━━━━━━━━━━━━\n' +
       '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
       '세부 안내: ' + url;
