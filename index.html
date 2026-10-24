@@ -1025,14 +1025,15 @@
       }
     } catch(e) {}
 
-    const CURRENT_DATA_FILE = '/data/seminars/data-2026-10.json';
-    const CURRENT_SEMINAR_ID = '2026-10';
+    /* 현재 회차 파일은 data/current.json이 가리킨다 (빌드가 매월 자동 갱신). 아래 값은 그 파일을 못 읽을 때만 쓰는 폴백 */
+    let CURRENT_DATA_FILE = '/data/seminars/data-2026-11.json';
+    let CURRENT_SEMINAR_ID = '2026-11';
     let counterUnsubscribe = null;
     let codeCopied = false;  /* 이제 '추천컨설턴트에게 코드 확인' 체크 여부로 쓴다 */
     const REFERRER_CODE_MASKED = '96186**';
 
     /* ───── 인라인 데이터 (Firebase·fetch 둘 다 실패했을 때만 쓰는 최종 폴백) ───── */
-    const INLINE_DATA = {"month":"2026-10","counters":{"offline":0,"online":0},"monthName":"10월","date":"2026-10-20","seminar":{"title":"미리 보는 트렌드코리아 2027","subtitle":"2027 Trend Korea, Preview","date":"2026년 10월 20일(화)","time":"오전 07:30 ~ 09:00","speaker":{"name":"김난도","title":"교수","org":"서울대학교 소비자학과 명예교수","credentials":["서울대학교 소비자학과 명예교수","「트렌드 코리아」 시리즈 저자","서울대학교 소비트렌드분석센터장","한국소비자학회 상임이사"]},"description":"2027년 정미년(丁未年), 붉은 양의 해는 어떤 변화가 기다리고 있을까요? 10월 Business Live ON은 베스트셀러 「트렌드 코리아」 시리즈의 저자 서울대학교 김난도 교수와 다시 만납니다. 삼성생명과 함께 2027년 트렌드를 미리 보고 고객 여러분의 미래를 설계하시기 바랍니다."},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"추후 안내 예정","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
+    const INLINE_DATA = {"month":"2026-11","counters":{"offline":0,"online":0},"monthName":"11월","date":"2026-11-17","seminar":{"title":"트럼프 2.0 중간선거, 미국의 선택과 국제정세의 변화","subtitle":"Trump 2.0 Midterm Elections & Global Outlook","date":"2026년 11월 17일(화)","time":"오전 07:30 ~ 09:00","speaker":{"name":"신성호","title":"교수","org":"서울대학교 국제대학원 교수","credentials":["서울대학교 국제대학원 교수","국제안보센터 소장","미 국방부 아·태안보연구소(APCSS) 연구교수","워싱턴 D.C. 브루킹스 연구소 객원 연구원"]},"description":"2026년 11월 3일, 트럼프 2기 행정부의 중간선거는 국제정세에 어떤 영향을 미칠까요? 계속되는 전쟁과 치열한 경쟁 속에서 미국 정치 지형의 변화가 가져올 새로운 국면을 짚어봅니다. 11월 Business Live ON은 서울대학교 신성호 교수와 함께 미국발(發) 국제정세의 변화를 전망합니다."},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"추후 안내 예정","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
 
     /* ───── 데이터 로드 ─────
        우선순위: Firebase(설정된 경우) → CURRENT_DATA_FILE fetch(매월 자동 갱신되는 실 데이터)
@@ -1040,6 +1041,14 @@
     async function loadSeminarData() {
       try {
         let data = null;
+        try {
+          const curRes = await fetch('/data/current.json?_=' + Date.now());
+          if (curRes.ok) {
+            const cur = await curRes.json();
+            if (cur.currentDataFile) CURRENT_DATA_FILE = '/' + cur.currentDataFile.replace(/^\//, '');
+            if (cur.currentSeminarId) CURRENT_SEMINAR_ID = cur.currentSeminarId;
+          }
+        } catch (e) {}
         if (useFirebase) {
           try {
             const doc = await db.collection('seminars').doc(CURRENT_SEMINAR_ID).get();

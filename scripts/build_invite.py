@@ -329,6 +329,97 @@ def sync_index_og_version(d):
         print(f"  ℹ️ index.html og:image 이미 v={ver} (변경 없음)")
 
 
+
+# ─────────────────────────────────────────────
+# 메인 페이지(index.html)용 데이터 파일 동기화
+# (index.html은 data/current.json이 가리키는 data/seminars/data-YYYY-MM.json을 읽는다.
+#  예전엔 이 파일을 손으로 만들어야 해서 메인 페이지가 몇 달씩 지난 회차를 보여줬다.
+#  current-seminar.json 하나만 고치면 메인 페이지도 같이 갱신되도록 여기서 만든다.)
+# ─────────────────────────────────────────────
+
+def build_legacy_data(d):
+    import copy
+    seminars_dir = os.path.join(BASE_DIR, "data", "seminars")
+    cur_path = os.path.join(BASE_DIR, "data", "current.json")
+
+    iso = event_iso_date(d)
+    y, mo, day = (int(x) for x in iso.split("-"))
+    month_id = f"{y}-{mo:02d}"
+    out_path = os.path.join(seminars_dir, f"data-{month_id}.json")
+
+    # 바탕: 이미 있는 이번 달 파일 → 없으면 현재 가리키는 이전 달 파일(연락처·혜택 등 공통 정보 재사용)
+    base = None
+    for cand in [out_path]:
+        if os.path.exists(cand):
+            with open(cand, encoding="utf-8") as f:
+                base = json.load(f)
+    if base is None and os.path.exists(cur_path):
+        with open(cur_path, encoding="utf-8") as f:
+            cur = json.load(f)
+        prev = os.path.join(BASE_DIR, cur.get("currentDataFile", ""))
+        if os.path.isfile(prev):
+            with open(prev, encoding="utf-8") as f:
+                base = json.load(f)
+    data = copy.deepcopy(base) if base else {}
+
+    sp = (d.get("speakers") or [{}])[0]
+    creds = sp.get("credentials", [])
+    paras = [re.sub(r"<br\s*/?>", " ", p) for p in d.get("bodyParagraphs", [])]
+    title = " ".join(x for x in [d.get("titleLine1",""), d.get("titleLine2",""), d.get("titleLine3","")] if x)
+    seminar_time = d.get("seminarTime", "07:30 ~ 09:00")
+
+    data["month"] = month_id
+    data["counters"] = data.get("counters") if data.get("month") == month_id and data.get("counters") else {"offline": 0, "online": 0}
+    data["monthName"] = d.get("monthKor", f"{mo}월")
+    data["date"] = iso
+    data["seminar"] = {
+        "title": title,
+        "subtitle": d.get("subtitle", ""),
+        "date": f"{y}년 {mo}월 {day}일({weekday_kr(y, mo, day)})",
+        "time": f"오전 {seminar_time}",
+        "speaker": {
+            "name": sp.get("name", ""),
+            "title": sp.get("title", ""),
+            "org": creds[0] if creds else "",
+            "credentials": creds,
+        },
+        "description": " ".join(paras),
+    }
+    contact = data.setdefault("contact", {})
+    if d.get("referrerName"):  contact["name"]  = d["referrerName"]
+    if d.get("referrerPhone"): contact["phone"] = d["referrerPhone"]
+    reg = data.setdefault("reg", {}).setdefault("offline", {})
+    reg["deadline"] = d.get("offlineDeadline", reg.get("deadline", ""))
+    reg.setdefault("breakfast", {"time": "06:30 ~ 07:20", "location": "삼성금융캠퍼스 지하 2층 카페테리아"})
+    reg["seminar"] = {"time": seminar_time, "location": "삼성금융캠퍼스 B2F 비전홀"}
+
+    os.makedirs(seminars_dir, exist_ok=True)
+    with open(out_path, "w", encoding="utf-8", newline="") as f:
+        f.write(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+
+    cur_new = {
+        "currentSeminarId": month_id,
+        "currentDataFile": f"data/seminars/data-{month_id}.json",
+        "lastUpdated": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "version": "1.0.0",
+        "status": "active",
+    }
+    with open(cur_path, "w", encoding="utf-8", newline="") as f:
+        f.write(json.dumps(cur_new, ensure_ascii=False, indent=2) + "\n")
+    print(f"  ✅ 메인 페이지 데이터 동기화: data-{month_id}.json, current.json")
+
+    # index.html 인라인 폴백(INLINE_DATA)도 같은 내용으로 맞춘다
+    index_path = os.path.join(BASE_DIR, "index.html")
+    if os.path.exists(index_path):
+        with open(index_path, encoding="utf-8") as f:
+            html = f.read()
+        inline = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+        new_html, n = re.subn(r"const INLINE_DATA = \{.*?\};\n", lambda m: f"const INLINE_DATA = {inline};\n", html, count=1, flags=re.S)
+        if n and new_html != html:
+            with open(index_path, "w", encoding="utf-8", newline="") as f:
+                f.write(new_html)
+            print("  ✅ index.html 인라인 폴백 데이터 동기화")
+
 # ─────────────────────────────────────────────
 # OG 이미지 빌드 (gen_og_image.py 재사용)
 # ─────────────────────────────────────────────
@@ -374,6 +465,12 @@ if __name__ == "__main__":
     print("[2/3] index.html og:image 캐시 버전 동기화 중...")
     sync_index_og_version(d)
 
+    print("[2-2/3] 메인 페이지(index.html) 데이터 동기화 중...")
+    try:
+        build_legacy_data(d)
+    except Exception as e:
+        print(f"  ⚠️ 메인 페이지 데이터 동기화 실패: {e}")
+
     print("[3/3] OG 이미지 생성 중...")
     try:
         build_og_images(d)
@@ -384,7 +481,7 @@ if __name__ == "__main__":
     print()
     print("=" * 50)
     print(f"✅ {month_kor} 빌드 완료!")
-    print("   git add invite.html recommend.html index.html assets/og-*.png")
+    print("   git add invite.html recommend.html index.html data/current.json data/seminars assets/og-*.png")
     print("   git commit -m 'feat: {month_kor} 세미나 자동 빌드'")
     print("   git push  →  GitHub Actions가 자동 배포합니다")
     print("=" * 50)
