@@ -241,13 +241,13 @@ def build_invite(d, variant="default"):
     watch = watch_date(d)
     speakers_txt = d.get("ogDescSpeakers","")
     if variant == "recommend":
-        og_meta_title = d.get("recommendOgTitle") or f"대표님께 추천드립니다 | {d.get('ogTitle','')}"
+        og_meta_title = d.get("recommendOgTitle") or f"추천드립니다 | {d.get('ogTitle','')}"
         og_meta_desc  = d.get("recommendOgDescription") or f"{speakers_txt} | {watch} 오전 7:30 | 신청 한 번으로 연간 세미나를 시청하실 수 있습니다"
         og_img_url    = "https://admin-samsung-vvip.web.app/assets/og-recommend-wide.png"
         share_path    = "recommend"
     else:
-        og_meta_title = "세미나 신청하기 | BLO 조찬세미나"
-        og_meta_desc  = f"{d.get('ogTitle','')} | {watch} 오전 7:30 | {speakers_txt} | 신청: www.samsung2030blo.com"
+        og_meta_title = d.get("recommendOgTitle") or f"추천드립니다 | {d.get('ogTitle','')}"
+        og_meta_desc  = d.get("recommendOgDescription") or f"{speakers_txt} | {watch} 오전 7:30 | 신청 한 번으로 연간 세미나를 시청하실 수 있습니다"
         og_img_url    = "https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png"
         share_path    = "invite"
 
