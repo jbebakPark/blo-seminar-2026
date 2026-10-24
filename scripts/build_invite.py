@@ -8,6 +8,7 @@ data/current-seminar.json 하나만 수정하면 실행됩니다.
   - invite.html       (invite.template.html + JSON → 완성본)
   - assets/og-kakao-wide.png
   - assets/og-kakao-vertical.png
+  - recommend.html, assets/og-recommend-wide.png  (대표님 추천용 공유 페이지)
 """
 
 import calendar
@@ -221,9 +222,12 @@ def watch_date(d):
 # invite.html 빌드
 # ─────────────────────────────────────────────
 
-def build_invite(d):
+def build_invite(d, variant="default"):
+    """variant="default": invite.html / variant="recommend": 대표님 추천용 recommend.html
+    (본문은 같고 카톡 미리보기(OG 문구·이미지)와 공유 주소만 다르다)"""
     tmpl_path = os.path.join(BASE_DIR, "invite.template.html")
-    out_path  = os.path.join(BASE_DIR, "invite.html")
+    out_name  = "recommend.html" if variant == "recommend" else "invite.html"
+    out_path  = os.path.join(BASE_DIR, out_name)
 
     with open(tmpl_path, encoding="utf-8") as f:
         html = f.read()
@@ -234,8 +238,24 @@ def build_invite(d):
     active_q = current_quarter(int(d.get("month", "1")))
     qtab_active = {q: (" active" if q == active_q else "") for q in [1, 2, 3, 4]}
 
+    watch = watch_date(d)
+    speakers_txt = d.get("ogDescSpeakers","")
+    if variant == "recommend":
+        og_meta_title = d.get("recommendOgTitle") or f"대표님께 추천드립니다 | {d.get('ogTitle','')}"
+        og_meta_desc  = d.get("recommendOgDescription") or f"{speakers_txt} | {watch} 오전 7:30 | 신청 한 번으로 연간 세미나를 시청하실 수 있습니다"
+        og_img_url    = "https://admin-samsung-vvip.web.app/assets/og-recommend-wide.png"
+        share_path    = "recommend"
+    else:
+        og_meta_title = "세미나 신청하기 | BLO 조찬세미나"
+        og_meta_desc  = f"{d.get('ogTitle','')} | {watch} 오전 7:30 | {speakers_txt} | 신청: www.samsung2030blo.com"
+        og_img_url    = "https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png"
+        share_path    = "invite"
+
     replacements = {
         "{{OG_TITLE}}":             d.get("ogTitle",""),
+        "{{OG_META_TITLE}}":        og_meta_title,
+        "{{OG_META_DESC}}":         og_meta_desc,
+        "{{OG_IMG_FILE}}":          og_img_url,
         "{{OG_DESC}}":              d.get("ogDescription",""),
         "{{OG_VER}}":               str(d.get("ogImageVersion","1")),
         "{{PAGE_TITLE}}":           d.get("ogTitle","").replace(" | 세미나","") or "2030 BLO",
@@ -262,7 +282,7 @@ def build_invite(d):
         "{{QTAB4_ACTIVE}}":         qtab_active[4],
         "{{STICKY_CTA}}":           d.get("stickyCta",""),
         "{{OG_DESC_SPEAKERS}}":     d.get("ogDescSpeakers",""),
-        "{{SHARE_URL}}":            f"https://admin-samsung-vvip.web.app/invite?m={d.get('year','2026')}-{d.get('month','05')}",
+        "{{SHARE_URL}}":            f"https://admin-samsung-vvip.web.app/{share_path}?m={d.get('year','2026')}-{d.get('month','05')}",
     }
 
     for key, val in replacements.items():
@@ -271,7 +291,7 @@ def build_invite(d):
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html)
 
-    print(f"✅ invite.html 생성 완료: {out_path}")
+    print(f"✅ {out_name} 생성 완료: {out_path}")
 
 
 # ─────────────────────────────────────────────
@@ -327,6 +347,7 @@ def build_og_images(d):
 
     gen_og.make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"), d)
     gen_og.make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"), d)
+    gen_og.make_wide_og(os.path.join(assets_dir, "og-recommend-wide.png"), d, variant="recommend")
 
 
 # ─────────────────────────────────────────────
@@ -343,8 +364,9 @@ if __name__ == "__main__":
     print(f"  대상 월: {d.get('year','')}년 {month_kor} ({d.get('titleLine1','')} {d.get('titleLine2','')})")
     print()
 
-    print("[1/3] invite.html 빌드 중...")
+    print("[1/3] invite.html / recommend.html 빌드 중...")
     build_invite(d)
+    build_invite(d, variant="recommend")
 
     print("[2/3] index.html og:image 캐시 버전 동기화 중...")
     sync_index_og_version(d)
@@ -359,7 +381,7 @@ if __name__ == "__main__":
     print()
     print("=" * 50)
     print(f"✅ {month_kor} 빌드 완료!")
-    print("   git add invite.html index.html assets/og-kakao-wide.png assets/og-kakao-vertical.png")
+    print("   git add invite.html recommend.html index.html assets/og-*.png")
     print("   git commit -m 'feat: {month_kor} 세미나 자동 빌드'")
     print("   git push  →  GitHub Actions가 자동 배포합니다")
     print("=" * 50)

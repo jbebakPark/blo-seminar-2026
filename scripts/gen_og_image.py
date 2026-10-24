@@ -145,7 +145,7 @@ def load_seminar_data():
 # ══════════════════════════════════════════════════
 # 가로형 OG 이미지 1200×630 (카톡 링크 미리보기용)
 # ══════════════════════════════════════════════════
-def make_wide_og(out_path, d):
+def make_wide_og(out_path, d, variant="default"):
     W, H = 1200, 630
     img  = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
@@ -188,7 +188,7 @@ def make_wide_og(out_path, d):
     draw.rectangle([MX, 0, W, 6], fill=GOLD)
 
     fbadge = load_font(F_BOLD, 16)
-    badge_text = f"2030 BLO  {month_kor} 세미나"
+    badge_text = f"대표님을 위한 {month_kor} 인사이트" if variant == "recommend" else f"2030 BLO  {month_kor} 세미나"
     bb = draw.textbbox((0,0), badge_text, font=fbadge)
     bw = bb[2] - bb[0] + 28
     draw_rounded_rect(draw, [MX, 20, MX + bw, 48], 4, BLUE)
@@ -239,18 +239,21 @@ def make_wide_og(out_path, d):
     btn_x2, btn_y2 = W - 20,  H - 25
     draw_rounded_rect(draw, [btn_x1, btn_y1, btn_x2, btn_y2], 8, BLUE)
     fbtn = load_font(F_BOLD2, 18)
-    btn_text = "세미나 신청하기 ▶"
+    btn_text = "자세히 보기 ▶" if variant == "recommend" else "세미나 신청하기 ▶"
     bb2 = draw.textbbox((0,0), btn_text, font=fbtn)
     bw2 = bb2[2] - bb2[0]
     bh2 = bb2[3] - bb2[1]
     draw.text((btn_x1 + (220-bw2)//2, btn_y1 + (50-bh2)//2), btn_text, font=fbtn, fill=WHITE)
 
     fcode_l = load_font(F_REGULAR, 16)
-    draw.text((MX, H-65), "컨설턴트 코드 입력 필요 — 신청 페이지에서 확인", font=fcode_l, fill=TEXT_MID)
+    if variant == "recommend":
+        draw.text((MX, H-65), "신청 한 번으로 연간 세미나를 시청하실 수 있습니다", font=fcode_l, fill=TEXT_MID)
+    else:
+        draw.text((MX, H-65), "컨설턴트 코드 입력 필요 — 신청 페이지에서 확인", font=fcode_l, fill=TEXT_MID)
 
     draw.rectangle([0, H-22, W, H], fill=NAVY)
     ffoot = load_font(F_REGULAR, 13)
-    draw.text((MX, H-17), "admin-samsung-vvip.web.app/invite", font=ffoot, fill=MID_GRAY)
+    draw.text((MX, H-17), "admin-samsung-vvip.web.app/" + ("recommend" if variant == "recommend" else "invite"), font=ffoot, fill=MID_GRAY)
 
     img.save(out_path, "PNG", optimize=True)
     size_kb = os.path.getsize(out_path) // 1024

@@ -30,6 +30,10 @@
                 "destination": "/invite.html"
             },
             {
+                "source": "/recommend",
+                "destination": "/recommend.html"
+            },
+            {
                 "source": "/api/referral-code",
                 "function": {
                     "functionId": "referralCode",
