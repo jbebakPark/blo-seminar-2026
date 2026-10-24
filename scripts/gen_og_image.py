@@ -406,8 +406,8 @@ def make_vertical_card(out_path, d):
     # 컨설턴트 코드 — 보안상 이미지에는 코드값을 담지 않고, 신청 페이지 안내로 대체
     draw_rounded_rect(draw, [24, y, W-24, y+84], 10, (240,246,255))
     draw.rectangle([24, y, 28, y+84], fill=BLUE)
-    draw.text((40, y+8),  "온라인 신청 시 반드시 컨설턴트 코드 입력!", font=fcode_t, fill=BLUE)
-    code_note = "컨설턴트 코드는 신청 페이지에서 확인하세요"
+    draw.text((40, y+8),  "신청 한 번으로 연간 세미나를 시청하실 수 있습니다", font=fcode_t, fill=BLUE)
+    code_note = "생방송을 놓쳐도 당일 저녁 8~10시 재방송"
     cb  = draw.textbbox((0,0), code_note, font=fcode_v2)
     cw  = cb[2]-cb[0]
     draw_rounded_rect(draw, [W//2-cw//2-18, y+28, W//2+cw//2+18, y+76], 8, NAVY)
@@ -420,7 +420,7 @@ def make_vertical_card(out_path, d):
     month_day = d.get("ogSidebarDate", "")
     steps = [
         ("①", "samsung2030blo.com 접속"),
-        ("②", "컨설턴트 코드 입력 (신청 페이지에서 확인)"),
+        ("②", "강연 신청"),
         ("③", step3),
     ]
     for i, (num, step) in enumerate(steps):
