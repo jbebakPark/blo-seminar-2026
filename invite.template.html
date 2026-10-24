@@ -239,6 +239,26 @@ html, body {
   margin-top:10px; font-size:11.5px; color:#c8d8ec;
   text-align:center; line-height:1.7;
 }
+.ref-consultant {
+  display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  font-size:12.5px; color:#dbe7f7; margin:-6px 0 14px;
+}
+.ref-consultant b { color:#fff; }
+.go-apply-btn.locked { opacity:0.55; filter:grayscale(0.3); }
+.code-copy-btn.attn { box-shadow:0 0 0 3px rgba(255,255,255,0.8); animation:attnShake 0.4s; }
+@keyframes attnShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+.pre-share {
+  background:#F4F8FF; border:1.5px dashed #1050A0; border-radius:12px;
+  padding:14px; margin:0 0 14px; text-align:center;
+}
+.pre-share-title { font-size:13.5px; font-weight:900; color:#0D2244; margin-bottom:4px; }
+.pre-share-desc { font-size:12px; color:#445566; line-height:1.6; margin-bottom:10px; }
+.pre-share-btn {
+  width:100%; padding:12px; border:none; border-radius:10px;
+  background:#0D2244; color:#fff; font-size:14px; font-weight:900;
+  cursor:pointer; font-family:inherit;
+}
+.step-label { font-size:12px; font-weight:900; color:#1050A0; margin:0 0 8px; }
 .online-card-footer {
   font-size:12px; color:#445566; text-align:center; line-height:1.8;
 }
@@ -639,18 +659,30 @@ html, body {
         아래 버튼 한 번이면 30초 안에 신청이 완료됩니다.
       </div>
 
-      <!-- 컨설턴트 코드 + 신청 이동 (통합) -->
+      <div class="pre-share">
+        <div class="pre-share-title">① 함께 들으실 분께 먼저 링크를 보내세요</div>
+        <div class="pre-share-desc">받으신 분이 휴대폰 정보 동의 후 직접 신청합니다.<br>추천컨설턴트 이름·코드·연락처가 함께 전달됩니다.</div>
+        <button class="pre-share-btn" onclick="shareInvite('refer')">📤 링크 보내기</button>
+      </div>
+      <div class="step-label">② 본인 신청</div>
+
+      <!-- 추천컨설턴트 코드 + 신청 이동 (통합) -->
       <div class="apply-box">
         <div class="apply-box-code-row">
-          <span class="apply-box-code-label">컨설턴트 코드</span>
+          <span class="apply-box-code-label">추천컨설턴트 코드</span>
           <span class="code-number" id="refCode">●●●●●●●</span>
           <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">📋 복사</button>
         </div>
 
-        <a class="go-apply-btn" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="onGoApply()">
+        <div class="ref-consultant">
+          <span>추천컨설턴트 <b>{{REFERRER_NAME}}</b></span>
+          <span>연락처 <b>{{REFERRER_PHONE}}</b></span>
+        </div>
+
+        <a class="go-apply-btn locked" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="return onGoApply(event)">
           🌐 신청 사이트 바로가기 ▶
         </a>
-        <div class="go-apply-hint">클릭 시 코드가 자동 복사됩니다 — 가입 화면 컨설턴트 코드란(본인을 추천한 컨설턴트)에 붙여넣기만 하면 완료!</div>
+        <div class="go-apply-hint">먼저 '복사'를 눌러야 신청 사이트로 이동합니다 — 가입 화면 추천컨설턴트 코드란에 붙여넣으세요</div>
       </div>
 
       <div class="online-card-footer">
@@ -708,6 +740,13 @@ html, body {
           <div class="off-req-text">연락처 (휴대폰 번호)</div>
         </div>
       </div>
+
+      <div class="pre-share">
+        <div class="pre-share-title">① 함께 오실 분께 먼저 링크를 보내세요</div>
+        <div class="pre-share-desc">함께 오시는 분도 링크를 받아 각자 직접 신청합니다.<br>(휴대폰 정보 동의 필요)</div>
+        <button class="pre-share-btn" onclick="shareInvite('refer')">📤 링크 보내기</button>
+      </div>
+      <div class="step-label">② 본인 오프라인 신청</div>
 
       <!-- 카카오 오픈채팅 메인 버튼 -->
       <a class="kakao-main-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">
@@ -850,11 +889,11 @@ html, body {
   <div class="sticky-meta">
     <span class="sticky-event-label">📅 {{WATCH_DATE}} · 삼성생명 BLO 조찬세미나</span>
     <div class="sticky-code-wrap">
-      <span class="sticky-code-label">컨설턴트 코드</span>
+      <span class="sticky-code-label">추천컨설턴트 코드</span>
       <span class="sticky-code-value">●●●●●●●</span>
     </div>
   </div>
-  <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener" onclick="autoCopyOnApply()">
+  <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener" onclick="return onGoApply(event)">
     세미나 신청하기 ▶
   </a>
 </div>
@@ -902,8 +941,9 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
-/* ── 컨설턴트 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ── */
+/* ── 추천컨설턴트 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ── */
 var __refCode = null;
+var __codeCopied = false;
 var __refCodePromise = fetch('/api/referral-code')
   .then(function(r) { return r.json(); })
   .then(function(d) { __refCode = d.code || ''; return __refCode; })
@@ -913,7 +953,7 @@ function getReferralCode() {
   return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
 }
 
-/* ── 컨설턴트 코드 복사 ── */
+/* ── 추천컨설턴트 코드 복사 ── */
 function copyCode() {
   var btn = document.getElementById('copyBtn');
   getReferralCode().then(function(code) {
@@ -934,29 +974,31 @@ function fallbackCopy(text, btn) {
   markCopied(btn);
 }
 function markCopied(btn) {
+  __codeCopied = true;
+  var go = document.getElementById('goApplyBtn');
+  if (go) go.classList.remove('locked');
   btn.textContent = '✅ 복사 완료!';
   btn.classList.add('copied');
-  showToast('📋 컨설턴트 코드가 복사되었습니다. 사이트에서 컨설턴트 코드란에 붙여넣으세요!');
+  showToast('📋 추천컨설턴트 코드가 복사되었습니다. 사이트의 추천컨설턴트 코드란에 붙여넣으세요!');
   setTimeout(function() {
     btn.textContent = '📋 코드 복사하기';
     btn.classList.remove('copied');
   }, 3000);
 }
 
-/* ── 신청 사이트 이동 — 코드 복사 단계를 건너뛰고 바로 눌러도 자동으로 복사 ── */
-function autoCopyOnApply() {
-  getReferralCode().then(function(code) {
-    if (!code) return;
-    try { navigator.clipboard.writeText(code); } catch (e) {}
-  });
-  // 링크 이동은 href로 그대로 진행 (복사 성공 여부와 무관하게 신청 사이트는 열림)
-}
-function onGoApply() {
+/* ── 신청 사이트 이동 — 추천컨설턴트 코드를 복사해야만 이동 ── */
+function onGoApply(e) {
+  if (__codeCopied) return true;
+  if (e) e.preventDefault();
+  selectTab('online');
   var btn = document.getElementById('copyBtn');
-  if (!btn.classList.contains('copied')) {
-    autoCopyOnApply();
-    showToast('📋 컨설턴트 코드가 자동으로 복사되었습니다. 회원가입 시 붙여넣으세요!');
+  if (btn) {
+    btn.scrollIntoView({ behavior:'smooth', block:'center' });
+    btn.classList.add('attn');
+    setTimeout(function() { btn.classList.remove('attn'); }, 900);
   }
+  showToast('📋 먼저 추천컨설턴트 코드를 복사해 주세요');
+  return false;
 }
 
 /* ── Q 탭 전환 ── */
@@ -1004,23 +1046,24 @@ function shareInvite(mode) {
       '  (담당자 확인 후 접수 완료 안내)\n' +
       '\n' +
       '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
-      '  ① 컨설턴트 코드 먼저 복사 후 사이트 접속\n' +
-      '  ② 가입 시 컨설턴트 코드란에 반드시 입력\n' +
+      '  ① 아래 추천컨설턴트 코드를 먼저 복사 후 사이트 접속\n' +
+      '  ② 가입 시 추천컨설턴트 코드란에 반드시 입력 (휴대폰 정보 동의 후 직접 신청)\n' +
       '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
       '\n' +
-      '🔑 컨설턴트 코드 : ' + (code || '사이트에서 확인') + '\n' +
+      '🔑 추천컨설턴트 : {{REFERRER_NAME}} / 연락처 {{REFERRER_PHONE}}\n' +
+      '🔑 추천컨설턴트 코드 : ' + (code || '사이트에서 확인') + '\n' +
       '━━━━━━━━━━━━━━━━\n' +
       '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
       '세부 안내: ' + url;
     if (navigator.share) {
       navigator.share({ title: 'BLO 세미나 신청하기', text: msg, url: url })
-        .catch(function(e) { if (e.name !== 'AbortError') fallbackCopy(msg); });
+        .catch(function(e) { if (e.name !== 'AbortError') fallbackCopyText(msg); });
     } else {
-      fallbackCopy(msg);
+      fallbackCopyText(msg);
     }
   });
 }
-function fallbackCopy(text) {
+function fallbackCopyText(text) {
   navigator.clipboard.writeText(text).then(function() {
     showToast('초대장이 복사되었습니다! 카카오톡에 붙여넣기 하세요.');
   }).catch(function() {
