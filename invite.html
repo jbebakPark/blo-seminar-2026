@@ -169,9 +169,9 @@ html, body {
 }
 .apply-tab {
   flex:1; padding:13px 10px; border-radius:10px;
-  border:2px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.65);
+  border:2px solid rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.20);
+  color: #fff;
   font-size:14px; font-weight:800; text-align:center;
   cursor:pointer; transition:all 0.2s;
 }
@@ -524,7 +524,10 @@ html, body {
   .wrap { max-width: 1080px; }
   .desk-cols { display: grid; grid-template-columns: minmax(0, 1fr) 460px; align-items: start; }
   .desk-main { border-right: 1px solid #E1E8F2; }
-  .desk-side { background: #fff; }
+  .desk-side { background: #fff; display: flex; flex-direction: column; }
+  .desk-side .refer-sec { order: -1; padding: 18px 22px 0; }
+  .sticky-cta { display: none; }
+  html, body { padding-bottom: 0; }
   .sticky-cta { max-width: 1080px; }
 }
 @media (min-width: 640px) and (max-width: 999px) {
@@ -630,18 +633,18 @@ html, body {
 
   <!-- 탭 선택 -->
   <div class="apply-tabs">
-    <div class="apply-tab active" id="tabOnline" onclick="selectTab('online')">
-      <span class="apply-tab-icon">🎥</span>
-      온라인 신청
-    </div>
-    <div class="apply-tab" id="tabOffline" onclick="selectTab('offline')">
+    <div class="apply-tab active" id="tabOffline" onclick="selectTab('offline')">
       <span class="apply-tab-icon">🍽️</span>
       오프라인 신청
+    </div>
+    <div class="apply-tab" id="tabOnline" onclick="selectTab('online')">
+      <span class="apply-tab-icon">🎥</span>
+      온라인 신청
     </div>
   </div>
 
   <!-- 온라인 신청 패널 -->
-  <div id="onlinePanel">
+  <div id="onlinePanel" style="display:none;">
     <div class="online-card">
       <div class="online-card-title">🎥 온라인 강연 신청</div>
       <div class="online-card-sub">
@@ -670,7 +673,7 @@ html, body {
   </div><!-- /onlinePanel -->
 
   <!-- 오프라인 신청 -->
-  <div id="offlinePanel" style="display:none;">
+  <div id="offlinePanel">
     <div class="offline-box">
       <div class="offline-box-title">🍽️ 오프라인 조찬 신청</div>
 
@@ -734,9 +737,9 @@ html, body {
 <div class="refer-sec">
   <div class="refer-card">
     <div class="refer-icon">🎁</div>
-    <div class="refer-title">함께 듣고 싶은 분이 있나요?</div>
-    <div class="refer-desc">버튼 한 번이면 컨설턴트 코드까지 자동으로 담아<br>바로 전달할 수 있어요</div>
-    <button class="refer-btn" onclick="shareInvite('refer')">📤 지인에게 추천하기</button>
+    <div class="refer-title">함께 세미나 신청</div>
+    <div class="refer-desc">함께 들으실 분께 링크를 보내 같이 신청하세요<br>컨설턴트 코드까지 자동으로 담겨요</div>
+    <button class="refer-btn" onclick="shareInvite('refer')">📤 함께 신청할 분께 보내기</button>
   </div>
 </div>
 
