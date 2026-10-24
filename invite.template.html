@@ -279,6 +279,13 @@ a.code-copy-btn { text-decoration:none; }
 }
 .code-check input { width:20px; height:20px; accent-color:#C8A84B; }
 .code-check.attn { background:rgba(255,255,255,0.18); animation:attnShake 0.4s; }
+.call-row { display:flex; gap:8px; }
+.call-row a, .call-row button {
+  flex:1; padding:12px 6px; border:none; border-radius:10px;
+  font-size:13.5px; font-weight:900; cursor:pointer; font-family:inherit;
+  text-align:center; text-decoration:none; background:#0D2244; color:#fff;
+}
+.call-row .alt { background:#E8EEF6; color:#0D2244; }
 .online-card-footer {
   font-size:12px; color:#445566; text-align:center; line-height:1.8;
 }
@@ -698,6 +705,7 @@ a.code-copy-btn { text-decoration:none; }
           <a class="code-copy-btn" id="askBtn" href="tel:{{REFERRER_PHONE}}">📞 문의하기</a>
         </div>
         <div class="code-ask-note">정확한 코드는 추천컨설턴트에게 문의해 주세요</div>
+        <div style="text-align:center;margin:-2px 0 12px;"><button class="send-link" style="color:#c8d8ec;" onclick="requestCall('online')">📩 전화 연락 요청 문자 보내기</button></div>
 
         <div class="ref-consultant">
           <span>추천컨설턴트 <b>{{REFERRER_NAME}}</b></span>
@@ -753,6 +761,26 @@ a.code-copy-btn { text-decoration:none; }
         신청 후 미참석 시 향후 신청이 제한될 수 있습니다.
       </div>
 
+      <div class="pre-share">
+        <div class="pre-share-title">① 추천컨설턴트와 먼저 통화 확인</div>
+        <div class="pre-share-desc">오프라인은 통화 확인 후 담당자를 통해서만 신청됩니다.<br>추천컨설턴트 {{REFERRER_NAME}} · {{REFERRER_PHONE}}</div>
+        <div class="call-row">
+          <a href="tel:{{REFERRER_PHONE}}">📞 전화하기</a>
+          <button class="alt" onclick="requestCall('offline')">📩 연락 요청 문자</button>
+        </div>
+      </div>
+
+      <div class="pre-share">
+        <div class="pre-share-title">② 함께 오실 분께 먼저 링크를 보내세요</div>
+        <div class="pre-share-desc">함께 오시는 분도 링크를 받아 각자 직접 신청합니다.<br>(휴대폰 정보 동의 필요)</div>
+        <div class="send-group">
+          <button class="send-btn sms" onclick="sendSms()">📱 문자로 보내기</button>
+          <button class="send-btn kakao" onclick="sendKakao()">💬 카카오톡으로 보내기</button>
+          <button class="send-link" onclick="copyShareMessage()">📋 메시지만 복사</button>
+        </div>
+      </div>
+      <div class="step-label">③ 본인 오프라인 신청 (담당자 경유)</div>
+
       <!-- 카카오 오픈채팅 필수 정보 -->
       <div class="off-required-box">
         <div class="off-required-title">💬 오픈채팅 입장 후 아래 3가지를 남겨주세요</div>
@@ -770,16 +798,6 @@ a.code-copy-btn { text-decoration:none; }
         </div>
       </div>
 
-      <div class="pre-share">
-        <div class="pre-share-title">① 함께 오실 분께 먼저 링크를 보내세요</div>
-        <div class="pre-share-desc">함께 오시는 분도 링크를 받아 각자 직접 신청합니다.<br>(휴대폰 정보 동의 필요)</div>
-        <div class="send-group">
-          <button class="send-btn sms" onclick="sendSms()">📱 문자로 보내기</button>
-          <button class="send-btn kakao" onclick="sendKakao()">💬 카카오톡으로 보내기</button>
-          <button class="send-link" onclick="copyShareMessage()">📋 메시지만 복사</button>
-        </div>
-      </div>
-      <div class="step-label">② 본인 오프라인 신청</div>
 
       <!-- 카카오 오픈채팅 메인 버튼 -->
       <a class="kakao-main-btn" href="https://open.kakao.com/o/sleUSUei" target="_blank">
@@ -1009,6 +1027,19 @@ function onGoApply(e) {
   return false;
 }
 
+/* ── 추천컨설턴트에게 전화 연락 요청 (문자) — 통화 후 신청 안내로 유도 ── */
+function requestCall(kind) {
+  var phone = '{{REFERRER_PHONE}}';
+  var label = kind === 'offline' ? '오프라인(조찬+강연) 참석' : '온라인 강연 시청';
+  var body = '[BLO 세미나] {{WATCH_DATE}} ' + label + ' 신청 안내를 받고 싶습니다. 전화 부탁드립니다. (성함/직책: )';
+  if (!isMobileDevice()) {
+    copyText(phone, function() { showToast('PC에서는 문자를 보낼 수 없어 연락처를 복사했습니다: ' + phone); });
+    return;
+  }
+  var sep = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? '&' : '?';
+  window.location.href = 'sms:' + phone + sep + 'body=' + encodeURIComponent(body);
+}
+
 /* ── Q 탭 전환 ── */
 function switchQ(q) {
   for (var i = 1; i <= 4; i++) {
@@ -1045,7 +1076,7 @@ function buildShareMessage(mode) {
       '📅 {{WATCH_DATE}} 오전 7:30\n' +
       '🎤 {{OG_DESC_SPEAKERS}}\n' +
       '━━━━━━━━━━━━━━━━\n' +
-      '🍽️ [오프라인 조찬세미나] 담당자 통해서만 신청\n' +
+      '🍽️ [오프라인 조찬세미나] 추천컨설턴트와 통화 확인 후 담당자 통해서만 신청\n' +
       '  카카오 오픈채팅: https://open.kakao.com/o/sleUSUei\n' +
       '  ※ 입장 후 반드시 아래 3가지 정보를 남겨주세요\n' +
       '    1. 회사명\n' +
