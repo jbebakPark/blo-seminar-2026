@@ -255,6 +255,7 @@ def build_invite(d, variant="default"):
         "{{OG_TITLE}}":             d.get("ogTitle",""),
         "{{REFERRER_NAME}}":        d.get("referrerName",""),
         "{{REFERRER_PHONE}}":       d.get("referrerPhone",""),
+        "{{REFERRER_CODE_MASKED}}": d.get("referrerCodeMasked",""),
         "{{OG_META_TITLE}}":        og_meta_title,
         "{{OG_META_DESC}}":         og_meta_desc,
         "{{OG_IMG_FILE}}":          og_img_url,

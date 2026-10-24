@@ -1028,7 +1028,8 @@
     const CURRENT_DATA_FILE = '/data/seminars/data-2026-10.json';
     const CURRENT_SEMINAR_ID = '2026-10';
     let counterUnsubscribe = null;
-    let codeCopied = false;
+    let codeCopied = false;  /* 이제 '추천컨설턴트에게 코드 확인' 체크 여부로 쓴다 */
+    const REFERRER_CODE_MASKED = '96186**';
 
     /* ───── 인라인 데이터 (Firebase·fetch 둘 다 실패했을 때만 쓰는 최종 폴백) ───── */
     const INLINE_DATA = {"month":"2026-10","counters":{"offline":0,"online":0},"monthName":"10월","date":"2026-10-20","seminar":{"title":"미리 보는 트렌드코리아 2027","subtitle":"2027 Trend Korea, Preview","date":"2026년 10월 20일(화)","time":"오전 07:30 ~ 09:00","speaker":{"name":"김난도","title":"교수","org":"서울대학교 소비자학과 명예교수","credentials":["서울대학교 소비자학과 명예교수","「트렌드 코리아」 시리즈 저자","서울대학교 소비트렌드분석센터장","한국소비자학회 상임이사"]},"description":"2027년 정미년(丁未年), 붉은 양의 해는 어떤 변화가 기다리고 있을까요? 10월 Business Live ON은 베스트셀러 「트렌드 코리아」 시리즈의 저자 서울대학교 김난도 교수와 다시 만납니다. 삼성생명과 함께 2027년 트렌드를 미리 보고 고객 여러분의 미래를 설계하시기 바랍니다."},"contact":{"name":"박재박 팀장","phone":"010-5137-2327","kakao":"https://open.kakao.com/o/sleUSUei","website":"www.samsung2030blo.com"},"reg":{"offline":{"deadline":"추후 안내 예정","breakfast":{"time":"06:30 ~ 07:20","location":"삼성금융캠퍼스 지하 2층 카페테리아"},"seminar":{"time":"07:30 ~ 09:00","location":"삼성금융캠퍼스 B2F 비전홀"},"address":"서울특별시 서초구 사임당로 23길 27"}},"benefits":[{"icon":"🍳","title":"프리미엄 조찬","desc":"삼성금융캠퍼스 B2F 특별 조찬 제공 (오프라인)"},{"icon":"🎥","title":"실시간 온라인","desc":"어디서나 실시간 시청 · 당일 재방송 20:00~22:00"},{"icon":"🤝","title":"프리미엄 네트워킹","desc":"오프라인 참석 시 CEO·자산가 교류의 장"},{"icon":"🏆","title":"연간 세미나 우선권","desc":"1회 신청으로 2026년 12월까지 전 강연 시청"}]};
@@ -1380,8 +1381,8 @@
               <div class="o-step">
                 <div class="o-num">1</div>
                 <div class="o-text">
-                  <strong>컨설턴트 코드 복사</strong><br>
-                  아래 '컨설턴트 코드' 섹션에서 코드를 복사하세요
+                  <strong>추천컨설턴트에게 코드 확인</strong><br>
+                  정확한 코드는 추천컨설턴트에게 문의해 확인하세요
                 </div>
               </div>
               <div class="o-step">
@@ -1404,28 +1405,35 @@
               </div>
             </div>
 
-            <!-- 컨설턴트 코드 -->
+            <!-- 추천컨설턴트 코드 (끝 두 자리 가림 — 정확한 코드는 문의) -->
             <div id="sec-referral" style="margin-top:20px;">
               <div class="referral-box">
-                <div class="ref-warning">⚠️ 온라인 신청 시 반드시 입력 — 컨설턴트 코드 (본인을 추천한 컨설턴트)</div>
+                <div class="ref-warning">⚠️ 온라인 신청 시 반드시 입력 — 추천컨설턴트 코드 (본인을 추천한 컨설턴트)</div>
                 <div class="ref-code-wrap">
-                  <div class="ref-code-num" id="refCode" style="letter-spacing:6px;color:#A0AFBF;">●●●●●●●</div>
+                  <div class="ref-code-num" id="refCode">${REFERRER_CODE_MASKED}</div>
                 </div>
-                <br>
-                <button class="ref-copy-btn" id="copyBtn" onclick="copyRefCode()">
-                  📋 코드 복사하기 (보안 코드)
-                </button>
+                <div class="ref-desc" style="margin:0 0 12px;">
+                  추천컨설턴트 <strong>${contact.name}</strong> · 연락처 <strong>${contact.phone}</strong><br>
+                  정확한 코드는 추천컨설턴트에게 문의해 주세요
+                </div>
+                <a class="ref-copy-btn" id="askBtn" href="tel:${contact.phone}" style="text-decoration:none;">
+                  📞 추천컨설턴트에게 문의하기
+                </a>
+                <label id="codeCheckRow" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:13px;font-weight:800;color:#5A3E00;cursor:pointer;">
+                  <input type="checkbox" id="codeCheck" onchange="onCodeCheck()" style="width:20px;height:20px;"> 추천컨설턴트에게 코드를 확인했습니다
+                </label>
                 <div class="ref-desc">
-                  ✓ 온라인 신청 시 컨설턴트 코드란에 위 숫자를 입력하세요<br>
+                  ✓ 가입 화면의 추천컨설턴트 코드란에 확인한 코드를 입력하세요<br>
                   ✓ 코드 입력 시 세미나 관련 안내를 받으실 수 있습니다
                 </div>
               </div>
 
-              <a class="apply-btn-lock unlocked" id="applyBtn" href="#" onclick="onApplyClick(event, '${contact.website}')">
+              <a class="apply-btn-lock" id="applyBtn" href="#" onclick="onApplyClick(event, '${contact.website}')">
                 🎥 온라인 강연 신청하기
               </a>
-              <div class="lock-hint" id="lockHint">버튼을 누르면 컨설턴트 코드가 자동으로 복사됩니다</div>
+              <div class="lock-hint" id="lockHint">코드를 확인하고 체크하면 신청 사이트로 이동할 수 있습니다</div>
             </div>
+          </div>
           </div>
 
           <!-- 오프라인 패널 -->
@@ -1567,77 +1575,17 @@
       document.getElementById('tabOffline').classList.toggle('active', type==='offline');
     }
 
-    /* ───── 컨설턴트 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ───── */
-    let __refCode = null;
-    const __refCodePromise = fetch('/api/referral-code')
-      .then(r => r.json())
-      .then(d => { __refCode = d.code || ''; return __refCode; })
-      .catch(() => '');
-
-    function getReferralCode() {
-      return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
-    }
-
-    /* ───── 컨설턴트 코드 복사 ───── */
-    function copyRefCode() {
-      const btn = document.getElementById('copyBtn');
-      btn.disabled = true;
-
-      getReferralCode().then(code => {
-        if (!code) {
-          btn.disabled = false;
-          alert('코드 조회에 실패했습니다. 새로고침 후 다시 시도해주세요.');
-          return;
-        }
-
-        function onDone() {
-          codeCopied = true;
-          btn.textContent = '✅ 복사 완료!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.textContent = '📋 코드 복사하기';
-            btn.classList.remove('copied');
-            btn.disabled = false;
-          }, 3000);
-          unlockApplyBtn();
-          showCopyToast();
-        }
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(code).then(onDone).catch(() => fallbackCopy(code, onDone));
-        } else {
-          fallbackCopy(code, onDone);
-        }
-      });
-    }
-
-    function fallbackCopy(text, cb) {
-      const el = document.createElement('textarea');
-      el.value = text;
-      el.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
-      document.body.appendChild(el);
-      el.focus(); el.select();
-      const ok = document.execCommand('copy');
-      document.body.removeChild(el);
-      if (ok) { cb(); }
-      else {
-        // 복사 실패 시 버튼 원상복구 후 알림
-        const btn = document.getElementById('copyBtn');
-        if (btn) btn.disabled = false;
-        alert('자동 복사가 지원되지 않습니다.\n코드 ' + text + ' 를 직접 메모해 주세요.');
-      }
-    }
-
-    function unlockApplyBtn() {
+    /* ───── 추천컨설턴트 코드: 끝 두 자리를 가려서 표시하고, 정확한 코드는 문의로 확인 ───── */
+    function onCodeCheck() {
+      const c = document.getElementById('codeCheck');
+      codeCopied = !!(c && c.checked);
       const applyBtn = document.getElementById('applyBtn');
       const hint     = document.getElementById('lockHint');
-      if (!applyBtn) return;
-      applyBtn.classList.add('unlocked');
-      applyBtn.textContent = '🎥 온라인 강연 신청하기';
-      if (hint) hint.classList.add('hidden');
+      if (applyBtn) applyBtn.classList.toggle('unlocked', codeCopied);
+      if (hint) hint.classList.toggle('hidden', codeCopied);
     }
 
-    function showCopyToast() {
+    function showCopyToast(msg) {
       let t = document.getElementById('copyToast');
       if (!t) {
         t = document.createElement('div');
@@ -1648,35 +1596,23 @@
           + 'box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90vw;';
         document.body.appendChild(t);
       }
-      t.textContent = '📋 컨설턴트 코드 복사 완료! 신청 사이트에서 컨설턴트 코드란에 붙여넣으세요.';
+      t.textContent = msg;
       t.style.display = 'block';
       t.style.opacity = '1';
       clearTimeout(t._timer);
       t._timer = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>{ t.style.display='none'; },400); }, 3500);
     }
 
-    /* ───── 신청 버튼 클릭 — 코드 복사 단계를 건너뛰고 바로 눌러도 자동으로 복사 후 이동 ───── */
+    /* ───── 신청 버튼 클릭 — 코드를 확인(체크)해야만 신청 사이트로 이동 ───── */
     function onApplyClick(e, website) {
       e.preventDefault();
-      // window.open은 클릭 이벤트 처리 중 '동기적으로' 바로 호출해야 한다.
-      // 컨설턴트 코드를 비동기로 받아온 뒤(then 콜백 안에서) 열면, 클릭과의
-      // 연결이 끊겨 모바일 브라우저(카카오톡 인앱, 삼성 인터넷 등)가
-      // 사용자 조작이 아니라고 판단해 팝업을 조용히 차단해버린다
-      // (버튼을 눌러도 아무 반응이 없는 것처럼 보이는 원인이었음).
+      if (!codeCopied) {
+        const row = document.getElementById('codeCheckRow');
+        if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showCopyToast('추천컨설턴트에게 코드를 확인하고 체크해 주세요');
+        return false;
+      }
       window.open('http://' + website, '_blank');
-      getReferralCode().then(code => {
-        if (!code) return;
-        const finish = () => {
-          codeCopied = true;
-          unlockApplyBtn();
-          showCopyToast();
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(code).then(finish).catch(finish);
-        } else {
-          finish();
-        }
-      });
       return false;
     }
 

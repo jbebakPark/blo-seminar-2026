@@ -12,6 +12,11 @@ const GITHUB_REPO  = 'blo-seminar-2026';
 const FILE_PATH    = 'data/current-seminar.json';
 const API_BASE     = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
 
+function maskCode(code) {
+  if (!code) return '';
+  return code.length > 2 ? code.slice(0, -2) + '**' : '**';
+}
+
 // 추천인 코드 — 정적 파일(JSON/HTML)·OG 이미지에는 절대 평문으로 담지 않고,
 // 이 엔드포인트를 통해서만 발급한다. GET은 공개 조회, POST는 관리자 비밀번호로 값 변경.
 exports.referralCode = onRequest(
@@ -28,16 +33,27 @@ exports.referralCode = onRequest(
       res.set('Cache-Control', 'no-store');
       try {
         const snap = await ref.get();
-        return res.json({ code: snap.exists ? snap.data().code || '' : '' });
+        const full = snap.exists ? snap.data().code || '' : '';
+        // 공개 조회는 끝 두 자리를 가린 값만 내려준다 (전체 코드는 관리자 POST reveal로만)
+        return res.json({ code: maskCode(full), masked: true });
       } catch (e) {
         return res.status(500).json({ error: '조회 실패' });
       }
     }
 
     if (req.method === 'POST') {
-      const { password, code } = req.body || {};
+      const { password, code, action } = req.body || {};
       if (!password || password !== ADMIN_PASSWORD.value()) {
         return res.status(401).json({ error: '비밀번호가 올바르지 않습니다.' });
+      }
+      if (action === 'reveal') {
+        res.set('Cache-Control', 'no-store');
+        try {
+          const snap = await ref.get();
+          return res.json({ code: snap.exists ? snap.data().code || '' : '' });
+        } catch (e) {
+          return res.status(500).json({ error: '조회 실패' });
+        }
       }
       if (!code || typeof code !== 'string') {
         return res.status(400).json({ error: '코드가 없습니다.' });

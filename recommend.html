@@ -270,6 +270,15 @@ html, body {
   background:none; border:none; color:#445566; font-size:12px; font-weight:700;
   text-decoration:underline; cursor:pointer; font-family:inherit; padding:4px;
 }
+a.code-copy-btn { text-decoration:none; }
+.code-ask-note { font-size:11.5px; color:#c8d8ec; text-align:center; margin:-8px 0 10px; }
+.code-check {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  color:#fff; font-size:13px; font-weight:800; margin:0 0 12px; cursor:pointer;
+  padding:8px; border-radius:8px;
+}
+.code-check input { width:20px; height:20px; accent-color:#C8A84B; }
+.code-check.attn { background:rgba(255,255,255,0.18); animation:attnShake 0.4s; }
 .online-card-footer {
   font-size:12px; color:#445566; text-align:center; line-height:1.8;
 }
@@ -697,19 +706,24 @@ html, body {
       <div class="apply-box">
         <div class="apply-box-code-row">
           <span class="apply-box-code-label">추천컨설턴트 코드</span>
-          <span class="code-number" id="refCode">●●●●●●●</span>
-          <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">📋 복사</button>
+          <span class="code-number" id="refCode">96186**</span>
+          <a class="code-copy-btn" id="askBtn" href="tel:010-5137-2327">📞 문의하기</a>
         </div>
+        <div class="code-ask-note">정확한 코드는 추천컨설턴트에게 문의해 주세요</div>
 
         <div class="ref-consultant">
           <span>추천컨설턴트 <b>박재박 팀장</b></span>
           <span>연락처 <b>010-5137-2327</b></span>
         </div>
 
+        <label class="code-check" id="codeCheckRow">
+          <input type="checkbox" id="codeCheck" onchange="onCodeCheck()"> 추천컨설턴트에게 코드를 확인했습니다
+        </label>
+
         <a class="go-apply-btn locked" href="http://www.samsung2030blo.com" target="_blank" id="goApplyBtn" onclick="return onGoApply(event)">
           🌐 신청 사이트 바로가기 ▶
         </a>
-        <div class="go-apply-hint">먼저 '복사'를 눌러야 신청 사이트로 이동합니다 — 가입 화면 추천컨설턴트 코드란에 붙여넣으세요</div>
+        <div class="go-apply-hint">코드를 확인하고 체크해야 신청 사이트로 이동합니다 — 가입 화면 추천컨설턴트 코드란에 입력하세요</div>
       </div>
 
       <div class="online-card-footer">
@@ -1057,7 +1071,7 @@ html, body {
     <span class="sticky-event-label">📅 11/17(화) · 삼성생명 BLO 조찬세미나</span>
     <div class="sticky-code-wrap">
       <span class="sticky-code-label">추천컨설턴트 코드</span>
-      <span class="sticky-code-value">●●●●●●●</span>
+      <span class="sticky-code-value">96186**</span>
     </div>
   </div>
   <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener" onclick="return onGoApply(event)">
@@ -1108,63 +1122,34 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
 
-/* ── 추천컨설턴트 코드 발급 (정적 파일·이미지엔 절대 담지 않고, 서버에서만 조회) ── */
-var __refCode = null;
-var __codeCopied = false;
-var __refCodePromise = fetch('/api/referral-code')
-  .then(function(r) { return r.json(); })
-  .then(function(d) { __refCode = d.code || ''; return __refCode; })
-  .catch(function() { return ''; });
+/* ── 추천컨설턴트 코드 — 끝 두 자리를 가려서 표시. 전체 코드는 페이지·API에 두지 않고
+      추천컨설턴트에게 직접 문의해 확인한다 ── */
+var __codeMasked = '96186**';
+var __codeChecked = false;
 
 function getReferralCode() {
-  return __refCode ? Promise.resolve(__refCode) : __refCodePromise;
+  return Promise.resolve(__codeMasked);
 }
 
-/* ── 추천컨설턴트 코드 복사 ── */
-function copyCode() {
-  var btn = document.getElementById('copyBtn');
-  getReferralCode().then(function(code) {
-    if (!code) { showToast('⚠️ 코드 조회에 실패했습니다. 새로고침 후 다시 시도해주세요.'); return; }
-    try {
-      navigator.clipboard.writeText(code).then(function() {
-        markCopied(btn);
-      }).catch(function() { fallbackCopy(code, btn); });
-    } catch(e) { fallbackCopy(code, btn); }
-  });
-}
-function fallbackCopy(text, btn) {
-  var el = document.createElement('textarea');
-  el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
-  document.body.appendChild(el); el.select();
-  try { document.execCommand('copy'); } catch(e) {}
-  document.body.removeChild(el);
-  markCopied(btn);
-}
-function markCopied(btn) {
-  __codeCopied = true;
+function onCodeCheck() {
+  var c = document.getElementById('codeCheck');
+  __codeChecked = !!(c && c.checked);
   var go = document.getElementById('goApplyBtn');
-  if (go) go.classList.remove('locked');
-  btn.textContent = '✅ 복사 완료!';
-  btn.classList.add('copied');
-  showToast('📋 추천컨설턴트 코드가 복사되었습니다. 사이트의 추천컨설턴트 코드란에 붙여넣으세요!');
-  setTimeout(function() {
-    btn.textContent = '📋 코드 복사하기';
-    btn.classList.remove('copied');
-  }, 3000);
+  if (go) go.classList.toggle('locked', !__codeChecked);
 }
 
-/* ── 신청 사이트 이동 — 추천컨설턴트 코드를 복사해야만 이동 ── */
+/* ── 신청 사이트 이동 — 코드를 확인(체크)해야만 이동 ── */
 function onGoApply(e) {
-  if (__codeCopied) return true;
+  if (__codeChecked) return true;
   if (e) e.preventDefault();
   selectTab('online');
-  var btn = document.getElementById('copyBtn');
-  if (btn) {
-    btn.scrollIntoView({ behavior:'smooth', block:'center' });
-    btn.classList.add('attn');
-    setTimeout(function() { btn.classList.remove('attn'); }, 900);
+  var row = document.getElementById('codeCheckRow');
+  if (row) {
+    row.scrollIntoView({ behavior:'smooth', block:'center' });
+    row.classList.add('attn');
+    setTimeout(function() { row.classList.remove('attn'); }, 900);
   }
-  showToast('📋 먼저 추천컨설턴트 코드를 복사해 주세요');
+  showToast('추천컨설턴트에게 코드를 확인하고 체크해 주세요');
   return false;
 }
 
@@ -1213,12 +1198,12 @@ function buildShareMessage(mode) {
       '  (담당자 확인 후 접수 완료 안내)\n' +
       '\n' +
       '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
-      '  ① 아래 추천컨설턴트 코드를 먼저 복사 후 사이트 접속\n' +
-      '  ② 가입 시 추천컨설턴트 코드란에 반드시 입력 (휴대폰 정보 동의 후 직접 신청)\n' +
+      '  ① 아래 추천컨설턴트에게 코드를 먼저 문의·확인\n' +
+      '  ② 사이트 접속 후 가입 시 추천컨설턴트 코드란에 반드시 입력 (휴대폰 정보 동의 후 직접 신청)\n' +
       '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
       '\n' +
       '🔑 추천컨설턴트 : 박재박 팀장 / 연락처 010-5137-2327\n' +
-      '🔑 추천컨설턴트 코드 : ' + (code || '사이트에서 확인') + '\n' +
+      '🔑 추천컨설턴트 코드 : ' + code + ' (정확한 코드는 위 연락처로 문의해 주세요)\n' +
       '━━━━━━━━━━━━━━━━\n' +
       '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
       '세부 안내: ' + url;

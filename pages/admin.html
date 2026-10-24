@@ -694,7 +694,10 @@ const REFERRAL_API = '/api/referral-code';
 async function loadReferralCodeAdmin() {
   const el = document.getElementById('refCodeDisplay');
   try {
-    const res = await fetch(REFERRAL_API);
+    /* 공개 GET은 끝 두 자리가 가려진 값만 준다 — 관리자 로그인 상태면 reveal로 전체 코드 조회 */
+    const res = adminPW
+      ? await fetch(REFERRAL_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPW, action: 'reveal' }) })
+      : await fetch(REFERRAL_API);
     const d = await res.json();
     el.textContent = d.code ? `현재 코드: ${d.code}` : '⚠️ 설정된 코드가 없습니다.';
     return d.code || '';
@@ -759,11 +762,11 @@ async function buildMyLink(data) {
     '  (담당자 확인 후 접수 완료 안내)\n' +
     '\n' +
     '🎥 [온라인 강연 신청] www.samsung2030blo.com\n' +
-    '  ① 컨설턴트 코드 먼저 복사 후 사이트 접속\n' +
-    '  ② 가입 시 컨설턴트 코드란에 반드시 입력\n' +
+    '  ① 아래 추천컨설턴트에게 코드를 먼저 문의·확인\n' +
+    '  ② 사이트 접속 후 가입 시 추천컨설턴트 코드란에 반드시 입력 (휴대폰 정보 동의 후 직접 신청)\n' +
     '  ③ 미입력 시 고객 등록 안됨 → 서비스 불가\n' +
     '\n' +
-    '🔑 컨설턴트 코드 : ' + fpCode + '\n' +
+    '🔑 추천컨설턴트 코드 : ' + (fpCode ? fpCode.slice(0, -2) + '**' : '') + ' (정확한 코드는 연락처로 문의해 주세요)\n' +
     '━━━━━━━━━━━━━━━━\n' +
     '✅ 1회 신청으로 2026년 12월까지 전 강연 무료 시청\n' +
     '세부 안내: ' + _myInviteLink;
