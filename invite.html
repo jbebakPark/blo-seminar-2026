@@ -169,16 +169,25 @@ html, body {
 }
 .apply-tab {
   flex:1; padding:13px 10px; border-radius:10px;
-  border:2px solid rgba(255,255,255,0.45);
-  background: rgba(255,255,255,0.20);
-  color: #fff;
+  border:2px dashed rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
   font-size:14px; font-weight:800; text-align:center;
   cursor:pointer; transition:all 0.2s;
 }
 .apply-tab.active {
+  position:relative;
   background:#C8A84B; color:#0D1A2E;
-  border-color:#C8A84B;
-  box-shadow:0 4px 16px rgba(200,168,75,0.4);
+  border:2px solid #fff;
+  box-shadow:0 4px 16px rgba(200,168,75,0.5);
+}
+.apply-tab.active::after {
+  content:'✓ 선택됨'; display:block; margin-top:3px;
+  font-size:11px; font-weight:900; color:#0D1A2E;
+}
+.apply-tab.active::before {
+  content:''; position:absolute; left:50%; bottom:-14px; transform:translateX(-50%);
+  border:8px solid transparent; border-top-color:#fff; border-bottom:0;
 }
 .apply-tab-icon { font-size:20px; display:block; margin-bottom:4px; }
 
@@ -1092,8 +1101,8 @@ a.code-copy-btn { text-decoration:none; }
       <span class="sticky-code-value">96186**</span>
     </div>
   </div>
-  <a class="sticky-cta-btn" href="http://www.samsung2030blo.com" target="_blank" rel="noopener" onclick="return onGoApply(event)">
-    세미나 신청하기 ▶
+  <a class="sticky-cta-btn" href="#applySection" onclick="scrollToApply(event)">
+    세미나 신청하기 ▼
   </a>
 </div>
 
