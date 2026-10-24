@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta property="og:type" content="website">
 <meta property="og:title" content="세미나 신청하기 | BLO 조찬세미나">
 <meta property="og:description" content="트럼프 2.0 중간선거, 미국의 선택과 국제정세의 변화 | 11/17(화) 오전 7:30 | 신성호 교수 | 신청: www.samsung2030blo.com">
@@ -519,6 +519,19 @@ html, body {
   text-align:center; padding:10px 16px; letter-spacing:0.2px; line-height:1.5;
 }
 
+/* ══ PC 레이아웃 (넓은 화면: 2열) ══ */
+@media (min-width: 1000px) {
+  .wrap { max-width: 1080px; }
+  .desk-cols { display: grid; grid-template-columns: minmax(0, 1fr) 460px; align-items: start; }
+  .desk-main { border-right: 1px solid #E1E8F2; }
+  .desk-side { background: #fff; }
+  .sticky-cta { max-width: 1080px; }
+}
+@media (min-width: 640px) and (max-width: 999px) {
+  .wrap { max-width: 640px; }
+  .sticky-cta { max-width: 640px; }
+}
+
 </style>
 </head>
 <body data-event-date="2026-11-17">
@@ -548,9 +561,10 @@ html, body {
   <div class="hero-divider"></div>
 </div>
 
+<div class="desk-cols"><div class="desk-main">
 <!-- ② 강사 소개 (2인) -->
 <div class="speakers-bar">
-  <div class="speakers-title">강사 소개 · 강사 소개</div>
+  <div class="speakers-title">강사 소개</div>
     <div class="speaker-row">
     <div class="part-badge"></div>
     <div class="sp-circle">
@@ -607,6 +621,8 @@ html, body {
   <p>11월 Business Live ON은<br>서울대학교 신성호 교수와 함께<br>미국발(發) 국제정세의 변화를 전망합니다.</p>
 </div>
 
+</div><!-- /desk-main -->
+<div class="desk-side">
 <!-- ⑤ 신청 섹션 (핵심 개편) -->
 <div class="apply-sec" id="applySection">
   <div class="apply-sec-title">세미나 신청하기</div>
@@ -723,6 +739,9 @@ html, body {
     <button class="refer-btn" onclick="shareInvite('refer')">📤 지인에게 추천하기</button>
   </div>
 </div>
+
+</div><!-- /desk-side -->
+</div><!-- /desk-cols -->
 
 <!-- ⑥ 행사 진행 흐름 -->
 <div class="flow-sec">

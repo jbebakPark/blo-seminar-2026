@@ -244,7 +244,7 @@ def build_invite(d):
         "{{HERO_LABEL}}":           d.get("heroLabel",""),
         "{{HERO_H1}}":              hero_h1(d),
         "{{HERO_SUB}}":             d.get("subtitle",""),
-        "{{SPEAKERS_TITLE}}":       sp_title_parts + " 부" if sp_title_parts else "강사 소개",
+        "{{SPEAKERS_TITLE}}":       (" · " + sp_title_parts + " 부") if sp_title_parts else "",
         "{{SPEAKERS_HTML}}":        sp_html,
         "{{EVENT_DATE}}":           d.get("eventDate",""),
         "{{EVENT_ISO_DATE}}":       event_iso_date(d),
