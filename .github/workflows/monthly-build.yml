@@ -39,7 +39,7 @@ jobs:
       - name: 📁 생성 파일 확인
         run: |
           echo "=== 생성된 파일 ==="
-          ls -la invite.html assets/og-kakao-wide.png assets/og-kakao-vertical.png
+          ls -la invite.html recommend.html assets/og-*.png
 
       - name: 🔧 Node.js 설정
         uses: actions/setup-node@v4

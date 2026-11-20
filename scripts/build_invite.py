@@ -222,7 +222,7 @@ def watch_date(d):
 # invite.html 빌드
 # ─────────────────────────────────────────────
 
-def build_invite(d, variant="default"):
+def build_invite(d, variant="default", og_urls=None):
     """variant="default": invite.html / variant="recommend": 대표님 추천용 recommend.html
     (본문은 같고 카톡 미리보기(OG 문구·이미지)와 공유 주소만 다르다)"""
     tmpl_path = os.path.join(BASE_DIR, "invite.template.html")
@@ -243,12 +243,12 @@ def build_invite(d, variant="default"):
     if variant == "recommend":
         og_meta_title = d.get("recommendOgTitle") or f"추천드립니다 | {d.get('ogTitle','')}"
         og_meta_desc  = d.get("recommendOgDescription") or f"{speakers_txt} | {watch} 오전 7:30 | 신청 한 번으로 연간 세미나를 시청하실 수 있습니다"
-        og_img_url    = "https://admin-samsung-vvip.web.app/assets/og-recommend-wide.png"
+        og_img_url    = (og_urls or {}).get("recommend") or "https://admin-samsung-vvip.web.app/assets/og-recommend-wide.png"
         share_path    = "recommend"
     else:
         og_meta_title = d.get("recommendOgTitle") or f"추천드립니다 | {d.get('ogTitle','')}"
         og_meta_desc  = d.get("recommendOgDescription") or f"{speakers_txt} | {watch} 오전 7:30 | 신청 한 번으로 연간 세미나를 시청하실 수 있습니다"
-        og_img_url    = "https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png"
+        og_img_url    = (og_urls or {}).get("wide") or "https://admin-samsung-vvip.web.app/assets/og-kakao-wide.png"
         share_path    = "invite"
 
     replacements = {
@@ -304,30 +304,26 @@ def build_invite(d, variant="default"):
 #  예전 달 이미지를 몇 달이고 그대로 캐시해서 보여주는 버그가 재발한다.)
 # ─────────────────────────────────────────────
 
-def sync_index_og_version(d):
+def sync_index_og_version(og_urls):
+    """index.html의 og:image를 이번 달 해시 파일명 주소로 맞춘다(수동 버전 번호 관리 불필요)."""
     index_path = os.path.join(BASE_DIR, "index.html")
     if not os.path.exists(index_path):
-        print("  ⚠️ index.html 없음 — og:image 버전 동기화 건너뜀")
+        print("  ⚠️ index.html 없음 — og:image 동기화 건너뜀")
         return
-
-    ver = str(d.get("ogImageVersion", "1"))
+    url = og_urls["wide"]
     with open(index_path, encoding="utf-8") as f:
         html = f.read()
-
-    pattern = r'(og:image" content="https://admin-samsung-vvip\.web\.app/assets/og-kakao-wide\.png)(?:\?v=\d+)?(")'
-    new_html, n = re.subn(pattern, rf'\1?v={ver}\2', html)
-
+    pattern = r'(og:image" content=")https://admin-samsung-vvip\.web\.app/assets/og-[^"]+(")'
+    new_html, n = re.subn(pattern, lambda m: m.group(1) + url + m.group(2), html, count=1)
     if n == 0:
         print("  ⚠️ index.html에서 og:image 태그를 찾지 못함 — 확인 필요")
         return
-
     if new_html != html:
         with open(index_path, "w", encoding="utf-8") as f:
             f.write(new_html)
-        print(f"  ✅ index.html og:image 버전 동기화: v={ver}")
+        print(f"  ✅ index.html og:image 동기화: {url}")
     else:
-        print(f"  ℹ️ index.html og:image 이미 v={ver} (변경 없음)")
-
+        print("  ℹ️ index.html og:image 변경 없음")
 
 
 # ─────────────────────────────────────────────
@@ -425,23 +421,41 @@ def build_legacy_data(d):
 # ─────────────────────────────────────────────
 
 def build_og_images(d):
-    """gen_og_image.py의 함수들을 data 기반으로 호출"""
-    import importlib.util, sys as _sys
+    """OG 이미지를 '내용 해시가 붙은 새 파일명'으로 만든다(기존 파일을 덮어쓰지 않음).
+    - 파일명이 내용마다 달라 카톡·브라우저 캐시가 옛 이미지를 붙잡을 수 없다(버전 번호 수동 관리 불필요).
+    - 지난 달 이미지는 최근 4개까지 남겨 이미 공유된 링크가 깨지지 않게 한다.
+    반환: {"wide": 주소, "recommend": 주소}"""
+    import importlib.util, hashlib, glob, shutil
 
     og_script = os.path.join(BASE_DIR, "scripts", "gen_og_image.py")
     spec = importlib.util.spec_from_file_location("gen_og", og_script)
     gen_og = importlib.util.module_from_spec(spec)
-
-    # __file__ 주입
     gen_og.__file__ = og_script
     spec.loader.exec_module(gen_og)
 
     assets_dir = os.path.join(BASE_DIR, "assets")
     os.makedirs(assets_dir, exist_ok=True)
+    base_url = "https://admin-samsung-vvip.web.app/assets/"
 
-    gen_og.make_wide_og(os.path.join(assets_dir, "og-kakao-wide.png"), d)
+    def make(prefix, fn):
+        tmp = os.path.join(assets_dir, f"_tmp_{prefix}.png")
+        fn(tmp)
+        with open(tmp, "rb") as f:
+            h = hashlib.sha256(f.read()).hexdigest()[:10]
+        name = f"{prefix}-{h}.png"
+        shutil.move(tmp, os.path.join(assets_dir, name))
+        olds = sorted(glob.glob(os.path.join(assets_dir, f"{prefix}-*.png")), key=os.path.getmtime, reverse=True)
+        for old in olds[4:]:
+            os.remove(old)
+        return base_url + name
+
+    urls = {
+        "wide": make("og-kakao-wide", lambda p: gen_og.make_wide_og(p, d)),
+        "recommend": make("og-recommend-wide", lambda p: gen_og.make_wide_og(p, d, variant="recommend")),
+    }
+    # 세로 카드는 어느 페이지도 쓰지 않아 기존 방식 유지
     gen_og.make_vertical_card(os.path.join(assets_dir, "og-kakao-vertical.png"), d)
-    gen_og.make_wide_og(os.path.join(assets_dir, "og-recommend-wide.png"), d, variant="recommend")
+    return urls
 
 
 # ─────────────────────────────────────────────
@@ -458,25 +472,21 @@ if __name__ == "__main__":
     print(f"  대상 월: {d.get('year','')}년 {month_kor} ({d.get('titleLine1','')} {d.get('titleLine2','')})")
     print()
 
-    print("[1/3] invite.html / recommend.html 빌드 중...")
-    build_invite(d)
-    build_invite(d, variant="recommend")
+    print("[1/3] OG 이미지 생성 중(해시 파일명)...")
+    og_urls = build_og_images(d)
+    for k, v in og_urls.items():
+        print(f"  ✅ {k}: {v}")
 
-    print("[2/3] index.html og:image 캐시 버전 동기화 중...")
-    sync_index_og_version(d)
+    print("[2/3] invite.html / recommend.html / index.html 빌드 중...")
+    build_invite(d, og_urls=og_urls)
+    build_invite(d, variant="recommend", og_urls=og_urls)
+    sync_index_og_version(og_urls)
 
-    print("[2-2/3] 메인 페이지(index.html) 데이터 동기화 중...")
+    print("[3/3] 메인 페이지(index.html) 데이터 동기화 중...")
     try:
         build_legacy_data(d)
     except Exception as e:
         print(f"  ⚠️ 메인 페이지 데이터 동기화 실패: {e}")
-
-    print("[3/3] OG 이미지 생성 중...")
-    try:
-        build_og_images(d)
-    except Exception as e:
-        print(f"  ⚠️ OG 이미지 생성 실패 (Pillow 미설치?): {e}")
-        print("  → pip install Pillow 후 재시도하거나 GitHub Actions에서 자동 처리됩니다.")
 
     print()
     print("=" * 50)
