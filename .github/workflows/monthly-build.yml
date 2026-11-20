@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   build-and-deploy:
@@ -65,3 +66,30 @@ jobs:
           echo "🌐 https://admin-samsung-vvip.web.app"
           echo "⏰ $(date)"
           echo "=========================================="
+
+      - name: 🔔 월초 할 일 알림(GitHub 이슈 → 대표님 이메일로 자동 발송)
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MONTH=$(python -c "import json;d=json.load(open('data/current-seminar.json',encoding='utf-8'));print(d.get('year',''),d.get('monthKor',''))")
+          cat > /tmp/body.md <<EOF
+          ${MONTH} 세미나 빌드·배포가 자동으로 끝났습니다. 이미지와 주소 갱신은 모두 자동입니다.
+
+          ## 대표님이 직접 하실 일 (약 1분, 카톡이 이전 미리보기를 기억하고 있을 때만)
+          카카오에는 캐시 초기화 자동 API가 없어 이 부분만 수동입니다. 이미 공유한 적 있는 아래 주소를
+          https://developers.kakao.com/tool/debugger/sharing 에 넣고 "캐시 초기화"를 누르세요.
+
+          - [ ] https://admin-samsung-vvip.web.app/invite
+          - [ ] https://admin-samsung-vvip.web.app/recommend
+          - [ ] https://admin-samsung-vvip.web.app/
+
+          ## 하지 않아도 되는 것
+          - 파트너 와인카드(gfc_wine_card*.html): 세미나와 무관한 고정 이미지라 월별 작업 없음
+          - 이미지 파일명·버전 번호: 빌드가 내용 해시로 자동 생성
+
+          ## 확인 방법
+          초기화 후 카톡 나에게 보내기로 위 주소를 보내 이번 달 세미나 이미지가 나오는지 확인하세요.
+          EOF
+          sed -i 's/^          //' /tmp/body.md
+          gh issue create --title "[월초 할 일] ${MONTH} 카톡 미리보기 초기화(3개 주소)" --body-file /tmp/body.md || echo "이슈 생성 실패(권한 확인)"
